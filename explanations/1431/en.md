@@ -1,13 +1,12 @@
-## Explanation
-
-First, find the maximum number of candies any kid currently has. Then, for each kid, check if giving them all the `extraCandies` would make their total at least as large as the current maximum. Return a list of booleans for each kid.
-
 ## Hint
 
-Find the current maximum, then check each kid with `extraCandies` added.
+> For each kid, check if their candies plus extraCandies is at least as much as the current maximum.
 
-## Points
+## Explanation
 
-- Time complexity: `O(n)`, where `n` is the number of kids.
-- The result is a list of booleans, one for each kid.
-- Handles cases where multiple kids already have the maximum.
+  
+First, we want to know the highest number of candies any kid currently has. This is important because we need a reference point to see if giving extra candies to a kid will make them "the greatest."
+
+For each kid, we add the extraCandies to their current amount. We do this because we want to see if, after the bonus, they can reach or beat the current maximum. If they do, we mark them as `True` in our answer list; otherwise, `False`.
+
+This approach is efficient because we only need to find the maximum once, and then just compare each kid's total to it. This saves us from recalculating the maximum for every kid, making our solution faster and cleaner. 

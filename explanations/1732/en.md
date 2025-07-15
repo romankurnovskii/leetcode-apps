@@ -23,15 +23,3 @@ Constraints:
 Let's imagine you're on a bike ride, and you start at sea level (altitude 0). Each number in the gain array tells you how much you go up or down at each step. We keep track of our current altitude as we go, and always remember the highest point we've reached so far.
 
 We do this because it lets us find the maximum altitude in a single pass, without having to store all the altitudes. By updating the highest altitude as we go, we make our solution efficient and easy to understand.
-
-### Solution
-
-```python
-def largestAltitude(gain):
-    altitude = 0
-    max_altitude = 0
-    for g in gain:
-        altitude += g
-        max_altitude = max(max_altitude, altitude)
-    return max_altitude
-``` 
