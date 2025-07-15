@@ -27,9 +27,9 @@ def function_name(...):
     pass
 """
 
-EXPLANATION_TEMPLATE = """# Explanation for LeetCode problem {num} (English)
+EXPLANATION_TEMPLATE = """# Explanation for LeetCode problem {num}
 
-## Explanation with Breakdown
+## Explanation
 
 _Describe the approach, logic, and steps to solve the problem._
 
@@ -114,7 +114,7 @@ def main():
         )
         if explanation:
             entry += f"### Explanation\n\n{explanation}\n\n"
-        entry += f"### Solution (Python)\n\n```python\n{func_code}\n```\n"
+        entry += f"### Solution\n\n```python\n{func_code}\n```\n"
         entries.append(entry)
     book_content = (
         f"# {book_set.get('title', 'LeetCode Book')}\n\n{book_set.get('description', '')}\n\n"
