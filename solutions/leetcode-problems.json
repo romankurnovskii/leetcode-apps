@@ -537,5 +537,13 @@
     "title": "Online Stock Span",
     "difficulty": "Medium",
     "link": "https://leetcode.com/problems/online-stock-span"
+  },
+  "3602": {
+    "id": 3602,
+    "category": "Algorithms",
+    "title": "Hexadecimal and Hexatrigesimal Conversion",
+    "difficulty": "Easy",
+    "link": "https://leetcode.com/problems/hexadecimal-and-hexatrigesimal-conversion",
+    "tags": ["Math", "String"]
   }
 }
