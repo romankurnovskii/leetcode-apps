@@ -3,15 +3,12 @@
     "title": "LeetCode Top 75",
     "description": "Problem list from official https://leetcode.com/studyplan/leetcode-75/",
     "tags": [],
-    "problems": [1768, 1071, 1431]
+    "problems": [1768, 1071, 1431, 605, 345, 151, 238, 334, 443, 283, 392, 11, 1798, 643, 1567, 1046, 1586, 1833, 724, 1392]
   },
   {
     "title": "July 2025",
     "description": "Problem list published on July 2025",
     "tags": [],
-    "problems": [
-      3602, 3603, 3604, 3605, 3606, 3607, 3608, 3609, 3611, 3612, 3613, 3614,
-      3615, 3617
-    ]
+    "problems": [3602, 3603, 3604, 3605, 3606, 3607, 3608, 3609, 3611, 3612, 3613, 3614, 3615, 3617]
   }
 ]
