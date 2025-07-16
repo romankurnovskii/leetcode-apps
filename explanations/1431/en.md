@@ -1,4 +1,5 @@
 ## Kids With the Greatest Number of Candies [Easy]
+
 https://leetcode.com/problems/kids-with-the-greatest-number-of-candies
 
 ## Description

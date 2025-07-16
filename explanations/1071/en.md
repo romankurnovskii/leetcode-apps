@@ -1,4 +1,5 @@
 ## Greatest Common Divisor of Strings [Easy]
+
 https://leetcode.com/problems/greatest-common-divisor-of-strings
 
 ## Description
