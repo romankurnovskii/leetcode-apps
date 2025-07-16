@@ -19,8 +19,11 @@ Output: true
 Explanation: The triplet (3, 4, 5) is valid because nums[3] == 0 < nums[4] == 4 < nums[5] == 6.
 
 **Constraints**
-- 1 <= nums.length <= 5 * 10^5
-- -2^31 <= nums[i] <= 2^31 - 1
+
+```
+1 <= nums.length <= 5 * 10^5
+-2^31 <= nums[i] <= 2^31 - 1
+```
 
 ## Hint
 Track the smallest and second smallest values as you iterate.

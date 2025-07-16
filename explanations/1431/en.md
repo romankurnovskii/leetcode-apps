@@ -26,10 +26,12 @@ Input: candies = [12,1,12], extraCandies = 10
 Output: [true,false,true]
 
 **Constraints**
+```
 - n == candies.length
 - 2 <= n <= 100
 - 1 <= candies[i] <= 100
 - 1 <= extraCandies <= 50
+```
 
 ## Hint
 For each kid, check if their candies plus extraCandies is at least as much as the current maximum.

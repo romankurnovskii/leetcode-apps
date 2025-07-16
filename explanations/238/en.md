@@ -17,9 +17,12 @@ Input: nums = [-1,1,0,-3,3]
 Output: [0,0,9,0,0]
 
 **Constraints**
-- 2 <= nums.length <= 10^5
-- -30 <= nums[i] <= 30
-- The input is generated such that answer[i] is guaranteed to fit in a 32-bit integer.
+
+```
+2 <= nums.length <= 10^5
+-30 <= nums[i] <= 30
+The input is generated such that answer[i] is guaranteed to fit in a 32-bit integer.
+```
 
 ## Hint
 Use two passes: one to calculate products to the left of each index, and one for the right.

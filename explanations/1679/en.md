@@ -24,9 +24,11 @@ Explanation: Starting with nums = [3,1,3,4,3]:
 There are no more pairs that sum up to 6, hence a total of 1 operation.
 
 **Constraints**
+```
 - 1 <= nums.length <= 10^5
 - 1 <= nums[i] <= 10^9
 - 1 <= k <= 10^9
+```
 
 ## Hint
 Use a hash map to count occurrences and find pairs efficiently.

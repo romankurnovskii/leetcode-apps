@@ -41,7 +41,8 @@ Imagine you have two strings, like two lines of colored beads. You want to make 
 
 We use two pointers to keep track of our position in each string, because this lets us alternate letters easily and ensures we don't miss any. By appending the remaining part of the longer string at the end, we make sure no letters are left out—this is important for correctness, especially when the strings are different lengths.
 
-**Example:**  
+**Example:**
+
 word1 = "ab", word2 = "pqrs"  
 - Take 'a' and 'p' → "ap"
 - Take 'b' and 'q' → "apbq"
