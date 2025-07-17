@@ -207,7 +207,7 @@ function App() {
   return (
     <div>
       {/* Input Section */}
-      <div className='flex flex-col md:flex-row gap-4 mb-8'>
+      <div className='flex flex-col md:flex-row gap-2'>
         <InputCase
           label='Word 1'
           value={word1}
@@ -223,7 +223,7 @@ function App() {
       </div>
 
       {/* Action Buttons */}
-      <div className='flex justify-center gap-4 mb-8'>
+      <div className='flex justify-center gap-2'>
         <StartButton onClick={() => handlerStart(word1, word2)} />
         <PreviousButton
           onClick={handlerPrevStep}
