@@ -214,7 +214,6 @@ export default function KidsWithCandiesVisualizer() {
       justifyContent: "center",
       padding: "0.5rem",
       fontFamily: "sans-serif",
-      minHeight: "100vh",
     },
     card: {width: "100%", maxWidth: "56rem", backgroundColor: "white", borderRadius: "0.5rem", border: "1px solid #e5e5e5", padding: "1rem"},
     mainGrid: {display: "flex", flexDirection: "column", gap: "1rem"},
@@ -272,12 +271,12 @@ export default function KidsWithCandiesVisualizer() {
     },
     messageBox: {
       backgroundColor: "#f0f7ff",
-      borderLeft: "3px solid #007aff",
+      borderLeft: "2px solid #007aff",
       color: "#004085",
-      padding: "0.75rem",
+      padding: "0.25rem",
       borderRadius: "0 0.375rem 0.375rem 0",
     },
-    messageTitle: {fontWeight: "600"},
+    messageTitle: {fontWeight: "600", fontSize: "0.75rem"},
     kidContainer: {display: "flex", gap: "0.75rem", flexWrap: "wrap", justifyContent: "center"},
     kid: {
       display: "flex",
@@ -460,7 +459,7 @@ export default function KidsWithCandiesVisualizer() {
             <div style={styles.vizBox}>{renderFrame()}</div>
             <div style={styles.messageBox}>
               <h3 style={styles.messageTitle}>Current Action</h3>
-              <p>{(currentFrame && currentFrame.message) || " "}</p>
+              <p style={{margin: 1}}>{(currentFrame && currentFrame.message) || " "}</p>
             </div>
           </div>
         </div>
