@@ -5,8 +5,8 @@ import React, {useState, useEffect, useMemo} from "react";
 const PlayIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
+    width="20"
+    height="20"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
@@ -21,8 +21,8 @@ const PlayIcon = () => (
 const PauseIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
+    width="20"
+    height="20"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
@@ -38,8 +38,8 @@ const PauseIcon = () => (
 const PrevIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
+    width="20"
+    height="20"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
@@ -55,8 +55,8 @@ const PrevIcon = () => (
 const NextIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
+    width="20"
+    height="20"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
@@ -72,8 +72,8 @@ const NextIcon = () => (
 const ResetIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
+    width="20"
+    height="20"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
@@ -112,22 +112,31 @@ export default function GcdOfStringsVisualizer() {
   const generateVisualization = useMemo(() => {
     return (s1, s2) => {
       const steps = [];
+      // Step 0: Initial state
       steps.push({type: "initial", s1, s2, message: "Starting with the two input strings."});
 
+      // Step 1: The core property check for string divisibility.
+      // If two strings `s1` and `s2` share a common divisor string `x`,
+      // then `s1 + s2` must equal `s2 + s1`.
       const concat1 = s1 + s2;
       const concat2 = s2 + s1;
       const areDivisible = concat1 === concat2;
-      steps.push({type: "concat_check", s1, s2, concat1, concat2, areDivisible, message: "First, check if str1 + str2 equals str2 + str1."});
+      steps.push({type: "concat_check", s1, s2, concat1, concat2, areDivisible, message: "Check if str1 + str2 == str2 + str1."});
 
+      // If the concatenation check fails, no common divisor can exist.
       if (!areDivisible) {
         steps.push({type: "final", result: "", message: "Concatenations are not equal; no common divisor exists."});
         return {steps, result: ""};
       }
 
+      // Step 2: If a common divisor exists, its length must be a common divisor
+      // of the lengths of `s1` and `s2`. The largest possible divisor string will
+      // have a length equal to the GCD of the original string lengths.
       const len1 = s1.length;
       const len2 = s2.length;
       steps.push({type: "gcd_intro", len1, len2, message: `Find GCD of lengths: ${len1} and ${len2}.`});
 
+      // Use the Euclidean algorithm to find the GCD of the lengths.
       let a = len1,
         b = len2;
       while (b !== 0) {
@@ -136,16 +145,12 @@ export default function GcdOfStringsVisualizer() {
       }
       steps.push({type: "gcd_result", gcd: a, message: `The GCD of the lengths is ${a}.`});
 
+      // Step 3: The result is the prefix of one of the strings with the calculated GCD length.
       const gcdLen = a;
       const finalResult = s1.substring(0, gcdLen);
-      steps.push({
-        type: "substring",
-        s1,
-        gcdLen,
-        result: finalResult,
-        message: `Result is the prefix of str1 with length equal to the GCD (${gcdLen}).`,
-      });
+      steps.push({type: "substring", s1, gcdLen, result: finalResult, message: `The result is the prefix of str1 with length ${gcdLen}.`});
 
+      // Step 4: Final verification step.
       steps.push({
         type: "final",
         s1,
@@ -200,7 +205,7 @@ export default function GcdOfStringsVisualizer() {
   };
   const handleHover = (key, isHovering) => setHover((prev) => ({...prev, [key]: isHovering}));
 
-  // --- Styles ---
+  // --- Styles (Optimized for smaller screens) ---
   const styles = {
     container: {
       minHeight: "100vh",
@@ -209,7 +214,7 @@ export default function GcdOfStringsVisualizer() {
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
-      padding: "1rem",
+      padding: "0.5rem",
       fontFamily: "sans-serif",
     },
     card: {
@@ -217,15 +222,12 @@ export default function GcdOfStringsVisualizer() {
       maxWidth: "56rem",
       backgroundColor: "white",
       borderRadius: "0.75rem",
-      boxShadow: "0 25px 50px -12px rgb(0 0 0 / 0.25)",
-      padding: "1.5rem",
+      boxShadow: "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
+      padding: "1rem",
     },
-    header: {textAlign: "center", marginBottom: "1.5rem"},
-    title: {fontSize: "2.25rem", fontWeight: "bold", color: "#1f2937"},
-    subtitle: {fontSize: "1.125rem", color: "#4b5563", marginTop: "0.5rem"},
-    mainGrid: {display: "flex", flexDirection: "column", gap: "2rem"},
+    mainGrid: {display: "flex", flexDirection: "column", gap: "1.5rem"},
     controlsPanel: {display: "flex", flexDirection: "column", gap: "1rem", flex: 1},
-    inputsContainer: {display: "flex", flexDirection: "column", gap: "1rem"},
+    inputsContainer: {display: "flex", flexDirection: "column", gap: "0.75rem"},
     label: {display: "block", fontSize: "0.875rem", fontWeight: "500", color: "#374151"},
     input: {
       marginTop: "0.25rem",
@@ -240,30 +242,34 @@ export default function GcdOfStringsVisualizer() {
     },
     controlsBox: {
       backgroundColor: "#f9fafb",
-      padding: "1rem",
+      padding: "0.75rem",
       borderRadius: "0.5rem",
       boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
-      marginTop: "1.5rem",
+      marginTop: "1rem",
     },
-    controlsHeader: {fontSize: "1.25rem", fontWeight: "600", color: "#374151", marginBottom: "0.75rem", textAlign: "center"},
-    buttonGroup: {display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem", marginBottom: "1rem"},
+    controlsHeader: {fontSize: "1.125rem", fontWeight: "600", color: "#374151", marginBottom: "0.75rem", textAlign: "center"},
+    buttonGroup: {display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem", marginBottom: "0.75rem"},
     button: {
-      padding: "0.5rem",
+      padding: "0.4rem",
       borderRadius: "9999px",
       backgroundColor: "#e5e7eb",
       transition: "background-color 0.2s",
       border: "none",
       cursor: "pointer",
+      display: "flex",
+      alignItems: "center",
     },
     buttonHover: {backgroundColor: "#d1d5db"},
     playButton: {
-      padding: "0.75rem",
+      padding: "0.6rem",
       borderRadius: "9999px",
       backgroundColor: "#3b82f6",
       color: "white",
       boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
       border: "none",
       cursor: "pointer",
+      display: "flex",
+      alignItems: "center",
     },
     playButtonHover: {backgroundColor: "#2563eb"},
     disabledButton: {opacity: 0.5, cursor: "not-allowed"},
@@ -276,7 +282,7 @@ export default function GcdOfStringsVisualizer() {
       padding: "1rem",
       borderRadius: "0.5rem",
       boxShadow: "inset 0 2px 4px 0 rgb(0 0 0 / 0.05)",
-      minHeight: "300px",
+      minHeight: "250px",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
@@ -288,31 +294,31 @@ export default function GcdOfStringsVisualizer() {
       padding: "1rem",
       borderRadius: "0 0.5rem 0.5rem 0",
       boxShadow: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
-      minHeight: "80px",
+      minHeight: "60px",
     },
     messageTitle: {fontWeight: "bold"},
     stringBox: {
-      fontSize: "1.5rem",
+      fontSize: "1.125rem",
       fontFamily: "monospace",
       padding: "0.5rem",
       borderRadius: "0.375rem",
-      letterSpacing: "0.1em",
+      letterSpacing: "0.05em",
       wordBreak: "break-all",
     },
     greenText: {color: "#166534", fontWeight: "bold"},
     redText: {color: "#991b1b", fontWeight: "bold"},
-    finalResultBox: {textAlign: "center", padding: "1.5rem", backgroundColor: "#f0fdf4", borderRadius: "0.5rem", width: "100%"},
+    finalResultBox: {textAlign: "center", padding: "1rem", backgroundColor: "#f0fdf4", borderRadius: "0.5rem", width: "100%"},
     finalResultText: {
-      fontSize: "3rem",
+      fontSize: "1.875rem",
       fontFamily: "monospace",
-      padding: "1rem",
+      padding: "0.75rem",
       backgroundColor: "white",
       borderRadius: "0.5rem",
       boxShadow: "inset 0 2px 4px 0 rgb(0 0 0 / 0.05)",
-      letterSpacing: "0.1em",
+      letterSpacing: "0.05em",
       wordBreak: "break-all",
     },
-    gcdCalcBox: {textAlign: "center", padding: "1.5rem", backgroundColor: "#f9fafb", borderRadius: "0.5rem", width: "100%"},
+    gcdCalcBox: {textAlign: "center", padding: "1rem", backgroundColor: "#f9fafb", borderRadius: "0.5rem", width: "100%"},
   };
 
   // --- Render Logic ---
@@ -325,20 +331,20 @@ export default function GcdOfStringsVisualizer() {
         return (
           <div style={{textAlign: "center", display: "flex", flexDirection: "column", gap: "1rem", width: "100%"}}>
             <div>
-              <p style={{fontSize: "1.125rem", fontWeight: "500", color: "#4b5563"}}>str1</p>
+              <p style={{fontSize: "1rem", fontWeight: "500", color: "#4b5563"}}>str1</p>
               <p style={{...styles.stringBox, backgroundColor: "#dbeafe"}}>{currentFrame.s1}</p>
             </div>
             <div>
-              <p style={{fontSize: "1.125rem", fontWeight: "500", color: "#4b5563"}}>str2</p>
+              <p style={{fontSize: "1rem", fontWeight: "500", color: "#4b5563"}}>str2</p>
               <p style={{...styles.stringBox, backgroundColor: "#e0e7ff"}}>{currentFrame.s2}</p>
             </div>
             {currentFrame.type === "concat_check" && (
               <div style={{paddingTop: "1rem", display: "flex", flexDirection: "column", gap: "0.5rem"}}>
-                <p style={{...styles.stringBox, fontSize: "1.25rem", backgroundColor: "#f3f4f6"}}>{currentFrame.concat1}</p>
-                <p style={{...styles.stringBox, fontSize: "1.25rem", backgroundColor: "#f3f4f6"}}>{currentFrame.concat2}</p>
+                <p style={{...styles.stringBox, fontSize: "1rem", backgroundColor: "#f3f4f6"}}>{currentFrame.concat1}</p>
+                <p style={{...styles.stringBox, fontSize: "1rem", backgroundColor: "#f3f4f6"}}>{currentFrame.concat2}</p>
                 <p
                   style={{
-                    fontSize: "1.5rem",
+                    fontSize: "1.25rem",
                     fontWeight: "bold",
                     paddingTop: "0.5rem",
                     ...(currentFrame.areDivisible ? styles.greenText : styles.redText),
@@ -355,27 +361,27 @@ export default function GcdOfStringsVisualizer() {
       case "gcd_result":
         return (
           <div style={styles.gcdCalcBox}>
-            <h3 style={{fontSize: "1.5rem", fontWeight: "bold", color: "#374151"}}>GCD Calculation</h3>
+            <h3 style={{fontSize: "1.25rem", fontWeight: "bold", color: "#374151"}}>GCD Calculation</h3>
             {currentFrame.type === "gcd_intro" && (
-              <p style={{fontSize: "2.25rem", fontFamily: "monospace"}}>
+              <p style={{fontSize: "1.875rem", fontFamily: "monospace"}}>
                 GCD({currentFrame.len1}, {currentFrame.len2})
               </p>
             )}
             {currentFrame.type === "gcd_step" && (
-              <div style={{fontFamily: "monospace", fontSize: "1.5rem", display: "flex", flexDirection: "column", gap: "0.5rem"}}>
+              <div style={{fontFamily: "monospace", fontSize: "1.25rem", display: "flex", flexDirection: "column", gap: "0.5rem"}}>
                 <p>
                   GCD(<span style={{color: "#2563eb"}}>{currentFrame.a}</span>, <span style={{color: "#7c3aed"}}>{currentFrame.b}</span>)
                 </p>
-                <p style={{fontSize: "1.25rem"}}>
+                <p style={{fontSize: "1.125rem"}}>
                   {currentFrame.a} % {currentFrame.b} = <span style={{color: "#be123c"}}>{currentFrame.remainder}</span>
                 </p>
-                <p style={{fontSize: "1.25rem"}}>
+                <p style={{fontSize: "1.125rem"}}>
                   Next: GCD({currentFrame.b}, {currentFrame.remainder})
                 </p>
               </div>
             )}
             {currentFrame.type === "gcd_result" && (
-              <p style={{fontSize: "2.25rem", fontFamily: "monospace"}}>
+              <p style={{fontSize: "1.875rem", fontFamily: "monospace"}}>
                 Result: <span style={{color: "#16a34a", fontWeight: "bold"}}>{currentFrame.gcd}</span>
               </p>
             )}
@@ -384,8 +390,8 @@ export default function GcdOfStringsVisualizer() {
       case "substring":
         return (
           <div style={{textAlign: "center", display: "flex", flexDirection: "column", gap: "1rem"}}>
-            <p style={{fontSize: "1.125rem", fontWeight: "500", color: "#4b5563"}}>str1.substring(0, {currentFrame.gcdLen})</p>
-            <p style={{...styles.stringBox, fontSize: "1.875rem", backgroundColor: "#fefce8"}}>
+            <p style={{fontSize: "1rem", fontWeight: "500", color: "#4b5563"}}>str1.substring(0, {currentFrame.gcdLen})</p>
+            <p style={{...styles.stringBox, fontSize: "1.5rem", backgroundColor: "#fefce8"}}>
               <span style={{backgroundColor: "#facc15", padding: "0.25rem", borderRadius: "0.25rem"}}>{currentFrame.result}</span>
               <span>{currentFrame.s1.substring(currentFrame.gcdLen)}</span>
             </p>
@@ -394,10 +400,10 @@ export default function GcdOfStringsVisualizer() {
       case "final":
         return (
           <div style={styles.finalResultBox}>
-            <h3 style={{fontSize: "1.5rem", fontWeight: "bold", color: "#374151"}}>Final Result</h3>
+            <h3 style={{fontSize: "1.25rem", fontWeight: "bold", color: "#374151"}}>Final Result</h3>
             <p style={styles.finalResultText}>{currentFrame.result ? `"${currentFrame.result}"` : '""'}</p>
             {currentFrame.isVerified && (
-              <div style={{fontSize: "1.125rem", paddingTop: "1rem"}}>
+              <div style={{fontSize: "1rem", paddingTop: "1rem"}}>
                 <p>
                   ✅ <span style={{fontWeight: "bold", color: "#15803d"}}>{currentFrame.result}</span> x{" "}
                   {currentFrame.s1.length / currentFrame.result.length} = {currentFrame.s1}
@@ -429,11 +435,6 @@ export default function GcdOfStringsVisualizer() {
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        <header style={styles.header}>
-          <h1 style={styles.title}>GCD of Strings (LeetCode 1071)</h1>
-          <p style={styles.subtitle}>A step-by-step visualization of the algorithm.</p>
-        </header>
-
         <div style={mainGridStyle}>
           {/* Left Panel */}
           <div style={styles.controlsPanel}>
