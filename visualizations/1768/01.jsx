@@ -205,7 +205,7 @@ function App() {
   const currentStep = steps[currentStepIndex];
 
   return (
-    <div className='p-8 rounded-2xl max-w-2xl w-full'>
+    <div>
       {/* Input Section */}
       <div className='flex flex-col md:flex-row gap-4 mb-8'>
         <InputCase
