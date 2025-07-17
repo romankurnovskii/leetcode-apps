@@ -37,12 +37,13 @@ const defaultWord1 = "abc";
 const defaultWord2 = "pqr";
 
 const containerStyle = {
-  minHeight: "100vh",
   background: "#f7f7f8",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  padding: "2rem 0",
+  justifyContent: "center",
+  minHeight: undefined, // Remove minHeight
+  padding: "1.5rem 0", // Reduce vertical padding
 };
 const cardStyle = (isDesktop) => ({
   background: "#fff",
@@ -51,9 +52,9 @@ const cardStyle = (isDesktop) => ({
   boxShadow: "0 2px 8px rgba(0,0,0,0.03)",
   display: "flex",
   flexDirection: isDesktop ? "row" : "column",
-  width: isDesktop ? 600 : "95vw",
-  maxWidth: "98vw",
-  marginTop: 0,
+  width: "100%",
+  maxWidth: isDesktop ? 820 : "98vw", // Use as much width as possible, up to 820px
+  margin: "0 auto",
   alignItems: "stretch",
   overflow: "hidden",
 });
