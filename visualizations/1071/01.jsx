@@ -205,120 +205,101 @@ export default function GcdOfStringsVisualizer() {
   };
   const handleHover = (key, isHovering) => setHover((prev) => ({...prev, [key]: isHovering}));
 
-  // --- Styles (Optimized for smaller screens) ---
+  // --- Styles (Minimalist & Modern) ---
   const styles = {
     container: {
-      minHeight: "100vh",
-      backgroundColor: "#f3f4f6",
+      backgroundColor: "#f7f7f8",
       display: "flex",
-      flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
       padding: "0.5rem",
       fontFamily: "sans-serif",
+      minHeight: "100vh",
     },
-    card: {
-      width: "100%",
-      maxWidth: "56rem",
-      backgroundColor: "white",
-      borderRadius: "0.75rem",
-      boxShadow: "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
-      padding: "1rem",
-    },
-    mainGrid: {display: "flex", flexDirection: "column", gap: "1.5rem"},
-    controlsPanel: {display: "flex", flexDirection: "column", gap: "1rem", flex: 1},
+    card: {width: "100%", maxWidth: "56rem", backgroundColor: "white", borderRadius: "0.5rem", border: "1px solid #e5e5e5", padding: "1rem"},
+    mainGrid: {display: "flex", flexDirection: "column", gap: "1rem"},
+    controlsPanel: {flex: 1},
     inputsContainer: {display: "flex", flexDirection: "column", gap: "0.75rem"},
-    label: {display: "block", fontSize: "0.875rem", fontWeight: "500", color: "#374151"},
+    label: {fontSize: "0.875rem", fontWeight: "500", color: "#333"},
     input: {
-      marginTop: "0.25rem",
       display: "block",
       width: "100%",
       boxSizing: "border-box",
       borderRadius: "0.375rem",
-      border: "1px solid #d1d5db",
-      boxShadow: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+      border: "1px solid #ddd",
       padding: "0.5rem",
       fontFamily: "monospace",
+      backgroundColor: "#fafafa",
     },
-    controlsBox: {
-      backgroundColor: "#f9fafb",
-      padding: "0.75rem",
-      borderRadius: "0.5rem",
-      boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
-      marginTop: "1rem",
-    },
-    controlsHeader: {fontSize: "1.125rem", fontWeight: "600", color: "#374151", marginBottom: "0.75rem", textAlign: "center"},
+    controlsBox: {backgroundColor: "#f7f7f8", padding: "0.75rem", borderRadius: "0.5rem", marginTop: "1rem"},
+    controlsHeader: {fontSize: "1rem", fontWeight: "600", color: "#333", marginBottom: "0.75rem", textAlign: "center"},
     buttonGroup: {display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem", marginBottom: "0.75rem"},
     button: {
       padding: "0.4rem",
       borderRadius: "9999px",
-      backgroundColor: "#e5e7eb",
+      backgroundColor: "#e9e9ea",
       transition: "background-color 0.2s",
       border: "none",
       cursor: "pointer",
       display: "flex",
       alignItems: "center",
     },
-    buttonHover: {backgroundColor: "#d1d5db"},
+    buttonHover: {backgroundColor: "#dcdce0"},
     playButton: {
       padding: "0.6rem",
       borderRadius: "9999px",
-      backgroundColor: "#3b82f6",
+      backgroundColor: "#007aff",
       color: "white",
-      boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
       border: "none",
       cursor: "pointer",
       display: "flex",
       alignItems: "center",
     },
-    playButtonHover: {backgroundColor: "#2563eb"},
+    playButtonHover: {backgroundColor: "#005ecb"},
     disabledButton: {opacity: 0.5, cursor: "not-allowed"},
-    sliderLabel: {display: "block", fontSize: "0.875rem", fontWeight: "500", color: "#374151", marginBottom: "0.25rem"},
-    slider: {width: "100%", height: "0.5rem", backgroundColor: "#e5e7eb", borderRadius: "0.5rem", appearance: "none", cursor: "pointer"},
-    sliderSteps: {textAlign: "center", fontSize: "0.875rem", color: "#6b7280", marginTop: "0.25rem"},
+    sliderLabel: {display: "block", fontSize: "0.875rem", fontWeight: "500", color: "#333", marginBottom: "0.25rem"},
+    slider: {width: "100%", height: "0.5rem", backgroundColor: "#e9e9ea", borderRadius: "0.5rem", appearance: "none", cursor: "pointer"},
+    sliderSteps: {textAlign: "center", fontSize: "0.875rem", color: "#666", marginTop: "0.25rem"},
     vizPanel: {display: "flex", flexDirection: "column", gap: "1rem", flex: 2},
     vizBox: {
-      backgroundColor: "#e5e7eb",
+      backgroundColor: "#f7f7f8",
       padding: "1rem",
       borderRadius: "0.5rem",
-      boxShadow: "inset 0 2px 4px 0 rgb(0 0 0 / 0.05)",
-      minHeight: "250px",
+      minHeight: "220px",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
     },
     messageBox: {
-      backgroundColor: "#eff6ff",
-      borderLeft: "4px solid #3b82f6",
-      color: "#1e40af",
-      padding: "1rem",
-      borderRadius: "0 0.5rem 0.5rem 0",
-      boxShadow: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
-      minHeight: "60px",
+      backgroundColor: "#f0f7ff",
+      borderLeft: "3px solid #007aff",
+      color: "#004085",
+      padding: "0.75rem",
+      borderRadius: "0 0.375rem 0.375rem 0",
     },
-    messageTitle: {fontWeight: "bold"},
+    messageTitle: {fontWeight: "600"},
     stringBox: {
-      fontSize: "1.125rem",
+      fontSize: "1rem",
       fontFamily: "monospace",
       padding: "0.5rem",
       borderRadius: "0.375rem",
       letterSpacing: "0.05em",
       wordBreak: "break-all",
     },
-    greenText: {color: "#166534", fontWeight: "bold"},
-    redText: {color: "#991b1b", fontWeight: "bold"},
-    finalResultBox: {textAlign: "center", padding: "1rem", backgroundColor: "#f0fdf4", borderRadius: "0.5rem", width: "100%"},
+    greenText: {color: "#28a745", fontWeight: "bold"},
+    redText: {color: "#dc3545", fontWeight: "bold"},
+    finalResultBox: {textAlign: "center", padding: "1rem", backgroundColor: "#f0fff4", borderRadius: "0.5rem", width: "100%"},
     finalResultText: {
-      fontSize: "1.875rem",
+      fontSize: "1.5rem",
       fontFamily: "monospace",
       padding: "0.75rem",
       backgroundColor: "white",
-      borderRadius: "0.5rem",
-      boxShadow: "inset 0 2px 4px 0 rgb(0 0 0 / 0.05)",
+      borderRadius: "0.375rem",
+      border: "1px solid #e5e5e5",
       letterSpacing: "0.05em",
       wordBreak: "break-all",
     },
-    gcdCalcBox: {textAlign: "center", padding: "1rem", backgroundColor: "#f9fafb", borderRadius: "0.5rem", width: "100%"},
+    gcdCalcBox: {textAlign: "center", padding: "1rem", backgroundColor: "#f7f7f8", borderRadius: "0.5rem", width: "100%"},
   };
 
   // --- Render Logic ---
@@ -329,22 +310,22 @@ export default function GcdOfStringsVisualizer() {
       case "initial":
       case "concat_check":
         return (
-          <div style={{textAlign: "center", display: "flex", flexDirection: "column", gap: "1rem", width: "100%"}}>
+          <div style={{textAlign: "center", display: "flex", flexDirection: "column", gap: "0.75rem", width: "100%"}}>
             <div>
-              <p style={{fontSize: "1rem", fontWeight: "500", color: "#4b5563"}}>str1</p>
-              <p style={{...styles.stringBox, backgroundColor: "#dbeafe"}}>{currentFrame.s1}</p>
+              <p style={{fontSize: "0.875rem", fontWeight: "500", color: "#4b5563"}}>str1</p>
+              <p style={{...styles.stringBox, backgroundColor: "#eaf4ff"}}>{currentFrame.s1}</p>
             </div>
             <div>
-              <p style={{fontSize: "1rem", fontWeight: "500", color: "#4b5563"}}>str2</p>
-              <p style={{...styles.stringBox, backgroundColor: "#e0e7ff"}}>{currentFrame.s2}</p>
+              <p style={{fontSize: "0.875rem", fontWeight: "500", color: "#4b5563"}}>str2</p>
+              <p style={{...styles.stringBox, backgroundColor: "#f0eaff"}}>{currentFrame.s2}</p>
             </div>
             {currentFrame.type === "concat_check" && (
-              <div style={{paddingTop: "1rem", display: "flex", flexDirection: "column", gap: "0.5rem"}}>
-                <p style={{...styles.stringBox, fontSize: "1rem", backgroundColor: "#f3f4f6"}}>{currentFrame.concat1}</p>
-                <p style={{...styles.stringBox, fontSize: "1rem", backgroundColor: "#f3f4f6"}}>{currentFrame.concat2}</p>
+              <div style={{paddingTop: "0.75rem", display: "flex", flexDirection: "column", gap: "0.5rem"}}>
+                <p style={{...styles.stringBox, fontSize: "0.875rem", backgroundColor: "#f7f7f8"}}>{currentFrame.concat1}</p>
+                <p style={{...styles.stringBox, fontSize: "0.875rem", backgroundColor: "#f7f7f8"}}>{currentFrame.concat2}</p>
                 <p
                   style={{
-                    fontSize: "1.25rem",
+                    fontSize: "1.125rem",
                     fontWeight: "bold",
                     paddingTop: "0.5rem",
                     ...(currentFrame.areDivisible ? styles.greenText : styles.redText),
@@ -361,38 +342,38 @@ export default function GcdOfStringsVisualizer() {
       case "gcd_result":
         return (
           <div style={styles.gcdCalcBox}>
-            <h3 style={{fontSize: "1.25rem", fontWeight: "bold", color: "#374151"}}>GCD Calculation</h3>
+            <h3 style={{fontSize: "1.125rem", fontWeight: "600", color: "#333"}}>GCD Calculation</h3>
             {currentFrame.type === "gcd_intro" && (
-              <p style={{fontSize: "1.875rem", fontFamily: "monospace"}}>
+              <p style={{fontSize: "1.5rem", fontFamily: "monospace"}}>
                 GCD({currentFrame.len1}, {currentFrame.len2})
               </p>
             )}
             {currentFrame.type === "gcd_step" && (
-              <div style={{fontFamily: "monospace", fontSize: "1.25rem", display: "flex", flexDirection: "column", gap: "0.5rem"}}>
+              <div style={{fontFamily: "monospace", fontSize: "1.125rem", display: "flex", flexDirection: "column", gap: "0.25rem"}}>
                 <p>
-                  GCD(<span style={{color: "#2563eb"}}>{currentFrame.a}</span>, <span style={{color: "#7c3aed"}}>{currentFrame.b}</span>)
+                  GCD(<span style={{color: "#007aff"}}>{currentFrame.a}</span>, <span style={{color: "#5856d6"}}>{currentFrame.b}</span>)
                 </p>
-                <p style={{fontSize: "1.125rem"}}>
-                  {currentFrame.a} % {currentFrame.b} = <span style={{color: "#be123c"}}>{currentFrame.remainder}</span>
+                <p style={{fontSize: "1rem"}}>
+                  {currentFrame.a} % {currentFrame.b} = <span style={{color: "#ff3b30"}}>{currentFrame.remainder}</span>
                 </p>
-                <p style={{fontSize: "1.125rem"}}>
+                <p style={{fontSize: "1rem"}}>
                   Next: GCD({currentFrame.b}, {currentFrame.remainder})
                 </p>
               </div>
             )}
             {currentFrame.type === "gcd_result" && (
-              <p style={{fontSize: "1.875rem", fontFamily: "monospace"}}>
-                Result: <span style={{color: "#16a34a", fontWeight: "bold"}}>{currentFrame.gcd}</span>
+              <p style={{fontSize: "1.5rem", fontFamily: "monospace"}}>
+                Result: <span style={{color: "#34c759", fontWeight: "bold"}}>{currentFrame.gcd}</span>
               </p>
             )}
           </div>
         );
       case "substring":
         return (
-          <div style={{textAlign: "center", display: "flex", flexDirection: "column", gap: "1rem"}}>
-            <p style={{fontSize: "1rem", fontWeight: "500", color: "#4b5563"}}>str1.substring(0, {currentFrame.gcdLen})</p>
-            <p style={{...styles.stringBox, fontSize: "1.5rem", backgroundColor: "#fefce8"}}>
-              <span style={{backgroundColor: "#facc15", padding: "0.25rem", borderRadius: "0.25rem"}}>{currentFrame.result}</span>
+          <div style={{textAlign: "center", display: "flex", flexDirection: "column", gap: "0.75rem"}}>
+            <p style={{fontSize: "0.875rem", fontWeight: "500", color: "#4b5563"}}>str1.substring(0, {currentFrame.gcdLen})</p>
+            <p style={{...styles.stringBox, fontSize: "1.25rem", backgroundColor: "#fffbe6"}}>
+              <span style={{backgroundColor: "#ffcc00", padding: "0.25rem", borderRadius: "0.25rem"}}>{currentFrame.result}</span>
               <span>{currentFrame.s1.substring(currentFrame.gcdLen)}</span>
             </p>
           </div>
@@ -400,16 +381,16 @@ export default function GcdOfStringsVisualizer() {
       case "final":
         return (
           <div style={styles.finalResultBox}>
-            <h3 style={{fontSize: "1.25rem", fontWeight: "bold", color: "#374151"}}>Final Result</h3>
+            <h3 style={{fontSize: "1.125rem", fontWeight: "600", color: "#333"}}>Final Result</h3>
             <p style={styles.finalResultText}>{currentFrame.result ? `"${currentFrame.result}"` : '""'}</p>
             {currentFrame.isVerified && (
-              <div style={{fontSize: "1rem", paddingTop: "1rem"}}>
+              <div style={{fontSize: "0.875rem", paddingTop: "0.75rem", color: "#555"}}>
                 <p>
-                  ✅ <span style={{fontWeight: "bold", color: "#15803d"}}>{currentFrame.result}</span> x{" "}
+                  ✅ <span style={{fontWeight: "bold", color: "#28a745"}}>{currentFrame.result}</span> x{" "}
                   {currentFrame.s1.length / currentFrame.result.length} = {currentFrame.s1}
                 </p>
                 <p>
-                  ✅ <span style={{fontWeight: "bold", color: "#15803d"}}>{currentFrame.result}</span> x{" "}
+                  ✅ <span style={{fontWeight: "bold", color: "#28a745"}}>{currentFrame.result}</span> x{" "}
                   {currentFrame.s2.length / currentFrame.result.length} = {currentFrame.s2}
                 </p>
               </div>
