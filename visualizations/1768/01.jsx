@@ -7,8 +7,8 @@ const ActionButton = ({ text, onClick, disabled, buttonClassName }) => (
     disabled={disabled}
     className={
       'btn ' && 
-      buttonClassName ||
-      'font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2'
+      (buttonClassName ||
+      'font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2')
     }
   >
     {text}
