@@ -12,8 +12,8 @@ importers:
         specifier: ^4.1.11
         version: 4.1.11(vite@7.0.5(jiti@2.4.2)(lightningcss@1.30.1))
       leetcode-apps-components:
-        specifier: ^1.0.0
-        version: 1.0.0
+        specifier: file:/Users/r/Desktop/github/leetcode-apps-components
+        version: file:../../../leetcode-apps-components
       react:
         specifier: ^19.1.0
         version: 19.1.0
@@ -982,8 +982,8 @@ packages:
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
 
-  leetcode-apps-components@1.0.0:
-    resolution: {integrity: sha512-FFnsdR6t+AV1pUXiV7Q5k6x+3czADvP3Pjkinz7rIZ+hAwruv+1NhHcRpZNc8nyla6mt6RjXO/zLWF6uZfQDhQ==}
+  leetcode-apps-components@file:../../../leetcode-apps-components:
+    resolution: {directory: ../../../leetcode-apps-components, type: directory}
 
   levn@0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
@@ -1062,11 +1062,6 @@ packages:
 
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
-
-  lucide-react@0.525.0:
-    resolution: {integrity: sha512-Tm1txJ2OkymCGkvwoHt33Y2JpN5xucVq1slHcgE6Lk0WjDfjgKWor5CdVER8U6DvcfMwh4M8XxmpTiyzfmfDYQ==}
-    peerDependencies:
-      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
   magic-string@0.30.17:
     resolution: {integrity: sha512-sNPKHvyjVf7gyjwS4xGTaW/mCnF8wnjtifKBEhxfZ7E/S8tQ0rssrwGNn6q8JH/ohItJfSQp9mBtQYuTlH5QnA==}
@@ -2194,10 +2189,9 @@ snapshots:
     dependencies:
       json-buffer: 3.0.1
 
-  leetcode-apps-components@1.0.0:
+  leetcode-apps-components@file:../../../leetcode-apps-components:
     dependencies:
       '@babel/standalone': 7.28.1
-      lucide-react: 0.525.0(react@19.1.0)
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
 
@@ -2260,10 +2254,6 @@ snapshots:
   lru-cache@5.1.1:
     dependencies:
       yallist: 3.1.1
-
-  lucide-react@0.525.0(react@19.1.0):
-    dependencies:
-      react: 19.1.0
 
   magic-string@0.30.17:
     dependencies:

@@ -1,1 +1,35 @@
-@import 'tailwindcss';
+@import "tailwindcss";
+
+/* Base styles */
+.lc-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: background 0.2s, color 0.2s;
+  border: none;
+  cursor: pointer;
+  background: #f3f4f6; /* gray-100 */
+  color: #111827; /* gray-900 */
+}
+.lc-btn:focus {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+.lc-btn:disabled {
+  background: #e5e7eb;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.lc-input {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #d1d5db;
+  font-size: 1rem;
+  transition: border 0.2s;
+}
+.lc-input:focus {
+  border-color: #2563eb;
+  outline: none;
+}
