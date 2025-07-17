@@ -153,6 +153,8 @@ function App() {
         <InputCase label="Word 2" value={word2} onChange={(e) => setWord2(e.target.value)} placeholder="Enter second word" />
       </div>
 
+      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Button</button>
+
       {/* Action Buttons */}
       <div className="flex justify-center gap-2">
         <StartButton onClick={() => handlerStart(word1, word2)} />
