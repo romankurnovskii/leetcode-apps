@@ -1,4 +1,4 @@
-import React, {useState, useMemo, useEffect, useRef} from "react";
+import React, {useState, useMemo, useEffect} from "react";
 
 // SVG Icon Components
 const PrevIcon = ({color = "#007aff"}) => (
@@ -238,7 +238,6 @@ const MergeStringsAlternatelyVisualizer = () => {
   const [hoverBtn, setHoverBtn] = useState("");
   const steps = useMemo(() => generateVisualization(word1, word2), [word1, word2]);
   const maxStep = steps.length - 1;
-  const playRef = useRef();
 
   useEffect(() => {
     const handleResize = () => setIsDesktop(window.innerWidth >= 768);
@@ -247,30 +246,43 @@ const MergeStringsAlternatelyVisualizer = () => {
   }, []);
 
   useEffect(() => {
+    setCurrentStep(0);
+    setIsPlaying(false);
+  }, [word1, word2]);
+
+  useEffect(() => {
     if (!isPlaying) return;
     if (currentStep >= maxStep) {
       setIsPlaying(false);
       return;
     }
-    playRef.current = setTimeout(() => {
-      setCurrentStep((s) => clamp(s + 1, 0, maxStep));
+    const interval = setInterval(() => {
+      setCurrentStep((s) => {
+        if (s < maxStep) return s + 1;
+        setIsPlaying(false);
+        return s;
+      });
     }, speed * 1000);
-    return () => clearTimeout(playRef.current);
+    return () => clearInterval(interval);
   }, [isPlaying, currentStep, speed, maxStep]);
-
-  useEffect(() => {
-    setCurrentStep(0);
-    setIsPlaying(false);
-  }, [word1, word2]);
 
   const step = steps[currentStep];
 
   // Handlers
   const handlePrev = () => setCurrentStep((s) => clamp(s - 1, 0, maxStep));
   const handleNext = () => setCurrentStep((s) => clamp(s + 1, 0, maxStep));
-  const handleReset = () => setCurrentStep(0);
-  const handlePlayPause = () => setIsPlaying((p) => !p);
-  const handleSlider = (e) => setCurrentStep(Number(e.target.value));
+  const handleReset = () => {
+    setCurrentStep(0);
+    setIsPlaying(false);
+  };
+  const handlePlayPause = () => {
+    if (currentStep === maxStep) setCurrentStep(0);
+    setIsPlaying((p) => !p);
+  };
+  const handleSlider = (e) => {
+    setIsPlaying(false);
+    setCurrentStep(Number(e.target.value));
+  };
   const handleSpeed = (e) => setSpeed(Number(e.target.value));
 
   // Input validation
