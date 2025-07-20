@@ -207,14 +207,6 @@ export default function KidsWithCandiesVisualizer() {
 
   // --- Styles ---
   const styles = {
-    container: {
-      backgroundColor: "#f7f7f8",
-      display: "flex",
-      alignItems: "flex-start",
-      justifyContent: "center",
-      padding: "0.5rem",
-      fontFamily: "sans-serif",
-    },
     card: {width: "100%", maxWidth: "56rem", backgroundColor: "white", borderRadius: "0.5rem", border: "1px solid #e5e5e5", padding: "1rem"},
     mainGrid: {display: "flex", flexDirection: "column", gap: "1rem"},
     controlsPanel: {flex: 1},
@@ -373,94 +365,92 @@ export default function KidsWithCandiesVisualizer() {
   const mainGridStyle = {...styles.mainGrid, ...(isDesktop && {flexDirection: "row"})};
 
   return (
-    <div style={styles.container}>
-      <div style={styles.card}>
-        <div style={mainGridStyle}>
-          <div style={styles.controlsPanel}>
-            <div style={styles.inputsContainer}>
-              <div>
-                <label htmlFor="candies" style={styles.label}>
-                  Candies (comma-separated)
-                </label>
-                <input type="text" id="candies" value={candies.join(", ")} onChange={handleCandiesChange} style={styles.input} />
-              </div>
-              <div>
-                <label htmlFor="extraCandies" style={styles.label}>
-                  Extra Candies
-                </label>
-                <input
-                  type="number"
-                  id="extraCandies"
-                  value={extraCandies}
-                  onChange={(e) => setExtraCandies(Number(e.target.value))}
-                  style={styles.input}
-                />
-              </div>
+    <div style={styles.card}>
+      <div style={mainGridStyle}>
+        <div style={styles.controlsPanel}>
+          <div style={styles.inputsContainer}>
+            <div>
+              <label htmlFor="candies" style={styles.label}>
+                Candies (comma-separated)
+              </label>
+              <input type="text" id="candies" value={candies.join(", ")} onChange={handleCandiesChange} style={styles.input} />
             </div>
-            <div style={styles.controlsBox}>
-              <h2 style={styles.controlsHeader}>Controls</h2>
-              <div style={styles.buttonGroup}>
-                <button
-                  onClick={handlePrevious}
-                  disabled={currentStep === 0}
-                  style={prevButtonStyle}
-                  onMouseEnter={() => handleHover("prev", true)}
-                  onMouseLeave={() => handleHover("prev", false)}
-                >
-                  <PrevIcon />
-                </button>
-                <button
-                  onClick={handlePlayPause}
-                  style={playButtonStyle}
-                  onMouseEnter={() => handleHover("play", true)}
-                  onMouseLeave={() => handleHover("play", false)}
-                >
-                  {isPlaying ? <PauseIcon /> : <PlayIcon />}
-                </button>
-                <button
-                  onClick={handleNext}
-                  disabled={currentStep >= visualizationSteps.length - 1}
-                  style={nextButtonStyle}
-                  onMouseEnter={() => handleHover("next", true)}
-                  onMouseLeave={() => handleHover("next", false)}
-                >
-                  <NextIcon />
-                </button>
-                <button
-                  onClick={handleReset}
-                  style={resetButtonStyle}
-                  onMouseEnter={() => handleHover("reset", true)}
-                  onMouseLeave={() => handleHover("reset", false)}
-                >
-                  <ResetIcon />
-                </button>
-              </div>
-              <div>
-                <label htmlFor="timeline" style={styles.sliderLabel}>
-                  Timeline
-                </label>
-                <input
-                  id="timeline"
-                  type="range"
-                  min="0"
-                  max={visualizationSteps.length - 1}
-                  value={currentStep}
-                  onChange={handleSliderChange}
-                  style={styles.slider}
-                />
-                <div style={styles.sliderSteps}>
-                  Step: {currentStep + 1} / {visualizationSteps.length}
-                </div>
+            <div>
+              <label htmlFor="extraCandies" style={styles.label}>
+                Extra Candies
+              </label>
+              <input
+                type="number"
+                id="extraCandies"
+                value={extraCandies}
+                onChange={(e) => setExtraCandies(Number(e.target.value))}
+                style={styles.input}
+              />
+            </div>
+          </div>
+          <div style={styles.controlsBox}>
+            <h2 style={styles.controlsHeader}>Controls</h2>
+            <div style={styles.buttonGroup}>
+              <button
+                onClick={handlePrevious}
+                disabled={currentStep === 0}
+                style={prevButtonStyle}
+                onMouseEnter={() => handleHover("prev", true)}
+                onMouseLeave={() => handleHover("prev", false)}
+              >
+                <PrevIcon />
+              </button>
+              <button
+                onClick={handlePlayPause}
+                style={playButtonStyle}
+                onMouseEnter={() => handleHover("play", true)}
+                onMouseLeave={() => handleHover("play", false)}
+              >
+                {isPlaying ? <PauseIcon /> : <PlayIcon />}
+              </button>
+              <button
+                onClick={handleNext}
+                disabled={currentStep >= visualizationSteps.length - 1}
+                style={nextButtonStyle}
+                onMouseEnter={() => handleHover("next", true)}
+                onMouseLeave={() => handleHover("next", false)}
+              >
+                <NextIcon />
+              </button>
+              <button
+                onClick={handleReset}
+                style={resetButtonStyle}
+                onMouseEnter={() => handleHover("reset", true)}
+                onMouseLeave={() => handleHover("reset", false)}
+              >
+                <ResetIcon />
+              </button>
+            </div>
+            <div>
+              <label htmlFor="timeline" style={styles.sliderLabel}>
+                Timeline
+              </label>
+              <input
+                id="timeline"
+                type="range"
+                min="0"
+                max={visualizationSteps.length - 1}
+                value={currentStep}
+                onChange={handleSliderChange}
+                style={styles.slider}
+              />
+              <div style={styles.sliderSteps}>
+                Step: {currentStep + 1} / {visualizationSteps.length}
               </div>
             </div>
           </div>
+        </div>
 
-          <div style={styles.vizPanel}>
-            <div style={styles.vizBox}>{renderFrame()}</div>
-            <div style={styles.messageBox}>
-              <h3 style={styles.messageTitle}>Current Action</h3>
-              <p style={{margin: 1}}>{(currentFrame && currentFrame.message) || " "}</p>
-            </div>
+        <div style={styles.vizPanel}>
+          <div style={styles.vizBox}>{renderFrame()}</div>
+          <div style={styles.messageBox}>
+            <h3 style={styles.messageTitle}>Current Action</h3>
+            <p style={{margin: 1}}>{(currentFrame && currentFrame.message) || " "}</p>
           </div>
         </div>
       </div>

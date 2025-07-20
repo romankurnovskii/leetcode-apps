@@ -30,8 +30,10 @@ word2:    p   q
 merged: a p b q c   d
 
 **Constraints**
+```text
 - 1 <= word1.length, word2.length <= 100
 - word1 and word2 consist of lowercase English letters.
+```
 
 ## Hint
 In most cases, LeetCode Easy problems have a straightforward solution that can be derived from the description or the examples provided.
