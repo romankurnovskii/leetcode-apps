@@ -309,8 +309,8 @@ export default function MaximumNumberOfConsecutiveValuesYouCanMakeVisualizer() {
 
   // --- Main Render ---
   return (
-    <div style={{background: palette.background, minHeight: "100vh", padding: 0}}>
-      <div style={cardStyle}>
+    <div style={{background: "#fff", padding: 0}}>
+      <div style={{...cardStyle, boxShadow: "0 2px 12px 0 #0002"}}>
         {/* Left Column: Inputs & Controls */}
         <div style={leftCol}>
           <div style={{fontWeight: 600, fontSize: 18, marginBottom: 8}}>Maximum Number of Consecutive Values You Can Make</div>
