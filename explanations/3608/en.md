@@ -81,4 +81,3 @@ We want to find the minimum time t such that, after removing all edges with time
    - For each candidate t, use union-find to connect all nodes with edges having time > t, then count the number of connected components.
 3. **Edge Cases:**
    - If the initial graph already has at least k components, return 0.
-
