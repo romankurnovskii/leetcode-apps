@@ -115,19 +115,3 @@ So, we can make all values from 0 to 7 (8 values).
 
 **Key insight:**
 > If you ever encounter a coin that is greater than the smallest value you can't make yet, you can't fill the gap, so you must stop.
-
-### Solution
-
-```python
-def getMaximumConsecutive(coins):
-    res = 1
-    for coin in sorted(coins):
-        if coin > res:
-            break
-        res += coin
-    return res
-```
-
-**Time Complexity:** O(n log n) (for sorting)
-
-**Space Complexity:** O(1) (ignoring sort space)
