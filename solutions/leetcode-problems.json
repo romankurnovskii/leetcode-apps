@@ -524,5 +524,19 @@
     "difficulty": "Medium",
     "link": "https://leetcode.com/problems/power-grid-maintenance",
     "tags": ["array", "hash-table", "depth-first-search", "breadth-first-search", "union-find", "graph", "heap-priority-queue", "ordered-set"]
+  },
+  "3608": {
+    "id": 3608,
+    "category": "Graph / Union Find / Binary Search",
+    "title": "Minimum Time for K Connected Components",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/minimum-time-for-k-connected-components"
+  },
+  "3623": {
+    "id": 3623,
+    "category": "Geometry / Combinatorics",
+    "title": "Count Number of Trapezoids I",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/count-number-of-trapezoids-i"
   }
 }
