@@ -1,6 +1,6 @@
 # LeetCode Apps Sources
 
-This repository is the canonical source for LeetCode explanations and solutions used in the [LeetCode Learn App](https://romankurnovskii.com/en/leetcode).
+This repository is the canonical source for LeetCode explanations and solutions used in the [LeetCode Learn App](https://leetcode-learn.web.app).
 
 - Each problem has its own folder for solutions and explanations.
 - Book sets (playlists) are defined in `books/book-sets.json` and can be used to generate custom study plans in the app.
