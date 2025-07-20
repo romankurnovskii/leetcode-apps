@@ -37,12 +37,14 @@ const defaultNums1 = "1,2,3";
 const defaultNums2 = "2,4,6";
 
 const containerStyle = {
-  minHeight: "100vh",
-  background: "#f7f7f8",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  padding: "2rem 0",
+  justifyContent: "center",
+  width: "100%",
+  minHeight: 0,
+  background: "#fff",
+  padding: 0,
 };
 const cardStyle = (isDesktop) => ({
   background: "#fff",
@@ -177,7 +179,7 @@ function generateVisualization(nums1Str, nums2Str) {
     set2: new Set(),
     diff1: [],
     diff2: [],
-    message: "Start with both arrays.",
+    message: "Imagine you have two boxes of colored marbles (numbers). Let's see which colors are unique to each box!",
   });
   // Build sets
   steps.push({
@@ -188,7 +190,8 @@ function generateVisualization(nums1Str, nums2Str) {
     set2: new Set(nums2),
     diff1: [],
     diff2: [],
-    message: "Convert both arrays to sets to get unique elements.",
+    message:
+      "We use sets to quickly find all unique marbles in each box. Sets help us check for differences much faster than searching through the whole box.",
   });
   // Find nums1 - nums2
   let diff1 = [];
@@ -205,7 +208,7 @@ function generateVisualization(nums1Str, nums2Str) {
         diff1: [...diff1],
         diff2: [],
         current: n,
-        message: `Element ${n} is in nums1 but not in nums2. Add to result.`,
+        message: `Marble color ${n} is in the first box but not in the second. Add it to the first result list!`,
       });
     }
   }
@@ -224,7 +227,7 @@ function generateVisualization(nums1Str, nums2Str) {
         diff1: [...diff1],
         diff2: [...diff2],
         current: n,
-        message: `Element ${n} is in nums2 but not in nums1. Add to result.`,
+        message: `Marble color ${n} is in the second box but not in the first. Add it to the second result list!`,
       });
     }
   }
@@ -237,7 +240,7 @@ function generateVisualization(nums1Str, nums2Str) {
     set2: new Set(nums2),
     diff1: [...diff1],
     diff2: [...diff2],
-    message: `Done! Results: [${JSON.stringify(diff1)}, ${JSON.stringify(diff2)}]`,
+    message: `All done! The first list shows marbles only in the first box, and the second list shows marbles only in the second box.`,
   });
   return steps;
 }

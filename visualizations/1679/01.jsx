@@ -37,12 +37,14 @@ const defaultNums = "1,2,3,4";
 const defaultK = 5;
 
 const containerStyle = {
-  minHeight: "100vh",
-  background: "#f7f7f8",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  padding: "2rem 0",
+  justifyContent: "center",
+  width: "100%",
+  minHeight: 0,
+  background: "#fff",
+  padding: 0,
 };
 const cardStyle = (isDesktop) => ({
   background: "#fff",
