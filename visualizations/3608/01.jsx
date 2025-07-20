@@ -376,6 +376,7 @@ function countComponents(n, edgesByTime, t) {
 // Graph Visualization
 function GraphVisualization({n = 0, comps = [], parent = [], removedEdges = [], highlight = {}, t, k}) {
   // Build node positions in a circle
+  if (!n || n < 1) return <div style={{minHeight: 120, color: "#888"}}>No nodes to display.</div>;
   const R = 60 + 12 * Math.max(0, n - 4);
   const centerX = 90,
     centerY = 90;
@@ -393,43 +394,49 @@ function GraphVisualization({n = 0, comps = [], parent = [], removedEdges = [], 
   const edgeLines = ((parentArr) => {
     const lines = [];
     for (let i = 0; i < n; ++i) {
-      if (parentArr[i] !== i) {
+      if (parentArr[i] !== i && nodePos[i] && nodePos[parentArr[i]]) {
         lines.push([i, parentArr[i]]);
       }
     }
     return lines;
   })(parent);
   // Removed edges
-  const removedSet = new Set(removedEdges.map((e) => `${e[0]}-${e[1]}`));
+  const removedSet = new Set((removedEdges || []).map((e) => `${e[0]}-${e[1]}`));
   // Render
   return (
     <svg width={180} height={180} style={{background: "#f7f7f8", border: "1px solid #e5e5e5", borderRadius: 8, margin: "0 auto", display: "block"}}>
       {/* Draw remaining edges */}
-      {edgeLines.map(([u, v], idx) => (
-        <line key={idx} x1={nodePos[u][0]} y1={nodePos[u][1]} x2={nodePos[v][0]} y2={nodePos[v][1]} stroke="#007aff" strokeWidth={2} />
-      ))}
+      {edgeLines.map(([u, v], idx) =>
+        nodePos[u] && nodePos[v] ? (
+          <line key={idx} x1={nodePos[u][0]} y1={nodePos[u][1]} x2={nodePos[v][0]} y2={nodePos[v][1]} stroke="#007aff" strokeWidth={2} />
+        ) : null
+      )}
       {/* Draw removed edges (dashed) */}
-      {removedEdges.map(([u, v, time], idx) => (
-        <line
-          key={"r" + idx}
-          x1={nodePos[u][0]}
-          y1={nodePos[u][1]}
-          x2={nodePos[v][0]}
-          y2={nodePos[v][1]}
-          stroke="#888"
-          strokeWidth={1.5}
-          strokeDasharray="4 3"
-        />
-      ))}
+      {(removedEdges || []).map(([u, v, time], idx) =>
+        nodePos[u] && nodePos[v] ? (
+          <line
+            key={"r" + idx}
+            x1={nodePos[u][0]}
+            y1={nodePos[u][1]}
+            x2={nodePos[v][0]}
+            y2={nodePos[v][1]}
+            stroke="#888"
+            strokeWidth={1.5}
+            strokeDasharray="4 3"
+          />
+        ) : null
+      )}
       {/* Draw nodes */}
-      {nodePos.map(([x, y], i) => (
-        <g key={i}>
-          <circle cx={x} cy={y} r={15} fill={comps.length ? compColor(compMap[findRoot(i, parent)]) : "#fff"} stroke="#007aff" strokeWidth={2} />
-          <text x={x} y={y + 5} textAnchor="middle" fontSize={14} fontWeight={600} fill="#222">
-            {i}
-          </text>
-        </g>
-      ))}
+      {nodePos.map(([x, y], i) =>
+        typeof x === "number" && typeof y === "number" ? (
+          <g key={i}>
+            <circle cx={x} cy={y} r={15} fill={comps.length ? compColor(compMap[findRoot(i, parent)]) : "#fff"} stroke="#007aff" strokeWidth={2} />
+            <text x={x} y={y + 5} textAnchor="middle" fontSize={14} fontWeight={600} fill="#222">
+              {i}
+            </text>
+          </g>
+        ) : null
+      )}
     </svg>
   );
 }
