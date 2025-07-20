@@ -494,6 +494,14 @@
     "link": "https://leetcode.com/problems/maximum-element-sum-of-a-complete-subset-of-indices",
     "tags": ["array", "math", "number-theory"]
   },
+  "3424": {
+    "id": 3424,
+    "category": "Array / Greedy / Sorting",
+    "title": "Minimum Cost to Make Arrays Identical",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/minimum-cost-to-make-arrays-identical",
+    "tags": ["array", "greedy", "sorting"]
+  },
   "3602": {
     "id": 3602,
     "category": "Algorithms",
@@ -501,5 +509,13 @@
     "difficulty": "Easy",
     "link": "https://leetcode.com/problems/hexadecimal-and-hexatrigesimal-conversion",
     "tags": ["Math", "String"]
+  },
+  "3607": {
+    "id": 3607,
+    "category": "Graph / Union Find / Heap / DFS / Ordered Set",
+    "title": "Power Grid Maintenance",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/power-grid-maintenance",
+    "tags": ["array", "hash-table", "depth-first-search", "breadth-first-search", "union-find", "graph", "heap-priority-queue", "ordered-set"]
   }
 }

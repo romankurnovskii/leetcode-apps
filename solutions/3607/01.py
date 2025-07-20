@@ -1,61 +1,43 @@
-from typing import List
 from collections import defaultdict
-import bisect
+import heapq
 
 
-def find(parent, x):
-    while parent[x] != x:
-        parent[x] = parent[parent[x]]
-        x = parent[x]
-    return x
+class DSU:
+    def __init__(self, n):
+        self.parent = list(range(n + 1))
 
+    def find(self, x):
+        if self.parent[x] != x:
+            self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
 
-def union(parent, x, y):
-    px, py = find(parent, x), find(parent, y)
-    if px != py:
-        parent[py] = px
-
-
-def build_components(c, connections, parent):
-    for u, v in connections:
-        union(parent, u, v)
-    comp_map = defaultdict(list)
-    for i in range(1, c + 1):
-        comp_map[find(parent, i)].append(i)
-    return comp_map
-
-
-def build_online(comp_map):
-    online = {}
-    for comp, nodes in comp_map.items():
-        online[comp] = nodes[:]
-    return online
+    def union(self, x, y):
+        px, py = self.find(x), self.find(y)
+        if px != py:
+            self.parent[py] = px
 
 
 class Solution:
-    def processQueries(
-        self, c: int, connections: List[List[int]], queries: List[List[int]]
-    ) -> List[int]:
-        parent = list(range(c + 1))
-        comp_map = build_components(c, connections, parent)
-        online = build_online(comp_map)
-        is_online = [True] * (c + 1)
-        station_to_comp = {i: find(parent, i) for i in range(1, c + 1)}
-        res = []
-        for qtype, x in queries:
-            comp = station_to_comp[x]
-            arr = online[comp]
-            if qtype == 2:
-                if is_online[x]:
-                    idx = bisect.bisect_left(arr, x)
-                    if idx < len(arr) and arr[idx] == x:
-                        arr.pop(idx)
-                    is_online[x] = False
-            else:  # qtype == 1
-                if is_online[x]:
-                    res.append(x)
-                elif arr:
-                    res.append(arr[0])
+    def processQueries(self, n, connections, queries):
+        dsu = DSU(n)
+        online = [True] * (n + 1)
+        for u, v in connections:
+            dsu.union(u, v)
+        component_heap = defaultdict(list)
+        for station in range(1, n + 1):
+            root = dsu.find(station)
+            heapq.heappush(component_heap[root], station)
+        result = []
+        for typ, x in queries:
+            if typ == 2:
+                online[x] = False
+            else:
+                if online[x]:
+                    result.append(x)
                 else:
-                    res.append(-1)
-        return res
+                    root = dsu.find(x)
+                    heap = component_heap[root]
+                    while heap and not online[heap[0]]:
+                        heapq.heappop(heap)
+                    result.append(heap[0] if heap else -1)
+        return result
