@@ -510,6 +510,13 @@
     "link": "https://leetcode.com/problems/hexadecimal-and-hexatrigesimal-conversion",
     "tags": ["Math", "String"]
   },
+  "3603": {
+    "id": 3603,
+    "category": "Dynamic Programming / Matrix",
+    "title": "Minimum Cost Path with Alternating Directions II",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/minimum-cost-path-with-alternating-directions-ii"
+  },
   "3607": {
     "id": 3607,
     "category": "Graph / Union Find / Heap / DFS / Ordered Set",
