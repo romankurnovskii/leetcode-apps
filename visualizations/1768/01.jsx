@@ -36,15 +36,6 @@ function clamp(val, min, max) {
 const defaultWord1 = "abc";
 const defaultWord2 = "pqr";
 
-const containerStyle = {
-  background: "#f7f7f8",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  justifyContent: "center",
-  minHeight: undefined, // Remove minHeight
-  padding: "1.5rem 0", // Reduce vertical padding
-};
 const cardStyle = (isDesktop) => ({
   background: "#fff",
   border: "1px solid #e5e5e5",
@@ -327,100 +318,98 @@ const MergeStringsAlternatelyVisualizer = () => {
   if (step.type === "append_word2") fadedWord2 = step.i;
 
   return (
-    <div style={containerStyle}>
-      <div style={cardStyle(isDesktop)}>
-        {/* Left Column: Inputs and Controls */}
-        <div style={leftColStyle(isDesktop)}>
-          <div>
-            <div style={labelStyle}>word1</div>
-            <input style={inputStyle} value={word1} onChange={handleWord1} maxLength={100} autoComplete="off" spellCheck={false} />
-          </div>
-          <div>
-            <div style={labelStyle}>word2</div>
-            <input style={inputStyle} value={word2} onChange={handleWord2} maxLength={100} autoComplete="off" spellCheck={false} />
-          </div>
-          <div>
-            <div style={labelStyle}>Speed: {speed.toFixed(2)}s/step</div>
-            <input style={{width: "100%"}} type="range" min={0.3} max={2.5} step={0.01} value={speed} onChange={handleSpeed} />
-          </div>
-          <div style={controlsRowStyle}>
-            <button
-              style={{
-                background: "none",
-                border: "none",
-                padding: 2,
-                cursor: currentStep === 0 ? "not-allowed" : "pointer",
-                opacity: currentStep === 0 ? 0.5 : 1,
-                borderRadius: 6,
-                outline: "none",
-              }}
-              onClick={handlePrev}
-              disabled={currentStep === 0}
-              onMouseEnter={() => setHoverBtn("prev")}
-              onMouseLeave={() => setHoverBtn("")}
-              aria-label="Previous"
-            >
-              <PrevIcon color={hoverBtn === "prev" ? "#0051a8" : "#007aff"} />
-            </button>
-            <button
-              style={{background: "none", border: "none", padding: 2, cursor: "pointer", borderRadius: 6, outline: "none"}}
-              onClick={handlePlayPause}
-              onMouseEnter={() => setHoverBtn("play")}
-              onMouseLeave={() => setHoverBtn("")}
-              aria-label={isPlaying ? "Pause" : "Play"}
-            >
-              {isPlaying ? (
-                <PauseIcon color={hoverBtn === "play" ? "#0051a8" : "#007aff"} />
-              ) : (
-                <PlayIcon color={hoverBtn === "play" ? "#0051a8" : "#007aff"} />
-              )}
-            </button>
-            <button
-              style={{
-                background: "none",
-                border: "none",
-                padding: 2,
-                cursor: currentStep === maxStep ? "not-allowed" : "pointer",
-                opacity: currentStep === maxStep ? 0.5 : 1,
-                borderRadius: 6,
-                outline: "none",
-              }}
-              onClick={handleNext}
-              disabled={currentStep === maxStep}
-              onMouseEnter={() => setHoverBtn("next")}
-              onMouseLeave={() => setHoverBtn("")}
-              aria-label="Next"
-            >
-              <NextIcon color={hoverBtn === "next" ? "#0051a8" : "#007aff"} />
-            </button>
-            <button
-              style={{background: "none", border: "none", padding: 2, cursor: "pointer", borderRadius: 6, outline: "none"}}
-              onClick={handleReset}
-              onMouseEnter={() => setHoverBtn("reset")}
-              onMouseLeave={() => setHoverBtn("")}
-              aria-label="Reset"
-            >
-              <ResetIcon color={hoverBtn === "reset" ? "#0051a8" : "#007aff"} />
-            </button>
-          </div>
-          <input style={sliderStyle} type="range" min={0} max={maxStep} value={currentStep} onChange={handleSlider} />
-          <div style={{fontSize: "0.75rem", color: "#888", textAlign: "center"}}>
-            Step {currentStep + 1} / {steps.length}
-          </div>
+    <div style={cardStyle(isDesktop)}>
+      {/* Left Column: Inputs and Controls */}
+      <div style={leftColStyle(isDesktop)}>
+        <div>
+          <div style={labelStyle}>word1</div>
+          <input style={inputStyle} value={word1} onChange={handleWord1} maxLength={100} autoComplete="off" spellCheck={false} />
         </div>
-        {/* Right Column: Visualization and Action */}
-        <div style={rightColStyle(isDesktop)}>
-          <div style={visAreaStyle}>
-            <div style={{fontSize: "0.85rem", fontWeight: 500, marginBottom: 2}}>word1</div>
-            {renderArray(step.word1, activeWord1, fadedWord1)}
-            <div style={{fontSize: "0.85rem", fontWeight: 500, margin: "0.25rem 0 2px 0"}}>word2</div>
-            {renderArray(step.word2, activeWord2, fadedWord2)}
-            <div style={{fontSize: "0.85rem", fontWeight: 500, margin: "0.25rem 0 2px 0"}}>merged</div>
-            {renderMerged(step.merged)}
-          </div>
-          <div style={actionBoxStyle}>
-            <span style={{fontWeight: 600, marginRight: 6}}>Current Action:</span> {step.message}
-          </div>
+        <div>
+          <div style={labelStyle}>word2</div>
+          <input style={inputStyle} value={word2} onChange={handleWord2} maxLength={100} autoComplete="off" spellCheck={false} />
+        </div>
+        <div>
+          <div style={labelStyle}>Speed: {speed.toFixed(2)}s/step</div>
+          <input style={{width: "100%"}} type="range" min={0.3} max={2.5} step={0.01} value={speed} onChange={handleSpeed} />
+        </div>
+        <div style={controlsRowStyle}>
+          <button
+            style={{
+              background: "none",
+              border: "none",
+              padding: 2,
+              cursor: currentStep === 0 ? "not-allowed" : "pointer",
+              opacity: currentStep === 0 ? 0.5 : 1,
+              borderRadius: 6,
+              outline: "none",
+            }}
+            onClick={handlePrev}
+            disabled={currentStep === 0}
+            onMouseEnter={() => setHoverBtn("prev")}
+            onMouseLeave={() => setHoverBtn("")}
+            aria-label="Previous"
+          >
+            <PrevIcon color={hoverBtn === "prev" ? "#0051a8" : "#007aff"} />
+          </button>
+          <button
+            style={{background: "none", border: "none", padding: 2, cursor: "pointer", borderRadius: 6, outline: "none"}}
+            onClick={handlePlayPause}
+            onMouseEnter={() => setHoverBtn("play")}
+            onMouseLeave={() => setHoverBtn("")}
+            aria-label={isPlaying ? "Pause" : "Play"}
+          >
+            {isPlaying ? (
+              <PauseIcon color={hoverBtn === "play" ? "#0051a8" : "#007aff"} />
+            ) : (
+              <PlayIcon color={hoverBtn === "play" ? "#0051a8" : "#007aff"} />
+            )}
+          </button>
+          <button
+            style={{
+              background: "none",
+              border: "none",
+              padding: 2,
+              cursor: currentStep === maxStep ? "not-allowed" : "pointer",
+              opacity: currentStep === maxStep ? 0.5 : 1,
+              borderRadius: 6,
+              outline: "none",
+            }}
+            onClick={handleNext}
+            disabled={currentStep === maxStep}
+            onMouseEnter={() => setHoverBtn("next")}
+            onMouseLeave={() => setHoverBtn("")}
+            aria-label="Next"
+          >
+            <NextIcon color={hoverBtn === "next" ? "#0051a8" : "#007aff"} />
+          </button>
+          <button
+            style={{background: "none", border: "none", padding: 2, cursor: "pointer", borderRadius: 6, outline: "none"}}
+            onClick={handleReset}
+            onMouseEnter={() => setHoverBtn("reset")}
+            onMouseLeave={() => setHoverBtn("")}
+            aria-label="Reset"
+          >
+            <ResetIcon color={hoverBtn === "reset" ? "#0051a8" : "#007aff"} />
+          </button>
+        </div>
+        <input style={sliderStyle} type="range" min={0} max={maxStep} value={currentStep} onChange={handleSlider} />
+        <div style={{fontSize: "0.75rem", color: "#888", textAlign: "center"}}>
+          Step {currentStep + 1} / {steps.length}
+        </div>
+      </div>
+      {/* Right Column: Visualization and Action */}
+      <div style={rightColStyle(isDesktop)}>
+        <div style={visAreaStyle}>
+          <div style={{fontSize: "0.85rem", fontWeight: 500, marginBottom: 2}}>word1</div>
+          {renderArray(step.word1, activeWord1, fadedWord1)}
+          <div style={{fontSize: "0.85rem", fontWeight: 500, margin: "0.25rem 0 2px 0"}}>word2</div>
+          {renderArray(step.word2, activeWord2, fadedWord2)}
+          <div style={{fontSize: "0.85rem", fontWeight: 500, margin: "0.25rem 0 2px 0"}}>merged</div>
+          {renderMerged(step.merged)}
+        </div>
+        <div style={actionBoxStyle}>
+          <span style={{fontWeight: 600, marginRight: 6}}>Current Action:</span> {step.message}
         </div>
       </div>
     </div>
