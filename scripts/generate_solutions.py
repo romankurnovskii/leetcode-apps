@@ -73,57 +73,57 @@ def ensure_file(path, content):
 
 
 def main():
-    # Read book set
-    with open(BOOK_SET_PATH, "r", encoding="utf-8") as f:
-        book_set = json.load(f)
-    problems = book_set["problems"]
-    title = book_set.get("title", "LeetCode Book").replace(" ", "_")
-    book_path = f"books/{title}.md"
-
     leetcode_meta = load_leetcode_metadata()
-    entries = []
-    for num in problems:
-        num_str = str(num)
-        solution_path = os.path.join(SOLUTIONS_DIR, num_str, "01.py")
-        explanation_path = os.path.join(EXPLANATIONS_DIR, num_str, "en.md")
-        # Ensure files exist
-        ensure_file(solution_path, SOLUTION_TEMPLATE.format(num=num_str))
-        ensure_file(explanation_path, EXPLANATION_TEMPLATE.format(num=num_str))
-        # Proceed as before
-        meta = leetcode_meta.get(num_str)
-        if not meta:
-            print(f"Warning: No metadata for problem {num_str}")
-            continue
-        solution_code = open(solution_path, encoding="utf-8").read()
-        canonical_name = extract_canonical_function_name(solution_code)
-        if not canonical_name:
-            print(f"Warning: No function found in {solution_path}")
-            continue
-        func_code = extract_function_code(solution_code, canonical_name)
-        if not func_code:
-            print(
-                f"Warning: Could not extract function {canonical_name} from {solution_path}"
-            )
-            continue
-        explanation = None
-        if os.path.isfile(explanation_path):
-            with open(explanation_path, encoding="utf-8") as f:
-                explanation = f.read().strip()
-        entry = (
-            f"## {num_str}. {meta['title']} [{meta['difficulty']}]\n{meta['link']}\n\n"
+
+    with open(BOOK_SET_PATH, "r", encoding="utf-8") as f:
+        books_set = json.load(f)
+
+    for book_set in books_set:
+        title = book_set.get("title", "LeetCode Book").replace(" ", "_")
+        book_path = f"books/{title}.md"
+        problems = book_set["problems"]
+
+        entries = []
+        for num in problems:
+            num_str = str(num)
+            solution_path = os.path.join(SOLUTIONS_DIR, num_str, "01.py")
+            explanation_path = os.path.join(EXPLANATIONS_DIR, num_str, "en.md")
+            # Ensure files exist
+            ensure_file(solution_path, SOLUTION_TEMPLATE.format(num=num_str))
+            ensure_file(explanation_path, EXPLANATION_TEMPLATE.format(num=num_str))
+            # Proceed as before
+            meta = leetcode_meta.get(num_str)
+            if not meta:
+                print(f"Warning: No metadata for problem {num_str}")
+                continue
+            solution_code = open(solution_path, encoding="utf-8").read()
+            canonical_name = extract_canonical_function_name(solution_code)
+            if not canonical_name:
+                print(f"Warning: No function found in {solution_path}")
+                continue
+            func_code = extract_function_code(solution_code, canonical_name)
+            if not func_code:
+                print(
+                    f"Warning: Could not extract function {canonical_name} from {solution_path}"
+                )
+                continue
+            explanation = None
+            if os.path.isfile(explanation_path):
+                with open(explanation_path, encoding="utf-8") as f:
+                    explanation = f.read().strip()
+            entry = f"## {num_str}. {meta['title']} [{meta['difficulty']}]\n{meta['link']}\n\n"
+            if explanation:
+                entry += f"### Explanation\n\n{explanation}\n\n"
+            entry += f"### Solution\n\n```python\n{func_code}\n```\n"
+            entries.append(entry)
+        book_content = (
+            f"# {book_set.get('title', 'LeetCode Book')}\n\n{book_set.get('description', '')}\n\n"
+            + "\n".join(entries)
         )
-        if explanation:
-            entry += f"### Explanation\n\n{explanation}\n\n"
-        entry += f"### Solution\n\n```python\n{func_code}\n```\n"
-        entries.append(entry)
-    book_content = (
-        f"# {book_set.get('title', 'LeetCode Book')}\n\n{book_set.get('description', '')}\n\n"
-        + "\n".join(entries)
-    )
-    os.makedirs(os.path.dirname(book_path), exist_ok=True)
-    with open(book_path, "w", encoding="utf-8") as f:
-        f.write(book_content)
-    print(f"Generated {book_path} with {len(entries)} problems.")
+        os.makedirs(os.path.dirname(book_path), exist_ok=True)
+        with open(book_path, "w", encoding="utf-8") as f:
+            f.write(book_content)
+        print(f"Generated {book_path} with {len(entries)} problems.")
 
 
 if __name__ == "__main__":
