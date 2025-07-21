@@ -1,385 +1,582 @@
-import React, {useState, useMemo, useEffect, useRef} from "react";
+import React, {useState, useEffect, useRef} from "react";
 
-// SVG ICONS
-const PlayIcon = ({color = "#007aff"}) => (
-  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-    <path d="M6 4L15 10L6 16V4Z" fill={color} />
+// SVG Icon Components
+const PlayIcon = ({color}) => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M8 5V19L19 12L8 5Z" fill={color} />
   </svg>
 );
-const PauseIcon = ({color = "#007aff"}) => (
-  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-    <rect x="5" y="4" width="3" height="12" rx="1" fill={color} />
-    <rect x="12" y="4" width="3" height="12" rx="1" fill={color} />
+
+const PauseIcon = ({color}) => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M6 19H10V5H6V19ZM14 5V19H18V5H14Z" fill={color} />
   </svg>
 );
-const PrevIcon = ({color = "#007aff"}) => (
-  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-    <path d="M13 16L7 10L13 4" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+
+const PrevIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M15.41 7.41L14 6L8 12L14 18L15.41 16.59L10.83 12L15.41 7.41Z" fill="currentColor" />
+    <path d="M7 6H9V18H7V6Z" fill="currentColor" />
   </svg>
 );
-const NextIcon = ({color = "#007aff"}) => (
-  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-    <path d="M7 4L13 10L7 16" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+
+const NextIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M8.59 16.59L10 18L16 12L10 6L8.59 7.41L13.17 12L8.59 16.59Z" fill="currentColor" />
+    <path d="M15 6H17V18H15V6Z" fill="currentColor" />
   </svg>
 );
-const ResetIcon = ({color = "#007aff"}) => (
-  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+
+const ResetIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
-      d="M10 4V1L5 6l5 5V7c2.76 0 5 2.24 5 5 0 2.76-2.24 5-5 5s-5-2.24-5-5"
-      stroke={color}
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      d="M12 5V1L7 6L12 11V7C15.31 7 18 9.69 18 13C18 16.31 15.31 19 12 19C8.69 19 6 16.31 6 13H4C4 17.42 7.58 21 12 21C16.42 21 20 17.42 20 13C20 8.58 16.42 5 12 5Z"
+      fill="currentColor"
     />
   </svg>
 );
 
-// Helper: Parse points input
-function parsePoints(str) {
-  return str
-    .split(/\n|;/)
-    .map((line) => line.trim())
-    .filter(Boolean)
-    .map((line) => line.replace(/\[|\]/g, "").split(/,|\s+/).map(Number))
-    .filter((arr) => arr.length === 2);
-}
+const MOD = 10 ** 9 + 7;
 
 // Main Visualizer Component
-const Problem3623Visualizer = () => {
-  // Default example
-  const [pointsInput, setPointsInput] = useState("1,0\n2,0\n3,0\n2,2\n3,2");
-  const [points, setPoints] = useState([
+const CountTrapezoidsIVisualizer = () => {
+  const [pointsInput, setPointsInput] = useState("[[1,0],[2,0],[3,0],[2,2],[3,2]]");
+  const [parsedPoints, setParsedPoints] = useState([
     [1, 0],
     [2, 0],
     [3, 0],
     [2, 2],
     [3, 2],
   ]);
+  const [error, setError] = useState("");
 
-  // Visualization state
   const [visualizationSteps, setVisualizationSteps] = useState([]);
   const [currentStep, setCurrentStep] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [speed, setSpeed] = useState(900);
-  const [isDesktop, setIsDesktop] = useState(true);
-  const timerRef = useRef();
-  const [tCount, setTCount] = useState(0); // Complexity simulation
+  const [speed, setSpeed] = useState(1);
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 768);
+  const [hoveredButton, setHoveredButton] = useState(null);
 
-  // Responsive layout
+  const intervalRef = useRef(null);
+
+  const generateVisualization = (points) => {
+    if (!points || points.length < 4) {
+      setError("Input must be an array of at least 4 points.");
+      return [];
+    }
+    const steps = [];
+
+    // Step 0: Initial state
+    steps.push({
+      message: "Start with the initial set of points.",
+      pointsToGroup: [...points],
+      y_groups: {},
+      pairs: [],
+      calculation: null,
+      highlightedY: null,
+      stage: "grouping",
+    });
+
+    // Step 1: Grouping by Y
+    const y_groups = {};
+    const localPointsToGroup = [...points];
+
+    while (localPointsToGroup.length > 0) {
+      const point = localPointsToGroup.shift();
+      const y = point[1];
+      if (!y_groups[y]) y_groups[y] = [];
+      y_groups[y].push(point);
+
+      steps.push({
+        message: `Grouping point [${point.join(", ")}] by its y-coordinate.`,
+        pointsToGroup: [...localPointsToGroup],
+        y_groups: JSON.parse(JSON.stringify(y_groups)),
+        highlightedPoint: point,
+        pairs: [],
+        calculation: null,
+        highlightedY: y,
+        stage: "grouping",
+      });
+    }
+
+    steps.push({
+      message: "All points have been grouped by their y-coordinate.",
+      y_groups,
+      pairs: [],
+      calculation: null,
+      highlightedY: null,
+      stage: "calculating_pairs",
+    });
+
+    // Step 2: Calculate Pairs C(c, 2)
+    const pairs = [];
+    const sortedYLevels = Object.keys(y_groups)
+      .map(Number)
+      .sort((a, b) => a - b);
+
+    for (const y of sortedYLevels) {
+      const c = y_groups[y].length;
+      steps.push({
+        message: `Checking group at y=${y}, which has ${c} points.`,
+        y_groups,
+        pairs: [...pairs],
+        calculation: null,
+        highlightedY: y,
+        stage: "calculating_pairs",
+      });
+
+      if (c >= 2) {
+        const numPairs = (c * (c - 1)) / 2;
+        pairs.push(numPairs);
+        steps.push({
+          message: `With ${c} points, we can form C(${c}, 2) = ${numPairs} horizontal segments.`,
+          y_groups,
+          pairs: [...pairs],
+          calculation: {text: `C(${c}, 2) = ${numPairs}`, target: "pairs"},
+          highlightedY: y,
+          stage: "calculating_pairs",
+        });
+      } else {
+        steps.push({
+          message: `Skipping y=${y} as it has fewer than 2 points.`,
+          y_groups,
+          pairs: [...pairs],
+          calculation: null,
+          highlightedY: y,
+          stage: "calculating_pairs",
+        });
+      }
+    }
+
+    steps.push({
+      message: "Finished calculating horizontal segments for each y-level.",
+      y_groups,
+      pairs: [...pairs],
+      calculation: null,
+      highlightedY: null,
+      stage: "final_calculation",
+    });
+
+    // Step 3: Final Calculation
+    const total_sum = pairs.reduce((acc, x) => acc + x, 0);
+    steps.push({
+      message: "Calculate total_sum = sum of all values in the pairs list.",
+      y_groups,
+      pairs,
+      calculation: {text: `Total Sum = ${pairs.join(" + ") || 0} = ${total_sum}`, target: "total_sum"},
+      highlightedY: null,
+      total_sum,
+      stage: "final_calculation",
+    });
+
+    const sum_of_squares = pairs.reduce((acc, x) => acc + x * x, 0);
+    steps.push({
+      message: "Calculate sum_of_squares = sum of the square of each value.",
+      y_groups,
+      pairs,
+      calculation: {text: `Sum of Squares = ${pairs.map((p) => `${p}²`).join(" + ") || 0} = ${sum_of_squares}`, target: "sum_of_squares"},
+      total_sum,
+      sum_of_squares,
+      stage: "final_calculation",
+    });
+
+    const res = (BigInt(total_sum) * BigInt(total_sum) - BigInt(sum_of_squares)) / BigInt(2);
+    const finalResult = Number(res % BigInt(MOD));
+
+    steps.push({
+      message: "Apply the formula: (total_sum² - sum_of_squares) / 2.",
+      y_groups,
+      pairs,
+      calculation: {text: `Result = (${total_sum}² - ${sum_of_squares}) / 2 = ${finalResult}`, target: "result"},
+      total_sum,
+      sum_of_squares,
+      result: finalResult,
+      stage: "final_calculation",
+    });
+
+    steps.push({
+      message: `The total number of horizontal trapezoids is ${finalResult}.`,
+      y_groups,
+      pairs,
+      total_sum,
+      sum_of_squares,
+      result: finalResult,
+      stage: "done",
+      isFinal: true,
+    });
+
+    return steps;
+  };
+
   useEffect(() => {
-    const handleResize = () => setIsDesktop(window.innerWidth >= 768);
-    handleResize();
+    try {
+      const parsed = JSON.parse(pointsInput);
+      if (Array.isArray(parsed) && parsed.every((p) => Array.isArray(p) && p.length === 2 && typeof p[0] === "number" && typeof p[1] === "number")) {
+        setParsedPoints(parsed);
+        setError("");
+      } else {
+        setError("Invalid input format. Use e.g., [[1,0],[2,0]].");
+      }
+    } catch (e) {
+      setError("Invalid JSON format.");
+    }
+  }, [pointsInput]);
+
+  useEffect(() => {
+    setVisualizationSteps(generateVisualization(parsedPoints));
+    setCurrentStep(0);
+    setIsPlaying(false);
+  }, [parsedPoints]);
+
+  useEffect(() => {
+    if (isPlaying && currentStep < visualizationSteps.length - 1) {
+      intervalRef.current = setTimeout(() => {
+        setCurrentStep((prev) => prev + 1);
+      }, 1500 / speed);
+    } else {
+      setIsPlaying(false);
+    }
+    return () => clearTimeout(intervalRef.current);
+  }, [isPlaying, currentStep, speed, visualizationSteps.length]);
+
+  useEffect(() => {
+    const handleResize = () => setIsDesktop(window.innerWidth > 768);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Parse points input
-  useEffect(() => {
-    try {
-      const parsed = parsePoints(pointsInput);
-      setPoints(parsed);
-    } catch {}
-  }, [pointsInput]);
-
-  // Generate visualization steps
-  const steps = useMemo(() => generateVisualization(points), [points]);
-  useEffect(() => {
-    setVisualizationSteps(steps);
-    setCurrentStep(0);
-    setTCount(0);
-  }, [steps]);
-
-  // Playback logic
-  useEffect(() => {
-    if (isPlaying && currentStep < visualizationSteps.length - 1) {
-      timerRef.current = setTimeout(() => {
-        setCurrentStep((s) => s + 1);
-        setTCount((t) => t + 1);
-      }, speed);
+  const handlePlayPause = () => {
+    if (isPlaying) {
+      setIsPlaying(false);
     } else {
-      clearTimeout(timerRef.current);
+      if (currentStep === visualizationSteps.length - 1) {
+        setCurrentStep(0);
+      }
+      setIsPlaying(true);
     }
-    return () => clearTimeout(timerRef.current);
-  }, [isPlaying, currentStep, visualizationSteps.length, speed]);
+  };
 
-  // Controls
-  const goToStep = (idx) => {
-    setCurrentStep(idx);
-    setTCount(idx);
+  const handleReset = () => {
+    setCurrentStep(0);
     setIsPlaying(false);
   };
-  const handlePrev = () => goToStep(Math.max(0, currentStep - 1));
-  const handleNext = () => goToStep(Math.min(visualizationSteps.length - 1, currentStep + 1));
-  const handleReset = () => goToStep(0);
-  const handlePlayPause = () => setIsPlaying((p) => !p);
 
-  // Render
-  const step = visualizationSteps[currentStep] || {};
+  const handleNext = () => {
+    setIsPlaying(false);
+    if (currentStep < visualizationSteps.length - 1) {
+      setCurrentStep((prev) => prev + 1);
+    }
+  };
+
+  const handlePrev = () => {
+    setIsPlaying(false);
+    if (currentStep > 0) {
+      setCurrentStep((prev) => prev - 1);
+    }
+  };
+
+  const currentStepData = visualizationSteps[currentStep] || {};
+  const {message, pointsToGroup, y_groups, pairs, calculation, highlightedY, highlightedPoint, total_sum, sum_of_squares, result, stage, isFinal} =
+    currentStepData;
+
+  // Styling
+  const styles = {
+    container: {
+      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+      backgroundColor: "#f7f7f8",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "flex-start",
+      minHeight: "100vh",
+      padding: "1rem",
+    },
+    card: {
+      backgroundColor: "white",
+      borderRadius: "12px",
+      boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+      padding: isDesktop ? "1.5rem" : "1rem",
+      width: "100%",
+      maxWidth: "900px",
+      display: "flex",
+      flexDirection: isDesktop ? "row" : "column",
+      gap: "1rem",
+    },
+    leftPanel: {
+      flex: "1",
+      display: "flex",
+      flexDirection: "column",
+      gap: "1rem",
+    },
+    rightPanel: {
+      flex: "2",
+      display: "flex",
+      flexDirection: "column",
+      gap: "1rem",
+    },
+    inputSection: {display: "flex", flexDirection: "column", gap: "0.5rem"},
+    label: {fontWeight: "600", color: "#333"},
+    textarea: {
+      minHeight: "80px",
+      padding: "0.5rem",
+      borderRadius: "6px",
+      border: `1px solid ${error ? "#e53e3e" : "#e5e5e5"}`,
+      fontFamily: "monospace",
+      fontSize: "0.9rem",
+      resize: "vertical",
+    },
+    error: {color: "#e53e3e", fontSize: "0.8rem"},
+    controls: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "0.75rem",
+      padding: "1rem",
+      borderRadius: "8px",
+      border: "1px solid #e5e5e5",
+    },
+    buttonGroup: {display: "flex", justifyContent: "space-between", alignItems: "center"},
+    button: (isHovered) => ({
+      background: isHovered ? "#e9e9eb" : "transparent",
+      border: "none",
+      borderRadius: "6px",
+      padding: "0.5rem",
+      cursor: "pointer",
+      color: "#333",
+    }),
+    playButton: (isHovered) => ({
+      background: isHovered ? "#0066d6" : "#007aff",
+      border: "none",
+      borderRadius: "6px",
+      padding: "0.5rem",
+      cursor: "pointer",
+      color: "white",
+      flexGrow: "1",
+      margin: "0 0.5rem",
+    }),
+    sliderContainer: {display: "flex", alignItems: "center", gap: "0.5rem"},
+    slider: {width: "100%"},
+    visualizationArea: {
+      border: "1px solid #e5e5e5",
+      borderRadius: "8px",
+      padding: "1rem",
+      minHeight: "250px",
+      display: "flex",
+      flexDirection: "column",
+      gap: "1rem",
+    },
+    messageBox: {
+      backgroundColor: "#f0f4ff",
+      border: "1px solid #cce5ff",
+      borderRadius: "6px",
+      padding: "0.5rem 0.75rem",
+      color: "#004085",
+      fontSize: "0.85rem",
+      textAlign: "center",
+      minHeight: "3rem",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    point: (isHighlighted) => ({
+      display: "inline-block",
+      padding: "0.2rem 0.4rem",
+      margin: "0.2rem",
+      backgroundColor: "#e9e9eb",
+      border: `2px solid ${isHighlighted ? "#007aff" : "#d1d1d6"}`,
+      borderRadius: "4px",
+      fontFamily: "monospace",
+      fontSize: "0.8rem",
+      transition: "all 0.3s ease",
+      transform: isHighlighted ? "scale(1.15)" : "scale(1)",
+    }),
+    yGroupRow: (isHighlighted) => ({
+      display: "flex",
+      alignItems: "center",
+      gap: "0.5rem",
+      padding: "0.5rem",
+      borderRadius: "6px",
+      border: `2px solid ${isHighlighted ? "#007aff" : "transparent"}`,
+      backgroundColor: isHighlighted ? "#f0f4ff" : "transparent",
+      transition: "all 0.3s ease",
+    }),
+    yGroupLabel: {
+      fontFamily: "monospace",
+      fontWeight: "bold",
+      color: "#555",
+      minWidth: "50px",
+    },
+    dataStructureView: {
+      display: "flex",
+      flexDirection: isDesktop ? "row" : "column",
+      gap: "1rem",
+      flexWrap: "wrap",
+    },
+    dataBox: (isHighlighted) => ({
+      flex: 1,
+      minWidth: "150px",
+      padding: "0.75rem",
+      border: `1px solid ${isHighlighted ? "#007aff" : "#e5e5e5"}`,
+      borderRadius: "6px",
+      backgroundColor: isHighlighted ? "#f0f4ff" : "#fcfcfd",
+    }),
+    dataTitle: {fontSize: "0.75rem", fontWeight: "600", color: "#666", marginBottom: "0.5rem"},
+    pairsList: {display: "flex", gap: "0.3rem", flexWrap: "wrap"},
+    pairItem: {padding: "0.2rem 0.4rem", backgroundColor: "#e9e9eb", borderRadius: "4px", fontSize: "0.8rem"},
+    calculationText: {
+      fontFamily: "monospace",
+      fontSize: "0.9rem",
+      color: "#007aff",
+      marginTop: "0.5rem",
+      wordBreak: "break-all",
+    },
+  };
+
+  const sortedYGroups = y_groups
+    ? Object.keys(y_groups)
+        .map(Number)
+        .sort((a, b) => a - b)
+    : [];
 
   return (
-    <div style={{background: "#fff", minHeight: 0, padding: 0, margin: 0}}>
-      <div
-        style={{
-          maxWidth: 900,
-          margin: "2rem auto",
-          boxShadow: "0 2px 16px #e5e5e5",
-          borderRadius: 12,
-          background: "#fff",
-          padding: isDesktop ? "1.5rem" : "0.5rem",
-          display: "flex",
-          flexDirection: isDesktop ? "row" : "column",
-          gap: "1.5rem",
-        }}
-      >
-        {/* Left Column: Inputs & Controls */}
-        <div style={{flex: 1, minWidth: 220, maxWidth: 320, display: "flex", flexDirection: "column", gap: "1.5rem"}}>
-          <div>
-            <div style={{fontSize: "0.9rem", fontWeight: 600, marginBottom: 4}}>points (x,y)</div>
-            <textarea
-              rows={isDesktop ? 6 : 3}
-              value={pointsInput}
-              onChange={(e) => setPointsInput(e.target.value)}
-              style={{...inputStyle, width: "100%", fontFamily: "monospace", fontSize: "0.95rem", resize: "vertical"}}
-            />
+    <div style={styles.container}>
+      <div style={styles.card}>
+        <div style={styles.leftPanel}>
+          <div style={styles.inputSection}>
+            <label htmlFor="points-input" style={styles.label}>
+              Points Input
+            </label>
+            <textarea id="points-input" style={styles.textarea} value={pointsInput} onChange={(e) => setPointsInput(e.target.value)} />
+            {error && <p style={styles.error}>{error}</p>}
           </div>
-          <div>
-            <div style={{fontSize: "0.9rem", fontWeight: 600, marginBottom: 4}}>Controls</div>
-            <div style={{display: "flex", gap: 8, alignItems: "center"}}>
-              <button style={buttonStyle} onClick={handlePrev} disabled={currentStep === 0}>
+          <div style={styles.controls}>
+            <div style={styles.buttonGroup}>
+              <button
+                style={styles.button(hoveredButton === "prev")}
+                onClick={handlePrev}
+                onMouseEnter={() => setHoveredButton("prev")}
+                onMouseLeave={() => setHoveredButton(null)}
+              >
                 <PrevIcon />
               </button>
-              <button style={buttonStyle} onClick={handlePlayPause}>
-                {isPlaying ? <PauseIcon /> : <PlayIcon />}
+              <button
+                style={styles.playButton(hoveredButton === "play")}
+                onClick={handlePlayPause}
+                onMouseEnter={() => setHoveredButton("play")}
+                onMouseLeave={() => setHoveredButton(null)}
+              >
+                {isPlaying ? <PauseIcon color="white" /> : <PlayIcon color="white" />}
               </button>
-              <button style={buttonStyle} onClick={handleNext} disabled={currentStep === visualizationSteps.length - 1}>
+              <button
+                style={styles.button(hoveredButton === "next")}
+                onClick={handleNext}
+                onMouseEnter={() => setHoveredButton("next")}
+                onMouseLeave={() => setHoveredButton(null)}
+              >
                 <NextIcon />
               </button>
-              <button style={buttonStyle} onClick={handleReset}>
+              <button
+                style={styles.button(hoveredButton === "reset")}
+                onClick={handleReset}
+                onMouseEnter={() => setHoveredButton("reset")}
+                onMouseLeave={() => setHoveredButton(null)}
+              >
                 <ResetIcon />
               </button>
             </div>
+            <div style={styles.sliderContainer}>
+              <span>1x</span>
+              <input
+                type="range"
+                min="0.5"
+                max="4"
+                step="0.1"
+                value={speed}
+                onChange={(e) => setSpeed(parseFloat(e.target.value))}
+                style={styles.slider}
+              />
+              <span>4x</span>
+            </div>
             <input
               type="range"
-              min={0}
+              min="0"
               max={visualizationSteps.length - 1}
               value={currentStep}
-              onChange={(e) => goToStep(Number(e.target.value))}
-              style={{width: "100%", marginTop: 8}}
+              onChange={(e) => {
+                setIsPlaying(false);
+                setCurrentStep(parseInt(e.target.value));
+              }}
+              style={styles.slider}
             />
           </div>
-          {/* Complexity Block */}
-          <div
-            style={{
-              background: "#f7f7f8",
-              border: "1px solid #e5e5e5",
-              borderRadius: 8,
-              padding: "0.5rem 0.75rem",
-              fontSize: "0.85rem",
-              marginTop: 8,
-            }}
-          >
-            <div style={{fontWeight: 600, fontSize: "0.8rem", marginBottom: 2}}>Complexity Simulation</div>
-            <div style={{display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap"}}>
-              <span>
-                Time: <b>O(N + K²)</b>
-              </span>
-              <span>
-                Space: <b>O(N)</b>
-              </span>
-              <span style={{color: "#007aff", fontWeight: 600}}>t = {tCount}</span>
+        </div>
+
+        <div style={styles.rightPanel}>
+          <div style={styles.messageBox}>
+            <p>{message || " "}</p>
+          </div>
+          <div style={styles.visualizationArea}>
+            {stage === "grouping" && (
+              <div>
+                <div style={styles.dataTitle}>POINTS TO GROUP</div>
+                <div>
+                  {pointsToGroup?.map((p, i) => (
+                    <span key={i} style={styles.point(p === highlightedPoint)}>
+                      [{p.join(",")}]
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div style={{...styles.dataTitle, marginTop: stage === "grouping" ? "1rem" : "0"}}>Y-GROUPS</div>
+            <div>
+              {y_groups &&
+                sortedYGroups.map((y) => (
+                  <div key={y} style={styles.yGroupRow(y === highlightedY)}>
+                    <div style={styles.yGroupLabel}>y={y}:</div>
+                    <div>
+                      {y_groups[y].map((p, i) => (
+                        <span key={i} style={styles.point(p === highlightedPoint)}>
+                          [{p.join(",")}]
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
             </div>
-          </div>
-        </div>
-        {/* Right Column: Visualization & Message */}
-        <div style={{flex: 2, minWidth: 0, display: "flex", flexDirection: "column", gap: "1rem"}}>
-          <div style={{fontWeight: 700, fontSize: "1.1rem", marginBottom: 2}}>Count Number of Trapezoids I</div>
-          <TrapezoidVisualization {...step} />
-          <div
-            style={{
-              background: "#f7f7f8",
-              border: "1px solid #e5e5e5",
-              borderRadius: 8,
-              padding: "0.5rem 0.75rem",
-              fontSize: "0.95rem",
-              minHeight: 36,
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <span style={{fontWeight: 600, fontSize: "0.8rem", color: "#888", marginRight: 8}}>Current Action:</span>
-            <span>{step.message}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
 
-// Input styles
-const inputStyle = {
-  border: "1px solid #e5e5e5",
-  borderRadius: 6,
-  padding: "0.25rem 0.5rem",
-  fontSize: "0.95rem",
-  background: "#f7f7f8",
-  width: 48,
-  marginRight: 4,
-};
-const buttonStyle = {
-  border: "none",
-  background: "#f7f7f8",
-  borderRadius: 6,
-  padding: 6,
-  cursor: "pointer",
-  transition: "background 0.2s",
-  outline: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  height: 32,
-  width: 32,
-};
-
-// Visualization logic
-function generateVisualization(points) {
-  const steps = [];
-  // Step 1: Group by y
-  const yMap = {};
-  for (let i = 0; i < points.length; ++i) {
-    const [x, y] = points[i];
-    if (!yMap[y]) yMap[y] = [];
-    yMap[y].push(x);
-    steps.push({
-      type: "group",
-      yMap: JSON.parse(JSON.stringify(yMap)),
-      message: `Add point (${x},${y}) to y=${y} group.`,
-      highlight: {x, y},
-      phase: "group",
-    });
-  }
-  // Step 2: Compute C(c,2) for each y
-  const c2 = [];
-  const yLevels = Object.keys(yMap)
-    .map(Number)
-    .sort((a, b) => a - b);
-  for (let i = 0; i < yLevels.length; ++i) {
-    const y = yLevels[i];
-    const c = yMap[y].length;
-    const val = c >= 2 ? (c * (c - 1)) / 2 : 0;
-    c2.push(val);
-    steps.push({
-      type: "c2",
-      y,
-      c,
-      val,
-      c2: [...c2],
-      message: `For y=${y}, group size=${c}. Ways to pick 2: ${val}.`,
-      highlight: {y},
-      phase: "c2",
-    });
-  }
-  // Step 3: Pairwise multiply
-  let res = 0;
-  for (let i = 0; i < c2.length; ++i) {
-    for (let j = i + 1; j < c2.length; ++j) {
-      const add = c2[i] * c2[j];
-      res += add;
-      steps.push({
-        type: "pair",
-        i,
-        j,
-        c2: [...c2],
-        add,
-        res,
-        y1: yLevels[i],
-        y2: yLevels[j],
-        message: `Pair y=${yLevels[i]} and y=${yLevels[j]}: ${c2[i]} * ${c2[j]} = ${add}. Total so far: ${res}.`,
-        highlight: {i, j},
-        phase: "pair",
-      });
-    }
-  }
-  steps.push({
-    type: "final",
-    res,
-    message: `Final result: ${res} trapezoids.`,
-    phase: "final",
-  });
-  return steps;
-}
-
-// Visualization Area
-function TrapezoidVisualization({type, yMap = {}, c2 = [], i, j, add, res, y, val, y1, y2, highlight, phase}) {
-  // Show y-groups and C(c,2) table
-  const yLevels = Object.keys(yMap)
-    .map(Number)
-    .sort((a, b) => a - b);
-  return (
-    <div style={{minHeight: 120}}>
-      {/* Show y-groups */}
-      <div style={{display: "flex", gap: 16, flexWrap: "wrap", marginBottom: 8}}>
-        {yLevels.map((yy) => (
-          <div key={yy} style={{background: "#f7f7f8", border: "1px solid #e5e5e5", borderRadius: 6, padding: "0.5rem 0.75rem", minWidth: 60}}>
-            <div style={{fontWeight: 600, fontSize: "0.9rem", color: highlight && highlight.y === yy ? "#007aff" : "#333"}}>y={yy}</div>
-            <div style={{display: "flex", gap: 4, flexWrap: "wrap"}}>
-              {(yMap[yy] || []).map((xx, idx) => (
-                <span
-                  key={idx}
-                  style={{
-                    display: "inline-block",
-                    background: highlight && highlight.x === xx && highlight.y === yy ? "#007aff22" : "#fff",
-                    border: "1px solid #e5e5e5",
-                    borderRadius: 4,
-                    padding: "2px 6px",
-                    margin: 1,
-                    fontWeight: 500,
-                    color: "#222",
-                    fontSize: "0.95rem",
-                  }}
+            <div style={styles.dataStructureView}>
+              <div style={styles.dataBox(calculation?.target === "pairs")}>
+                <div style={styles.dataTitle}>PAIRS C(c,2)</div>
+                <div style={styles.pairsList}>
+                  {pairs?.map((p, i) => (
+                    <span key={i} style={styles.pairItem}>
+                      {p}
+                    </span>
+                  ))}
+                </div>
+                {calculation?.target === "pairs" && <p style={styles.calculationText}>{calculation.text}</p>}
+              </div>
+              <div style={{flex: 2, display: "flex", flexDirection: "column", gap: "0.5rem"}}>
+                <div
+                  style={styles.dataBox(
+                    calculation?.target === "total_sum" || calculation?.target === "sum_of_squares" || calculation?.target === "result"
+                  )}
                 >
-                  {xx}
-                </span>
-              ))}
+                  <div style={styles.dataTitle}>FORMULA</div>
+                  <div>total_sum: {total_sum ?? "..."}</div>
+                  <div>sum_of_squares: {sum_of_squares ?? "..."}</div>
+                  <div style={{fontWeight: "bold"}}>Result: {isFinal ? <span style={{color: "#28a745"}}>{result}</span> : result ?? "..."}</div>
+                  {(calculation?.target === "total_sum" || calculation?.target === "sum_of_squares" || calculation?.target === "result") && (
+                    <p style={styles.calculationText}>{calculation.text}</p>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
-        ))}
+        </div>
       </div>
-      {/* Show C(c,2) table */}
-      {phase !== "group" && (
-        <div style={{marginBottom: 8}}>
-          <div style={{fontWeight: 600, fontSize: "0.9rem", marginBottom: 2}}>Ways to pick 2 from each y-level:</div>
-          <div style={{display: "flex", gap: 12, flexWrap: "wrap"}}>
-            {c2.map((v, idx) => (
-              <span
-                key={idx}
-                style={{
-                  background:
-                    (phase === "c2" && highlight && highlight.y === yLevels[idx]) ||
-                    (phase === "pair" && (highlight.i === idx || highlight.j === idx))
-                      ? "#007aff22"
-                      : "#fff",
-                  border: "1px solid #e5e5e5",
-                  borderRadius: 4,
-                  padding: "2px 8px",
-                  fontWeight: 600,
-                  color: "#333",
-                  fontSize: "0.95rem",
-                }}
-              >{`y=${yLevels[idx]}: ${v}`}</span>
-            ))}
-          </div>
-        </div>
-      )}
-      {/* Show pairwise multiplication */}
-      {phase === "pair" && (
-        <div style={{fontSize: "0.98rem", marginBottom: 4}}>
-          <span style={{color: "#007aff", fontWeight: 600}}>{`Pair: y=${y1} × y=${y2} → ${add}`}</span>
-        </div>
-      )}
-      {/* Show final result */}
-      {phase === "final" && <div style={{fontSize: "1.05rem", fontWeight: 700, color: "#007aff", marginTop: 8}}>Total trapezoids: {res}</div>}
     </div>
   );
-}
+};
 
-export default Problem3623Visualizer;
+export default CountTrapezoidsIVisualizer;

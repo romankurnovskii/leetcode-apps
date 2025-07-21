@@ -1,13 +1,17 @@
-from collections import Counter
+from collections import defaultdict
 
 MOD = 10**9 + 7
 
 
-def countTrapezoids(points: List[List[int]]) -> int:
-    y_count = Counter(y for x, y in points)
-    c2 = [c * (c - 1) // 2 for c in y_count.values() if c >= 2]
-    res = 0
-    for i in range(len(c2)):
-        for j in range(i + 1, len(c2)):
-            res = (res + c2[i] * c2[j]) % MOD
-    return res
+def countTrapezoids(points):
+    y_groups = defaultdict(int)
+    for x, y in points:
+        y_groups[y] += 1
+    pairs = []
+    for c in y_groups.values():
+        if c >= 2:
+            pairs.append(c * (c - 1) // 2)
+    total_sum = sum(pairs)
+    sum_of_squares = sum(x * x for x in pairs)
+    res = (total_sum * total_sum - sum_of_squares) // 2
+    return res % MOD
