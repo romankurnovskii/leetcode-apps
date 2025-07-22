@@ -8,6 +8,7 @@ You are given two strings, word1 and word2. Merge the strings by adding letters 
 Return the merged string.
 
 **Examples**
+```text
 Input: word1 = "abc", word2 = "pqr"
 Output: "apbqcr"
 Explanation: The merged string will be merged as so:
@@ -28,6 +29,7 @@ Explanation: Notice that as word1 is longer, "cd" is appended to the end.
 word1:  a   b   c   d
 word2:    p   q 
 merged: a p b q c   d
+```
 
 **Constraints**
 ```text
@@ -35,8 +37,7 @@ merged: a p b q c   d
 - word1 and word2 consist of lowercase English letters.
 ```
 
-## Hint
-In most cases, LeetCode Easy problems have a straightforward solution that can be derived from the description or the examples provided.
+> In most cases, LeetCode Easy problems have a straightforward solution that can be derived from the description or the examples provided.
 
 ## Explanation
 Imagine you have two strings, like two lines of colored beads. You want to make a new necklace by picking one bead from the first string, then one from the second, and keep going! If one string runs out, just add the rest from the other.

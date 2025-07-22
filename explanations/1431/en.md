@@ -3,13 +3,15 @@
 https://leetcode.com/problems/kids-with-the-greatest-number-of-candies
 
 ## Description
-There are n kids with candies. You are given an integer array candies, where each candies[i] represents the number of candies the ith kid has, and an integer extraCandies, denoting the number of extra candies that you have.
+There are `n` kids with candies. You are given an integer array `candies`, where each `candies[i]` represents the number of candies the `i`th kid has, and an integer `extraCandies`, denoting the number of extra candies that you have.
 
-Return a boolean array result of length n, where result[i] is true if, after giving the ith kid all the extraCandies, they will have the greatest number of candies among all the kids, or false otherwise.
+Return a boolean array `result` of length `n`, where `result[i]` is `true` if, after giving the `i`th kid all the `extraCandies`, they will have the greatest number of candies among all the kids, or false otherwise.
 
 Note that multiple kids can have the greatest number of candies.
 
 **Examples**
+
+```text
 Input: candies = [2,3,5,1,3], extraCandies = 3
 Output: [true,true,true,false,true]
 Explanation: If you give all extraCandies to:
@@ -24,9 +26,11 @@ Output: [true,false,false,false,false]
 
 Input: candies = [12,1,12], extraCandies = 10
 Output: [true,false,true]
+```
 
 **Constraints**
-```
+
+```text
 - n == candies.length
 - 2 <= n <= 100
 - 1 <= candies[i] <= 100
@@ -34,11 +38,11 @@ Output: [true,false,true]
 ```
 
 ## Hint
-For each kid, check if their candies plus extraCandies is at least as much as the current maximum.
+For each kid, check if their candies plus `extraCandies` is at least as much as the current maximum.
 
 ## Explanation
-First, we want to know the highest number of candies any kid currently has. This is important because we need a reference point to see if giving extra candies to a kid will make them "the greatest."
+First, you want to know the highest number of candies any kid currently has. This is important because you need a reference point to see if giving extra candies to a kid will make them "the greatest."
 
-For each kid, we add the extraCandies to their current amount. We do this because we want to see if, after the bonus, they can reach or beat the current maximum. If they do, we mark them as True in our answer list; otherwise, False.
+For each kid, you add the `extraCandies` to their current amount. You do this because you want to see if, after the bonus, they can reach or beat the current maximum. If they do, you mark them as `True` in our answer list; otherwise, False.
 
-This approach is efficient because we only need to find the maximum once, and then just compare each kid's total to it. This saves us from recalculating the maximum for every kid, making our solution faster and cleaner. 
+You only need to find the maximum once, and then just compare each kid's total to it. Don't need to recalculate the maximum for every kid. 
