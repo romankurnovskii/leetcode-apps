@@ -1,5 +1,5 @@
 def reverseVowels(s):
-    vowels = set("aeiouAEIOU")
+    vowels = set('aeiouAEIOU')
     s = list(s)
     left, right = 0, len(s) - 1
     while left < right:
@@ -11,4 +11,4 @@ def reverseVowels(s):
             s[left], s[right] = s[right], s[left]
             left += 1
             right -= 1
-    return "".join(s)
+    return ''.join(s)

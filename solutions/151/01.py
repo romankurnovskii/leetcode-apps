@@ -1,3 +1,4 @@
-def reverseWords(s):
-    words = s.strip().split()
-    return " ".join(reversed(words))
+def reverseWords(s: str) -> str:
+    words = s.split()
+    words.reverse()
+    return ' '.join(words)
