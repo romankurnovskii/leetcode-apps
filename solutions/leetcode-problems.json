@@ -345,6 +345,13 @@
     "difficulty": "Medium",
     "link": "https://leetcode.com/problems/minimum-flips-to-make-a-or-b-equal-to-c"
   },
+  "1456": {
+    "id": 1456,
+    "category": "Sliding Window",
+    "title": "Maximum Number of Vowels in a Substring of Given Length",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/maximum-number-of-vowels-in-a-substring-of-given-length"
+  },
   "1474": {
     "id": 1474,
     "category": "Algorithms",
