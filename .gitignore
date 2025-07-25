@@ -1,3 +1,7 @@
+.continue
 .cursor
 .research
 .DS_Store
+.venv
+venv
+
