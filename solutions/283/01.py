@@ -1,6 +1,6 @@
 def moveZeroes(nums: List[int]) -> None:
     insert_pos = 0
-    
+
     # First pass: Move all non-zero elements to the beginning of the array
     for i in range(len(nums)):
         if nums[i] != 0:
