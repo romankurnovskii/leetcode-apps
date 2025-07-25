@@ -6,7 +6,7 @@ Given a sorted array of distinct integers and a target value, return the index i
 You must write an algorithm with `O(log n)` runtime complexity.
 
 **Examples**
-<code>
+```text
 Example 1:
 Input: nums = [1,3,5,6], target = 5
 Output: 2
@@ -18,15 +18,15 @@ Output: 1
 Example 3:
 Input: nums = [1,3,5,6], target = 7
 Output: 4
-</code>
+```
 
 **Constraints:**
-<code>
+```text
 1 <= nums.length <= 10^4
 -10^4 <= nums[i] <= 10^4
 nums contains distinct values sorted in ascending order.
 -10^4 <= target <= 10^4
-</code>
+```
 
 ## Explanation
 You're given a list of distinct numbers, `nums`, that's already sorted from smallest to largest. You also have a `target` number. Your job is to find the `target` in the list. If you find it, you should give its position (index). If the `target` isn't in the list, you need to tell where it *would* be if you inserted it to keep the list sorted. You need to do this efficiently, in `O(log n)` time.

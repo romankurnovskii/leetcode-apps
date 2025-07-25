@@ -6,7 +6,7 @@ A phrase is a palindrome if, after converting all uppercase letters into lowerca
 Given a string `s`, return `true` if it is a palindrome, or `false` otherwise.
 
 **Examples**
-<code>
+```text
 Example 1:
 Input: s = "A man, a plan, a canal: Panama"
 Output: true
@@ -22,13 +22,13 @@ Input: s = " "
 Output: true
 Explanation: s is an empty string "" after removing non-alphanumeric characters.
 An empty string is a palindrome.
-</code>
+```
 
 **Constraints:**
-<code>
+```text
 1 <= s.length <= 2 * 10^5
 s consists only of printable ASCII characters.
-</code>
+```
 
 ## Explanation
 You're given a string `s`. Your task is to determine if it's a palindrome. A palindrome is a sequence that reads the same forwards and backwards. However, there are two special rules for this problem:

@@ -6,7 +6,7 @@ Write a function that reverses a string. The input string is given as an array o
 You must do this by modifying the input array in-place with `O(1)` extra memory.
 
 **Examples**
-<code>
+```text
 Example 1:
 Input: s = ["h","e","l","l","o"]
 Output: ["o","l","l","e","h"]
@@ -14,13 +14,13 @@ Output: ["o","l","l","e","h"]
 Example 2:
 Input: s = ["H","a","n","n","a","h"]
 Output: ["h","a","n","n","a","H"]
-</code>
+```
 
 **Constraints:**
-<code>
+```text
 1 <= s.length <= 10^5
 s[i] is a printable ASCII character.
-</code>
+```
 
 ## Explanation
 You are given a string, but it's presented as a list of characters (e.g., `["h","e","l","l","o"]`). Your goal is to reverse the order of these characters within the *same* list. You cannot create a brand new list to store the reversed string; you must modify the original list directly. Also, you should do this using only a constant amount of extra memory (O(1) space).

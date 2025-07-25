@@ -8,7 +8,7 @@ The majority element is the element that appears more than `n / 2` times.
 You may assume that the majority element always exists in the array.
 
 **Examples**
-<code>
+```text
 Example 1:
 Input: nums = [3,2,3]
 Output: 3
@@ -16,14 +16,14 @@ Output: 3
 Example 2:
 Input: nums = [2,2,1,1,1,2,2]
 Output: 2
-</code>
+```
 
 **Constraints:**
-<code>
+```text
 n == nums.length
 1 <= n <= 5 * 10^4
 -10^9 <= nums[i] <= 10^9
-</code>
+```
 
 ## Explanation
 You are given an array of numbers, `nums`. The array has a special property: one number appears more than half the time (more than `n / 2` times, where `n` is the total number of elements in the array). Your goal is to find this "majority element". You are guaranteed that such an element always exists.
