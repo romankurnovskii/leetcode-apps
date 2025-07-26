@@ -1,0 +1,84 @@
+{
+  "patterns": [
+    {
+      "name": "Array & Hashing",
+      "description": "Using arrays, hash maps, or hash sets for efficient data storage and retrieval, often for frequency counts and lookups."
+    },
+    {
+      "name": "Two Pointers",
+      "description": "Iterating through a data structure with two pointers, ideal for finding pairs or subarrays in sorted data."
+    },
+    {
+      "name": "Sliding Window",
+      "description": "Moving a contiguous 'window' over a sequence to find an optimal value, such as the longest or shortest segment."
+    },
+    {
+      "name": "Stack",
+      "description": "Using a Last-In-First-Out (LIFO) structure for problems involving nested data like parentheses or expression parsing."
+    },
+    {
+      "name": "Binary Search",
+      "description": "A fast search algorithm for sorted arrays that repeatedly divides the search interval in half."
+    },
+    {
+      "name": "Linked List",
+      "description": "Problems focused on the linked list data structure, including reversal, cycle detection, and merging."
+    },
+    {
+      "name": "Tree",
+      "description": "A broad category for problems on tree structures, involving traversal, validation, and finding ancestors."
+    },
+    {
+      "name": "Trie",
+      "description": "A specialized tree for efficient prefix-based string retrieval, used in autocomplete and word search features."
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "description": "A tree-based structure for efficiently finding the smallest or largest element, often used for 'Kth-largest' problems."
+    },
+    {
+      "name": "Graph",
+      "description": "Problems modeled as nodes and edges, involving pathfinding, cycle detection, and connectivity."
+    },
+    {
+      "name": "Graph Traversal",
+      "description": "Core algorithms (BFS and DFS) for exploring a graph to find paths or other properties."
+    },
+    {
+      "name": "Backtracking",
+      "description": "Building a solution incrementally and backtracking when a path fails, used for generating subsets and permutations."
+    },
+    {
+      "name": "Dynamic Programming",
+      "description": "Solving complex problems by breaking them into simpler, overlapping subproblems and storing their solutions."
+    },
+    {
+      "name": "Greedy",
+      "description": "Building a solution by always making the locally optimal choice, hoping to find a global optimum."
+    },
+    {
+      "name": "Intervals",
+      "description": "Problems involving a list of intervals, such as merging or finding non-overlapping segments."
+    },
+    {
+      "name": "Bit Manipulation",
+      "description": "Solving problems by working directly with the binary representation of numbers for high efficiency."
+    },
+    {
+      "name": "Union-Find",
+      "description": "A data structure for tracking disjoint sets, often used to check graph connectivity."
+    },
+    {
+      "name": "Topological Sort",
+      "description": "An algorithm for ordering nodes in a directed acyclic graph, common in task scheduling."
+    },
+    {
+      "name": "Dijkstra's Algorithm",
+      "description": "A graph algorithm for finding the shortest paths in a weighted graph with non-negative edge weights."
+    },
+    {
+      "name": "Math & Geometry",
+      "description": "Problems requiring knowledge of number theory, combinatorics, or geometric concepts."
+    }
+  ]
+}
