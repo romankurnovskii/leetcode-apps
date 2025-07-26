@@ -981,7 +981,7 @@
   },
   "141": {
     "id": 141,
-    "category": "Linked List / Two Pointers",
+    "category": "Linked List",
     "title": "Linked List Cycle",
     "difficulty": "Easy",
     "link": "https://leetcode.com/problems/linked-list-cycle/"
@@ -2269,7 +2269,7 @@
   },
   "876": {
     "id": 876,
-    "category": "Linked List / Two Pointers",
+    "category": "Linked List",
     "title": "Middle of the Linked List",
     "difficulty": "Easy",
     "link": "https://leetcode.com/problems/middle-of-the-linked-list/"
@@ -2472,7 +2472,7 @@
   },
   "1798": {
     "id": 1798,
-    "category": "Array / Greedy / Sorting",
+    "category": "Greedy",
     "title": "Maximum Number of Consecutive Values You Can Make",
     "difficulty": "Medium",
     "link": "https://leetcode.com/problems/maximum-number-of-consecutive-values-you-can-make",
@@ -2578,13 +2578,6 @@
     "difficulty": "Easy",
     "link": "https://leetcode.com/problems/minimum-moves-to-capture-the-queen/"
   },
-  "3002": {
-    "id": 3002,
-    "category": "Array / Greedy",
-    "title": "Maximum Size of a Set After Removals",
-    "difficulty": "Medium",
-    "link": "https://leetcode.com/problems/maximum-size-of-a-set-after-removals/"
-  },
   "3003": {
     "id": 3003,
     "category": "Dynamic Programming",
@@ -2608,21 +2601,21 @@
   },
   "3011": {
     "id": 3011,
-    "category": "Array / Bit Manipulation",
+    "category": "Array & Hashing",
     "title": "Find if Array Can Be Sorted",
     "difficulty": "Medium",
     "link": "https://leetcode.com/problems/find-if-array-can-be-sorted/"
   },
   "3012": {
     "id": 3012,
-    "category": "Array / Math / Greedy",
+    "category": "Greedy",
     "title": "Minimize Length of Array Using Operations",
     "difficulty": "Hard",
     "link": "https://leetcode.com/problems/minimize-length-of-array-using-operations/"
   },
   "3014": {
     "id": 3014,
-    "category": "String / Greedy",
+    "category": "Greedy",
     "title": "Minimum Number of Pushes to Type Word I",
     "difficulty": "Easy",
     "link": "https://leetcode.com/problems/minimum-number-of-pushes-to-type-word-i/"
@@ -2699,7 +2692,7 @@
   },
   "3174": {
     "id": 3174,
-    "category": "String / Stack",
+    "category": "Stack",
     "title": "Clear Digits",
     "difficulty": "Easy",
     "link": "https://leetcode.com/problems/clear-digits/"
@@ -2727,14 +2720,14 @@
   },
   "3206": {
     "id": 3206,
-    "category": "Linked List / Two Pointers",
+    "category": "Linked List",
     "title": "Alternating Groups I",
     "difficulty": "Easy",
     "link": "https://leetcode.com/problems/alternating-groups-i/"
   },
   "3424": {
     "id": 3424,
-    "category": "Array / Greedy / Sorting",
+    "category": "Greedy",
     "title": "Minimum Cost to Make Arrays Identical",
     "difficulty": "Medium",
     "link": "https://leetcode.com/problems/minimum-cost-to-make-arrays-identical",
@@ -2750,14 +2743,14 @@
   },
   "3603": {
     "id": 3603,
-    "category": "Dynamic Programming / Matrix",
+    "category": "Dynamic Programming",
     "title": "Minimum Cost Path with Alternating Directions II",
     "difficulty": "Medium",
     "link": "https://leetcode.com/problems/minimum-cost-path-with-alternating-directions-ii"
   },
   "3607": {
     "id": 3607,
-    "category": "Graph / Union Find / Heap / DFS / Ordered Set",
+    "category": "Graph Traversal",
     "title": "Power Grid Maintenance",
     "difficulty": "Medium",
     "link": "https://leetcode.com/problems/power-grid-maintenance",
@@ -2765,7 +2758,7 @@
   },
   "3608": {
     "id": 3608,
-    "category": "Graph / Union Find / Binary Search",
+    "category": "Graph Traversal",
     "title": "Minimum Time for K Connected Components",
     "difficulty": "Medium",
     "link": "https://leetcode.com/problems/minimum-time-for-k-connected-components"
