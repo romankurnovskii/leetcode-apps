@@ -53,6 +53,7 @@ Here's the general approach:
 4.  If you finish checking all numbers in the `nums` array and haven't returned `true` yet, it means no duplicates were found. So, return `false`.
 
 ### Steps
+
 Let's walk through an example: `nums = [1, 2, 3, 1]`
 
 1.  Initialize an empty set, let's call it `seen_numbers`.
