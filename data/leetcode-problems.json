@@ -2763,6 +2763,13 @@
     "difficulty": "Medium",
     "link": "https://leetcode.com/problems/minimum-time-for-k-connected-components"
   },
+  "3622": {
+    "id": 3622,
+    "category": "Math & Geometry",
+    "title": "Check Divisibility by Digit Sum and Product",
+    "difficulty": "Easy",
+    "link": "https://leetcode.com/problems/check-divisibility-by-digit-sum-and-product"
+  },
   "3623": {
     "id": 3623,
     "category": "Math & Geometry",
