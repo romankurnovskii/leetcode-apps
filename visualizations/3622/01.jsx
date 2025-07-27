@@ -439,127 +439,125 @@ const LeetCode3622Visualizer = () => {
   });
 
   return (
-    <div style={styles.container}>
-      <div style={styles.card}>
-        {/* Left Column: Inputs & Controls */}
-        <div style={styles.leftColumn}>
-          <div style={styles.inputGroup}>
-            <label htmlFor="nInput" style={styles.label}>
-              Input Number (n)
-            </label>
-            <input id="nInput" type="number" value={inputValue} onChange={handleInputChange} style={styles.input} min="1" max="1000000" />
-          </div>
-          <div style={styles.controlsContainer}>
-            <div style={styles.buttons}>
-              <button
-                style={getButtonStyle("prev")}
-                onClick={handlePrev}
-                onMouseEnter={() => setButtonHover({prev: true})}
-                onMouseLeave={() => setButtonHover({})}
-                title="Previous Step"
-              >
-                <PrevIcon />
-              </button>
-              <button
-                style={getButtonStyle("play")}
-                onClick={handlePlayPause}
-                onMouseEnter={() => setButtonHover({play: true})}
-                onMouseLeave={() => setButtonHover({})}
-                title={isPlaying ? "Pause" : "Play"}
-              >
-                {isPlaying ? <PauseIcon /> : <PlayIcon />}
-              </button>
-              <button
-                style={getButtonStyle("next")}
-                onClick={handleNext}
-                onMouseEnter={() => setButtonHover({next: true})}
-                onMouseLeave={() => setButtonHover({})}
-                title="Next Step"
-              >
-                <NextIcon />
-              </button>
-              <button
-                style={getButtonStyle("reset")}
-                onClick={handleReset}
-                onMouseEnter={() => setButtonHover({reset: true})}
-                onMouseLeave={() => setButtonHover({})}
-                title="Reset"
-              >
-                <ResetIcon />
-              </button>
-            </div>
-            <input type="range" min="0" max={visualizationSteps.length - 1} value={currentStep} onChange={handleSliderChange} style={styles.slider} />
-          </div>
+    <div style={styles.card}>
+      {/* Left Column: Inputs & Controls */}
+      <div style={styles.leftColumn}>
+        <div style={styles.inputGroup}>
+          <label htmlFor="nInput" style={styles.label}>
+            Input Number (n)
+          </label>
+          <input id="nInput" type="number" value={inputValue} onChange={handleInputChange} style={styles.input} min="1" max="1000000" />
         </div>
+        <div style={styles.controlsContainer}>
+          <div style={styles.buttons}>
+            <button
+              style={getButtonStyle("prev")}
+              onClick={handlePrev}
+              onMouseEnter={() => setButtonHover({prev: true})}
+              onMouseLeave={() => setButtonHover({})}
+              title="Previous Step"
+            >
+              <PrevIcon />
+            </button>
+            <button
+              style={getButtonStyle("play")}
+              onClick={handlePlayPause}
+              onMouseEnter={() => setButtonHover({play: true})}
+              onMouseLeave={() => setButtonHover({})}
+              title={isPlaying ? "Pause" : "Play"}
+            >
+              {isPlaying ? <PauseIcon /> : <PlayIcon />}
+            </button>
+            <button
+              style={getButtonStyle("next")}
+              onClick={handleNext}
+              onMouseEnter={() => setButtonHover({next: true})}
+              onMouseLeave={() => setButtonHover({})}
+              title="Next Step"
+            >
+              <NextIcon />
+            </button>
+            <button
+              style={getButtonStyle("reset")}
+              onClick={handleReset}
+              onMouseEnter={() => setButtonHover({reset: true})}
+              onMouseLeave={() => setButtonHover({})}
+              title="Reset"
+            >
+              <ResetIcon />
+            </button>
+          </div>
+          <input type="range" min="0" max={visualizationSteps.length - 1} value={currentStep} onChange={handleSliderChange} style={styles.slider} />
+        </div>
+      </div>
 
-        {/* Right Column: Visualization */}
-        <div style={styles.rightColumn}>
-          <div style={styles.vizArea}>
-            {/* Top row for calculation */}
-            <div style={styles.dataRow}>
-              <div style={{...styles.dataBox, ...(currentVizState.highlight?.n && styles.highlighted)}}>
-                <div style={styles.dataLabel}>Temp n</div>
-                <div style={styles.dataValue}>{currentVizState.temp_n}</div>
-              </div>
-              {currentVizState.digit !== null && (
-                <>
-                  <span style={styles.arrow}>→</span>
-                  <div style={{...styles.dataBox, ...(currentVizState.highlight?.digit && styles.highlighted)}}>
-                    <div style={styles.dataLabel}>Digit</div>
-                    <div style={styles.dataValue}>{currentVizState.digit}</div>
-                  </div>
-                </>
-              )}
+      {/* Right Column: Visualization */}
+      <div style={styles.rightColumn}>
+        <div style={styles.vizArea}>
+          {/* Top row for calculation */}
+          <div style={styles.dataRow}>
+            <div style={{...styles.dataBox, ...(currentVizState.highlight?.n && styles.highlighted)}}>
+              <div style={styles.dataLabel}>Temp n</div>
+              <div style={styles.dataValue}>{currentVizState.temp_n}</div>
             </div>
-
-            {/* Bottom row for aggregates */}
-            <div style={styles.dataRow}>
-              <div style={{...styles.dataBox, ...(currentVizState.highlight?.sum && styles.highlighted)}}>
-                <div style={styles.dataLabel}>Digit Sum</div>
-                <div style={styles.dataValue}>{currentVizState.digit_sum}</div>
-              </div>
-              <div style={{...styles.dataBox, ...(currentVizState.highlight?.product && styles.highlighted)}}>
-                <div style={styles.dataLabel}>Digit Product</div>
-                <div style={styles.dataValue}>{currentVizState.digit_product}</div>
-              </div>
-            </div>
-
-            {/* Final Calculation */}
-            {currentVizState.total_divisor !== undefined && (
-              <div style={{...styles.dataRow, marginTop: "1rem"}}>
-                <div style={{...styles.dataBox, ...(currentVizState.highlight?.original && styles.highlighted)}}>
-                  <div style={styles.dataLabel}>Original n</div>
-                  <div style={styles.dataValue}>{currentVizState.original_n}</div>
+            {currentVizState.digit !== null && (
+              <>
+                <span style={styles.arrow}>→</span>
+                <div style={{...styles.dataBox, ...(currentVizState.highlight?.digit && styles.highlighted)}}>
+                  <div style={styles.dataLabel}>Digit</div>
+                  <div style={styles.dataValue}>{currentVizState.digit}</div>
                 </div>
-                <span style={styles.arrow}>%</span>
-                <div style={{...styles.dataBox, ...(currentVizState.highlight?.total && styles.highlighted)}}>
-                  <div style={styles.dataLabel}>Total Divisor</div>
-                  <div style={styles.dataValue}>{currentVizState.total_divisor}</div>
-                </div>
-                <span style={styles.arrow}>=</span>
-                <div style={{...styles.dataBox, ...(currentVizState.highlight?.final && styles.highlighted)}}>
-                  <div style={styles.dataLabel}>Remainder</div>
-                  <div style={styles.dataValue}>{currentVizState.remainder}</div>
-                </div>
-              </div>
-            )}
-
-            {currentVizState.result !== undefined && (
-              <div
-                style={{
-                  ...styles.finalResultBox,
-                  ...(currentVizState.result ? styles.finalTrue : styles.finalFalse),
-                  ...(currentVizState.highlight?.final && {transform: "scale(1.05)"}),
-                }}
-              >
-                Result: {String(currentVizState.result)}
-              </div>
+              </>
             )}
           </div>
-          <div style={styles.actionBox}>
-            <p style={styles.actionTitle}>CURRENT ACTION</p>
-            <p style={styles.actionMessage}>{currentVizState.message}</p>
+
+          {/* Bottom row for aggregates */}
+          <div style={styles.dataRow}>
+            <div style={{...styles.dataBox, ...(currentVizState.highlight?.sum && styles.highlighted)}}>
+              <div style={styles.dataLabel}>Digit Sum</div>
+              <div style={styles.dataValue}>{currentVizState.digit_sum}</div>
+            </div>
+            <div style={{...styles.dataBox, ...(currentVizState.highlight?.product && styles.highlighted)}}>
+              <div style={styles.dataLabel}>Digit Product</div>
+              <div style={styles.dataValue}>{currentVizState.digit_product}</div>
+            </div>
           </div>
+
+          {/* Final Calculation */}
+          {currentVizState.total_divisor !== undefined && (
+            <div style={{...styles.dataRow, marginTop: "1rem"}}>
+              <div style={{...styles.dataBox, ...(currentVizState.highlight?.original && styles.highlighted)}}>
+                <div style={styles.dataLabel}>Original n</div>
+                <div style={styles.dataValue}>{currentVizState.original_n}</div>
+              </div>
+              <span style={styles.arrow}>%</span>
+              <div style={{...styles.dataBox, ...(currentVizState.highlight?.total && styles.highlighted)}}>
+                <div style={styles.dataLabel}>Total Divisor</div>
+                <div style={styles.dataValue}>{currentVizState.total_divisor}</div>
+              </div>
+              <span style={styles.arrow}>=</span>
+              <div style={{...styles.dataBox, ...(currentVizState.highlight?.final && styles.highlighted)}}>
+                <div style={styles.dataLabel}>Remainder</div>
+                <div style={styles.dataValue}>{currentVizState.remainder}</div>
+              </div>
+            </div>
+          )}
+
+          {currentVizState.result !== undefined && (
+            <div
+              style={{
+                ...styles.finalResultBox,
+                ...(currentVizState.result ? styles.finalTrue : styles.finalFalse),
+                ...(currentVizState.highlight?.final && {transform: "scale(1.05)"}),
+              }}
+            >
+              Result: {String(currentVizState.result)}
+            </div>
+          )}
+        </div>
+        <div style={styles.actionBox}>
+          <p style={styles.actionTitle}>CURRENT ACTION</p>
+          <p style={styles.actionMessage}>{currentVizState.message}</p>
         </div>
       </div>
     </div>
