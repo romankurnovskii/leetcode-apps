@@ -40,8 +40,6 @@ Constraints:
 Only one valid answer exists.
 ```
 
----
-
 ## Explanation
 
 To solve the Two Sum problem, we want to find two numbers in the array that add up to a given target. The most efficient way is to use a hash map (dictionary) to store the numbers we have seen so far and their indices. As we iterate through the array, for each number, we check if the complement (target - current number) exists in the hash map. If it does, we have found the solution. Otherwise, we add the current number and its index to the hash map. This approach has O(n) time complexity.
@@ -87,7 +85,7 @@ You are given two non-empty linked lists representing two non-negative integers.
 You may assume the two numbers do not contain any leading zero, except the number 0 itself.
 
 Example:
-```
+```text
 Input: l1 = [2,4,3], l2 = [5,6,4]
 Output: [7,0,8]
 Explanation: 342 + 465 = 807.
@@ -100,13 +98,11 @@ Output: [8,9,9,9,0,0,0,1]
 ```
 
 Constraints:
-```
+```text
 The number of nodes in each linked list is in the range [1, 100].
 0 <= Node.val <= 9
 It is guaranteed that the list represents a number that does not have leading zeros.
 ```
-
----
 
 ## Explanation
 

@@ -84,12 +84,9 @@ Let\'s walk through the example: `s = "abc"`, `t = "ahbgdc"`
 
     The result (`res`) is `True`.
 
----
-
 Let\'s consider another example: `s = "axc"`, `t = "ahbgdc"`
 
 1.  Initialize `ptr_s = 0`, `ptr_t = 0`.
-
 2.  Loop:
 
     * **Iteration 1:**
@@ -117,12 +114,9 @@ Let\'s consider another example: `s = "axc"`, `t = "ahbgdc"`
         * `ptr_t = 6`.
 
 3.  Loop terminates because `ptr_t` (`6`) is equal to `len(t)` (`6`).
-
 4.  Check `ptr_s == len(s)`. `ptr_s` is `1`, `len(s)` is `3`. Since `1 != 3`, `s` is NOT a subsequence of `t`.
 
     The result (`res`) is `False`.
-
----
 
 > **Note:** This two-pointer approach is optimal for this problem. It processes each character of `t` at most once and each character of `s` at most once. This makes it very efficient, especially when `t` is much longer than `s`.
 

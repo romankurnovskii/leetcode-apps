@@ -72,8 +72,6 @@ Let\'s walk through an example: `nums = [0, 1, 0, 3, 12]`
 
     The loop finishes. The array is now `[1, 3, 12, 0, 0]`, which is the desired output.
 
----
-
 Let\'s consider another example: `nums = [1, 0, 1]`
 
 1.  Initialize `insert_pos = 0`.
@@ -97,8 +95,6 @@ Let\'s consider another example: `nums = [1, 0, 1]`
         `nums` is now `[1, 1, 0]`.
 
     The loop finishes. The array is now `[1, 1, 0]`.
-
----
 
 > The two-pointer solution that uses swapping (the first community explanation) is often considered more elegant and efficient because it potentially reduces the number of write operations compared to the two-pass approach where non-zeros are first moved and then zeros are filled. However, both achieve the desired time complexity.
 

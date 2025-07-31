@@ -110,8 +110,6 @@ Let\'s walk through an example: `s = "abciiidef"`, `k = 3`
 
 > By always keeping track of the current number of vowels, you can quickly find the maximum as you slide the window across the string. 
 
----
-
 > This problem is a straightforward application of the fixed-size sliding window. The efficiency comes from incrementally updating the count rather than re-calculating it for each window, which is crucial for large input strings.
 
 ### Solution
