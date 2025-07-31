@@ -2542,6 +2542,13 @@
     "difficulty": "Medium",
     "link": "https://leetcode.com/problems/smallest-number-in-infinite-set"
   },
+  "2419": {
+    "id": 2419,
+    "category": "Greedy",
+    "title": "2419. Longest Subarray With Maximum Bitwise AND",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/longest-subarray-with-maximum-bitwise-and"
+  },
   "2553": {
     "id": 2553,
     "category": "Heap (Priority Queue)",
