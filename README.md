@@ -8,6 +8,6 @@ This repository is the canonical source for LeetCode explanations and solutions 
 
 **Browse the generated [Top 75 LeetCode Book](books/LeetCode_Top_75.md) in this repo.**
 
-<img src="https://romankurnovskii.com/apps/leetcode/01.png" alt="Desktop View" width="600"/>
-<img src="https://romankurnovskii.com/apps/leetcode/ipad-02.png" alt="iPad View" width="600"/>
-<img src="https://romankurnovskii.com/apps/leetcode/ipad-04.png" alt="iPad View" width="600"/>
+<img src="https://romankurnovskii.com/apps/leetcode/01.png" alt="Desktop View"/>
+<img src="https://romankurnovskii.com/apps/leetcode/ipad-02.png" alt="iPad View"/>
+<img src="https://romankurnovskii.com/apps/leetcode/ipad-04.png" alt="iPad View"/>
