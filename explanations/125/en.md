@@ -1,112 +1,136 @@
-## 125. Valid Palindrome [Easy]
-https://leetcode.com/problems/valid-palindrome/
+# 125. Valid Palindrome
 
-A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
+**Difficulty:** Easy  
+**Link:** https://leetcode.com/problems/valid-palindrome/
 
-Given a string `s`, return `true` if it is a palindrome, or `false` otherwise.
+## Problem Description
 
-**Examples**
-```text
-Example 1:
+A phrase is a **palindrome** if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
+
+Given a string `s`, return `true` *if it is a **palindrome**, or* `false` *otherwise*.
+
+**Example 1:**
+```
 Input: s = "A man, a plan, a canal: Panama"
 Output: true
 Explanation: "amanaplanacanalpanama" is a palindrome.
+```
 
-Example 2:
+**Example 2:**
+```
 Input: s = "race a car"
 Output: false
 Explanation: "raceacar" is not a palindrome.
+```
 
-Example 3:
+**Example 3:**
+```
 Input: s = " "
 Output: true
 Explanation: s is an empty string "" after removing non-alphanumeric characters.
-An empty string is a palindrome.
+Since an empty string reads the same forward and backward, it is a palindrome.
 ```
 
 **Constraints:**
-```text
-1 <= s.length <= 2 * 10^5
-s consists only of printable ASCII characters.
-```
+- `1 <= s.length <= 2 * 10^5`
+- `s` consists only of printable ASCII characters.
 
 ## Explanation
-You're given a string `s`. Your task is to determine if it's a palindrome. A palindrome is a sequence that reads the same forwards and backwards. However, there are two special rules for this problem:
-1.  You should ignore all non-alphanumeric characters (like spaces, commas, colons, etc.).
-2.  You should treat uppercase and lowercase letters as the same (e.g., 'A' is the same as 'a').
-
-So, "A man, a plan, a canal: Panama" should become "amanaplanacanalpanama" before checking if it's a palindrome.
 
 ### Strategy
-You are given a string `s`.
-The problem asks you to check if `s` is a palindrome after specific filtering and casing rules.
-This is a string manipulation and two-pointer problem.
 
-**Constraints:**
-* `1 <= s.length <= 2 * 10^5`: The string can be quite long, so an O(n) solution is preferred. O(n log n) might also pass, but O(n^2) would be too slow.
-* `s consists only of printable ASCII characters`: This simplifies character handling, no complex encodings.
+This is a **two-pointer string problem** that requires checking if a string is a palindrome after preprocessing. The key insight is to use two pointers from both ends and compare characters while skipping non-alphanumeric characters.
 
-The most robust and efficient strategy involves processing the string to meet the palindrome rules and then applying a two-pointer approach. You can either pre-process the entire string first, or filter characters on the fly while comparing. The "on-the-fly" method is often slightly more memory-efficient as it doesn't create a new full string immediately, but both are O(N) time and O(N) or O(1) space (depending on how you count auxiliary space for the cleaned string). The "on-the-fly" method often has better constant factors for space.
+**Key observations:**
+- We need to ignore case (convert to lowercase)
+- We need to skip non-alphanumeric characters (punctuation, spaces)
+- We can use two pointers to compare from both ends
+- Empty string after preprocessing is considered a palindrome
 
-Let's focus on the "Two Pointers with On-the-Fly Filtering" strategy, as it's generally preferred for interviews due to its space efficiency and direct manipulation of the original string.
-
-**Decomposition:**
-1.  Initialize two pointers, `left` at the beginning of the string and `right` at the end.
-2.  While `left` is less than `right`:
-    a.  Move `left` inwards until it points to an alphanumeric character.
-    b.  Move `right` inwards until it points to an alphanumeric character.
-    c.  If `left` is still less than `right` (meaning both found valid characters):
-        i.  Compare the characters at `left` and `right`, ignoring case.
-        ii. If they don't match, return `false` (not a palindrome).
-        iii. If they match, move `left` one step right and `right` one step left.
-    d.  If `left` becomes `right` or `left` crosses `right`, the loop ends.
-3.  If the loop completes, it means all compared alphanumeric characters matched, so return `true` (it's a palindrome).
+**High-level approach:**
+1. **Use two pointers**: One from start, one from end
+2. **Skip non-alphanumeric characters**: Move pointers until we find valid characters
+3. **Compare characters**: Check if characters match (case-insensitive)
+4. **Continue until pointers meet**: If all comparisons pass, it's a palindrome
 
 ### Steps
-Let's use the example `s = "A man, a plan, a canal: Panama"`
 
-1.  Initialize `left = 0`, `right = len(s) - 1` (which is `29`).
-    `s[left]` is 'A', `s[right]` is 'a'.
+Let's break down the solution step by step:
 
-2.  **Loop starts (`left < right` is `0 < 29` which is True):**
+**Step 1: Initialize pointers**
+- `left = 0` (start of string)
+- `right = len(s) - 1` (end of string)
 
-    * **Find alphanumeric `s[left]`:**
-        * `s[0]` is 'A'. `s[0].isalnum()` is True. `left` stays `0`.
-    * **Find alphanumeric `s[right]`:**
-        * `s[29]` is 'a'. `s[29].isalnum()` is True. `right` stays `29`.
-    * **Compare:**
-        * `s[0].lower()` ('a') vs `s[29].lower()` ('a'). They match.
-    * **Move pointers:** `left` becomes `1`, `right` becomes `28`.
+**Step 2: Iterate while pointers don't cross**
+While `left < right`:
+- Skip non-alphanumeric characters from left
+- Skip non-alphanumeric characters from right
+- Compare characters (case-insensitive)
+- If they don't match, return `false`
+- Move pointers inward
 
-3.  **Loop continues (`left < right` is `1 < 28` which is True):**
+**Step 3: Return result**
+- If we reach the end without finding a mismatch, return `true`
 
-    * `s[1]` is ' '. `s[1].isalnum()` is False. `left` increments to `2`.
-    * `s[2]` is 'm'. `s[2].isalnum()` is True. `left` stays `2`.
-    * `s[28]` is 'm'. `s[28].isalnum()` is True. `right` stays `28`.
-    * **Compare:**
-        * `s[2].lower()` ('m') vs `s[28].lower()` ('m'). They match.
-    * **Move pointers:** `left` becomes `3`, `right` becomes `27`.
+**Example walkthrough:**
+Let's trace through the first example:
 
-4.  **Loop continues (`left < right` is `3 < 27` which is True):**
+```
+s = "A man, a plan, a canal: Panama"
 
-    * `s[3]` is 'a'. `left` stays `3`.
-    * `s[27]` is 'a'. `right` stays `27`.
-    * **Compare:** `s[3].lower()` ('a') vs `s[27].lower()` ('a'). Match.
-    * **Move pointers:** `left` becomes `4`, `right` becomes `26`.
+Initial state:
+left = 0, right = 29
 
-...This process repeats. Non-alphanumeric characters (spaces, commas, colons) will cause one of the inner `while` loops to advance a pointer. For example, if `s[left]` is a space, `left` will increment until it finds an alphanumeric character. The same happens for `right` moving inwards.
+Step 1: left points to 'A', right points to 'a'
+Both are alphanumeric, compare 'A' == 'a' (case-insensitive) ✓
+left = 1, right = 28
 
-Eventually, if `s = "A man, a plan, a canal: Panama"`, all corresponding alphanumeric characters will match. The pointers will cross or meet (`left >= right`). When `left` is no longer less than `right`, the `while left < right` loop terminates.
+Step 2: left points to ' ' (space), right points to 'm'
+Skip space from left: left = 2
+Compare 'm' == 'm' ✓
+left = 3, right = 27
 
-At this point, since no mismatches were found, the function returns `true`.
+Step 3: left points to 'a', right points to 'a'
+Compare 'a' == 'a' ✓
+left = 4, right = 26
 
-Example: `s = "race a car"`
-1.  Initialize `left = 0`, `right = 9`.
-    `s[0]` is 'r', `s[9]` is 'r'.
-2.  Loop:
-    * `left=0` ('r'), `right=9` ('r'). Match. `left=1`, `right=8`.
-    * `left=1` ('a'), `right=8` ('a'). Match. `left=2`, `right=7`.
-    * `left=2` ('c'), `right=7` ('c'). Match. `left=3`, `right=6`.
-    * `left=3` ('e'), `right=6` ('a'). **Mismatch!** ('e' != 'a'). Return `false`.
+... (continuing this process)
 
-This approach is efficient because it processes each character at most a constant number of times (once by `left`, once by `right`). So, time complexity is O(n). Space complexity is O(1) because you're only using a couple of pointers and not creating new large data structures.
+Final comparison: All characters match
+Result: Return true
+```
+
+> **Note:** The two-pointer approach is efficient because we only need to traverse the string once. We don't need to create a new cleaned string - we can process it in-place by skipping invalid characters.
+
+### Solution
+
+```python
+class Solution:
+    def isPalindrome(self, s: str) -> bool:
+        # Initialize two pointers
+        left, right = 0, len(s) - 1
+        
+        # Iterate while pointers don't cross
+        while left < right:
+            # Skip non-alphanumeric characters from left
+            while left < right and not s[left].isalnum():
+                left += 1
+            
+            # Skip non-alphanumeric characters from right
+            while left < right and not s[right].isalnum():
+                right -= 1
+            
+            # Compare characters (case-insensitive)
+            if s[left].lower() != s[right].lower():
+                return False
+            
+            # Move pointers inward
+            left += 1
+            right -= 1
+        
+        # If we reach here, it's a palindrome
+        return True
+```
+
+**Time Complexity:** O(n) - we visit each character at most once  
+**Space Complexity:** O(1) - we only use a constant amount of extra space
