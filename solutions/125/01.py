@@ -1,21 +1,25 @@
-def is_palindrome(s: str) -> bool:
-    left = 0  # Pointer starting from the beginning of the string
-    right = len(s) - 1  # Pointer starting from the end of the string
+class Solution:
+    def isPalindrome(self, s: str) -> bool:
+        # Initialize two pointers
+        left, right = 0, len(s) - 1
 
-    while left < right:
-        while left < right and not s[left].isalnum():
-            left += 1
+        # Iterate while pointers don't cross
+        while left < right:
+            # Skip non-alphanumeric characters from left
+            while left < right and not s[left].isalnum():
+                left += 1
 
-        while left < right and not s[right].isalnum():
-            right -= 1
+            # Skip non-alphanumeric characters from right
+            while left < right and not s[right].isalnum():
+                right -= 1
 
-        if left < right:
+            # Compare characters (case-insensitive)
             if s[left].lower() != s[right].lower():
-                res = False
-                return res
+                return False
 
+            # Move pointers inward
             left += 1
             right -= 1
 
-    res = True
-    return res
+        # If we reach here, it's a palindrome
+        return True
