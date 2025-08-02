@@ -1,5 +1,6 @@
 .continue
 .cursor
+.void
 .research
 .DS_Store
 .venv
