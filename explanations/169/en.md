@@ -1,30 +1,31 @@
-# 169. Majority Element
+# 169. Majority Element [Easy]
 
-**Difficulty:** Easy  
-**Link:** https://leetcode.com/problems/majority-element/
+https://leetcode.com/problems/majority-element/
 
-## Problem Description
+## Description
 
 Given an array `nums` of size `n`, return *the majority element*.
 
 The majority element is the element that appears more than `⌊n / 2⌋` times. You may assume that the majority element always exists in the array.
 
 **Example 1:**
-```
+```text
 Input: nums = [3,2,3]
 Output: 3
 ```
 
 **Example 2:**
-```
+```text
 Input: nums = [2,2,1,1,1,2,2]
 Output: 2
 ```
 
 **Constraints:**
-- `n == nums.length`
-- `1 <= n <= 5 * 10^4`
-- `-10^9 <= nums[i] <= 10^9`
+```text
+- n == nums.length
+- 1 <= n <= 5 * 10^4
+- -10^9 <= nums[i] <= 10^9
+```
 
 **Follow-up:** Could you solve the problem in linear time and in `O(1)` space?
 
@@ -36,15 +37,18 @@ This is a **counting and voting problem** that requires finding the element that
 
 **Key observations:**
 - The majority element appears more than half the time
-- We can use a voting algorithm (Boyer-Moore Voting Algorithm)
+- You can use a voting algorithm (Boyer-Moore Voting Algorithm)
 - The majority element will always have a positive count at the end
-- We don't need to count all occurrences, just track the current candidate
+- You don't need to count all occurrences, just track the current candidate
 
 **High-level approach:**
+
 1. **Use a voting algorithm**: Track a candidate and its count
 2. **Initialize**: Set the first element as candidate with count 1
 3. **Iterate through array**: For each element, either increment count or change candidate
 4. **Return the winner**: The candidate at the end is the majority element
+
+> Boyer-Moore Voting Algorithm
 
 ### Steps
 
@@ -66,7 +70,7 @@ For each element starting from the second:
 **Example walkthrough:**
 Let's trace through the second example:
 
-```
+```sh
 nums = [2,2,1,1,1,2,2]
 
 Initial state:
@@ -95,30 +99,5 @@ Result: Return candidate = 2
 
 > **Note:** The Boyer-Moore Voting Algorithm works because the majority element appears more than half the time. Even if all other elements "vote against" it, it will still have a positive count at the end.
 
-### Solution
-
-```python
-class Solution:
-    def majorityElement(self, nums: List[int]) -> int:
-        # Initialize candidate and count
-        candidate = nums[0]
-        count = 1
-        
-        # Iterate through the array starting from the second element
-        for i in range(1, len(nums)):
-            if nums[i] == candidate:
-                count += 1
-            else:
-                count -= 1
-                # If count becomes 0, change candidate
-                if count == 0:
-                    candidate = nums[i]
-                    count = 1
-        
-        # Return the majority element
-        return candidate
-```
-
-**Time Complexity:** O(n) - we visit each element exactly once  
-**Space Complexity:** O(1) - we only use a constant amount of extra space
-
+**Time Complexity:** O(n) - you visit each element exactly once  
+**Space Complexity:** O(1) - you only use a constant amount of extra space
