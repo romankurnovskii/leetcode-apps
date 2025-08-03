@@ -1,9 +1,8 @@
-# 141. Linked List Cycle
+# 141. Linked List Cycle [Easy]
 
-**Difficulty:** Easy  
-**Link:** https://leetcode.com/problems/linked-list-cycle/
+https://leetcode.com/problems/linked-list-cycle
 
-## Problem Description
+## Description
 
 Given `head`, the head of a linked list, determine if the linked list has a cycle in it.
 
@@ -12,30 +11,32 @@ There is a cycle in a linked list if there is some node in the list that can be 
 Return `true` *if there is a cycle in the linked list*. Otherwise, return `false`.
 
 **Example 1:**
-```
+```text
 Input: head = [3,2,0,-4], pos = 1
 Output: true
 Explanation: There is a cycle in the linked list, where the tail connects to the 1st node (0-indexed).
 ```
 
 **Example 2:**
-```
+```text
 Input: head = [1,2], pos = 0
 Output: true
 Explanation: There is a cycle in the linked list, where the tail connects to the 0th node.
 ```
 
 **Example 3:**
-```
+```text
 Input: head = [1], pos = -1
 Output: false
 Explanation: There is no cycle in the linked list.
 ```
 
 **Constraints:**
+
 - The number of the nodes in the list is in the range `[0, 10^4]`.
 - `-10^5 <= Node.val <= 10^5`
 - `pos` is `-1` or a **valid index** in the linked-list.
+
 
 **Follow up:** Can you solve it using `O(1)` (i.e. constant) memory?
 
@@ -75,12 +76,12 @@ While `fast` is not null and `fast.next` is not null:
 - If slow and fast meet, return true (cycle detected)
 
 **Step 4: Return result**
-- If we exit the loop, return false (no cycle)
+- If you exit the loop, return false (no cycle)
 
 **Example walkthrough:**
 Let's trace through the first example:
 
-```
+```text
 head = [3,2,0,-4], pos = 1 (cycle from -4 back to 2)
 
 Initial state:
@@ -96,40 +97,5 @@ Result: Return true (cycle detected)
 
 > **Note:** Floyd's Cycle-Finding Algorithm is optimal because it uses O(1) space and O(n) time. The mathematical proof shows that if there's a cycle, the fast pointer will eventually catch the slow pointer within one cycle length.
 
-### Solution
-
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
-    def hasCycle(self, head: Optional[ListNode]) -> bool:
-        # Handle edge cases
-        if not head or not head.next:
-            return False
-        
-        # Initialize two pointers
-        slow = head
-        fast = head.next
-        
-        # Move pointers until they meet or reach end
-        while fast and fast.next:
-            # If pointers meet, there's a cycle
-            if slow == fast:
-                return True
-            
-            # Move slow pointer one step
-            slow = slow.next
-            
-            # Move fast pointer two steps
-            fast = fast.next.next
-        
-        # If we reach here, there's no cycle
-        return False
-```
-
-**Time Complexity:** O(n) - in the worst case, we visit each node at most twice  
-**Space Complexity:** O(1) - we only use two pointers regardless of input size 
+**Time Complexity:** O(n) - in the worst case, you visit each node at most twice  
+**Space Complexity:** O(1) - you only use two pointers regardless of input size 
