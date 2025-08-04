@@ -1,28 +1,27 @@
-# 136. Single Number
+# 136. Single Number [Easy]
 
-**Difficulty:** Easy  
-**Link:** https://leetcode.com/problems/single-number/
+[https://leetcode.com/problems/single-number](https://leetcode.com/problems/single-number)
 
-## Problem Description
+## Description
 
 Given a **non-empty** array of integers `nums`, every element appears *twice* except for one. Find that single one.
 
 You must implement a solution with a linear runtime complexity and use only constant extra space.
 
 **Example 1:**
-```
+```text
 Input: nums = [2,2,1]
 Output: 1
 ```
 
 **Example 2:**
-```
+```text
 Input: nums = [4,1,2,1,2]
 Output: 4
 ```
 
 **Example 3:**
-```
+```text
 Input: nums = [1]
 Output: 1
 ```
@@ -67,7 +66,7 @@ For each number in the array:
 **Example walkthrough:**
 Let's trace through the second example:
 
-```
+```text
 nums = [4,1,2,1,2]
 
 Initial state:
@@ -93,23 +92,7 @@ Result: Return 4
 - `= 4 ^ 0`
 - `= 4`
 
-> **Note:** The XOR operation is perfect for this problem because it has the property that `a ^ a = 0` and `a ^ 0 = a`. This means that when we XOR all numbers, pairs of identical numbers will cancel out to 0, leaving only the single number.
+> **Note:** The XOR operation is perfect for this problem because it has the property that `a ^ a = 0` and `a ^ 0 = a`. This means that when you XOR all numbers, pairs of identical numbers will cancel out to 0, leaving only the single number.
 
-### Solution
-
-```python
-class Solution:
-    def singleNumber(self, nums: List[int]) -> int:
-        # Initialize result
-        result = 0
-        
-        # XOR all numbers in the array
-        for num in nums:
-            result ^= num
-        
-        # Return the single number
-        return result
-```
-
-**Time Complexity:** O(n) - we visit each element exactly once  
-**Space Complexity:** O(1) - we only use a constant amount of extra space 
+**Time Complexity:** O(n) - you visit each element exactly once  
+**Space Complexity:** O(1) - you only use a constant amount of extra space 

@@ -1,11 +1,7 @@
-class Solution:
-    def singleNumber(self, nums: List[int]) -> int:
-        # Initialize result
-        result = 0
+def singleNumber(nums: List[int]) -> int:
+    result = 0
 
-        # XOR all numbers in the array
-        for num in nums:
-            result ^= num
+    for num in nums:
+        result ^= num  # XOR
 
-        # Return the single number
-        return result
+    return result
