@@ -1,4 +1,4 @@
-# Random
+# All
 
 
 
@@ -19,8 +19,9 @@ You may assume that each input would have exactly one solution, and you may not 
 
 You can return the answer in any order.
 
-Example:
-```
+Examples:
+
+```text
 Input: nums = [2,7,11,15], target = 9
 Output: [0,1]
 Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
@@ -33,7 +34,8 @@ Output: [0,1]
 ```
 
 Constraints:
-```
+
+```text
 2 <= nums.length <= 10^4
 -10^9 <= nums[i] <= 10^9
 -10^9 <= target <= 10^9
@@ -187,163 +189,135 @@ def maxArea(height):
     return max_area
 ```
 
-## 151. Reverse Words in a String [Medium]
-https://leetcode.com/problems/reverse-words-in-a-string
+## 141. Linked List Cycle [Easy]
+https://leetcode.com/problems/linked-list-cycle/
 
 ### Explanation
 
-## 151. Reverse Words in a String [Medium]
+# 141. Linked List Cycle [Easy]
 
-https://leetcode.com/problems/reverse-words-in-a-string
+https://leetcode.com/problems/linked-list-cycle
 
 ## Description
-Given an input string s, reverse the order of the words.
 
-A word is defined as a sequence of non-space characters. The words in s will be separated by at least one space.
+Given `head`, the head of a linked list, determine if the linked list has a cycle in it.
 
-Return a string of the words in reverse order concatenated by a single space.
+There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the `next` pointer. Internally, `pos` is used to denote the index of the node that tail's `next` pointer is connected to. **Note that `pos` is not passed as a parameter**.
 
-Note that s may contain leading or trailing spaces or multiple spaces between two words. The returned string should only have a single space separating the words. Do not include any extra spaces.
+Return `true` *if there is a cycle in the linked list*. Otherwise, return `false`.
 
-**Examples**
-Input: s = "the sky is blue"
-Output: "blue is sky the"
+**Example 1:**
+```text
+Input: head = [3,2,0,-4], pos = 1
+Output: true
+Explanation: There is a cycle in the linked list, where the tail connects to the 1st node (0-indexed).
+```
 
-Input: s = "  hello world  "
-Output: "world hello"
-Explanation: Your reversed string should not contain leading or trailing spaces.
+**Example 2:**
+```text
+Input: head = [1,2], pos = 0
+Output: true
+Explanation: There is a cycle in the linked list, where the tail connects to the 0th node.
+```
 
-Input: s = "a good   example"
-Output: "example good a"
-Explanation: You need to reduce multiple spaces between two words to a single space in the reversed string.
+**Example 3:**
+```text
+Input: head = [1], pos = -1
+Output: false
+Explanation: There is no cycle in the linked list.
+```
 
-**Constraints**
-- 1 <= s.length <= 10^4
-- s contains English letters (upper-case and lower-case), digits, and spaces ' '.
-- There is at least one word in s.
+**Constraints:**
 
-## Hint
-Split the string into words, reverse the list, and join them back.
+- The number of the nodes in the list is in the range `[0, 10^4]`.
+- `-10^5 <= Node.val <= 10^5`
+- `pos` is `-1` or a **valid index** in the linked-list.
+
+
+**Follow up:** Can you solve it using `O(1)` (i.e. constant) memory?
 
 ## Explanation
-Let's think of the sentence as a row of blocks, each block being a word. To reverse the sentence, we break it into blocks, flip the order, and stick them back together.
 
-We do this because splitting and reversing is much easier than trying to move words around in the original string. Python's split and join functions make this super efficient, and by removing extra spaces, we make sure the result is clean and matches the requirements.
+### Strategy
 
-This approach is both simple and effective, making it a great example of using built-in tools to solve a problem quickly.
+This is a **two-pointer problem** that requires detecting a cycle in a linked list. The key insight is to use Floyd's Cycle-Finding Algorithm (also known as the "tortoise and hare" algorithm), which uses two pointers moving at different speeds.
+
+**Key observations:**
+- If there's a cycle, a fast pointer will eventually catch up to a slow pointer
+- If there's no cycle, the fast pointer will reach the end (null)
+- The fast pointer moves twice as fast as the slow pointer
+- This approach uses O(1) space, which is optimal
+
+**High-level approach:**
+1. **Use two pointers**: Slow pointer (tortoise) and fast pointer (hare)
+2. **Move pointers**: Slow moves 1 step, fast moves 2 steps
+3. **Check for cycle**: If fast catches slow, there's a cycle
+4. **Check for end**: If fast reaches null, there's no cycle
+
+### Steps
+
+Let's break down the solution step by step:
+
+**Step 1: Handle edge cases**
+- If head is null or head.next is null, return false
+
+**Step 2: Initialize pointers**
+- `slow = head` (moves 1 step at a time)
+- `fast = head.next` (moves 2 steps at a time)
+
+**Step 3: Move pointers until they meet or reach end**
+While `fast` is not null and `fast.next` is not null:
+- Move slow pointer: `slow = slow.next`
+- Move fast pointer: `fast = fast.next.next`
+- If slow and fast meet, return true (cycle detected)
+
+**Step 4: Return result**
+- If you exit the loop, return false (no cycle)
+
+**Example walkthrough:**
+Let's trace through the first example:
+
+```text
+head = [3,2,0,-4], pos = 1 (cycle from -4 back to 2)
+
+Initial state:
+slow = 3, fast = 2
+
+Step 1: slow = 2, fast = 0
+Step 2: slow = 0, fast = 2
+Step 3: slow = -4, fast = 0
+Step 4: slow = 2, fast = 2 (they meet!)
+
+Result: Return true (cycle detected)
+```
+
+> **Note:** Floyd's Cycle-Finding Algorithm is optimal because it uses O(1) space and O(n) time. The mathematical proof shows that if there's a cycle, the fast pointer will eventually catch the slow pointer within one cycle length.
+
+**Time Complexity:** O(n) - in the worst case, you visit each node at most twice  
+**Space Complexity:** O(1) - you only use two pointers regardless of input size
 
 ### Solution
 
 ```python
-def reverseWords(s):
-    words = s.strip().split()
-    return " ".join(reversed(words))
+def __init__(self, x):
+#         self.val = x
+#         self.next = None
 ```
 
-## 238. Product of Array Except Self [Medium]
-https://leetcode.com/problems/product-of-array-except-self
+## 226. Invert Binary Tree [Easy]
+https://leetcode.com/problems/invert-binary-tree/
 
 ### Explanation
 
-## 238. Product of Array Except Self [Medium]
-
-https://leetcode.com/problems/product-of-array-except-self
-
-## Description
-Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i].
-
-The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.
-
-You must write an algorithm that runs in O(n) time and without using the division operation.
-
-**Examples**
-Input: nums = [1,2,3,4]
-Output: [24,12,8,6]
-
-Input: nums = [-1,1,0,-3,3]
-Output: [0,0,9,0,0]
-
-**Constraints**
-
-```
-2 <= nums.length <= 10^5
--30 <= nums[i] <= 30
-The input is generated such that answer[i] is guaranteed to fit in a 32-bit integer.
-```
-
-## Hint
-Use two passes: one to calculate products to the left of each index, and one for the right.
-
-## Explanation
-We want to find the product of all numbers except the one at each position. If we used division, we could just multiply everything and divide by nums[i], but the problem says no division!
-
-So, we use two passes. First, we go from left to right, building up the product of all numbers to the left of each index. We do this because it lets us know, for each position, what the product is before that number.
-
-Then, we go from right to left, multiplying each answer by the product of all numbers to the right. This way, each answer[i] ends up being the product of everything except nums[i].
-
-This approach is efficient because it only needs two passes and uses O(1) extra space (not counting the output array), making it perfect for large arrays.
+TODO
 
 ### Solution
 
 ```python
-def productExceptSelf(nums):
-    n = len(nums)
-    answer = [1] * n
-    left = 1
-    for i in range(n):
-        answer[i] = left
-        left *= nums[i]
-    right = 1
-    for i in range(n - 1, -1, -1):
-        answer[i] *= right
-        right *= nums[i]
-    return answer
-```
-
-## 283. Move Zeroes [Easy]
-https://leetcode.com/problems/move-zeroes/
-
-### Explanation
-
-## 283. Move Zeroes [Easy]
-
-https://leetcode.com/problems/move-zeroes
-
-## Description
-Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements.
-
-Note that you must do this in-place without making a copy of the array.
-
-**Examples**
-Input: nums = [0,1,0,3,12]
-Output: [1,3,12,0,0]
-
-Input: nums = [0]
-Output: [0]
-
-**Constraints**
-- 1 <= nums.length <= 10^4
-- -2^31 <= nums[i] <= 2^31 - 1
-
-## Hint
-Use two pointers: one to keep track of the current position to place a non-zero, and one to iterate through the array.
-
-## Explanation
-We use two pointers: one iterates through the array, and the other keeps track of where to place the next non-zero element. As we iterate, whenever we find a non-zero, we place it at the position of the first pointer and increment it. After all non-zeros are placed, we fill the rest of the array with zeros.
-
-This approach ensures all non-zero elements retain their original order, and all zeros are moved to the end efficiently in a single pass.
-
-### Solution
-
-```python
-def moveZeroes(nums):
-    insert_pos = 0
-    for num in nums:
-        if num != 0:
-            nums[insert_pos] = num
-            insert_pos += 1
-    for i in range(insert_pos, len(nums)):
-        nums[i] = 0
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 ```
 
 ## 334. Increasing Triplet Subsequence [Medium]
@@ -413,36 +387,73 @@ https://leetcode.com/problems/reverse-vowels-of-a-string
 https://leetcode.com/problems/reverse-vowels-of-a-string
 
 ## Description
-Given a string s, reverse only all the vowels in the string and return it.
+Given a string `s`, reverse only all the vowels in the string and return it.
 
-The vowels are 'a', 'e', 'i', 'o', and 'u', and they can appear in both lower and upper cases, more than once.
+The vowels are `'a'`, `'e'`, `'i'`, `'o'`, and `'u'`, and they can appear in both lower and upper cases, more than once.
 
 **Examples**
-Input: s = "hello"
-Output: "holle"
+
+```text
+Input: s = "IceCreAm"
+Output: "AceCreIm"
+Explanation: The vowels in s are ['I', 'e', 'e', 'A']. On reversing the vowels, s becomes "AceCreIm".
 
 Input: s = "leetcode"
 Output: "leotcede"
+```
 
 **Constraints**
-- 1 <= s.length <= 3 * 10^5
-- s consist of printable ASCII characters.
 
-## Hint
-Use two pointers to find vowels from both ends and swap them.
+```text
+1 <= s.length <= 3 * 10^5
+s consist of printable ASCII characters.
+```
 
 ## Explanation
-We want to reverse only the vowels in the string. To do this efficiently, we use two pointers: one starting from the left, one from the right. We move each pointer until it finds a vowel. When both pointers are at vowels, we swap them.
 
-We do this because it lets us reverse the vowels in-place, without affecting the other characters. Using two pointers is efficient and avoids unnecessary work, especially for long strings.
+### Strategy
+- **Type:** String, Two Pointers
+- **Given:** A string `s`
+- **Asked:** Reverse only the vowels in `s`, keeping all other characters in their original positions
 
-We keep moving the pointers toward each other, swapping vowels as we go, until they meet in the middle. This ensures every vowel is swapped exactly once, making the solution both correct and efficient.
+#### What does "reverse vowels" mean?
+- Only the vowels ('a', 'e', 'i', 'o', 'u', both lowercase and uppercase) should be reversed in order. All other characters stay in place.
+
+Ro reverse only the vowels in the string efficiently, you can use **two pointers**: one starting from the left, one from the right. You *move* each pointer until it finds a vowel. When both pointers are at vowels, you *swap* them.
+
+You do this because it lets you reverse the vowels in-place, without affecting the other characters. Using two pointers is efficient and avoids unnecessary work, especially for long strings.
+
+You keep moving the pointers toward each other, swapping vowels as you go, until they meet in the middle. This ensures every vowel is swapped exactly once, making the solution both correct and efficient.
+
+#### High-Level Plan
+1. Use two pointers: one starting from the left, one from the right.
+2. Move each pointer until it finds a vowel.
+3. When both pointers are at vowels, swap them.
+4. Move the pointers toward each other and repeat until they meet.
+
+### Steps
+
+Let's walk through an example: s = "IceCreAm"
+
+1. Vowels in s: ['I', 'e', 'e', 'A']
+2. Start with pointers at the beginning and end.
+3. Swap 'I' (start) with 'A' (end): "AceCreIm"
+4. Move pointers inward, swap 'e' with 'e' (no visible change)
+5. Continue until pointers meet
+6. Result: "AceCreIm"
+
+> **Note:**
+> - Using two pointers is efficient and avoids unnecessary work, especially for long strings.
+> - You only need to check for vowels and swap them; all other characters remain unchanged.
+
+- **Time Complexity:** O(n), where n is the length of the string
+- **Space Complexity:** O(n)
 
 ### Solution
 
 ```python
 def reverseVowels(s):
-    vowels = set("aeiouAEIOU")
+    vowels = set('aeiouAEIOU')
     s = list(s)
     left, right = 0, len(s) - 1
     while left < right:
@@ -454,52 +465,7 @@ def reverseVowels(s):
             s[left], s[right] = s[right], s[left]
             left += 1
             right -= 1
-    return "".join(s)
-```
-
-## 392. Is Subsequence [Easy]
-https://leetcode.com/problems/is-subsequence/
-
-### Explanation
-
-## 392. Is Subsequence [Easy]
-
-https://leetcode.com/problems/is-subsequence
-
-## Description
-Given two strings s and t, return true if s is a subsequence of t, or false otherwise.
-
-A subsequence of a string is a new string that is formed from the original string by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (i.e., "ace" is a subsequence of "abcde" while "aec" is not).
-
-**Examples**
-Input: s = "abc", t = "ahbgdc"
-Output: true
-
-Input: s = "axc", t = "ahbgdc"
-Output: false
-
-**Constraints**
-- 0 <= s.length <= 100
-- 0 <= t.length <= 10^4
-- s and t consist only of lowercase English letters.
-
-## Hint
-Use two pointers to check if you can match all characters of s in t in order.
-
-## Explanation
-Let's imagine s as a list of items you want to find, and t as a long conveyor belt of items. You want to see if you can pick up all the items from s, in order, as they appear on the conveyor belt t. You use two pointers: one for s and one for t. Every time you see a match, you move the pointer for s forward. If you reach the end of s, it means you found all the items in order!
-
-This approach is efficient because you only need to go through t once, and you never go back. It's perfect for checking subsequences quickly.
-
-### Solution
-
-```python
-def isSubsequence(s, t):
-    i = 0
-    for c in t:
-        if i < len(s) and s[i] == c:
-            i += 1
-    return i == len(s)
+    return ''.join(s)
 ```
 
 ## 443. String Compression [Medium]
@@ -575,32 +541,66 @@ https://leetcode.com/problems/can-place-flowers
 https://leetcode.com/problems/can-place-flowers
 
 ## Description
-You have a long flowerbed in which some plots are planted, and some are not. However, flowers cannot be planted in adjacent plots.
+You have a long flowerbed in which some of the plots are planted, and some are not. However, flowers cannot be planted in **adjacent** plots.
 
-Given an integer array flowerbed containing 0's and 1's, where 0 means empty and 1 means not empty, and an integer n, return true if n new flowers can be planted in the flowerbed without violating the no-adjacent-flowers rule and false otherwise.
+Given an integer array `flowerbed` containing 0's and 1's, where 0 means empty and 1 means not empty, and an integer `n`, return `true` if `n` new flowers can be planted in the flowerbed without violating the no-adjacent-flowers rule and `false` otherwise.
 
 **Examples**
+```text
 Input: flowerbed = [1,0,0,0,1], n = 1
 Output: true
 
 Input: flowerbed = [1,0,0,0,1], n = 2
 Output: false
+```
 
 **Constraints**
-- 1 <= flowerbed.length <= 2 * 10^4
-- flowerbed[i] is 0 or 1.
-- There are no two adjacent flowers in the flowerbed.
-- 0 <= n <= flowerbed.length
-
-## Hint
-Check each empty plot and see if both neighbors are empty (or out of bounds).
+```text
+1 <= flowerbed.length <= 2 * 10^4
+flowerbed[i] is 0 or 1.
+There are no two adjacent flowers in flowerbed.
+0 <= n <= flowerbed.length
+```
 
 ## Explanation
-Let's imagine the flowerbed as a row of garden plots. We want to plant new flowers, but we can't put them right next to each other. So, for each empty spot, we check the spots to the left and right. If both are empty (or if we're at the edge), we can plant a flower there.
 
-We do this because it's the only way to guarantee we never break the "no neighbors" rule. By checking each spot, we make sure we don't miss any possible planting locations.
+### Strategy
+- **Type:** Array, Greedy
+- **Given:** An array `flowerbed` of 0s and 1s, and an integer `n`
+- **Asked:** Can you plant `n` new flowers in the flowerbed without any two flowers being adjacent?
 
-We keep a count of how many flowers we've planted. If we reach the required number, we can stop early and return True. This helps us avoid unnecessary work and makes our solution efficient.
+#### What does "adjacent" mean?
+- No two flowers (1s) can be next to each other. You can only plant at a 0 if both neighbors (or edges) are 0.
+
+Let's imagine the flowerbed as a row of garden plots. You want to plant new flowers, but you can't put them right next to each other. So, for each empty spot, you check the spots to the left and right. If both are empty (or if you're at the edge), you can plant a flower there.
+
+You do this because it's the only way to guarantee you never break the "no neighbors" rule. By checking each spot, you make sure you don't miss any possible planting locations.
+
+You keep a count of how many flowers you've planted. If you reach the required number, you can stop early and return True. This helps us avoid unnecessary work and makes our solution efficient.
+
+> Check each empty plot and see if both neighbors are empty (or out of bounds).
+
+#### High-Level Plan
+1. For each plot in the flowerbed, check if it is empty (0) and both neighbors are empty (or out of bounds).
+2. If so, plant a flower there (set to 1) and decrease `n`.
+3. If at any point `n` reaches 0, return True.
+4. If you finish the loop and haven't planted enough, return False.
+
+### Steps
+
+Let's walk through an example: flowerbed = [1,0,0,0,1], n = 1
+
+1. Start at index 0: already planted (1), skip.
+2. Index 1: empty, but left is 1, can't plant.
+3. Index 2: empty, left is 0, right is 0, can plant. Plant and set to 1, n becomes 0.
+4. Since n == 0, return True.
+
+> **Note:**
+> - Always check both neighbors (or treat out-of-bounds as 0).
+> - Stop early if n == 0 for efficiency.
+
+- **Time Complexity:** O(m), where m is the length of flowerbed
+- **Space Complexity:** O(1)
 
 ### Solution
 
@@ -609,8 +609,8 @@ def canPlaceFlowers(flowerbed, n):
     count = 0
     for i in range(len(flowerbed)):
         if flowerbed[i] == 0:
-            empty_left = (i == 0) or (flowerbed[i - 1] == 0)
-            empty_right = (i == len(flowerbed) - 1) or (flowerbed[i + 1] == 0)
+            empty_left = (i == 0) or (flowerbed[i-1] == 0)
+            empty_right = (i == len(flowerbed)-1) or (flowerbed[i+1] == 0)
             if empty_left and empty_right:
                 flowerbed[i] = 1
                 count += 1
@@ -632,24 +632,28 @@ https://leetcode.com/problems/maximum-average-subarray-i
 Given an array consisting of n integers, find the contiguous subarray of length k that has the maximum average value. Return this value.
 
 **Examples**
+```text
 Input: nums = [1,12,-5,-6,50,3], k = 4
 Output: 12.75
 Explanation: Maximum average is (12-5-6+50)/4 = 51/4 = 12.75
 
 Input: nums = [5], k = 1
 Output: 5.0
+```
 
 **Constraints**
+```text
 - 1 <= k <= n <= 10^5
 - -10^4 <= nums[i] <= 10^4
+```
 
 ## Hint
-Use a sliding window to keep track of the sum of k elements.
+Use a sliding window to keep track of the sum of `k` elements.
 
 ## Explanation
-Let's imagine the array as a long row of numbers. We want to find a group of k numbers in a row that, when averaged, gives us the biggest value. Instead of checking every possible group from scratch, we use a sliding window: we add the next number and remove the first number from the previous group.
+Let's imagine the array as a long row of numbers. We want to find a group of `k` numbers in a row that, when averaged, gives us the biggest value. Instead of checking every possible group from scratch, we use a sliding window: we add the next number and remove the first number from the previous group.
 
-We do this because it saves us from recalculating the sum for every window, making our solution much faster, especially for large arrays. By updating the sum as we slide the window, we always know the current total for the k numbers we're looking at.
+We do this because it saves us from recalculating the sum for every window, making our solution much faster, especially for large arrays. By updating the sum as we slide the window, we always know the current total for the `k` numbers we're looking at.
 
 This approach is efficient and perfect for problems where you need to look at all subarrays of a fixed size.
 
@@ -675,11 +679,12 @@ https://leetcode.com/problems/greatest-common-divisor-of-strings
 https://leetcode.com/problems/greatest-common-divisor-of-strings
 
 ## Description
-For two strings s and t, we say "t divides s" if and only if s = t + ... + t (i.e., t is concatenated with itself one or more times).
+For two strings `s` and `t`, we say "t divides s" if and only if `s = t + t + ... + t` (i.e., t is concatenated with itself one or more times).
 
-Given two strings str1 and str2, return the largest string x such that x divides both str1 and str2.
+Given two strings `str1` and `str2`, return the largest string `x` such that `x` divides both `str1` and `str2`.
 
 **Examples**
+```text
 Input: str1 = "ABCABC", str2 = "ABC"
 Output: "ABC"
 
@@ -688,22 +693,56 @@ Output: "AB"
 
 Input: str1 = "LEET", str2 = "CODE"
 Output: ""
+```
 
 **Constraints**
 - 1 <= str1.length, str2.length <= 1000
 - str1 and str2 consist of English uppercase letters.
 
-## Hint
-Try to find the greatest common divisor (GCD) of the lengths of the two strings, and check if the substring of that length divides both strings.
+> Try to find the greatest common divisor (GCD) of the lengths of the two strings, and check if the substring of that length divides both strings.
 
 ## Explanation
-Suppose you have two strings, and you want to find the biggest chunk that can be repeated to make both strings. Think of it like finding the biggest building block that fits perfectly into both.
 
-First, we check if both strings can be built by repeating the same substring, because if they can't, there's no common divisor string. We do this by comparing str1 + str2 and str2 + str1—if they're not the same, it means the order of repetition doesn't match, so no common divisor exists. This check is important because it quickly rules out impossible cases, saving us time and effort.
+### Strategy
+Let's restate the problem: Given two strings, find the largest string that can be repeated to form both strings exactly. This is a string manipulation problem with a mathematical twist (using the greatest common divisor, or GCD).
 
-Next, we use the greatest common divisor (GCD) of the lengths of the two strings. We do this because the largest possible repeating substring must fit evenly into both strings, and the GCD gives us the largest length that divides both. This is a mathematical shortcut that ensures we only check the most promising candidate.
+- **What is given?** Two strings, `str1` and `str2`.
+- **What is being asked?** Find the largest string x such that both str1 and str2 are made by repeating x some number of times.
+- **Constraints:** Both strings are non-empty, up to 1000 characters, and only contain uppercase English letters.
+- **Edge cases:** If the strings cannot be built from the same repeating substring, the answer is an empty string.
 
-Finally, we take the substring of that length from the start of either string and check if repeating it forms both strings. This works because if a substring can build both strings by repetition, it must be the answer.
+Suppose you have two strings, and you want to find the biggest chunk that can be repeated to make both strings. Think of it like finding the biggest building block that fits perfectly into **both**.
+
+First, you check if both strings can be built by repeating the same substring, because if they can't, there's no **common divisor** string. You do this by comparing `str1 + str2` and `str2 + str1` — if they're not the same, it means the order of repetition doesn't match, so no common divisor exists. This check is important because it quickly rules out impossible cases, saving you time and effort.
+
+Next, you use the greatest common divisor (GCD) of the lengths of the two strings. You do this because the largest possible repeating substring must fit evenly into both strings, and the GCD gives you the largest length that divides both. This is a mathematical shortcut that ensures you only check the most promising candidate.
+
+Finally, you take the substring of that length from the start of either string and check if repeating it forms both strings. This works because if a substring can build both strings by repetition, it must be the answer. 
+
+**High-level plan:**
+1. If `str1 + str2 != str2 + str1`, there is no common divisor string. Return "".
+2. Otherwise, the answer is the substring of length gcd(len(str1), len(str2)) from the start of either string.
+
+> Try to find the greatest common divisor (GCD) of the lengths of the two strings, and check if the substring of that length divides both strings.
+
+### Steps
+1. **Check for a valid repeating pattern:**
+   - Concatenate `str1 + str2` and `str2 + str1`. If they are not equal, it means the two strings cannot be built from the same repeating substring. For example:
+     - `str1 = "ABCABC", str2 = "ABC"` → `"ABCABCABC" == "ABCABCABC"` (valid)
+     - `str1 = "LEET", str2 = "CODE"` → `"LEETCODE" != "CODELEET"` (invalid)
+
+2. **Find the GCD of the lengths:**
+   - If the pattern is valid, compute the greatest common divisor (GCD) of the lengths of str1 and str2. This gives the largest possible length for the repeating substring.
+   - Example: `str1 = "ABABAB"` (length 6), `str2 = "ABAB"` (length 4). GCD(6, 4) = 2.
+
+3. **Extract the substring:**
+   - Take the substring of length GCD from the start of either string. This is the candidate for the greatest common divisor string.
+   - Example: `str1 = "ABABAB", str2 = "ABAB"`. GCD = 2, so substring = "AB".
+
+4. **Return the result:**
+   - If the above checks pass, return the substring. Otherwise, return an empty string.
+
+> The key insight is that if two strings are made by repeating the same substring, their concatenations in both orders must be equal. This is a quick way to check for a common divisor string.
 
 ### Solution
 
@@ -775,13 +814,15 @@ https://leetcode.com/problems/kids-with-the-greatest-number-of-candies
 https://leetcode.com/problems/kids-with-the-greatest-number-of-candies
 
 ## Description
-There are n kids with candies. You are given an integer array candies, where each candies[i] represents the number of candies the ith kid has, and an integer extraCandies, denoting the number of extra candies that you have.
+There are `n` kids with candies. You are given an integer array `candies`, where each `candies[i]` represents the number of candies the `i`th kid has, and an integer `extraCandies`, denoting the number of extra candies that you have.
 
-Return a boolean array result of length n, where result[i] is true if, after giving the ith kid all the extraCandies, they will have the greatest number of candies among all the kids, or false otherwise.
+Return a boolean array `result` of length `n`, where `result[i]` is `true` if, after giving the `i`th kid all the `extraCandies`, they will have the greatest number of candies among all the kids, or false otherwise.
 
 Note that multiple kids can have the greatest number of candies.
 
 **Examples**
+
+```text
 Input: candies = [2,3,5,1,3], extraCandies = 3
 Output: [true,true,true,false,true]
 Explanation: If you give all extraCandies to:
@@ -796,9 +837,11 @@ Output: [true,false,false,false,false]
 
 Input: candies = [12,1,12], extraCandies = 10
 Output: [true,false,true]
+```
 
 **Constraints**
-```
+
+```text
 - n == candies.length
 - 2 <= n <= 100
 - 1 <= candies[i] <= 100
@@ -806,14 +849,14 @@ Output: [true,false,true]
 ```
 
 ## Hint
-For each kid, check if their candies plus extraCandies is at least as much as the current maximum.
+For each kid, check if their candies plus `extraCandies` is at least as much as the current maximum.
 
 ## Explanation
-First, we want to know the highest number of candies any kid currently has. This is important because we need a reference point to see if giving extra candies to a kid will make them "the greatest."
+First, you want to know the highest number of candies any kid currently has. This is important because you need a reference point to see if giving extra candies to a kid will make them "the greatest."
 
-For each kid, we add the extraCandies to their current amount. We do this because we want to see if, after the bonus, they can reach or beat the current maximum. If they do, we mark them as True in our answer list; otherwise, False.
+For each kid, you add the `extraCandies` to their current amount. You do this because you want to see if, after the bonus, they can reach or beat the current maximum. If they do, you mark them as `True` in our answer list; otherwise, False.
 
-This approach is efficient because we only need to find the maximum once, and then just compare each kid's total to it. This saves us from recalculating the maximum for every kid, making our solution faster and cleaner.
+You only need to find the maximum once, and then just compare each kid's total to it. Don't need to recalculate the maximum for every kid.
 
 ### Solution
 
@@ -881,58 +924,6 @@ def closeStrings(word1, word2):
     return sorted(Counter(word1).values()) == sorted(Counter(word2).values())
 ```
 
-## 1679. Max Number of K-Sum Pairs [Medium]
-https://leetcode.com/problems/max-number-of-k-sum-pairs/
-
-### Explanation
-
-## 1679. Max Number of K-Sum Pairs [Medium]
-
-https://leetcode.com/problems/max-number-of-k-sum-pairs
-
-## Description
-You are given an integer array nums and an integer k.
-
-In one operation, you can pick two numbers from the array whose sum equals k and remove them from the array.
-
-Return the maximum number of operations you can perform on the array.
-
-**Examples**
-Input: nums = [1,2,3,4], k = 5
-Output: 2
-Explanation: Starting with nums = [1,2,3,4]:
-- Remove numbers 1 and 4, then nums = [2,3]
-- Remove numbers 2 and 3, then nums = []
-There are no more pairs that sum up to 5, hence a total of 2 operations.
-
-Input: nums = [3,1,3,4,3], k = 6
-Output: 1
-Explanation: Starting with nums = [3,1,3,4,3]:
-- Remove the first two 3's, then nums = [1,4,3]
-There are no more pairs that sum up to 6, hence a total of 1 operation.
-
-**Constraints**
-```
-- 1 <= nums.length <= 10^5
-- 1 <= nums[i] <= 10^9
-- 1 <= k <= 10^9
-```
-
-## Hint
-Use a hash map to count occurrences and find pairs efficiently.
-
-## Explanation
-Imagine you have a bag of numbers and you want to make as many pairs as possible that add up to k. For each number, check if you have seen its complement (k - number) before. If so, you can make a pair! Use a hash map to keep track of the numbers you have seen and how many are left.
-
-This approach is efficient because it lets you find pairs in a single pass through the array.
-
-### Solution
-
-```python
-def function_name(...):
-    pass
-```
-
 ## 1732. Find the Highest Altitude [Easy]
 https://leetcode.com/problems/find-the-highest-altitude/
 
@@ -996,6 +987,7 @@ You are given two strings, word1 and word2. Merge the strings by adding letters 
 Return the merged string.
 
 **Examples**
+```text
 Input: word1 = "abc", word2 = "pqr"
 Output: "apbqcr"
 Explanation: The merged string will be merged as so:
@@ -1016,6 +1008,7 @@ Explanation: Notice that as word1 is longer, "cd" is appended to the end.
 word1:  a   b   c   d
 word2:    p   q 
 merged: a p b q c   d
+```
 
 **Constraints**
 ```text
@@ -1023,8 +1016,7 @@ merged: a p b q c   d
 - word1 and word2 consist of lowercase English letters.
 ```
 
-## Hint
-In most cases, LeetCode Easy problems have a straightforward solution that can be derived from the description or the examples provided.
+> In most cases, LeetCode Easy problems have a straightforward solution that can be derived from the description or the examples provided.
 
 ## Explanation
 Imagine you have two strings, like two lines of colored beads. You want to make a new necklace by picking one bead from the first string, then one from the second, and keep going! If one string runs out, just add the rest from the other.
