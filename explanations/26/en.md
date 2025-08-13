@@ -1,5 +1,3 @@
-# 26. Remove Duplicates from Sorted Array [Easy]
-
 Given an integer array `nums` sorted in **non-decreasing order**, remove the duplicates **[in-place](https://en.wikipedia.org/wiki/In-place_algorithm)** such that each unique element appears only **once**. The **relative order** of the elements should be kept the **same**. Then return *the number of unique elements in* `nums`.
 
 Consider the number of unique elements of `nums` to be `k`, to get accepted, you need to do the following things:

@@ -14,12 +14,6 @@ Each LeetCode problem should have two files:
 Create the explanation file at `explanations/<problem-number>/en.md`:
 
 ```markdown
-# <Problem Number>. <Problem Title> [<Difficulty>]
-
-[<LeetCode URL>](<LeetCode URL>)
-
-## Problem Description
-
 <Full problem statement with examples, constraints, and any images as direct links>
 
 ## Explanation
