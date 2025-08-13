@@ -1,9 +1,4 @@
-# 26. Remove Duplicates from Sorted Array
-
-**Difficulty:** Easy  
-**Link:** https://leetcode.com/problems/remove-duplicates-from-sorted-array/
-
-## Problem Description
+# 26. Remove Duplicates from Sorted Array [Easy]
 
 Given an integer array `nums` sorted in **non-decreasing order**, remove the duplicates **[in-place](https://en.wikipedia.org/wiki/In-place_algorithm)** such that each unique element appears only **once**. The **relative order** of the elements should be kept the **same**. Then return *the number of unique elements in* `nums`.
 
@@ -16,7 +11,7 @@ Consider the number of unique elements of `nums` to be `k`, to get accepted, you
 
 The judge will test your solution with the following code:
 
-```
+```text
 int[] nums = [...]; // Input array
 int[] expectedNums = [...]; // The expected answer with correct length
 
@@ -31,7 +26,7 @@ for (int i = 0; i < k; i++) {
 If all assertions pass, then your solution will be **accepted**.
 
 **Example 1:**
-```
+```text
 Input: nums = [1,1,2]
 Output: 2, nums = [1,2,_]
 Explanation: Your function should return k = 2, with the first two elements of nums being 1 and 2 respectively.
@@ -39,7 +34,7 @@ It does not matter what you leave beyond the returned k (hence they are undersco
 ```
 
 **Example 2:**
-```
+```text
 Input: nums = [0,0,1,1,1,2,2,3,3,4]
 Output: 5, nums = [0,1,2,3,4,_,_,_,_,_]
 Explanation: Your function should return k = 5, with the first five elements of nums being 0, 1, 2, 3, and 4 respectively.
@@ -96,7 +91,7 @@ For each element at position `fast`:
 **Example walkthrough:**
 Let's trace through the second example:
 
-```
+```text
 nums = [0,0,1,1,1,2,2,3,3,4]
 
 Initial state:
