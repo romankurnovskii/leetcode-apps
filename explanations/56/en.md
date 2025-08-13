@@ -1,21 +1,14 @@
-# 56. Merge Intervals
-
-**Difficulty:** Medium  
-**Link:** https://leetcode.com/problems/merge-intervals/
-
-## Problem Description
-
 Given an array of `intervals` where `intervals[i] = [start_i, end_i]`, merge all overlapping intervals, and return *an array of the non-overlapping intervals that cover all the intervals in the input*.
 
 **Example 1:**
-```
+```text
 Input: intervals = [[1,3],[2,6],[8,10],[15,18]]
 Output: [[1,6],[8,10],[15,18]]
 Explanation: Since intervals [1,3] and [2,6] overlap, merge them into [1,6].
 ```
 
 **Example 2:**
-```
+```text
 Input: intervals = [[1,4],[4,5]]
 Output: [[1,5]]
 Explanation: Intervals [1,4] and [4,5] are considered overlapping.
@@ -66,7 +59,7 @@ For each interval starting from second:
 **Example walkthrough:**
 Let's trace through the first example:
 
-```
+```text
 intervals = [[1,3],[2,6],[8,10],[15,18]]
 
 Step 1: Sort intervals
@@ -92,35 +85,6 @@ Result: [[1,6],[8,10],[15,18]]
 ```
 
 > **Note:** The key insight is that after sorting by start time, we only need to check if the current interval overlaps with the last interval in our result. This works because all previous intervals are already merged and non-overlapping.
-
-### Solution
-
-```python
-class Solution:
-    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
-        # Handle edge case
-        if not intervals:
-            return []
-        
-        # Sort intervals by start time
-        intervals.sort(key=lambda x: x[0])
-        
-        # Initialize result with first interval
-        result = [intervals[0]]
-        
-        # Iterate through remaining intervals
-        for interval in intervals[1:]:
-            # Check if current interval overlaps with last in result
-            if interval[0] <= result[-1][1]:
-                # Merge intervals by updating end time
-                result[-1][1] = max(result[-1][1], interval[1])
-            else:
-                # No overlap, add current interval to result
-                result.append(interval)
-        
-        # Return merged intervals
-        return result
-```
 
 **Time Complexity:** O(n log n) - sorting takes O(n log n), merging takes O(n)  
 **Space Complexity:** O(n) - to store the result 
