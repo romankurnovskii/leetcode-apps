@@ -1,23 +1,17 @@
-# 55. Jump Game
-
-**Difficulty:** Medium  
-**Link:** https://leetcode.com/problems/jump-game/
-
-## Problem Description
-
 You are given an integer array `nums`. You are initially positioned at the array's **first index**, and each element in the array represents your maximum jump length at that position.
 
 Return `true` *if you can reach the last index, or* `false` *otherwise*.
 
 **Example 1:**
-```
+
+```text
 Input: nums = [2,3,1,1,4]
 Output: true
 Explanation: Jump 1 step from index 0 to 1, then 3 steps to the last index.
 ```
 
 **Example 2:**
-```
+```text
 Input: nums = [3,2,1,0,4]
 Output: false
 Explanation: You will always arrive at index 3 no matter what. Its maximum jump length is 0, which makes it impossible to reach the last index.
@@ -63,7 +57,7 @@ For each position `i`:
 **Example walkthrough:**
 Let's trace through the first example:
 
-```
+```text
 nums = [2,3,1,1,4]
 
 Initial state:
@@ -93,27 +87,6 @@ Result: Return true (can reach last position)
 ```
 
 > **Note:** The greedy approach works because if we can reach position i, we can reach any position up to i + nums[i]. This means we only need to track the maximum reachable position, not the specific path.
-
-### Solution
-
-```python
-class Solution:
-    def canJump(self, nums: List[int]) -> bool:
-        # Track the maximum position we can reach
-        max_reach = 0
-        
-        # Iterate through the array
-        for i in range(len(nums)):
-            # If we can't reach the current position, we can't reach the end
-            if i > max_reach:
-                return False
-            
-            # Update the maximum position we can reach
-            max_reach = max(max_reach, i + nums[i])
-        
-        # If we can reach the last position, return true
-        return True
-```
 
 **Time Complexity:** O(n) - we visit each element exactly once  
 **Space Complexity:** O(1) - we only use a constant amount of extra space 
