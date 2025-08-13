@@ -1,9 +1,6 @@
-# 63. Unique Paths II
+# 63. Unique Paths II [Medium]
 
-**Difficulty:** Medium  
-**Link:** https://leetcode.com/problems/unique-paths-ii/
-
-## Problem Description
+[https://leetcode.com/problems/unique-paths-ii/](https://leetcode.com/problems/unique-paths-ii/)
 
 You are given an `m x n` integer array `grid`. There is a robot initially located at the **top-left corner** (i.e., `grid[0][0]`). The robot tries to move to the **bottom-right corner** (i.e., `grid[m - 1][n - 1]`). The robot can only move either down or right at any point in time.
 
@@ -14,7 +11,8 @@ Return *the number of possible unique paths that the robot can take to reach the
 The testcases are generated so that the answer will be less than or equal to `2 * 10^9`.
 
 **Example 1:**
-```
+
+```text
 Input: obstacleGrid = [[0,0,0],[0,1,0],[0,0,0]]
 Output: 2
 Explanation: There is one obstacle in the middle of the 3x3 grid above.
@@ -23,11 +21,16 @@ There are two ways to reach the bottom-right corner:
 2. Down → Down → Right → Right
 ```
 
+![e1](https://assets.leetcode.com/uploads/2020/11/04/robot1.jpg)
+
 **Example 2:**
-```
+
+```text
 Input: obstacleGrid = [[0,1],[0,0]]
 Output: 1
 ```
+
+![e2](https://assets.leetcode.com/uploads/2020/11/04/robot2.jpg)
 
 **Constraints:**
 - `m == obstacleGrid.length`
@@ -78,7 +81,7 @@ Let's break down the solution step by step:
 **Example walkthrough:**
 Let's trace through the first example:
 
-```
+```text
 obstacleGrid = [[0,0,0],[0,1,0],[0,0,0]]
 
 Step 1: Initialize
@@ -100,45 +103,6 @@ Result: dp[2][2] = 2
 ```
 
 > **Note:** The key insight is that the number of paths to reach any cell is the sum of paths from the cell above and the cell to the left, but only if the current cell is not an obstacle. This creates a natural DP structure.
-
-### Solution
-
-```python
-class Solution:
-    def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
-        # Handle edge cases
-        if not obstacleGrid or not obstacleGrid[0]:
-            return 0
-        
-        m, n = len(obstacleGrid), len(obstacleGrid[0])
-        
-        # If start or end is obstacle, return 0
-        if obstacleGrid[0][0] == 1 or obstacleGrid[m-1][n-1] == 1:
-            return 0
-        
-        # Initialize DP table
-        dp = [[0] * n for _ in range(m)]
-        dp[0][0] = 1
-        
-        # Fill first row
-        for j in range(1, n):
-            if obstacleGrid[0][j] == 0:
-                dp[0][j] = dp[0][j-1]
-        
-        # Fill first column
-        for i in range(1, m):
-            if obstacleGrid[i][0] == 0:
-                dp[i][0] = dp[i-1][0]
-        
-        # Fill remaining cells
-        for i in range(1, m):
-            for j in range(1, n):
-                if obstacleGrid[i][j] == 0:
-                    dp[i][j] = dp[i-1][j] + dp[i][j-1]
-        
-        # Return result
-        return dp[m-1][n-1]
-```
 
 **Time Complexity:** O(m * n) - we visit each cell exactly once  
 **Space Complexity:** O(m * n) - we need a DP table of the same size 

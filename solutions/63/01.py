@@ -33,5 +33,4 @@ class Solution:
                 if obstacleGrid[i][j] == 0:
                     dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
 
-        # Return result
         return dp[m - 1][n - 1]
