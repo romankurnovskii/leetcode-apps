@@ -1,23 +1,20 @@
-# 61. Rotate List
-
-**Difficulty:** Medium  
-**Link:** https://leetcode.com/problems/rotate-list/
-
-## Problem Description
-
 Given the `head` of a linked list, rotate the list to the right by `k` places.
 
 **Example 1:**
-```
+```text
 Input: head = [1,2,3,4,5], k = 2
 Output: [4,5,1,2,3]
 ```
 
+![1](https://assets.leetcode.com/uploads/2020/11/13/rotate1.jpg)
+
 **Example 2:**
-```
+```text
 Input: head = [0,1,2], k = 4
 Output: [2,0,1]
 ```
+
+![2](https://assets.leetcode.com/uploads/2020/11/13/roate2.jpg)
 
 **Constraints:**
 - The number of nodes in the list is in the range `[0, 500]`.
@@ -67,7 +64,7 @@ Let's break down the solution step by step:
 **Example walkthrough:**
 Let's trace through the first example:
 
-```
+```text
 head = [1,2,3,4,5], k = 2
 
 Step 1: Find length
@@ -93,55 +90,6 @@ Result: [4,5,1,2,3]
 ```
 
 > **Note:** The key insight is that rotating by k positions is equivalent to moving the last k nodes to the front. We can achieve this by finding the new head position and breaking/reconnecting the list at the appropriate point.
-
-### Solution
-
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
-
-class Solution:
-    def rotateRight(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
-        # Handle edge cases
-        if not head or not head.next or k == 0:
-            return head
-        
-        # Find the length of the list
-        length = 1
-        current = head
-        while current.next:
-            length += 1
-            current = current.next
-        
-        # Normalize k
-        k = k % length
-        if k == 0:
-            return head
-        
-        # Find the new head position
-        new_head_pos = length - k
-        
-        # Find the node before the new head
-        current = head
-        for _ in range(new_head_pos - 1):
-            current = current.next
-        
-        # Break the list and reconnect
-        new_head = current.next
-        current.next = None
-        
-        # Connect the end to the original head
-        last_node = new_head
-        while last_node.next:
-            last_node = last_node.next
-        last_node.next = head
-        
-        # Return the new head
-        return new_head
-```
 
 **Time Complexity:** O(n) - we visit each node at most twice  
 **Space Complexity:** O(1) - we only use a constant amount of extra space 
