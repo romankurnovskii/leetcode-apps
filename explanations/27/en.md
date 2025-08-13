@@ -2,7 +2,7 @@
 
 [https://leetcode.com/problems/remove-element/](https://leetcode.com/problems/remove-element/)
 
-## Problem Description
+## Description
 
 Given an integer array `nums` and an integer `val`, remove all occurrences of `val` in `nums` **[in-place](https://en.wikipedia.org/wiki/In-place_algorithm)**. The order of the elements may be changed. Then return *the number of elements in* `nums` *which are not equal to* `val`.
 
