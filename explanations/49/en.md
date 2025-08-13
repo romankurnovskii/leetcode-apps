@@ -1,14 +1,7 @@
-# 49. Group Anagrams
-
-**Difficulty:** Medium  
-**Link:** https://leetcode.com/problems/group-anagrams/
-
-## Problem Description
-
 Given an array of strings `strs`, group the **anagrams** together. You can return the answer in **any order**.
 
 **Example 1:**
-```
+```text
 Input: strs = ["eat","tea","tan","ate","nat","bat"]
 Output: [["bat"],["nat","tan"],["ate","eat","tea"]]
 
@@ -19,13 +12,13 @@ Explanation:
 ```
 
 **Example 2:**
-```
+```text
 Input: strs = [""]
 Output: [[""]]
 ```
 
 **Example 3:**
-```
+```text
 Input: strs = ["a"]
 Output: [["a"]]
 ```
@@ -72,7 +65,7 @@ For each string in the input array:
 **Example walkthrough:**
 Let's trace through the first example:
 
-```
+```text
 strs = ["eat","tea","tan","ate","nat","bat"]
 
 Step 1: Process "eat"
@@ -103,29 +96,6 @@ Result: Return [["bat"], ["nat", "tan"], ["ate", "eat", "tea"]]
 ```
 
 > **Note:** The key insight is that anagrams have the same characters, so sorting them gives us a unique identifier. This approach is efficient because we only need to sort each string once, and hash map operations are O(1) on average.
-
-### Solution
-
-```python
-class Solution:
-    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
-        # Initialize hash map to store groups
-        groups = {}
-        
-        # Process each string
-        for s in strs:
-            # Sort the characters to create a key
-            sorted_str = ''.join(sorted(s))
-            
-            # Add to the appropriate group
-            if sorted_str in groups:
-                groups[sorted_str].append(s)
-            else:
-                groups[sorted_str] = [s]
-        
-        # Return all groups
-        return list(groups.values())
-```
 
 **Time Complexity:** O(n * k log k) where n is the number of strings and k is the maximum length of any string  
 **Space Complexity:** O(n * k) to store all strings in the hash map 
