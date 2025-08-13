@@ -1,7 +1,4 @@
-# 70. Climbing Stairs
-
-**Difficulty:** Easy  
-**Link:** https://leetcode.com/problems/climbing-stairs/
+# 70. Climbing Stairs [Easy]
 
 ## Problem Description
 
@@ -10,7 +7,7 @@ You are climbing a staircase. It takes `n` steps to reach the top.
 Each time you can either climb `1` or `2` steps. In how many distinct ways can you climb to the top?
 
 **Example 1:**
-```
+```text
 Input: n = 2
 Output: 2
 Explanation: There are two ways to climb to the top.
@@ -72,7 +69,7 @@ Let's break down the solution step by step:
 **Example walkthrough:**
 Let's trace through the second example:
 
-```
+```text
 n = 3
 
 Step 1: Initialize
@@ -89,32 +86,6 @@ Result: 3
 ```
 
 > **Note:** The key insight is that this problem follows the Fibonacci sequence. The number of ways to reach step n is the sum of ways to reach the previous two steps, which creates an optimal substructure perfect for dynamic programming.
-
-### Solution
-
-```python
-class Solution:
-    def climbStairs(self, n: int) -> int:
-        # Handle base cases
-        if n == 1:
-            return 1
-        if n == 2:
-            return 2
-        
-        # Initialize variables for Fibonacci sequence
-        prev, curr = 1, 2
-        
-        # Iterate from step 3 to step n
-        for i in range(3, n + 1):
-            # Calculate next value
-            next_val = prev + curr
-            
-            # Update variables
-            prev, curr = curr, next_val
-        
-        # Return the number of ways to reach step n
-        return curr
-```
 
 **Time Complexity:** O(n) - we iterate from 3 to n  
 **Space Complexity:** O(1) - we only use a constant amount of extra space 
