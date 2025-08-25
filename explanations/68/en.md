@@ -1,10 +1,3 @@
-# 68. Text Justification
-
-**Difficulty:** Hard  
-**Link:** https://leetcode.com/problems/text-justification/
-
-## Problem Description
-
 Given an array of strings `words` and a width `maxWidth`, format the text such that each line has exactly `maxWidth` characters and is fully (left and right) justified.
 
 You should pack your words in a greedy approach; that is, pack as many words as you can in each line. Pad extra spaces `' '` when necessary so that each line has exactly `maxWidth` characters.
@@ -19,7 +12,7 @@ For the last line of text, it should be left-justified, and no extra space is in
 - The input array `words` contains at least one word.
 
 **Example 1:**
-```
+```text
 Input: words = ["This", "is", "an", "example", "of", "text", "justification."], maxWidth = 16
 Output:
 [
@@ -30,7 +23,7 @@ Output:
 ```
 
 **Example 2:**
-```
+```text
 Input: words = ["What","must","be","acknowledgment","shall","be"], maxWidth = 16
 Output:
 [
@@ -92,7 +85,7 @@ Let's break down the solution step by step:
 **Example walkthrough:**
 Let's trace through the first example:
 
-```
+```text
 words = ["This", "is", "an", "example", "of", "text", "justification."], maxWidth = 16
 
 Step 1: First line
@@ -118,52 +111,6 @@ result = ["This    is    an", "example  of text", "justification.  "]
 ```
 
 > **Note:** The key insight is to separate the logic for regular lines (fully justified) and the last line (left-justified). For regular lines, we need to carefully calculate space distribution to ensure even spacing.
-
-### Solution
-
-```python
-class Solution:
-    def fullJustify(self, words: List[str], maxWidth: int) -> List[str]:
-        result = []
-        current_line = []
-        current_length = 0
-        
-        for word in words:
-            # Check if word fits in current line
-            if current_length + len(word) + len(current_line) <= maxWidth:
-                current_line.append(word)
-                current_length += len(word)
-            else:
-                # Format current line
-                result.append(self.formatLine(current_line, maxWidth, False))
-                current_line = [word]
-                current_length = len(word)
-        
-        # Format last line
-        if current_line:
-            result.append(self.formatLine(current_line, maxWidth, True))
-        
-        return result
-    
-    def formatLine(self, words: List[str], maxWidth: int, is_last: bool) -> str:
-        if is_last or len(words) == 1:
-            # Left-justify for last line or single word
-            line = " ".join(words)
-            return line + " " * (maxWidth - len(line))
-        else:
-            # Fully justify
-            word_lengths = sum(len(word) for word in words)
-            total_spaces = maxWidth - word_lengths
-            spaces_between = total_spaces // (len(words) - 1)
-            extra_spaces = total_spaces % (len(words) - 1)
-            
-            result = words[0]
-            for i in range(1, len(words)):
-                spaces = spaces_between + (1 if i <= extra_spaces else 0)
-                result += " " * spaces + words[i]
-            
-            return result
-```
 
 **Time Complexity:** O(n) - we visit each word once  
 **Space Complexity:** O(n) - to store the result 
