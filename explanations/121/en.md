@@ -1,10 +1,3 @@
-# 121. Best Time to Buy and Sell Stock
-
-**Difficulty:** Easy  
-**Link:** https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
-
-## Problem Description
-
 You are given an array `prices` where `prices[i]` is the price of a given stock on the `i^th` day.
 
 You want to maximize your profit by choosing a **single day** to buy one stock and choosing a **different day in the future** to sell that stock.
@@ -12,7 +5,7 @@ You want to maximize your profit by choosing a **single day** to buy one stock a
 Return *the maximum profit you can achieve from this transaction*. If you cannot achieve any profit, return `0`.
 
 **Example 1:**
-```
+```text
 Input: prices = [7,1,5,3,6,4]
 Output: 5
 Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
@@ -20,7 +13,7 @@ Note that buying on day 2 and selling on day 1 is not allowed because you must b
 ```
 
 **Example 2:**
-```
+```text
 Input: prices = [7,6,4,3,1]
 Output: 0
 Explanation: In this case, no transactions are done and the max profit = 0.
@@ -68,7 +61,7 @@ For each price starting from the second:
 **Example walkthrough:**
 Let's trace through the first example:
 
-```
+```text
 prices = [7,1,5,3,6,4]
 
 Initial state:
@@ -103,32 +96,6 @@ Result: Return max_profit = 5
 ```
 
 > **Note:** The key insight is that we don't need to try every possible buy-sell combination. By tracking the minimum price seen so far, we can calculate the maximum possible profit at each step in O(1) time.
-
-### Solution
-
-```python
-class Solution:
-    def maxProfit(self, prices: List[int]) -> int:
-        # Handle edge case
-        if not prices:
-            return 0
-        
-        # Initialize variables
-        min_price = prices[0]
-        max_profit = 0
-        
-        # Iterate through the array starting from the second element
-        for price in prices[1:]:
-            # Update minimum price if current price is lower
-            min_price = min(min_price, price)
-            
-            # Calculate potential profit and update maximum profit
-            potential_profit = price - min_price
-            max_profit = max(max_profit, potential_profit)
-        
-        # Return the maximum profit
-        return max_profit
-```
 
 **Time Complexity:** O(n) - we visit each element exactly once  
 **Space Complexity:** O(1) - we only use a constant amount of extra space 
