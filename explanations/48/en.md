@@ -5,7 +5,7 @@ You have to rotate the image **[in-place](https://en.wikipedia.org/wiki/In-place
 **Example 1:**
 ![Rotate Image Example 1](https://assets.leetcode.com/uploads/2020/08/28/mat1.jpg)
 
-```
+```raw
 Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]
 Output: [[7,4,1],[8,5,2],[9,6,3]]
 ```
@@ -13,7 +13,7 @@ Output: [[7,4,1],[8,5,2],[9,6,3]]
 **Example 2:**
 ![Rotate Image Example 2](https://assets.leetcode.com/uploads/2020/08/28/mat2.jpg)
 
-```
+```raw
 Input: matrix = [[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]]
 Output: [[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]
 ```
@@ -50,7 +50,8 @@ Let's break down the solution step by step:
 
 **Step 1: Understand the rotation pattern**
 For a 3×3 matrix:
-```
+
+```raw
 Original:     After 90° rotation:
 [1,2,3]      [7,4,1]
 [4,5,6]  →   [8,5,2]
@@ -66,14 +67,14 @@ Notice that:
 Instead of directly implementing the rotation, we can use a clever two-step process:
 
 1. **Transpose the matrix**: Swap elements across the main diagonal
-   ```
+   ```raw
    [1,2,3]    [1,4,7]
    [4,5,6] →  [2,5,8]
    [7,8,9]    [3,6,9]
    ```
 
 2. **Reverse each row**: This gives us the final rotated matrix
-   ```
+   ```raw
    [1,4,7]    [7,4,1]
    [2,5,8] →  [8,5,2]
    [3,6,9]    [9,6,3]
@@ -90,7 +91,7 @@ After transpose, simply reverse each row to get the final rotated matrix.
 **Example walkthrough:**
 Let's trace through the first example:
 
-```
+```raw
 Original matrix:
 [1,2,3]
 [4,5,6]

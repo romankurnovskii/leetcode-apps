@@ -1,20 +1,15 @@
-# 54. Spiral Matrix
-
-**Difficulty:** Medium  
-**Link:** https://leetcode.com/problems/spiral-matrix/
-
-## Problem Description
-
 Given an `m x n` `matrix`, return *all elements of the* `matrix` *in spiral order*.
 
 **Example 1:**
-```
+
+```raw
 Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]
 Output: [1,2,3,6,9,8,7,4,5]
 ```
 
 **Example 2:**
-```
+
+```raw
 Input: matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]
 Output: [1,2,3,4,8,12,11,10,9,5,6,7]
 ```
@@ -59,6 +54,7 @@ While `top <= bottom` and `left <= right`:
 - **Up**: Traverse from bottom to top on left column
 
 **Step 3: Update boundaries**
+
 After each direction:
 - After right: `top++`
 - After down: `right--`
@@ -66,9 +62,10 @@ After each direction:
 - After up: `left++`
 
 **Example walkthrough:**
+
 Let's trace through the first example:
 
-```
+```raw
 matrix = [[1,2,3],[4,5,6],[7,8,9]]
 
 Initial boundaries:
@@ -97,48 +94,6 @@ Result: [1,2,3,6,9,8,7,4,5]
 ```
 
 > **Note:** The key insight is to use boundary tracking to systematically traverse the matrix. This approach ensures we visit each element exactly once and handles edge cases like single rows or columns correctly.
-
-### Solution
-
-```python
-class Solution:
-    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
-        # Handle edge case
-        if not matrix:
-            return []
-        
-        # Initialize boundaries
-        top, bottom = 0, len(matrix) - 1
-        left, right = 0, len(matrix[0]) - 1
-        result = []
-        
-        # Traverse in spiral order
-        while top <= bottom and left <= right:
-            # Traverse right (top row)
-            for j in range(left, right + 1):
-                result.append(matrix[top][j])
-            top += 1
-            
-            # Traverse down (right column)
-            for i in range(top, bottom + 1):
-                result.append(matrix[i][right])
-            right -= 1
-            
-            # Traverse left (bottom row) - check if still valid
-            if top <= bottom:
-                for j in range(right, left - 1, -1):
-                    result.append(matrix[bottom][j])
-                bottom -= 1
-            
-            # Traverse up (left column) - check if still valid
-            if left <= right:
-                for i in range(bottom, top - 1, -1):
-                    result.append(matrix[i][left])
-                left += 1
-        
-        # Return the spiral order
-        return result
-```
 
 **Time Complexity:** O(m * n) - we visit each element exactly once  
 **Space Complexity:** O(1) - we only use a constant amount of extra space (excluding the result array) 

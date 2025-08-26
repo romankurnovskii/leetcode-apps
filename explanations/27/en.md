@@ -15,7 +15,7 @@ Consider the number of elements in `nums` which are not equal to `val` be `k`, t
 
 The judge will test your solution with the following code:
 
-```
+```raw
 int[] nums = [...]; // Input array
 int val = ...; // Value to remove
 int[] expectedNums = [...]; // The expected answer with correct length.
@@ -33,7 +33,8 @@ for (int i = 0; i < actualLength; i++) {
 If all assertions pass, then your solution will be **accepted**.
 
 **Example 1:**
-```
+
+```raw
 Input: nums = [3,2,2,3], val = 3
 Output: 2, nums = [2,2,_,_]
 Explanation: Your function should return k = 2, with the first two elements of nums being 2.
@@ -41,7 +42,8 @@ It does not matter what you leave beyond the returned k (hence they are undersco
 ```
 
 **Example 2:**
-```
+
+```raw
 Input: nums = [0,1,2,2,3,0,4,2], val = 2
 Output: 5, nums = [0,1,4,0,3,_,_,_]
 Explanation: Your function should return k = 5, with the first five elements of nums containing 0, 0, 1, 3, and 4.
@@ -50,6 +52,7 @@ It does not matter what you leave beyond the returned k (hence they are undersco
 ```
 
 **Constraints:**
+
 - `0 <= nums.length <= 100`
 - `0 <= nums[i] <= 50`
 - `0 <= val <= 100`
@@ -77,22 +80,26 @@ This is a **two-pointer array manipulation problem** that requires removing all 
 Let's break down the solution step by step:
 
 **Step 1: Initialize pointers**
+
 - `slow`: Points to the next position where we'll place a valid element (starts at 0)
 - `fast`: Iterates through the array to find elements (starts at 0)
 
 **Step 2: Iterate through the array**
+
 For each element at position `fast`:
 - If `nums[fast] != val`, copy it to `nums[slow]` and increment `slow`
 - If `nums[fast] == val`, skip it (just increment `fast`)
 
 **Step 3: Return the result**
+
 - The value of `slow` at the end gives us the count of elements not equal to `val`
 - The first `slow` elements of the array contain all the valid elements
 
 **Example walkthrough:**
+
 Let's trace through the first example:
 
-```
+```raw
 nums = [3,2,2,3], val = 3
 
 Initial state:
@@ -119,7 +126,6 @@ Final array: [2,2,_,_] (first 2 elements are valid)
 ```
 
 > **Note:** The two-pointer approach is efficient because we only need one pass through the array. We don't need to actually remove elements - we just overwrite the positions where we want to keep elements.
-
 
 **Time Complexity:** O(n) - we visit each element exactly once  
 **Space Complexity:** O(1) - we modify the array in-place without extra space 

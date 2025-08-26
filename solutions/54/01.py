@@ -1,10 +1,9 @@
 class Solution:
     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
-        # Handle edge case
         if not matrix:
             return []
 
-        # Initialize boundaries
+        # boundaries
         top, bottom = 0, len(matrix) - 1
         left, right = 0, len(matrix[0]) - 1
         result = []

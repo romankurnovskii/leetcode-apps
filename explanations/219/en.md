@@ -118,7 +118,8 @@ Initial: `window_set = set()`.
 | 1 | 2 | False | No | No | Add `2` | `{1, 2}` | - |
 | 2 | 3 | False | No | No | Add `3` | `{1, 2, 3}` | - |
 | 3 | 1 | True | Remove `nums[0]` (1) | Yes (`1` is in `{1,2,3}`) | Return `true` | - | True |
-| (Wait, the example output for this case is `false`! Why? My trace returned `true`. Let's re-examine the example: `[1,2,3,1,2,3], k=2`. `1` at index 0 and `1` at index 3. `abs(0-3) = 3`. `3` is *not* `less than or equal to k=2`. So, my trace was wrong, `nums[i]` in `window_set` should have been `No`. Let's correct this. My window management seems off or my understanding of `k` distance.)
+
+Wait, the example output for this case is `false`! Why? My trace returned `true`. Let's re-examine the example: `[1,2,3,1,2,3], k=2`. `1` at index 0 and `1` at index 3. `abs(0-3) = 3`. `3` is *not* `less than or equal to k=2`. So, my trace was wrong, `nums[i]` in `window_set` should have been `No`. Let's correct this. My window management seems off or my understanding of `k` distance.
 
 > **Re-evaluation of `k` and window size:** The condition `abs(i - j) <= k` means that if you find `nums[i]` and `nums[j]` are equal, their indices must be at most `k` positions apart. This means the indices could be `i, i+1, ..., i+k`. The window `[i - k, ..., i-1]` contains elements relevant to `nums[i]`. So, when you are at `nums[i]`, you need to check against `nums[i-1], nums[i-2], ..., nums[max(0, i-k)]`. The `window_set` should contain elements from `nums[i-k]` to `nums[i-1]`.
 > So, when processing `nums[i]`:
@@ -183,7 +184,7 @@ Let's re-trace `nums = [1, 2, 3, 1]`, `k = 3`.
 Initial: `window_set = set()`.
 
 | `i` | `nums[i]` | `i > k` (i.e., `i > 3`) | `nums[i]` in `window_set`? | Action (`window_set.remove()` then `add()`) | `window_set` state | `res` |
-|---|---|---|---|---|---|---|---|
+|---|---|---|---|---|---|---|
 | 0 | 1 | False | No | Add `1` | `{1}` | - |
 | 1 | 2 | False | No | Add `2` | `{1, 2}` | - |
 | 2 | 3 | False | No | Add `3` | `{1, 2, 3}` | - |
@@ -227,7 +228,7 @@ Let's trace `nums = [1, 2, 3, 1, 2, 3]`, `k = 2` again with this strict logic.
 Initial: `window_set = set()`.
 
 | `i` | `nums[i]` | `i > k` (`i > 2`) | Element `nums[i-k-1]` to remove | `window_set` before current `nums[i]` check | `nums[i]` in `window_set`? | Action | `window_set` after `add` | `res` |
-|---|---|---|---|---|---|---|---|
+|---|---|---|---|---|---|---|---|---|
 | 0 | 1 | F | - | `{}` | No | Add `1` | `{1}` | - |
 | 1 | 2 | F | - | `{1}` | No | Add `2` | `{1, 2}` | - |
 | 2 | 3 | F | - | `{1, 2}` | No | Add `3` | `{1, 2, 3}` | - |
@@ -308,5 +309,4 @@ Initial: `seen_in_window = set()`. `k=2`.
 
 This trace finally matches the example output `false` for `nums = [1,2,3,1,2,3], k=2`. This logic is correct.
 
-The time complexity is O(N) because you iterate through the array once, and each set operation (add, remove, check) takes average O(1) time. The space complexity is O(k) in the worst case, as the set will store at most `k+1` elements. Given `k` can be up to $10^5$, this is still O(N) space in the worst case, but it's optimal given the constraints.
-
+The time complexity is O(N) because you iterate through the array once, and each set operation (add, remove, check) takes average O(1) time. The space complexity is O(k) in the worst case, as the set will store at most `k+1` elements. Given `k` can be up to 10^5, this is still O(N) space in the worst case, but it's optimal given the constraints.

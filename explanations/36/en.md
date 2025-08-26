@@ -9,9 +9,10 @@ Determine if a `9 x 9` Sudoku board is valid. Only the filled cells need to be v
 - Only the filled cells need to be validated according to the mentioned rules.
 
 **Example 1:**
+
 ![Sudoku Example](https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Sudoku-by-L2G-20050714.svg/250px-Sudoku-by-L2G-20050714.svg.png)
 
-```
+```raw
 Input: board = 
 [["5","3",".",".","7",".",".",".","."]
 ,["6",".",".","1","9","5",".",".","."]
@@ -26,7 +27,8 @@ Output: true
 ```
 
 **Example 2:**
-```
+
+```raw
 Input: board = 
 [["8","3",".",".","7",".",".",".","."]
 ,["6",".",".","1","9","5",".",".","."]
@@ -38,6 +40,7 @@ Input: board =
 ,[".",".",".","4","1","9",".",".","5"]
 ,[".",".",".",".","8",".",".","7","9"]]
 Output: false
+
 Explanation: Same as Example 1, except with the 5 in the top left corner being modified to 8. Since there are two 8's in the top left 3x3 sub-box, it is invalid.
 ```
 
@@ -101,7 +104,7 @@ If we complete the entire board without finding any duplicates, return true.
 **Example walkthrough:**
 Let's trace through the first example:
 
-```
+
 Row 0: ["5","3",".",".","7",".",".",".","."]
 - Add 5 to row[0], col[0], box[0]
 - Add 3 to row[0], col[1], box[0] 
@@ -109,7 +112,6 @@ Row 0: ["5","3",".",".","7",".",".",".","."]
 - Skip "." (empty)
 - Add 7 to row[0], col[4], box[1]
 - Continue...
-```
 
 The key insight is that we can process the entire board in a single pass, checking all three constraints (row, column, box) for each filled cell.
 
