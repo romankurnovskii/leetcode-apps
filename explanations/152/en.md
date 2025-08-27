@@ -1,23 +1,16 @@
-# 152. Maximum Product Subarray
-
-**Difficulty:** Medium  
-**Link:** https://leetcode.com/problems/maximum-product-subarray/
-
-## Problem Description
-
 Given an integer array `nums`, find a **subarray** that has the largest product, and return *the product*.
 
 The test cases are generated so that the answer will fit in a **32-bit** integer.
 
 **Example 1:**
-```
+```sh
 Input: nums = [2,3,-2,4]
 Output: 6
 Explanation: [2,3] has the largest product 6.
 ```
 
 **Example 2:**
-```
+```sh
 Input: nums = [-2,0,-1]
 Output: 0
 Explanation: The result cannot be 2, because [-2,-1] is not a subarray.
@@ -69,7 +62,7 @@ For each element:
 **Example walkthrough:**
 Let's trace through the first example:
 
-```
+```sh
 nums = [2,3,-2,4]
 
 Initial state:
@@ -97,37 +90,6 @@ Result: Return 6
 ```
 
 > **Note:** The key insight is that we need to track both the maximum and minimum products because a negative number can turn a minimum into a maximum. This is different from the maximum subarray sum problem where we only need to track the maximum.
-
-### Solution
-
-```python
-class Solution:
-    def maxProduct(self, nums: List[int]) -> int:
-        # Handle edge case
-        if not nums:
-            return 0
-        
-        # Initialize variables
-        max_product = nums[0]
-        curr_max = nums[0]
-        curr_min = nums[0]
-        
-        # Iterate through the array starting from the second element
-        for i in range(1, len(nums)):
-            # Store previous values to avoid overwriting
-            prev_max = curr_max
-            prev_min = curr_min
-            
-            # Calculate new maximum and minimum products
-            curr_max = max(nums[i], nums[i] * prev_max, nums[i] * prev_min)
-            curr_min = min(nums[i], nums[i] * prev_max, nums[i] * prev_min)
-            
-            # Update the overall maximum product
-            max_product = max(max_product, curr_max)
-        
-        # Return the maximum product
-        return max_product
-```
 
 **Time Complexity:** O(n) - we visit each element exactly once  
 **Space Complexity:** O(1) - we only use a constant amount of extra space 
