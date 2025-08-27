@@ -1,30 +1,26 @@
-# 58. Length of Last Word
-
-**Difficulty:** Easy  
-**Link:** https://leetcode.com/problems/length-of-last-word/
-
-## Problem Description
-
 Given a string `s` consisting of words and spaces, return *the length of the **last** word in the string.*
 
 A **word** is a maximal substring consisting of non-space characters only.
 
 **Example 1:**
-```
+
+```sh
 Input: s = "Hello World"
 Output: 5
 Explanation: The last word is "World" with length 5.
 ```
 
 **Example 2:**
-```
+
+```sh
 Input: s = "   fly me   to   the moon  "
 Output: 4
 Explanation: The last word is "moon" with length 4.
 ```
 
 **Example 3:**
-```
+
+```sh
 Input: s = "luffy is still joyboy"
 Output: 6
 Explanation: The last word is "joyboy" with length 6.
@@ -73,7 +69,7 @@ Let's break down the solution step by step:
 **Example walkthrough:**
 Let's trace through the second example:
 
-```
+```sh
 s = "   fly me   to   the moon  "
 
 Step 1: Start from end
@@ -96,28 +92,6 @@ Result: Return 4
 ```
 
 > **Note:** The key insight is to work backwards from the end of the string. This approach is efficient because we only need to traverse the string once from the end, and we can handle trailing spaces naturally.
-
-### Solution
-
-```python
-class Solution:
-    def lengthOfLastWord(self, s: str) -> int:
-        # Start from the end of the string
-        i = len(s) - 1
-        length = 0
-        
-        # Skip trailing spaces
-        while i >= 0 and s[i] == ' ':
-            i -= 1
-        
-        # Count characters of the last word
-        while i >= 0 and s[i] != ' ':
-            length += 1
-            i -= 1
-        
-        # Return the length of the last word
-        return length
-```
 
 **Time Complexity:** O(n) - we visit each character at most once  
 **Space Complexity:** O(1) - we only use a constant amount of extra space 
