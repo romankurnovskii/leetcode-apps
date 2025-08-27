@@ -44,7 +44,7 @@ There is only one horizontal trapezoid that can be formed.
 
 **Constraints**
 
-```text
+```tex
 4 <= points.length <= 10^5
 -10^8 <= x_i, y_i <= 10^8
 All points are pairwise distinct.
@@ -112,7 +112,7 @@ Suppose points = [[1,0],[2,0],[3,0],[2,2],[3,2]]
 - **Time Complexity:** O(N + K), where N is the number of points and K is the number of y-levels with at least 2 points.
 - **Space Complexity:** O(N) for storing the groups.
 
-```text
+```tex
 | Step | Operation         | Count |
 | ---- | ----------------- | ----- |
 | 1    | Group points by y | N     |

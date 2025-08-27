@@ -11,7 +11,7 @@ Note that multiple kids can have the greatest number of candies.
 
 **Examples**
 
-```text
+```tex
 Input: candies = [2,3,5,1,3], extraCandies = 3
 Output: [true,true,true,false,true]
 Explanation: If you give all extraCandies to:
@@ -30,7 +30,7 @@ Output: [true,false,true]
 
 **Constraints**
 
-```text
+```tex
 - n == candies.length
 - 2 <= n <= 100
 - 1 <= candies[i] <= 100

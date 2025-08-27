@@ -8,7 +8,7 @@ The product of any prefix or suffix of `nums` is guaranteed to fit in a 32-bit i
 You must write an algorithm that runs in `O(n)` time complexity and without using the division operation.
 
 **Examples**
-```text
+```tex
 Example 1:
 Input: nums = [1,2,3,4]
 Output: [24,12,8,6]
@@ -19,7 +19,7 @@ Output: [0,0,9,0,0]
 ```
 
 **Constraints:**
-```text
+```tex
 2 <= nums.length <= 10^5
 -30 <= nums[i] <= 30
 The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.

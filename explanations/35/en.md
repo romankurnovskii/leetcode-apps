@@ -6,7 +6,7 @@ Given a sorted array of distinct integers and a target value, return the index i
 You must write an algorithm with `O(log n)` runtime complexity.
 
 **Examples**
-```text
+```tex
 Example 1:
 Input: nums = [1,3,5,6], target = 5
 Output: 2
@@ -21,7 +21,7 @@ Output: 4
 ```
 
 **Constraints:**
-```text
+```tex
 1 <= nums.length <= 10^4
 -10^4 <= nums[i] <= 10^4
 nums contains distinct values sorted in ascending order.

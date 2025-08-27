@@ -66,7 +66,7 @@ Explanation:
 ```
 
 **Constraints**
-```text
+```tex
 1 <= m, n <= 10^5
 2 <= m * n <= 10^5
 waitCost.length == m

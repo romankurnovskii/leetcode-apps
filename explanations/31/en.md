@@ -19,7 +19,7 @@ Given an array of integers `nums`, *find the next permutation of* `nums`.
 The replacement must be **in place** and use only constant extra memory.
 
 **Examples**
-```text
+```tex
 Example 1:
 Input: nums = [1,2,3]
 Output: [1,3,2]
@@ -34,7 +34,7 @@ Output: [1,5,1]
 ```
 
 **Constraints:**
-```text
+```tex
 1 <= nums.length <= 100
 0 <= nums[i] <= 100
 ```

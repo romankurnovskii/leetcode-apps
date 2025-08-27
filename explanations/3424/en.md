@@ -38,7 +38,7 @@ Since the arrays are already equal, no operations are needed, and the total cost
 
 **Constraints**
 
-```text
+```tex
 1 <= arr.length == brr.length <= 10^5
 0 <= k <= 2 * 10^10
 -10^5 <= arr[i] <= 10^5

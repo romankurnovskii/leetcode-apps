@@ -4,7 +4,7 @@ https://leetcode.com/problems/missing-number/
 Given an array `nums` containing `n` distinct numbers in the range `[0, n]`, return the only number in the range that is missing from the array.
 
 **Examples**
-```text
+```tex
 Example 1:
 Input: nums = [3,0,1]
 Output: 2
@@ -22,7 +22,7 @@ Explanation: n = 9 since there are 9 numbers, so all numbers are in the range [0
 ```
 
 **Constraints:**
-```text
+```tex
 n == nums.length
 1 <= n <= 10^4
 0 <= nums[i] <= n

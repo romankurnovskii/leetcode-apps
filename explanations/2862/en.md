@@ -24,7 +24,7 @@ Return the *sum* of the complete subset with the *maximum sum*.
 
 **Constraints**
 
-```text
+```tex
 1 <= n == nums.length <= 10^4
 1 <= nums[i] <= 10^9
 ```

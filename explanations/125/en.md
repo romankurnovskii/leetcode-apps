@@ -6,7 +6,7 @@ A phrase is a palindrome if, after converting all uppercase letters into lowerca
 Given a string `s`, return `true` if it is a palindrome, or `false` otherwise.
 
 **Examples**
-```text
+```tex
 Example 1:
 Input: s = "A man, a plan, a canal: Panama"
 Output: true
@@ -25,7 +25,7 @@ An empty string is a palindrome.
 ```
 
 **Constraints:**
-```text
+```tex
 1 <= s.length <= 2 * 10^5
 s consists only of printable ASCII characters.
 ```

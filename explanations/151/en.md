@@ -13,7 +13,7 @@ Note that `s` may contain leading or trailing spaces or multiple spaces between 
 
 **Examples**
 
-```text
+```tex
 Input: s = "the sky is blue"
 Output: "blue is sky the"
 
@@ -27,7 +27,7 @@ Explanation: You need to reduce multiple spaces between two words to a single sp
 ```
 
 **Constraints**
-```text
+```tex
 1 <= s.length <= 10^4
 s contains English letters (upper-case and lower-case), digits, and spaces ' '.
 There is at least one word in s.

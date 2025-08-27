@@ -9,7 +9,7 @@ Write a function to find the longest common prefix string amongst an array of st
 If there is no common prefix, return an empty string `""`.
 
 **Examples**
-```text
+```tex
 Example 1:
 Input: strs = ["flower","flow","flight"]
 Output: "fl"
@@ -21,7 +21,7 @@ Explanation: There is no common prefix among the input strings.
 ```
 
 **Constraints:**
-```text
+```tex
 1 <= strs.length <= 200
 0 <= strs[i].length <= 200
 strs[i] consists of only lowercase English letters if it is non-empty.

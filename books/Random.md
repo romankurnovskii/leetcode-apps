@@ -85,7 +85,7 @@ You are given two non-empty linked lists representing two non-negative integers.
 You may assume the two numbers do not contain any leading zero, except the number 0 itself.
 
 Example:
-```text
+```tex
 Input: l1 = [2,4,3], l2 = [5,6,4]
 Output: [7,0,8]
 Explanation: 342 + 465 = 807.
@@ -98,7 +98,7 @@ Output: [8,9,9,9,0,0,0,1]
 ```
 
 Constraints:
-```text
+```tex
 The number of nodes in each linked list is in the range [1, 100].
 0 <= Node.val <= 9
 It is guaranteed that the list represents a number that does not have leading zeros.
@@ -1018,7 +1018,7 @@ word2:    p   q
 merged: a p b q c   d
 
 **Constraints**
-```text
+```tex
 - 1 <= word1.length, word2.length <= 100
 - word1 and word2 consist of lowercase English letters.
 ```
@@ -1313,7 +1313,7 @@ Return the *sum* of the complete subset with the *maximum sum*.
 
 **Constraints**
 
-```text
+```tex
 1 <= n == nums.length <= 10^4
 1 <= nums[i] <= 10^9
 ```
@@ -1432,7 +1432,7 @@ Explanation:
 - Query [1,1]: Station 1 is offline and there are no other stations in its grid, so the result is -1.
 
 **Constraints**
-```text
+```tex
 1 <= c <= 10^5
 0 <= n == connections.length <= min(10^5, c * (c - 1) / 2)
 connections[i].length == 2
@@ -1721,7 +1721,7 @@ There is only one horizontal trapezoid that can be formed.
 
 **Constraints**
 
-```text
+```tex
 4 <= points.length <= 10^5
 -10^8 <= x_i, y_i <= 10^8
 All points are pairwise distinct.
@@ -1789,7 +1789,7 @@ Suppose points = [[1,0],[2,0],[3,0],[2,2],[3,2]]
 - **Time Complexity:** O(N + K), where N is the number of points and K is the number of y-levels with at least 2 points.
 - **Space Complexity:** O(N) for storing the groups.
 
-```text
+```tex
 | Step | Operation         | Count |
 | ---- | ----------------- | ----- |
 | 1    | Group points by y | N     |

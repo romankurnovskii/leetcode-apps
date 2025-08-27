@@ -13,7 +13,7 @@ Return the final string after the deletion. It can be shown that the answer will
 
 **Examples**
 
-```text
+```tex
 Input: s = "leeetcode"
 Output: "leetcode"
 Explanation: Remove an 'e' from the first group of 'e's to create "leetcode". No three consecutive characters are equal, so return "leetcode".
@@ -29,7 +29,7 @@ Explanation: No three consecutive characters are equal, so return "aab".
 
 **Constraints**
 
-```text
+```tex
 1 <= s.length <= 10^5
 s consists only of lowercase English letters.
 ```

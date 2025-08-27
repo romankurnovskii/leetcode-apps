@@ -8,7 +8,7 @@ The majority element is the element that appears more than `n / 2` times.
 You may assume that the majority element always exists in the array.
 
 **Examples**
-```text
+```tex
 Example 1:
 Input: nums = [3,2,3]
 Output: 3
@@ -19,7 +19,7 @@ Output: 2
 ```
 
 **Constraints:**
-```text
+```tex
 n == nums.length
 1 <= n <= 5 * 10^4
 -10^9 <= nums[i] <= 10^9

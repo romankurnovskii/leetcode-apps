@@ -6,7 +6,7 @@ Return `true` if `n` is divisible by this sum; otherwise, return `false`.
 
 **Example 1:**
 
-```text
+```tex
 Input: n = 99
 Output: true
 Explanation:
@@ -16,7 +16,7 @@ the output is true.
 
 **Example 2:**
 
-```text
+```tex
 Input: n = 23
 Output: false
 Explanation:
@@ -27,7 +27,7 @@ the output is false.
 
 **Constraints:**
 
-```text
+```tex
 1 <= n <= 10^6
 ```
 

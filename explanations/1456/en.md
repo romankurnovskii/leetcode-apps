@@ -23,7 +23,7 @@ Explanation: "lee", "eet" and "ode" contain 2 vowels.
 ```
 
 **Constraints**
-```text
+```tex
 - 1 <= s.length <= 10^5
 - s consists of lowercase English letters.
 - 1 <= k <= s.length

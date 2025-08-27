@@ -15,7 +15,7 @@ A **hexatrigesimal** number is defined as a base-36 numeral system that uses the
 **Examples**
 
 **Example 1:**
-```text
+```tex
 Input: n = 13
 
 Output: "A91P1"
@@ -27,7 +27,7 @@ Explanation:
 ```
 
 **Example 2:**
-```text
+```tex
 Input: n = 36
 
 Output: "5101000"
@@ -40,7 +40,7 @@ Explanation:
 
 **Constraints**
 
-```text
+```tex
 1 <= n <= 1000
 ```
 

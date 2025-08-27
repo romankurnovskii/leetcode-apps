@@ -48,7 +48,7 @@ Explanation:
 - Query [1,1]: Station 1 is offline and there are no other stations in its grid, so the result is -1.
 
 **Constraints**
-```text
+```tex
 1 <= c <= 10^5
 0 <= n == connections.length <= min(10^5, c * (c - 1) / 2)
 connections[i].length == 2

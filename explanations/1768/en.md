@@ -8,7 +8,7 @@ You are given two strings, word1 and word2. Merge the strings by adding letters 
 Return the merged string.
 
 **Examples**
-```text
+```tex
 Input: word1 = "abc", word2 = "pqr"
 Output: "apbqcr"
 Explanation: The merged string will be merged as so:
@@ -32,7 +32,7 @@ merged: a p b q c   d
 ```
 
 **Constraints**
-```text
+```tex
 - 1 <= word1.length, word2.length <= 100
 - word1 and word2 consist of lowercase English letters.
 ```

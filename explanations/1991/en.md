@@ -6,7 +6,7 @@ https://leetcode.com/problems/find-the-middle-index-in-array
 Given a 0-indexed integer array nums, find the leftmost middleIndex such that the sum of the numbers to the left of middleIndex is equal to the sum of the numbers to the right of middleIndex. Return -1 if no such index exists.
 
 **Examples**
-```text
+```tex
 Input: nums = [2,3,-1,8,4]
 Output: 3
 Explanation: The sum of the numbers to the left of index 3 is 4 (2+3-1), and to the right is also 4 (4).
@@ -21,7 +21,7 @@ Explanation: There is no valid middleIndex.
 ```
 
 **Constraints**
-```text
+```tex
 - 1 <= nums.length <= 100
 - -1000 <= nums[i] <= 1000
 ```

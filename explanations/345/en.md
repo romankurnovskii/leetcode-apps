@@ -9,7 +9,7 @@ The vowels are `'a'`, `'e'`, `'i'`, `'o'`, and `'u'`, and they can appear in bot
 
 **Examples**
 
-```text
+```tex
 Input: s = "IceCreAm"
 Output: "AceCreIm"
 Explanation: The vowels in s are ['I', 'e', 'e', 'A']. On reversing the vowels, s becomes "AceCreIm".
@@ -20,7 +20,7 @@ Output: "leotcede"
 
 **Constraints**
 
-```text
+```tex
 1 <= s.length <= 3 * 10^5
 s consist of printable ASCII characters.
 ```
