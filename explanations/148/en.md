@@ -1,26 +1,22 @@
-# 148. Sort List
-
-**Difficulty:** Medium  
-**Link:** https://leetcode.com/problems/sort-list/
-
-## Problem Description
-
 Given the `head` of a linked list, return *the list after sorting it in **ascending order***.
 
 **Example 1:**
-```
+
+```tex
 Input: head = [4,2,1,3]
 Output: [1,2,3,4]
 ```
 
 **Example 2:**
-```
+
+```tex
 Input: head = [-1,5,3,4,0]
 Output: [-1,0,3,4,5]
 ```
 
 **Example 3:**
-```
+
+```tex
 Input: head = []
 Output: []
 ```
@@ -66,17 +62,20 @@ Let's break down the solution step by step:
 - Set `slow.next = None` to split the list
 
 **Step 4: Recursively sort halves**
+
 - Sort the left half: `left = sortList(head)`
 - Sort the right half: `right = sortList(mid)`
 
 **Step 5: Merge the sorted halves**
+
 - Use a dummy node to simplify merging
 - Compare nodes from both lists and link them in order
 
 **Example walkthrough:**
+
 Let's trace through the first example:
 
-```
+```tex
 head = [4,2,1,3]
 
 Step 1: Find middle
@@ -100,65 +99,6 @@ result = [1,2,3,4]
 ```
 
 > **Note:** Merge sort is ideal for linked lists because we can split and merge in-place without extra space. The fast/slow pointer technique efficiently finds the middle, and the merge step can be done by simply relinking nodes.
-
-### Solution
-
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
-
-class Solution:
-    def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        # Handle base cases
-        if not head or not head.next:
-            return head
-        
-        # Find the middle of the list
-        slow = head
-        fast = head.next
-        
-        while fast and fast.next:
-            slow = slow.next
-            fast = fast.next.next
-        
-        # Split the list
-        mid = slow.next
-        slow.next = None
-        
-        # Recursively sort the two halves
-        left = self.sortList(head)
-        right = self.sortList(mid)
-        
-        # Merge the sorted halves
-        return self.merge(left, right)
-    
-    def merge(self, left: Optional[ListNode], right: Optional[ListNode]) -> Optional[ListNode]:
-        # Create a dummy node to simplify merging
-        dummy = ListNode(0)
-        current = dummy
-        
-        # Merge the two sorted lists
-        while left and right:
-            if left.val <= right.val:
-                current.next = left
-                left = left.next
-            else:
-                current.next = right
-                right = right.next
-            current = current.next
-        
-        # Attach remaining nodes
-        if left:
-            current.next = left
-        if right:
-            current.next = right
-        
-        # Return the merged list (skip dummy node)
-        return dummy.next
-```
 
 **Time Complexity:** O(n log n) - merge sort time complexity  
 **Space Complexity:** O(log n) - recursion stack space (not O(1) due to recursion) 

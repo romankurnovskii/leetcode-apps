@@ -7,7 +7,6 @@
 
 class Solution:
     def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        # Handle base cases
         if not head or not head.next:
             return head
 
@@ -23,11 +22,9 @@ class Solution:
         mid = slow.next
         slow.next = None
 
-        # Recursively sort the two halves
         left = self.sortList(head)
         right = self.sortList(mid)
 
-        # Merge the sorted halves
         return self.merge(left, right)
 
     def merge(
