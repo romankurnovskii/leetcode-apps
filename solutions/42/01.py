@@ -40,26 +40,3 @@ def trap(height):
             res += water
     
     return res
-
-
-# Example usage and testing
-if __name__ == "__main__":
-    # Test case 1
-    height1 = [0,1,0,2,1,0,1,3,2,1,2,1]
-    print(f"Input: {height1}")
-    print(f"Output: {trap(height1)}")  # Expected: 6
-    
-    # Test case 2
-    height2 = [4,2,0,3,2,5]
-    print(f"\nInput: {height2}")
-    print(f"Output: {trap(height2)}")  # Expected: 9
-    
-    # Edge case: empty array
-    height3 = []
-    print(f"\nInput: {height3}")
-    print(f"Output: {trap(height3)}")  # Expected: 0
-    
-    # Edge case: single element
-    height4 = [5]
-    print(f"\nInput: {height4}")
-    print(f"Output: {trap(height4)}")  # Expected: 0
