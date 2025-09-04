@@ -1,8 +1,3 @@
-## 242. Valid Anagram [Easy]
-
-https://leetcode.com/problems/valid-anagram
-
-## Description
 Given two strings `s` and `t`, return `true` if `t` is an [anagram](https://en.wikipedia.org/wiki/Anagram) of `s`, and `false` otherwise.
 
 **Examples**
