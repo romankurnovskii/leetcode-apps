@@ -1,16 +1,9 @@
-# 66. Plus One
-
-**Difficulty:** Easy  
-**Link:** https://leetcode.com/problems/plus-one/
-
-## Problem Description
-
 You are given a **large integer** represented as an integer array `digits`, where each `digits[i]` is the `i^th` digit of the integer. The digits are ordered from most significant to least significant in left-to-right order. The large integer does not contain any leading `0`'s.
 
 Increment the large integer by one and return *the resulting array of digits*.
 
 **Example 1:**
-```
+```tex
 Input: digits = [1,2,3]
 Output: [1,2,4]
 Explanation: The array represents the integer 123.
@@ -19,7 +12,7 @@ Thus, the result should be [1,2,4].
 ```
 
 **Example 2:**
-```
+```tex
 Input: digits = [4,3,2,1]
 Output: [4,3,2,2]
 Explanation: The array represents the integer 4321.
@@ -28,7 +21,7 @@ Thus, the result should be [4,3,2,2].
 ```
 
 **Example 3:**
-```
+```tex
 Input: digits = [9]
 Output: [1,0]
 Explanation: The array represents the integer 9.
@@ -37,9 +30,11 @@ Thus, the result should be [1,0].
 ```
 
 **Constraints:**
-- `1 <= digits.length <= 100`
-- `0 <= digits[i] <= 9`
-- `digits` does not contain any leading `0`'s.
+```tex
+- 1 <= digits.length <= 100
+- 0 <= digits[i] <= 9
+- digits does not contain any leading 0's.
+```
 
 ## Explanation
 
@@ -80,7 +75,7 @@ Let's break down the solution step by step:
 **Example walkthrough:**
 Let's trace through the third example:
 
-```
+```tex
 digits = [9]
 
 Step 1: Start from end
@@ -102,28 +97,6 @@ Result: [1, 0]
 ```
 
 > **Note:** The key insight is to work from right to left, just like how we add numbers manually. This approach handles all cases including the edge case where all digits are 9 and we need to add a new digit.
-
-### Solution
-
-```python
-class Solution:
-    def plusOne(self, digits: List[int]) -> List[int]:
-        # Start from the last digit
-        for i in range(len(digits) - 1, -1, -1):
-            # Add one to current digit
-            digits[i] += 1
-            
-            # If digit is less than 10, no carry needed
-            if digits[i] < 10:
-                return digits
-            
-            # Handle carry: set current digit to 0
-            digits[i] = 0
-        
-        # If we reach here, all digits were 9
-        # Add new digit at the beginning
-        return [1] + digits
-```
 
 **Time Complexity:** O(n) - we visit each digit at most once  
 **Space Complexity:** O(1) - we modify the array in-place (except for the edge case) 
