@@ -1,9 +1,7 @@
-## 268. Missing Number [Easy]
-https://leetcode.com/problems/missing-number/
-
 Given an array `nums` containing `n` distinct numbers in the range `[0, n]`, return the only number in the range that is missing from the array.
 
 **Examples**
+
 ```text
 Example 1:
 Input: nums = [3,0,1]
@@ -22,6 +20,7 @@ Explanation: n = 9 since there are 9 numbers, so all numbers are in the range [0
 ```
 
 **Constraints:**
+
 ```text
 n == nums.length
 1 <= n <= 10^4
@@ -30,14 +29,17 @@ All the numbers of nums are unique.
 ```
 
 ## Explanation
+
 You are given an array `nums` which contains `n` distinct numbers. These numbers are supposed to be from the range `[0, n]`. This means if `n` is 3, the numbers should be `0, 1, 2, 3`. However, the array `nums` only has `n` numbers, implying exactly one number from this range is missing. Your task is to find that missing number.
 
 ### Strategy
+
 You are given an integer array `nums`.
 The problem asks you to find the single missing number in the range `[0, n]`, where `n` is the length of `nums`.
 This is an array problem, specifically a search or finding a discrepancy problem.
 
 **Constraints:**
+
 * `n == nums.length`: This is important, it tells you the size of the range `[0, n]` is one more than the length of the array.
 * `1 <= n <= 10^4`: The array size is reasonable, an O(n) or O(n log n) solution will work.
 * `0 <= nums[i] <= n`: Numbers are within the expected range.
