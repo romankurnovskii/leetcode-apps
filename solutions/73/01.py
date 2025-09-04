@@ -1,14 +1,8 @@
-def setZeroes(matrix):
+def setZeroes(self, matrix: List[List[int]]) -> None:
     """
-    Set entire rows and columns to zero if they contain a zero element.
-    This is done in-place using O(1) space.
-    
-    Args:
-        matrix: List[List[int]] - The matrix to modify in-place
-        
-    Returns:
-        None - Modifies the matrix in-place
+    Do not return anything, modify matrix in-place instead.
     """
+
     if not matrix or not matrix[0]:
         return
     
