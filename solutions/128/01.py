@@ -1,14 +1,4 @@
 def longestConsecutive(nums):
-    """
-    Find the length of the longest consecutive elements sequence.
-    
-    Args:
-        nums: List[int] - Array of integers
-        
-    Returns:
-        int - Length of the longest consecutive sequence
-    """
-    # Handle edge case
     if not nums:
         return 0
     
