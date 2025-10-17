@@ -6,6 +6,15 @@ This repository is the canonical source for LeetCode explanations and solutions 
 - Book sets (playlists) are defined in `data/book-sets.json` and can be used to generate custom study plans in the app.
 - Run `python scripts/generate_solutions.py` to generate a markdown book for any set.
 
+<div>
+  <a href="https://play.google.com/store/apps/details?id=app.web.leetcodelearn&hl=en" target="_blank">
+    <img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" width="170" />
+  </a>
+  <a href="https://apps.apple.com/il/app/leetcode-learn/id6751961718" target="_blank">
+    <img alt="Download on the App Store" src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" width="150" />
+  </a>
+</div>
+
 **Browse the generated [Top 75 LeetCode Book](books/LeetCode_Top_75.md) in this repo.**
 
 <img src="https://romankurnovskii.com/apps/leetcode/01.png" alt="Desktop View"/>
