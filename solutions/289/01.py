@@ -62,6 +62,5 @@ def countLiveNeighbors(board, i, j, m, n):
             # Check bounds
             if 0 <= ni < m and 0 <= nj < n and (board[ni][nj] == 1 or board[ni][nj] == 2):
                 count += 1
-
     
     return count
