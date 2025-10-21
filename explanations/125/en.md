@@ -1,11 +1,15 @@
 ## 125. Valid Palindrome [Easy]
 
-A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
+https://leetcode.com/problems/valid-palindrome
 
-Given a string `s`, return `true` if it is a palindrome, or `false` otherwise.
+## Description
+A phrase is a **palindrome** if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
+
+Given a string `s`, return `true` *if it is a **palindrome**, or *`false`* otherwise.*
 
 **Examples**
-```text
+
+```tex
 Example 1:
 Input: s = "A man, a plan, a canal: Panama"
 Output: true
@@ -20,92 +24,84 @@ Example 3:
 Input: s = " "
 Output: true
 Explanation: s is an empty string "" after removing non-alphanumeric characters.
-An empty string is a palindrome.
+Since an empty string reads the same forward and backward, it is a palindrome.
 ```
 
-**Constraints:**
-```text
-1 <= s.length <= 2 * 10^5
-s consists only of printable ASCII characters.
+**Constraints**
+```tex
+- 1 <= s.length <= 2 * 10^5
+- s consists only of printable ASCII characters
 ```
 
 ## Explanation
-You're given a string `s`. Your task is to determine if it's a palindrome. A palindrome is a sequence that reads the same forwards and backwards. However, there are two special rules for this problem:
-1.  You should ignore all non-alphanumeric characters (like spaces, commas, colons, etc.).
-2.  You should treat uppercase and lowercase letters as the same (e.g., 'A' is the same as 'a').
-
-So, "A man, a plan, a canal: Panama" should become "amanaplanacanalpanama" before checking if it's a palindrome.
 
 ### Strategy
-You are given a string `s`.
-The problem asks you to check if `s` is a palindrome after specific filtering and casing rules.
-This is a string manipulation and two-pointer problem.
+Let's restate the problem: You're given a string that may contain letters, numbers, spaces, and punctuation marks. You need to determine if it's a palindrome after cleaning it up (removing non-alphanumeric characters and converting to lowercase).
 
-**Constraints:**
-* `1 <= s.length <= 2 * 10^5`: The string can be quite long, so an O(n) solution is preferred. O(n log n) might also pass, but O(n^2) would be too slow.
-* `s consists only of printable ASCII characters`: This simplifies character handling, no complex encodings.
+This is a **two-pointer problem** that involves string preprocessing and then checking for palindrome properties.
 
-The most robust and efficient strategy involves processing the string to meet the palindrome rules and then applying a two-pointer approach. You can either pre-process the entire string first, or filter characters on the fly while comparing. The "on-the-fly" method is often slightly more memory-efficient as it doesn't create a new full string immediately, but both are O(N) time and O(N) or O(1) space (depending on how you count auxiliary space for the cleaned string). The "on-the-fly" method often has better constant factors for space.
+**What is given?** A string that may contain various characters including letters, numbers, spaces, and punctuation.
 
-Let's focus on the "Two Pointers with On-the-Fly Filtering" strategy, as it's generally preferred for interviews due to its space efficiency and direct manipulation of the original string.
+**What is being asked?** Determine if the cleaned string (only alphanumeric characters, all lowercase) is a palindrome.
+
+**Constraints:** The string can be up to 200,000 characters long and contains only printable ASCII characters.
+
+**Edge cases:** 
+- Empty string (should return true)
+- String with only non-alphanumeric characters (should return true)
+- Single character (should return true)
+- String with mixed case and punctuation
+
+**High-level approach:**
+The solution involves two main steps:
+1. **Preprocessing**: Clean the string by removing non-alphanumeric characters and converting to lowercase
+2. **Palindrome check**: Use two pointers to check if the cleaned string reads the same forward and backward
 
 **Decomposition:**
-1.  Initialize two pointers, `left` at the beginning of the string and `right` at the end.
-2.  While `left` is less than `right`:
-    a.  Move `left` inwards until it points to an alphanumeric character.
-    b.  Move `right` inwards until it points to an alphanumeric character.
-    c.  If `left` is still less than `right` (meaning both found valid characters):
-        i.  Compare the characters at `left` and `right`, ignoring case.
-        ii. If they don't match, return `false` (not a palindrome).
-        iii. If they match, move `left` one step right and `right` one step left.
-    d.  If `left` becomes `right` or `left` crosses `right`, the loop ends.
-3.  If the loop completes, it means all compared alphanumeric characters matched, so return `true` (it's a palindrome).
+1. **Clean the string**: Remove all non-alphanumeric characters and convert to lowercase
+2. **Initialize pointers**: Place one pointer at the start and one at the end
+3. **Compare characters**: Move pointers inward while comparing characters
+4. **Return result**: Return true if all characters match, false otherwise
+
+**Brute force vs. optimized strategy:**
+- **Brute force**: Create a new cleaned string and then check if it equals its reverse. This takes O(n) time and O(n) space.
+- **Optimized**: Use two pointers to check palindrome property in-place. This takes O(n) time and O(1) space.
 
 ### Steps
-Let's use the example `s = "A man, a plan, a canal: Panama"`
+Let's walk through the solution step by step using the first example: `s = "A man, a plan, a canal: Panama"`
 
-1.  Initialize `left = 0`, `right = len(s) - 1` (which is `29`).
-    `s[left]` is 'A', `s[right]` is 'a'.
+**Step 1: Preprocessing**
+- Remove all non-alphanumeric characters: spaces, commas, colons
+- Convert all letters to lowercase
+- Result: `"amanaplanacanalpanama"`
 
-2.  **Loop starts (`left < right` is `0 < 29` which is True):**
+**Step 2: Initialize pointers**
+- `left = 0` (points to the first character: 'a')
+- `right = 24` (points to the last character: 'a')
 
-    * **Find alphanumeric `s[left]`:**
-        * `s[0]` is 'A'. `s[0].isalnum()` is True. `left` stays `0`.
-    * **Find alphanumeric `s[right]`:**
-        * `s[29]` is 'a'. `s[29].isalnum()` is True. `right` stays `29`.
-    * **Compare:**
-        * `s[0].lower()` ('a') vs `s[29].lower()` ('a'). They match.
-    * **Move pointers:** `left` becomes `1`, `right` becomes `28`.
+**Step 3: Compare characters**
+- `s[left] = 'a'`, `s[right] = 'a'`
+- `'a' == 'a'` ✓, so move both pointers inward
+- `left = 1`, `right = 23`
 
-3.  **Loop continues (`left < right` is `1 < 28` which is True):**
+**Step 4: Continue comparison**
+- `s[left] = 'm'`, `s[right] = 'm'`
+- `'m' == 'm'` ✓, so move both pointers inward
+- `left = 2`, `right = 22`
 
-    * `s[1]` is ' '. `s[1].isalnum()` is False. `left` increments to `2`.
-    * `s[2]` is 'm'. `s[2].isalnum()` is True. `left` stays `2`.
-    * `s[28]` is 'm'. `s[28].isalnum()` is True. `right` stays `28`.
-    * **Compare:**
-        * `s[2].lower()` ('m') vs `s[28].lower()` ('m'). They match.
-    * **Move pointers:** `left` becomes `3`, `right` becomes `27`.
+**Step 5: Continue until pointers meet**
+- Continue this process, comparing characters at both ends
+- Move pointers inward after each successful comparison
+- Stop when `left >= right`
 
-4.  **Loop continues (`left < right` is `3 < 27` which is True):**
+**Step 6: Check result**
+- If we reach the middle without finding a mismatch, it's a palindrome
+- In this case, all characters match, so return `true`
 
-    * `s[3]` is 'a'. `left` stays `3`.
-    * `s[27]` is 'a'. `right` stays `27`.
-    * **Compare:** `s[3].lower()` ('a') vs `s[27].lower()` ('a'). Match.
-    * **Move pointers:** `left` becomes `4`, `right` becomes `26`.
+**Why this works:**
+A palindrome reads the same forward and backward. By using two pointers that start at opposite ends and move inward, we can efficiently check this property. If at any point the characters don't match, we know it's not a palindrome. If we reach the middle with all characters matching, it must be a palindrome.
 
-...This process repeats. Non-alphanumeric characters (spaces, commas, colons) will cause one of the inner `while` loops to advance a pointer. For example, if `s[left]` is a space, `left` will increment until it finds an alphanumeric character. The same happens for `right` moving inwards.
+> **Note:** The key insight is that we don't need to create a new cleaned string. We can process the original string character by character, skipping non-alphanumeric characters and converting case on-the-fly.
 
-Eventually, if `s = "A man, a plan, a canal: Panama"`, all corresponding alphanumeric characters will match. The pointers will cross or meet (`left >= right`). When `left` is no longer less than `right`, the `while left < right` loop terminates.
-
-At this point, since no mismatches were found, the function returns `true`.
-
-Example: `s = "race a car"`
-1.  Initialize `left = 0`, `right = 9`.
-    `s[0]` is 'r', `s[9]` is 'r'.
-2.  Loop:
-    * `left=0` ('r'), `right=9` ('r'). Match. `left=1`, `right=8`.
-    * `left=1` ('a'), `right=8` ('a'). Match. `left=2`, `right=7`.
-    * `left=2` ('c'), `right=7` ('c'). Match. `left=3`, `right=6`.
-    * `left=3` ('e'), `right=6` ('a'). **Mismatch!** ('e' != 'a'). Return `false`.
-
-This approach is efficient because it processes each character at most a constant number of times (once by `left`, once by `right`). So, time complexity is O(n). Space complexity is O(1) because you're only using a couple of pointers and not creating new large data structures.
+**Time Complexity:** O(n) - we process each character at most once  
+**Space Complexity:** O(1) - we only use a constant amount of extra space for the pointers
