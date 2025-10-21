@@ -1,9 +1,6 @@
 # 122. Best Time to Buy and Sell Stock II
 
-**Difficulty:** Medium  
-**Link:** https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/
-
-## Problem Description
+## Description
 
 You are given an integer array `prices` where `prices[i]` is the price of a given stock on the `i^th` day.
 
@@ -12,7 +9,7 @@ On each day, you may decide to buy and/or sell the stock. You can only hold **at
 Find and return *the **maximum** profit you can achieve*.
 
 **Example 1:**
-```
+```tex
 Input: prices = [7,1,5,3,6,4]
 Output: 7
 Explanation: Buy on day 2 (price = 1) and sell on day 3 (price = 5), profit = 5-1 = 4.
@@ -21,7 +18,7 @@ Total profit is 4 + 3 = 7.
 ```
 
 **Example 2:**
-```
+```tex
 Input: prices = [1,2,3,4,5]
 Output: 4
 Explanation: Buy on day 1 (price = 1) and sell on day 5 (price = 5), profit = 5-1 = 4.
@@ -29,7 +26,7 @@ Total profit is 4.
 ```
 
 **Example 3:**
-```
+```tex
 Input: prices = [7,6,4,3,1]
 Output: 0
 Explanation: There is no way to make a positive profit, so we never buy the stock to achieve the maximum profit of 0.
@@ -76,7 +73,7 @@ For each price starting from the second:
 **Example walkthrough:**
 Let's trace through the first example:
 
-```
+```sh
 prices = [7,1,5,3,6,4]
 
 Initial state:
@@ -106,31 +103,3 @@ Result: Return profit = 7
 ```
 
 > **Note:** The greedy approach works because we can buy and sell on the same day. This means we can capture every positive price movement without any transaction costs. The optimal strategy is to buy whenever the price is about to go up and sell whenever it's about to go down.
-
-### Solution
-
-```python
-class Solution:
-    def maxProfit(self, prices: List[int]) -> int:
-        # Handle edge case
-        if not prices:
-            return 0
-        
-        # Initialize profit
-        profit = 0
-        
-        # Iterate through the array starting from the second element
-        for i in range(1, len(prices)):
-            # Calculate the difference between current and previous price
-            difference = prices[i] - prices[i-1]
-            
-            # If the difference is positive, add it to profit
-            if difference > 0:
-                profit += difference
-        
-        # Return the total profit
-        return profit
-```
-
-**Time Complexity:** O(n) - we visit each element exactly once  
-**Space Complexity:** O(1) - we only use a constant amount of extra space 
