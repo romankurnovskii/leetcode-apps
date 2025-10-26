@@ -1,21 +1,10 @@
 def isIsomorphic(s, t):
-    """
-    Determine if two strings are isomorphic.
-    
-    Args:
-        s: str - First string
-        t: str - Second string
-        
-    Returns:
-        bool - True if strings are isomorphic, False otherwise
-    """
-    # Check if strings have different lengths
     if len(s) != len(t):
         return False
     
     # Create mapping dictionaries for both directions
-    s_to_t = {}  # maps characters from s to t
-    t_to_s = {}  # maps characters from t to s
+    s_to_t = {}
+    t_to_s = {}
     
     # Check each character pair
     for i in range(len(s)):
