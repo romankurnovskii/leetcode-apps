@@ -1,102 +1,78 @@
-You are given a **large integer** represented as an integer array `digits`, where each `digits[i]` is the `i^th` digit of the integer. The digits are ordered from most significant to least significant in left-to-right order. The large integer does not contain any leading `0`'s.
-
-Increment the large integer by one and return *the resulting array of digits*.
-
-**Example 1:**
-```tex
-Input: digits = [1,2,3]
-Output: [1,2,4]
-Explanation: The array represents the integer 123.
-Incrementing by one gives 123 + 1 = 124.
-Thus, the result should be [1,2,4].
-```
-
-**Example 2:**
-```tex
-Input: digits = [4,3,2,1]
-Output: [4,3,2,2]
-Explanation: The array represents the integer 4321.
-Incrementing by one gives 4321 + 1 = 4322.
-Thus, the result should be [4,3,2,2].
-```
-
-**Example 3:**
-```tex
-Input: digits = [9]
-Output: [1,0]
-Explanation: The array represents the integer 9.
-Incrementing by one gives 9 + 1 = 10.
-Thus, the result should be [1,0].
-```
-
-**Constraints:**
-```tex
-- 1 <= digits.length <= 100
-- 0 <= digits[i] <= 9
-- digits does not contain any leading 0's.
-```
-
 ## Explanation
 
-### Strategy
+### Strategy (The "Why")
 
-This is a **array manipulation problem** that simulates adding 1 to a large integer represented as an array of digits. The key insight is to work from right to left and handle the carry properly.
+Given a non-empty array of digits representing a non-negative integer, we need to increment the integer by one and return the resulting array of digits.
 
-**Key observations:**
-- We need to work from right to left (least significant digit first)
-- If a digit becomes 10, we need to carry 1 to the next position
-- If all digits are 9, we need to add a new digit at the beginning
-- We can modify the array in-place for most cases
+**1.1 Constraints & Complexity:**
 
-**High-level approach:**
-1. **Start from the end**: Iterate from the last digit
-2. **Add one**: Add 1 to the current digit
-3. **Handle carry**: If digit becomes 10, set to 0 and carry 1
-4. **Check completion**: If no carry, return the array
-5. **Handle overflow**: If carry remains, add new digit at beginning
+- **Input Size:** The array length $N$ can be between $1$ and $100$.
+- **Value Range:** Each digit is between $0$ and $9$.
+- **Time Complexity:** $O(n)$ - In the worst case, we iterate through all digits once.
+- **Space Complexity:** $O(1)$ - We modify the input array in-place. Only in the case where all digits are 9, we create a new array of size $n+1$.
+- **Edge Case:** If all digits are 9, we need to add a new digit 1 at the beginning (e.g., $[9,9] \rightarrow [1,0,0]$).
 
-### Steps
+**1.2 High-level approach:**
 
-Let's break down the solution step by step:
+The goal is to add 1 to a number represented as an array of digits.
 
-**Step 1: Start from the end**
-- Iterate from the last digit to the first
+![Plus One](https://assets.leetcode.com/uploads/2021/04/21/plusone-diagram.jpg)
 
-**Step 2: Add one to current digit**
-- Add 1 to the current digit
+We work from right to left, handling carry-over. If a digit is less than 9, we increment it and return. If it's 9, we set it to 0 and continue. If all digits are 9, we add 1 at the beginning.
 
-**Step 3: Check for carry**
-- If digit is 10, set to 0 and carry 1
-- If digit is less than 10, no carry needed
+**1.3 Brute force vs. optimized strategy:**
 
-**Step 4: Handle overflow**
-- If we reach the beginning with carry, add new digit
+- **Brute Force:** Convert the array to an integer, add 1, then convert back to an array. This might overflow for large numbers.
+- **Optimized Strategy (In-place):** Work from right to left, handling carry-over directly in the array. This avoids conversion and handles large numbers.
+- **Why it's better:** The in-place approach avoids potential integer overflow and is more efficient, working directly with the digit array.
 
-**Example walkthrough:**
-Let's trace through the third example:
+**1.4 Decomposition:**
 
-```tex
-digits = [9]
+1. Start from the rightmost digit (ones place).
+2. If the digit is less than 9, increment it and return the array.
+3. If the digit is 9, set it to 0 and move to the next digit to the left (carry over).
+4. Continue until we find a digit less than 9 or reach the beginning.
+5. If all digits were 9, return a new array with 1 followed by zeros.
 
-Step 1: Start from end
-i = 0, digit = 9
+### Steps (The "How")
 
-Step 2: Add one
-digits[0] = 9 + 1 = 10
+**2.1 Initialization & Example Setup:**
 
-Step 3: Handle carry
-digits[0] = 0, carry = 1
+Let's use the example: $digits = [1,2,3]$
 
-Step 4: Check completion
-carry = 1, so we need to add new digit
+We start from index 2 (rightmost digit).
 
-Step 5: Handle overflow
-result = [1, 0]
+**2.2 Start Processing:**
 
-Result: [1, 0]
-```
+We check each digit from right to left.
 
-> **Note:** The key insight is to work from right to left, just like how we add numbers manually. This approach handles all cases including the edge case where all digits are 9 and we need to add a new digit.
+**2.3 Trace Walkthrough:**
 
-**Time Complexity:** O(n) - we visit each digit at most once  
-**Space Complexity:** O(1) - we modify the array in-place (except for the edge case) 
+**Example 1:** $digits = [1,2,3]$
+- Index 2: $3 < 9$ → increment to 4 → return $[1,2,4]$
+
+**Example 2:** $digits = [1,2,9]$
+- Index 2: $9$ → set to 0, continue
+- Index 1: $2 < 9$ → increment to 3 → return $[1,3,0]$
+
+**Example 3:** $digits = [9,9,9]$
+- Index 2: $9$ → set to 0, continue
+- Index 1: $9$ → set to 0, continue
+- Index 0: $9$ → set to 0, continue
+- All digits were 9 → return $[1,0,0,0]$
+
+**2.4 Detailed Trace for [9,9,9]:**
+
+| Step | Index | Digit | Action | Array State |
+|------|-------|-------|--------|-------------|
+| 1 | 2 | 9 | Set to 0 | $[9,9,0]$ |
+| 2 | 1 | 9 | Set to 0 | $[9,0,0]$ |
+| 3 | 0 | 9 | Set to 0 | $[0,0,0]$ |
+| 4 | - | - | All 9s | Return $[1,0,0,0]$ |
+
+**2.5 Return Result:**
+
+- For $[1,2,3]$: return $[1,2,4]$
+- For $[9,9,9]$: return $[1,0,0,0]$
+
+> **Note:** The key insight is that we only need to modify digits when there's a carry-over. Once we find a digit less than 9, we can increment it and return immediately, as no further carry-over is needed.

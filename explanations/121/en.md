@@ -1,101 +1,73 @@
-You are given an array `prices` where `prices[i]` is the price of a given stock on the `i^th` day.
-
-You want to maximize your profit by choosing a **single day** to buy one stock and choosing a **different day in the future** to sell that stock.
-
-Return *the maximum profit you can achieve from this transaction*. If you cannot achieve any profit, return `0`.
-
-**Example 1:**
-```text
-Input: prices = [7,1,5,3,6,4]
-Output: 5
-Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
-Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.
-```
-
-**Example 2:**
-```text
-Input: prices = [7,6,4,3,1]
-Output: 0
-Explanation: In this case, no transactions are done and the max profit = 0.
-```
-
-**Constraints:**
-- `1 <= prices.length <= 10^5`
-- `0 <= prices[i] <= 10^4`
-
 ## Explanation
 
-### Strategy
+### Strategy (The "Why")
 
-This is a **sliding window/dynamic programming problem** that requires finding the maximum profit from buying and selling a stock once. The key insight is to track the minimum price seen so far and calculate potential profit at each step.
+Given an array `prices` where `prices[i]` is the price of a stock on day $i$, we need to find the maximum profit we can achieve by choosing a single day to buy and a different day in the future to sell.
 
-**Key observations:**
-- We can only buy once and sell once
-- We must buy before we sell
-- The maximum profit is the difference between the highest selling price and the lowest buying price
-- We can track the minimum price as we iterate through the array
+**1.1 Constraints & Complexity:**
 
-**High-level approach:**
-1. **Track minimum price**: Keep track of the lowest price seen so far
-2. **Calculate potential profit**: At each step, calculate profit if we sell at current price
-3. **Update maximum profit**: Keep track of the highest profit found so far
-4. **Return result**: Return the maximum profit (or 0 if no profit possible)
+- **Input Size:** The array length $N$ can be up to $10^5$.
+- **Value Range:** Prices are between $0$ and $10^4$.
+- **Time Complexity:** $O(n)$ - We iterate through the prices array once.
+- **Space Complexity:** $O(1)$ - We only use a constant amount of extra space.
+- **Edge Case:** If prices are in descending order, we cannot make a profit, so return 0.
 
-### Steps
+**1.2 High-level approach:**
 
-Let's break down the solution step by step:
+The goal is to find the maximum profit from buying and selling a stock once.
 
-**Step 1: Initialize variables**
-- `min_price`: Track the minimum price seen so far (starts with first price)
-- `max_profit`: Track the maximum profit found so far (starts at 0)
+![Best Time to Buy and Sell Stock](https://assets.leetcode.com/uploads/2020/03/26/chart.png)
 
-**Step 2: Iterate through the array**
-For each price starting from the second:
-- Update `min_price` if current price is lower
-- Calculate potential profit: `current_price - min_price`
-- Update `max_profit` if current profit is higher
+We track the minimum price seen so far and calculate the profit if we sell on each day. The maximum of these profits is our answer.
 
-**Step 3: Return the result**
-- Return `max_profit` (will be 0 if no profit possible)
+**1.3 Brute force vs. optimized strategy:**
 
-**Example walkthrough:**
-Let's trace through the first example:
+- **Brute Force:** Try all pairs of buy and sell days, calculating profit for each. This takes $O(n^2)$ time.
+- **Optimized Strategy (One Pass):** Track the minimum price as we iterate. For each day, calculate profit if we sell today (current price - minimum price seen). This takes $O(n)$ time.
+- **Why it's better:** The one-pass approach reduces time complexity from $O(n^2)$ to $O(n)$ by maintaining the minimum price seen so far, eliminating the need to check all previous days for each day.
 
-```text
-prices = [7,1,5,3,6,4]
+**1.4 Decomposition:**
 
-Initial state:
-min_price = 7, max_profit = 0
+1. Initialize `min_price` to infinity and `max_profit` to 0.
+2. Iterate through each price.
+3. Update `min_price` to be the minimum of current `min_price` and current price.
+4. Calculate profit if we sell today: `profit = current_price - min_price`.
+5. Update `max_profit` to be the maximum of current `max_profit` and calculated profit.
+6. Return `max_profit`.
 
-Step 1: price = 1
-1 < 7, so min_price = 1
-potential_profit = 1 - 1 = 0
-max_profit = max(0, 0) = 0
+### Steps (The "How")
 
-Step 2: price = 5
-5 > 1, so min_price stays 1
-potential_profit = 5 - 1 = 4
-max_profit = max(0, 4) = 4
+**2.1 Initialization & Example Setup:**
 
-Step 3: price = 3
-3 > 1, so min_price stays 1
-potential_profit = 3 - 1 = 2
-max_profit = max(4, 2) = 4
+Let's use the example: $prices = [7,1,5,3,6,4]$
 
-Step 4: price = 6
-6 > 1, so min_price stays 1
-potential_profit = 6 - 1 = 5
-max_profit = max(4, 5) = 5
+We initialize:
+- `min_price = \infty`
+- `max_profit = 0`
 
-Step 5: price = 4
-4 > 1, so min_price stays 1
-potential_profit = 4 - 1 = 3
-max_profit = max(5, 3) = 5
+**2.2 Start Processing:**
 
-Result: Return max_profit = 5
-```
+We iterate through each price.
 
-> **Note:** The key insight is that we don't need to try every possible buy-sell combination. By tracking the minimum price seen so far, we can calculate the maximum possible profit at each step in O(1) time.
+**2.3 Trace Walkthrough:**
 
-**Time Complexity:** O(n) - we visit each element exactly once  
-**Space Complexity:** O(1) - we only use a constant amount of extra space 
+| Day | Price | min_price | Profit (price - min_price) | max_profit |
+|-----|-------|-----------|---------------------------|------------|
+| 0 | 7 | 7 | $7 - 7 = 0$ | 0 |
+| 1 | 1 | 1 | $1 - 1 = 0$ | 0 |
+| 2 | 5 | 1 | $5 - 1 = 4$ | 4 |
+| 3 | 3 | 1 | $3 - 1 = 2$ | 4 |
+| 4 | 6 | 1 | $6 - 1 = 5$ | 5 |
+| 5 | 4 | 1 | $4 - 1 = 3$ | 5 |
+
+**2.4 Optimal Strategy:**
+
+- Buy on day 1 (price = 1)
+- Sell on day 4 (price = 6)
+- Profit = $6 - 1 = 5$
+
+**2.5 Return Result:**
+
+We return 5, which is the maximum profit achievable.
+
+> **Note:** The key insight is that we only need to track the minimum price seen so far. For each day, we calculate the profit if we had bought at the minimum price and sell today, then take the maximum of all such profits.
