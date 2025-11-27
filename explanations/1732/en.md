@@ -1,31 +1,74 @@
-## 1732. Find the Highest Altitude [Easy]
-
-https://leetcode.com/problems/find-the-highest-altitude
-
-## Description
-There is a biker going on a road trip. The road trip consists of n + 1 points at different altitudes. The biker starts his trip on point 0 with altitude equal 0.
-
-You are given an integer array gain of length n where gain[i] is the net gain in altitude between points i and i + 1 for all (0 <= i < n). Return the highest altitude of a point.
-
-**Examples**
-Input: gain = [-5,1,5,0,-7]
-Output: 1
-Explanation: The altitudes are [0,-5,-4,1,1,-6]. The highest is 1.
-
-Input: gain = [-4,-3,-2,-1,4,3,2]
-Output: 0
-Explanation: The altitudes are [0,-4,-7,-9,-10,-6,-3,-1]. The highest is 0.
-
-**Constraints**
-- n == gain.length
-- 1 <= n <= 100
-- -100 <= gain[i] <= 100
-
-## Hint
-Track the running sum and keep the maximum seen so far.
-
 ## Explanation
-Let's imagine you're on a bike ride, and you start at sea level (altitude 0). Each number in the gain array tells you how much you go up or down at each step. We keep track of our current altitude as we go, and always remember the highest point we've reached so far.
 
-We do this because it lets us find the maximum altitude in a single pass, without having to store all the altitudes. By updating the highest altitude as we go, we make our solution efficient and easy to understand.
+### Strategy (The "Why")
 
+Given an array `gain` where `gain[i]` is the net gain in altitude between points $i$ and $i+1$, we need to find the highest altitude reached. We start at altitude 0.
+
+**1.1 Constraints & Complexity:**
+
+- **Input Size:** The array length $N$ can be between $1$ and $100$.
+- **Value Range:** Each gain value is between $-100$ and $100$.
+- **Time Complexity:** $O(n)$ - We iterate through the gain array once.
+- **Space Complexity:** $O(1)$ - We only use a constant amount of extra space for variables.
+- **Edge Case:** If all gains are negative, the highest altitude is 0 (starting altitude).
+
+**1.2 High-level approach:**
+
+The goal is to find the maximum altitude reached during the journey.
+
+![Highest Altitude](https://assets.leetcode.com/uploads/2021/06/26/largest-altitude.png)
+
+We track the current altitude as we process each gain. The current altitude starts at 0, and we add each gain to it. We keep track of the maximum altitude seen.
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** There isn't really a brute force approach - we must process each gain sequentially.
+- **Optimized Strategy (Prefix Sum):** Calculate the running sum (prefix sum) of gains, which represents the altitude at each point. Track the maximum. This is the natural and efficient approach.
+- **Why it's better:** The prefix sum approach is straightforward and optimal. We process each gain once, maintaining the current altitude and maximum altitude.
+
+**1.4 Decomposition:**
+
+1. Initialize `current_altitude = 0` and `max_altitude = 0`.
+2. Iterate through each gain value.
+3. Add the gain to `current_altitude`.
+4. Update `max_altitude` to be the maximum of `max_altitude` and `current_altitude`.
+5. Return `max_altitude`.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example: $gain = [-5,1,5,0,-7]$
+
+We initialize:
+- `current_altitude = 0`
+- `max_altitude = 0`
+
+**2.2 Start Processing:**
+
+We iterate through each gain.
+
+**2.3 Trace Walkthrough:**
+
+| Gain | current_altitude Before | current_altitude After | max_altitude |
+|------|------------------------|----------------------|--------------|
+| -5 | 0 | $0 + (-5) = -5$ | 0 |
+| 1 | -5 | $-5 + 1 = -4$ | 0 |
+| 5 | -4 | $-4 + 5 = 1$ | 1 |
+| 0 | 1 | $1 + 0 = 1$ | 1 |
+| -7 | 1 | $1 + (-7) = -6$ | 1 |
+
+**2.4 Altitude Progression:**
+
+- Start: altitude = 0
+- After gain -5: altitude = -5
+- After gain 1: altitude = -4
+- After gain 5: altitude = 1 (highest so far)
+- After gain 0: altitude = 1
+- After gain -7: altitude = -6
+
+**2.5 Return Result:**
+
+We return 1, which is the highest altitude reached during the journey.
+
+> **Note:** This is essentially a prefix sum problem. The altitude at each point is the cumulative sum of gains from the start, and we're finding the maximum of these cumulative sums.
