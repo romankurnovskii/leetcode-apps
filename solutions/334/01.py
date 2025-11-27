@@ -1,10 +1,17 @@
-def increasingTriplet(nums):
-    first = second = float("inf")
-    for n in nums:
-        if n <= first:
-            first = n
-        elif n <= second:
-            second = n
-        else:
-            return True
-    return False
+from typing import List
+
+class Solution:
+    def increasingTriplet(self, nums: List[int]) -> bool:
+        first = float('inf')
+        second = float('inf')
+        
+        for num in nums:
+            if num <= first:
+                first = num
+            elif num <= second:
+                second = num
+            else:
+                # Found a number greater than both first and second
+                return True
+        
+        return False
