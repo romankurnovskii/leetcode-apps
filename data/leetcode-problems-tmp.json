@@ -1,0 +1,31 @@
+{
+  "3684": {
+    "id": 3684,
+    "category": "Array & Hashing",
+    "title": "Maximize Sum of At Most K Distinct Elements",
+    "difficulty": "Easy",
+    "link": "https://leetcode.com/problems/maximize-sum-of-at-most-k-distinct-elements/",
+    "tags": []
+  },
+  "3755": {
+    "id": 3755,
+    "category": "Array & Hashing",
+    "title": "Find Maximum Balanced XOR Subarray Length",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/find-maximum-balanced-xor-subarray-length/"
+  },
+  "3756": {
+    "id": 3756,
+    "category": "Array & Hashing",
+    "title": "Concatenate Non-Zero Digits and Multiply by Sum II",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/concatenate-non-zero-digits-and-multiply-by-sum-ii/"
+  },
+  "3757": {
+    "id": 3757,
+    "category": "Array & Hashing",
+    "title": "Number of Effective Subsequences",
+    "difficulty": "Hard",
+    "link": "https://leetcode.com/problems/number-of-effective-subsequences/"
+  }
+}
