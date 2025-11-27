@@ -132,7 +132,7 @@ We compress the representation to work only with the relevant bits (0 and 1 in t
 | 1      | 01     | Bit 0              | 01 (mask = 1)   |
 
 After SOS DP:
-- `dp[00] = 0` (no numbers contribute to neither bit)
+- `dp[00] = 0` (numbers contribute to neither bit)
 - `dp[01] = 1` (1 number contributes only to bit 0)
 - `dp[10] = 2` (2 numbers contribute only to bit 1)
 - `dp[11] = 3` (all numbers contribute to at least one bit)
@@ -142,8 +142,8 @@ After SOS DP:
 We iterate over all non-empty subsets of bits to keep. For each subset `s`:
 - `comp = full_mask ^ s` represents bits we're removing
 - `count_zero = dp[comp]` counts numbers that contribute only to removed bits
-- These numbers can be freely included/excluded: $2^{count\_zero}$ ways
-- Apply inclusion-exclusion: add if odd number of bits removed, subtract if even
+- These numbers can be freely included or excluded: $2^{count\_zero}$ ways
+- Apply inclusion-exclusion: the sign is determined by `popcount(s)` (number of bits kept), following the inclusion-exclusion formula structure
 
 **2.5 Return Result:**
 

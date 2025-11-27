@@ -46,8 +46,8 @@ class Solution:
         
         # Step 5: Inclusion-Exclusion to count effective subsequences
         # A subsequence is effective if it removes all "guardians" of at least one bit
-        # We count subsequences that keep bits in complement mask (s)
-        # and subtract/add based on how many bits are missing
+        # We count subsequences that keep bits in mask s (removing bits in comp)
+        # and subtract/add based on how many bits are removed
         res = 0
         full_mask = (1 << B) - 1
         
@@ -60,8 +60,9 @@ class Solution:
             count_zero = dp[comp]
             term = pow2[count_zero]
             
-            # Inclusion-exclusion: add if odd number of bits removed, subtract if even
-            if bin(s).count("1") & 1:
+            # Inclusion-exclusion: sign depends on popcount(s) (bits kept)
+            # This follows from the inclusion-exclusion formula structure
+            if s.bit_count() & 1:
                 res = (res + term) % MOD
             else:
                 res = (res - term) % MOD
