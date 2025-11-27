@@ -1,28 +1,28 @@
-def isIsomorphic(s, t):
-    if len(s) != len(t):
-        return False
-    
-    # Create mapping dictionaries for both directions
-    s_to_t = {}
-    t_to_s = {}
-    
-    # Check each character pair
-    for i in range(len(s)):
-        char_s = s[i]
-        char_t = t[i]
+class Solution:
+    def isIsomorphic(self, s: str, t: str) -> bool:
+        if len(s) != len(t):
+            return False
         
-        # Check if char_s is already mapped
-        if char_s in s_to_t:
-            # Verify the mapping is consistent
-            if s_to_t[char_s] != char_t:
-                return False
-        else:
-            # Check if char_t is already mapped to by another character
-            if char_t in t_to_s:
-                return False
+        # Two dictionaries to map characters from s to t and t to s
+        s_to_t = {}
+        t_to_s = {}
+        
+        for i in range(len(s)):
+            char_s = s[i]
+            char_t = t[i]
             
-            # Add new mapping
-            s_to_t[char_s] = char_t
-            t_to_s[char_t] = char_s
-    
-    return True
+            # Check if mapping from s to t is consistent
+            if char_s in s_to_t:
+                if s_to_t[char_s] != char_t:
+                    return False
+            else:
+                s_to_t[char_s] = char_t
+            
+            # Check if mapping from t to s is consistent
+            if char_t in t_to_s:
+                if t_to_s[char_t] != char_s:
+                    return False
+            else:
+                t_to_s[char_t] = char_s
+        
+        return True

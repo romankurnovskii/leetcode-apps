@@ -1,125 +1,67 @@
-## 392. Is Subsequence [Easy]
-
-https://leetcode.com/problems/is-subsequence
-
-## Description
-Given two strings `s` and `t`, return `true` if `s` is a subsequence of `t`, or `false` otherwise.
-
-A subsequence of a string is a new string that is formed from the original string by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (i.e., "ace" is a subsequence of "abcde" while "aec" is not).
-
-**Examples**
-```text
-Input: s = "abc", t = "ahbgdc"
-Output: true
-
-Input: s = "axc", t = "ahbgdc"
-Output: false
-```
-
-**Constraints**
-```text
-- 0 <= s.length <= 100
-- 0 <= t.length <= 10^4
-- s and t consist only of lowercase English letters.
-```
-
 ## Explanation
 
-### Strategy
+### Strategy (The "Why")
 
-The problem asks you to determine if one string, `s`, is a **subsequence** of another string, `t`. A subsequence means that the characters of `s` appear in `t` in the *same relative order*, but not necessarily contiguously. For example, "ace" is a subsequence of "abcde" (you skip 'b' and 'd'), but "aec" is not because 'e' comes after 'c' in "aec" but before 'c' in "abcde". you are given two strings, `s` and `t`, consisting of lowercase English letters, and their lengths are constrained.
+Given two strings `s` and `t`, we need to determine if `s` is a subsequence of `t`. A subsequence means that characters of `s` appear in `t` in the same order, but not necessarily consecutively.
 
-This is a string matching problem that can be efficiently solved using a **two-pointer approach**. The core idea is to use one pointer to traverse string `s` and another pointer to traverse string `t`. As you iterate through `t`, you look for characters that match the current character you are seeking in `s`. If you find a match, it means you\'ve successfully matched a character from `s`, so you advance the pointer for `s` to look for the next character in `s`. Regardless of a match, you always advance the pointer for `t` because you are scanning `t` from left to right.
+**1.1 Constraints & Complexity:**
 
-If, by the time you finish traversing `t`, the pointer for `s` has successfully traversed all of `s` (meaning it has reached the end of `s`), then `s` is a subsequence of `t`. Otherwise, it is not.
+- **Input Size:** The string lengths can be up to $10^4$.
+- **Value Range:** Strings contain only lowercase English letters.
+- **Time Complexity:** $O(n)$ where $n$ is the length of `t`. We iterate through `t` once.
+- **Space Complexity:** $O(1)$ - We only use a constant amount of extra space for pointers.
+- **Edge Case:** If `s` is empty, it's always a subsequence of any string (empty string is a subsequence of any string).
 
-> Use two pointers to check if you can match all characters of s in t in order.
+**1.2 High-level approach:**
 
-### Steps
+The goal is to check if all characters of `s` appear in `t` in the same order.
 
-Let\'s walk through the example: `s = "abc"`, `t = "ahbgdc"`
+We use two pointers: one for `s` and one for `t`. We traverse `t` and whenever we find a character matching the current character in `s`, we advance the pointer in `s`.
 
-1.  Initialize two pointers:
-    * `ptr_s = 0` (pointing to the first character of `s`, 'a')
-    * `ptr_t = 0` (pointing to the first character of `t`, 'a')
+**1.3 Brute force vs. optimized strategy:**
 
-2.  Start a loop that continues as long as both pointers are within the bounds of their respective strings (`ptr_s < len(s)` and `ptr_t < len(t)`):
+- **Brute Force:** Try all possible subsequences of `t` and check if any equals `s`. This would be exponential.
+- **Optimized Strategy (Two Pointers):** Use two pointers to traverse both strings simultaneously. This takes $O(n)$ time.
+- **Why it's better:** The two-pointer approach is optimal and straightforward, checking characters in order without generating all possible subsequences.
 
-    * **Iteration 1:**
-        * `s[ptr_s]` is `'a'`, `t[ptr_t]` is `'a'`. They match!
-        * Increment `ptr_s`. `ptr_s` becomes `1`.
-        * Increment `ptr_t`. `ptr_t` becomes `1`.
-        * `s` is now `'[a]bc'`, `t` is now `'a[h]bgdc'`
+**1.4 Decomposition:**
 
-    * **Iteration 2:**
-        * `s[ptr_s]` is `'b'`, `t[ptr_t]` is `'h'`. They do not match.
-        * Only increment `ptr_t`. `ptr_t` becomes `2`.
-        * `s` is now `'a[b]c'`, `t` is now `'ah[b]gdc'`
+1. Initialize two pointers: one for `s` (starting at 0) and one for `t` (starting at 0).
+2. Traverse `t` with the pointer.
+3. Whenever we find a character in `t` that matches the current character in `s`, advance the pointer in `s`.
+4. After traversing `t`, check if we've matched all characters in `s` (pointer equals length of `s`).
 
-    * **Iteration 3:**
-        * `s[ptr_s]` is `'b'`, `t[ptr_t]` is `'b'`. They match!
-        * Increment `ptr_s`. `ptr_s` becomes `2`.
-        * Increment `ptr_t`. `ptr_t` becomes `3`.
-        * `s` is now `'ab[c]'`, `t` is now `'ahb[g]dc'`
+### Steps (The "How")
 
-    * **Iteration 4:**
-        * `s[ptr_s]` is `'c'`, `t[ptr_t]` is `'g'`. They do not match.
-        * Only increment `ptr_t`. `ptr_t` becomes `4`.
-        * `s` is now `'ab[c]'`, `t` is now `'ahbg[d]c'`
+**2.1 Initialization & Example Setup:**
 
-    * **Iteration 5:**
-        * `s[ptr_s]` is `'c'`, `t[ptr_t]` is `'d'`. They do not match.
-        * Only increment `ptr_t`. `ptr_t` becomes `5`.
-        * `s` is now `'ab[c]'`, `t` is now `'ahbgd[c]'`
+Let's use the example: $s = "abc"$, $t = "ahbgdc"$
 
-    * **Iteration 6:**
-        * `s[ptr_s]` is `'c'`, `t[ptr_t]` is `'c'`. They match!
-        * Increment `ptr_s`. `ptr_s` becomes `3`.
-        * Increment `ptr_t`. `ptr_t` becomes `6`.
-        * `s` is now `'abc[]'`, `t` is now `'ahbgdc[]'`
+We initialize:
+- `i = 0` (pointer for `s`)
+- `j = 0` (pointer for `t`)
 
-3.  The loop terminates because `ptr_t` (`6`) is now equal to `len(t)` (`6`).
+**2.2 Start Checking:**
 
-4.  After the loop, check if `ptr_s` has reached the end of `s`. In this case, `ptr_s` is `3`, and `len(s)` is `3`. Since `ptr_s == len(s)`, `s` is a subsequence of `t`.
+We begin traversing `t`.
 
-    The result (`res`) is `True`.
+**2.3 Trace Walkthrough:**
 
-Let\'s consider another example: `s = "axc"`, `t = "ahbgdc"`
+| j | t[j] | i | s[i] | Match? | Action | i After |
+|---|------|---|------|--------|--------|---------|
+| 0 | 'a' | 0 | 'a' | Yes | Advance i | 1 |
+| 1 | 'h' | 1 | 'b' | No | Continue | 1 |
+| 2 | 'b' | 1 | 'b' | Yes | Advance i | 2 |
+| 3 | 'g' | 2 | 'c' | No | Continue | 2 |
+| 4 | 'd' | 2 | 'c' | No | Continue | 2 |
+| 5 | 'c' | 2 | 'c' | Yes | Advance i | 3 |
 
-1.  Initialize `ptr_s = 0`, `ptr_t = 0`.
-2.  Loop:
+**2.4 Check Result:**
 
-    * **Iteration 1:**
-        * `s[0]` is `'a'`, `t[0]` is `'a'`. Match!
-        * `ptr_s = 1`, `ptr_t = 1`.
+After traversing `t`, `i = 3` which equals `len(s) = 3`, so all characters were matched.
 
-    * **Iteration 2:**
-        * `s[1]` is `'x'`, `t[1]` is `'h'`. No match.
-        * `ptr_t = 2`.
+**2.5 Return Result:**
 
-    * **Iteration 3:**
-        * `s[1]` is `'x'`, `t[2]` is `'b'`. No match.
-        * `ptr_t = 3`.
+We return `True` because `s` is a subsequence of `t`.
 
-    * **Iteration 4:**
-        * `s[1]` is `'x'`, `t[3]` is `'g'`. No match.
-        * `ptr_t = 4`.
-
-    * **Iteration 5:**
-        * `s[1]` is `'x'`, `t[4]` is `'d'`. No match.
-        * `ptr_t = 5`.
-
-    * **Iteration 6:**
-        * `s[1]` is `'x'`, `t[5]` is `'c'`. No match.
-        * `ptr_t = 6`.
-
-3.  Loop terminates because `ptr_t` (`6`) is equal to `len(t)` (`6`).
-4.  Check `ptr_s == len(s)`. `ptr_s` is `1`, `len(s)` is `3`. Since `1 != 3`, `s` is NOT a subsequence of `t`.
-
-    The result (`res`) is `False`.
-
-> **Note:** This two-pointer approach is optimal for this problem. It processes each character of `t` at most once and each character of `s` at most once. This makes it very efficient, especially when `t` is much longer than `s`.
-
-**Time Complexity:** The solution involves iterating through string `t` at most once. In the worst case, both pointers will traverse their entire strings. Therefore, the time complexity is $O(\text{len}(t))$. Since $len(s) \le len(t)$, this can also be expressed as $O(M+N)$ where $M = len(s)$ and $N = len(t)$, but since $N$ dominates, it simplifies to $O(N)$.
-
-**Space Complexity:** you are only using a few variables for pointers, which take constant space. Thus, the space complexity is $O(1)$.
+> **Note:** The key insight is that we only need to check if characters of `s` appear in `t` in order. We don't need to check all possible subsequences - we can greedily match the first occurrence of each character in `s` as we traverse `t`.
