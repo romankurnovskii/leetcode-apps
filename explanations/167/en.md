@@ -1,115 +1,71 @@
-## 167. Two Sum II - Input Array Is Sorted [Medium]
-
-https://leetcode.com/problems/two-sum-ii-input-array-is-sorted
-
-## Description
-Given a **1-indexed** array of integers `numbers` that is already **sorted in non-decreasing order**, find two numbers such that they add up to a specific `target` number. Let these two numbers be `numbers[index₁]` and `numbers[index₂]` where `1 ≤ index₁ < index₂ ≤ numbers.length`.
-
-Return *the indices of the two numbers, *`index₁`* and *`index₂`*, **added by one** as an integer array *`[index₁, index₂]`* of length 2.*
-
-The tests are generated such that there is **exactly one solution**. You **may not** use the same element twice.
-
-Your solution must use only constant extra space.
-
-**Examples**
-
-```text
-Example 1:
-Input: numbers = [2,7,11,15], target = 9
-Output: [1,2]
-Explanation: The sum of 2 and 7 is 9. Therefore, index₁ = 1, index₂ = 2. We return [1, 2].
-
-Example 2:
-Input: numbers = [2,3,4], target = 6
-Output: [1,3]
-Explanation: The sum of 2 and 4 is 6. Therefore index₁ = 1, index₂ = 3. We return [1, 3].
-
-Example 3:
-Input: numbers = [-1,0], target = -1
-Output: [1,2]
-Explanation: The sum of -1 and 0 is -1. Therefore index₁ = 1, index₂ = 2. We return [1, 2].
-```
-
-**Constraints**
-```text
-- 2 <= numbers.length <= 3 * 10^4
-- -1000 <= numbers[i] <= 1000
-- numbers is sorted in non-decreasing order
-- -1000 <= target <= 1000
-- The tests are generated such that there is exactly one solution
-```
-
 ## Explanation
 
-### Strategy
-Let's restate the problem: You're given a sorted array of numbers and a target sum. You need to find two different numbers in the array that add up to the target, and return their 1-indexed positions.
+### Strategy (The "Why")
 
-This is a **two-pointer problem** that takes advantage of the fact that the array is already sorted.
+Given a 1-indexed array of integers `numbers` that is sorted in non-decreasing order, and a target integer, we need to find two numbers such that they add up to target. Return the indices of the two numbers (1-indexed).
 
-**What is given?** A sorted array of integers and a target sum.
+**1.1 Constraints & Complexity:**
 
-**What is being asked?** Find two numbers that add up to the target and return their 1-indexed positions.
+- **Input Size:** The array length $N$ can be between $2$ and $3 \times 10^4$.
+- **Value Range:** Each number and target are between $-1000$ and $1000$.
+- **Time Complexity:** $O(n)$ - We use two pointers that each traverse the array at most once.
+- **Space Complexity:** $O(1)$ - We only use a constant amount of extra space for pointers.
+- **Edge Case:** There is exactly one solution, so we don't need to handle multiple solutions or no solution cases.
 
-**Constraints:** The array is sorted, there's exactly one solution, and you must use only constant extra space.
+**1.2 High-level approach:**
 
-**Edge cases:** 
-- The array has at least 2 elements (guaranteed by constraints)
-- All numbers are within a reasonable range (-1000 to 1000)
-- There's exactly one solution (no need to handle multiple solutions)
+The goal is to find two numbers that sum to the target in a sorted array.
 
-**High-level approach:**
-Since the array is sorted, we can use two pointers - one at the beginning and one at the end. We can then move these pointers based on whether the current sum is too small or too large compared to the target.
+![Two Sum II](https://assets.leetcode.com/uploads/2021/07/15/167_example_2.png)
 
-Think of it like this: if you're looking for two numbers that add up to a target, and the array is sorted, you can start with the smallest and largest numbers. If their sum is too small, you need a larger number, so move the left pointer right. If their sum is too large, you need a smaller number, so move the right pointer left.
+We use two pointers: one at the start (left) and one at the end (right). Since the array is sorted, if the sum is too small, we move left forward. If the sum is too large, we move right backward.
 
-**Decomposition:**
-1. **Initialize pointers**: Place one pointer at the start and one at the end
-2. **Calculate current sum**: Add the numbers at both pointer positions
-3. **Compare with target**: 
-   - If sum equals target, we found our answer
-   - If sum is too small, move left pointer right
-   - If sum is too large, move right pointer left
-4. **Return result**: Convert to 1-indexed format
+**1.3 Brute force vs. optimized strategy:**
 
-**Brute force vs. optimized strategy:**
-- **Brute force**: Check every possible pair of numbers. This takes O(n²) time.
-- **Optimized**: Use two pointers and take advantage of the sorted order. This takes O(n) time.
+- **Brute Force:** Try all pairs of numbers, checking if they sum to target. This takes $O(n^2)$ time.
+- **Optimized Strategy (Two Pointers):** Use two pointers starting at both ends. Move them based on whether the current sum is less than, equal to, or greater than the target. This takes $O(n)$ time.
+- **Why it's better:** The two-pointer approach leverages the sorted property to eliminate half of the remaining possibilities at each step, reducing time from $O(n^2)$ to $O(n)$.
 
-### Steps
-Let's walk through the solution step by step using the first example: `numbers = [2,7,11,15]`, `target = 9`
+**1.4 Decomposition:**
 
-**Step 1: Initialize pointers**
-- `left = 0` (points to the first element: 2)
-- `right = 3` (points to the last element: 15)
+1. Initialize two pointers: `left = 0` and `right = len(numbers) - 1`.
+2. While `left < right`:
+   - Calculate `current_sum = numbers[left] + numbers[right]`.
+   - If `current_sum == target`, return `[left + 1, right + 1]` (1-indexed).
+   - If `current_sum < target`, increment `left` (need larger sum).
+   - If `current_sum > target`, decrement `right` (need smaller sum).
+3. Return the indices (guaranteed to exist).
 
-**Step 2: Calculate current sum**
-- Current sum = `numbers[left] + numbers[right] = 2 + 15 = 17`
+### Steps (The "How")
 
-**Step 3: Compare with target**
-- `17 > 9` (target), so the sum is too large
-- We need a smaller number, so move the right pointer left
-- `right = 2` (now points to 11)
+**2.1 Initialization & Example Setup:**
 
-**Step 4: Calculate new sum**
-- Current sum = `numbers[left] + numbers[right] = 2 + 11 = 13`
+Let's use the example: $numbers = [2,7,11,15]$, $target = 9$
 
-**Step 5: Compare with target**
-- `13 > 9` (target), so the sum is still too large
-- Move the right pointer left again
-- `right = 1` (now points to 7)
+We initialize:
+- `left = 0`, `right = 3`
 
-**Step 6: Calculate new sum**
-- Current sum = `numbers[left] + numbers[right] = 2 + 7 = 9`
+**2.2 Start Checking:**
 
-**Step 7: Found the solution!**
-- `9 == 9` (target), so we found our answer
-- The numbers are at positions `left = 0` and `right = 1`
-- Convert to 1-indexed: `[1, 2]`
+We begin comparing sums.
 
-**Why this works:**
-Since the array is sorted, when we move the left pointer right, we get larger numbers. When we move the right pointer left, we get smaller numbers. This allows us to efficiently search for the target sum by adjusting our search space.
+**2.3 Trace Walkthrough:**
 
-> **Note:** The key insight is that since the array is sorted, we can use the two-pointer technique to efficiently find the target sum. This is much more efficient than checking every possible pair.
+| Iteration | left | right | numbers[left] | numbers[right] | Sum | Comparison | Action |
+|-----------|------|-------|---------------|----------------|-----|------------|--------|
+| 1 | 0 | 3 | 2 | 15 | 17 | $17 > 9$ | Decrement right |
+| 2 | 0 | 2 | 2 | 11 | 13 | $13 > 9$ | Decrement right |
+| 3 | 0 | 1 | 2 | 7 | 9 | $9 == 9$ | **Found!** |
 
-**Time Complexity:** O(n) - we visit each element at most once  
-**Space Complexity:** O(1) - we only use a constant amount of extra space for the pointers
+**2.4 Return Result:**
+
+We return `[1, 2]` (1-indexed), which corresponds to values 2 and 7 that sum to 9.
+
+**2.5 Why It Works:**
+
+Since the array is sorted:
+- If sum is too large, moving right backward decreases the sum.
+- If sum is too small, moving left forward increases the sum.
+- This guarantees we'll find the solution if it exists.
+
+> **Note:** The sorted property is crucial. Without it, we'd need a hash map approach like in the original Two Sum problem. The two-pointer technique is more efficient for sorted arrays.
