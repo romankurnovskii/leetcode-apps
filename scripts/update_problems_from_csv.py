@@ -171,7 +171,8 @@ def main():
             existing_json[problem_id] = problem_data
             updated.append(problem_id)
     
-    print(f"\nFound {len(missing)} missing problems")
+    print('-'*20)
+    print(f"Found {len(missing)} missing problems")
     print(f"Updated {len(updated)} existing problems")
     
     if missing:
