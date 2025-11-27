@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """
 Reads a JSON file, sorts its top-level keys numerically,
 and writes the sorted data to a new JSON file.

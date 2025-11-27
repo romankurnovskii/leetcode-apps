@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 """
 Script to update leetcode-problems.json from CSV file.
 Fills in all missing problems from the CSV.
