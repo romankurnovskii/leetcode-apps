@@ -473,408 +473,6 @@ def isPalindrome(s):
     return True
 ```
 
-## 167. Two Sum II - Input Array Is Sorted [Medium]
-https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/
-
-### Explanation
-
-## 167. Two Sum II - Input Array Is Sorted [Medium]
-
-https://leetcode.com/problems/two-sum-ii-input-array-is-sorted
-
-## Description
-Given a **1-indexed** array of integers `numbers` that is already **sorted in non-decreasing order**, find two numbers such that they add up to a specific `target` number. Let these two numbers be `numbers[index₁]` and `numbers[index₂]` where `1 ≤ index₁ < index₂ ≤ numbers.length`.
-
-Return *the indices of the two numbers, *`index₁`* and *`index₂`*, **added by one** as an integer array *`[index₁, index₂]`* of length 2.*
-
-The tests are generated such that there is **exactly one solution**. You **may not** use the same element twice.
-
-Your solution must use only constant extra space.
-
-**Examples**
-
-```text
-Example 1:
-Input: numbers = [2,7,11,15], target = 9
-Output: [1,2]
-Explanation: The sum of 2 and 7 is 9. Therefore, index₁ = 1, index₂ = 2. We return [1, 2].
-
-Example 2:
-Input: numbers = [2,3,4], target = 6
-Output: [1,3]
-Explanation: The sum of 2 and 4 is 6. Therefore index₁ = 1, index₂ = 3. We return [1, 3].
-
-Example 3:
-Input: numbers = [-1,0], target = -1
-Output: [1,2]
-Explanation: The sum of -1 and 0 is -1. Therefore index₁ = 1, index₂ = 2. We return [1, 2].
-```
-
-**Constraints**
-```text
-- 2 <= numbers.length <= 3 * 10^4
-- -1000 <= numbers[i] <= 1000
-- numbers is sorted in non-decreasing order
-- -1000 <= target <= 1000
-- The tests are generated such that there is exactly one solution
-```
-
-## Explanation
-
-### Strategy
-Let's restate the problem: You're given a sorted array of numbers and a target sum. You need to find two different numbers in the array that add up to the target, and return their 1-indexed positions.
-
-This is a **two-pointer problem** that takes advantage of the fact that the array is already sorted.
-
-**What is given?** A sorted array of integers and a target sum.
-
-**What is being asked?** Find two numbers that add up to the target and return their 1-indexed positions.
-
-**Constraints:** The array is sorted, there's exactly one solution, and you must use only constant extra space.
-
-**Edge cases:** 
-- The array has at least 2 elements (guaranteed by constraints)
-- All numbers are within a reasonable range (-1000 to 1000)
-- There's exactly one solution (no need to handle multiple solutions)
-
-**High-level approach:**
-Since the array is sorted, we can use two pointers - one at the beginning and one at the end. We can then move these pointers based on whether the current sum is too small or too large compared to the target.
-
-Think of it like this: if you're looking for two numbers that add up to a target, and the array is sorted, you can start with the smallest and largest numbers. If their sum is too small, you need a larger number, so move the left pointer right. If their sum is too large, you need a smaller number, so move the right pointer left.
-
-**Decomposition:**
-1. **Initialize pointers**: Place one pointer at the start and one at the end
-2. **Calculate current sum**: Add the numbers at both pointer positions
-3. **Compare with target**: 
-   - If sum equals target, we found our answer
-   - If sum is too small, move left pointer right
-   - If sum is too large, move right pointer left
-4. **Return result**: Convert to 1-indexed format
-
-**Brute force vs. optimized strategy:**
-- **Brute force**: Check every possible pair of numbers. This takes O(n²) time.
-- **Optimized**: Use two pointers and take advantage of the sorted order. This takes O(n) time.
-
-### Steps
-Let's walk through the solution step by step using the first example: `numbers = [2,7,11,15]`, `target = 9`
-
-**Step 1: Initialize pointers**
-- `left = 0` (points to the first element: 2)
-- `right = 3` (points to the last element: 15)
-
-**Step 2: Calculate current sum**
-- Current sum = `numbers[left] + numbers[right] = 2 + 15 = 17`
-
-**Step 3: Compare with target**
-- `17 > 9` (target), so the sum is too large
-- We need a smaller number, so move the right pointer left
-- `right = 2` (now points to 11)
-
-**Step 4: Calculate new sum**
-- Current sum = `numbers[left] + numbers[right] = 2 + 11 = 13`
-
-**Step 5: Compare with target**
-- `13 > 9` (target), so the sum is still too large
-- Move the right pointer left again
-- `right = 1` (now points to 7)
-
-**Step 6: Calculate new sum**
-- Current sum = `numbers[left] + numbers[right] = 2 + 7 = 9`
-
-**Step 7: Found the solution!**
-- `9 == 9` (target), so we found our answer
-- The numbers are at positions `left = 0` and `right = 1`
-- Convert to 1-indexed: `[1, 2]`
-
-**Why this works:**
-Since the array is sorted, when we move the left pointer right, we get larger numbers. When we move the right pointer left, we get smaller numbers. This allows us to efficiently search for the target sum by adjusting our search space.
-
-> **Note:** The key insight is that since the array is sorted, we can use the two-pointer technique to efficiently find the target sum. This is much more efficient than checking every possible pair.
-
-**Time Complexity:** O(n) - we visit each element at most once  
-**Space Complexity:** O(1) - we only use a constant amount of extra space for the pointers
-
-### Solution
-
-```python
-def twoSum(numbers, target):
-    """
-    Find two numbers in the sorted array that add up to the target.
-    
-    Args:
-        numbers: List[int] - Sorted array of integers (1-indexed)
-        target: int - Target sum to find
-        
-    Returns:
-        List[int] - 1-indexed positions of the two numbers that sum to target
-    """
-    # Initialize two pointers
-    left = 0
-    right = len(numbers) - 1
-    
-    # Use two-pointer technique since array is sorted
-    while left < right:
-        current_sum = numbers[left] + numbers[right]
-        
-        if current_sum == target:
-            # Found the solution, return 1-indexed positions
-            return [left + 1, right + 1]
-        elif current_sum < target:
-            # Sum is too small, move left pointer right to get larger numbers
-            left += 1
-        else:
-            # Sum is too large, move right pointer left to get smaller numbers
-            right -= 1
-    
-    # This line should never be reached since there's exactly one solution
-    return []
-```
-
-## 11. Container With Most Water [Medium]
-https://leetcode.com/problems/container-with-most-water/
-
-### Explanation
-
-## 11. Container With Most Water [Medium]
-
-https://leetcode.com/problems/container-with-most-water/
-
-## Description
-
-You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the i-th line are (i, 0) and (i, height[i]). Find two lines that together with the x-axis form a container, such that the container contains the most water.
-
-Return the maximum amount of water a container can store.
-
-Notice that you may not slant the container.
-
-Examples:
-
-```raw
-Example 1:
-
-Input: height = [1,8,6,2,5,4,8,3,7]
-Output: 49
-Explanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water (blue section) the container can contain is 49.
-
-Example 2:
-
-Input: height = [1,1]
-Output: 1
-
-Constraints:
-
-- n == height.length
-- 2 <= n <= 10^5
-- 0 <= height[i] <= 10^4
-```
-
-> **Hint:**  Use two pointers, one at each end, and move the pointer with the shorter line inward.
-
-## Explanation
-
-Imagine the array as a row of sticks of different heights. You want to pick two sticks that, together with the x-axis, can hold the most water. The area is determined by the shorter stick and the distance between them. Start with the two ends and move the pointer pointing to the shorter stick inward, always looking for a bigger area.
-
-This approach is efficient because it checks all possible pairs in linear time, always keeping the best answer found so far.
-
-### Solution
-
-```python
-def maxArea(height):
-    left, right = 0, len(height) - 1
-    max_area = 0
-    while left < right:
-        width = right - left
-        max_area = max(max_area, min(height[left], height[right]) * width)
-        if height[left] < height[right]:
-            left += 1
-        else:
-            right -= 1
-    return max_area
-```
-
-## 15. 3Sum [Medium]
-https://leetcode.com/problems/3sum/
-
-### Explanation
-
-## 15. 3Sum [Medium]
-
-https://leetcode.com/problems/3sum
-
-## Description
-Given an integer array `nums`, return all the triplets `[nums[i], nums[j], nums[k]]` such that `i != j`, `i != k`, and `j != k`, and `nums[i] + nums[j] + nums[k] == 0`.
-
-Notice that the solution set must not contain duplicate triplets.
-
-**Examples**
-
-```tex
-Example 1:
-Input: nums = [-1,0,1,2,-1,-4]
-Output: [[-1,-1,2],[-1,0,1]]
-Explanation: 
-nums[0] + nums[1] + nums[2] = (-1) + 0 + 1 = 0.
-nums[1] + nums[2] + nums[4] = 0 + 1 + (-1) = 0.
-nums[0] + nums[3] + nums[4] = (-1) + 2 + (-1) = 0.
-The distinct triplets are [-1,0,1] and [-1,-1,2].
-Notice that the order of the output and the order of the triplets does not matter.
-
-Example 2:
-Input: nums = [0,1,1]
-Output: []
-Explanation: The only possible triplet does not sum up to 0.
-
-Example 3:
-Input: nums = [0,0,0]
-Output: [[0,0,0]]
-Explanation: The only possible triplet sums up to 0.
-```
-
-**Constraints**
-```tex
-- 3 <= nums.length <= 3000
-- -10^5 <= nums[i] <= 10^5
-```
-
-## Explanation
-
-### Strategy
-Let's restate the problem: You're given an array of integers and need to find all unique triplets that sum to zero. This is a classic **three-pointer problem** that builds upon the two-sum concept.
-
-This is a **sorting + two-pointer problem** that requires careful handling of duplicates and efficient searching.
-
-**What is given?** An array of integers that may contain duplicates.
-
-**What is being asked?** Find all unique triplets that sum to zero, avoiding duplicate combinations.
-
-**Constraints:** The array can be up to 3000 elements long, with values ranging from -100,000 to 100,000.
-
-**Edge cases:** 
-- Array with all zeros
-- Array with many duplicates
-- Array with no valid triplets
-- Array with exactly 3 elements
-
-**High-level approach:**
-The solution involves three main steps:
-1. **Sort the array**: This allows us to use two-pointer technique efficiently
-2. **Fix one element**: Iterate through each unique element as the first number
-3. **Two-pointer search**: Use two pointers to find pairs that sum to the negative of the fixed element
-
-**Decomposition:**
-1. **Sort the array**: Enables efficient two-pointer searching and helps avoid duplicates
-2. **Iterate through unique elements**: Fix each element as the first number in the triplet
-3. **Two-pointer search**: Use left and right pointers to find pairs that sum to the target
-4. **Handle duplicates**: Skip duplicate elements to avoid duplicate triplets
-5. **Return results**: Collect all valid triplets
-
-**Brute force vs. optimized strategy:**
-- **Brute force**: Check all possible combinations of three numbers. This takes O(n³) time.
-- **Optimized**: Sort the array and use two-pointer technique for each fixed element. This takes O(n²) time.
-
-### Steps
-Let's walk through the solution step by step using the first example: `nums = [-1,0,1,2,-1,-4]`
-
-**Step 1: Sort the array**
-- Original: `[-1,0,1,2,-1,-4]`
-- Sorted: `[-4,-1,-1,0,1,2]`
-
-**Step 2: Fix first element and search for pairs**
-- Fix `nums[0] = -4`
-- Target for two-pointer search: `0 - (-4) = 4`
-- Use two pointers: `left = 1`, `right = 5`
-- `nums[left] + nums[right] = -1 + 2 = 1 < 4`, so move left pointer right
-- `left = 2`, `nums[left] + nums[right] = -1 + 2 = 1 < 4`, so move left pointer right
-- `left = 3`, `nums[left] + nums[right] = 0 + 2 = 2 < 4`, so move left pointer right
-- `left = 4`, `nums[left] + nums[right] = 1 + 2 = 3 < 4`, so move left pointer right
-- `left = 5`, but `left >= right`, so no valid pair found for `-4`
-
-**Step 3: Fix next unique element**
-- Fix `nums[1] = -1` (first occurrence)
-- Target for two-pointer search: `0 - (-1) = 1`
-- Use two pointers: `left = 2`, `right = 5`
-- `nums[left] + nums[right] = -1 + 2 = 1 == 1`, found a triplet: `[-1,-1,2]`
-- Move pointers: `left = 3`, `right = 4`
-- `nums[left] + nums[right] = 0 + 1 = 1 == 1`, found another triplet: `[-1,0,1]`
-- Continue until pointers cross
-
-**Step 4: Skip duplicates**
-- When moving to the next element, skip if it's the same as the previous one
-- This prevents duplicate triplets
-
-**Step 5: Continue for all elements**
-- Repeat the process for each unique element
-- Collect all valid triplets
-
-**Why this works:**
-By sorting the array, we can efficiently search for pairs using two pointers. For each fixed element `a`, we need to find pairs `b` and `c` such that `b + c = -a`. The two-pointer technique allows us to find these pairs in O(n) time for each fixed element, giving us an overall O(n²) solution.
-
-> **Note:** The key insight is that sorting the array not only enables efficient searching but also helps us avoid duplicates by skipping identical elements.
-
-**Time Complexity:** O(n²) - we iterate through each element and for each, we do a two-pointer search  
-**Space Complexity:** O(1) - we only use a constant amount of extra space (excluding the output array)
-
-### Solution
-
-```python
-def threeSum(nums):
-    """
-    Find all unique triplets in the array which gives the sum of zero.
-    
-    Args:
-        nums: List[int] - Array of integers
-        
-    Returns:
-        List[List[int]] - List of unique triplets that sum to zero
-    """
-    # Handle edge cases
-    if len(nums) < 3:
-        return []
-    
-    # Sort the array to enable two-pointer technique
-    nums.sort()
-    result = []
-    
-    # Iterate through each element as the first number in the triplet
-    for i in range(len(nums) - 2):
-        # Skip duplicates to avoid duplicate triplets
-        if i > 0 and nums[i] == nums[i - 1]:
-            continue
-        
-        # Use two pointers to find pairs that sum to -nums[i]
-        left = i + 1
-        right = len(nums) - 1
-        target = -nums[i]
-        
-        while left < right:
-            current_sum = nums[left] + nums[right]
-            
-            if current_sum == target:
-                # Found a valid triplet
-                result.append([nums[i], nums[left], nums[right]])
-                
-                # Skip duplicates for left pointer
-                while left < right and nums[left] == nums[left + 1]:
-                    left += 1
-                
-                # Skip duplicates for right pointer
-                while left < right and nums[right] == nums[right - 1]:
-                    right -= 1
-                
-                # Move both pointers
-                left += 1
-                right -= 1
-                
-            elif current_sum < target:
-                # Sum is too small, move left pointer right
-                left += 1
-            else:
-                # Sum is too large, move right pointer left
-                right -= 1
-    
-    return result
-```
-
 ## 289. Game of Life [Medium]
 https://leetcode.com/problems/game-of-life/
 
@@ -1030,158 +628,6 @@ def gameOfLife(board):
                 board[i][j] = 0  # Convert live→dead to dead
             elif board[i][j] == 3:
                 board[i][j] = 1  # Convert dead→live to live
-```
-
-## 205. Isomorphic Strings [Easy]
-https://leetcode.com/problems/isomorphic-strings/
-
-### Explanation
-
-## 205. Isomorphic Strings [Easy]
-
-https://leetcode.com/problems/isomorphic-strings
-
-## Description
-
-Given two strings `s` and `t`, *determine if they are isomorphic*.
-
-Two strings `s` and `t` are isomorphic if the characters in `s` can be replaced to get `t`.
-
-All occurrences of a character must be replaced with another character while preserving the order of characters. No two characters may map to the same character, but a character may map to itself.
-
-**Examples**
-
-```tex
-Example 1:
-Input: s = "egg", t = "add"
-Output: true
-Explanation:
-The strings s and t can be made identical by:
-- Mapping 'e' to 'a'.
-- Mapping 'g' to 'd'.
-
-Example 2:
-Input: s = "foo", t = "bar"
-Output: false
-Explanation:
-The strings s and t can not be made identical as 'o' needs to be mapped to both 'a' and 'r'.
-
-Example 3:
-Input: s = "paper", t = "title"
-Output: true
-```
-
-**Constraints**
-```tex
-- 1 <= s.length <= 5 * 10^4
-- t.length == s.length
-- s and t consist of any valid ascii character
-```
-
-## Explanation
-
-### Strategy
-Let's restate the problem: You're given two strings of equal length, and you need to determine if they are isomorphic. Two strings are isomorphic if there's a one-to-one mapping between characters that can transform one string into the other.
-
-This is a **hash table problem** that requires tracking character mappings in both directions to ensure the isomorphism property.
-
-**What is given?** Two strings `s` and `t` of equal length.
-
-**What is being asked?** Determine if the strings are isomorphic (can be transformed into each other via character replacement).
-
-**Constraints:** The strings can be up to 50,000 characters long and contain any valid ASCII character.
-
-**Edge cases:** 
-- Empty strings
-- Single character strings
-- Strings with all identical characters
-- Strings with complex character mappings
-
-**High-level approach:**
-The solution involves using two hash maps to track character mappings in both directions, ensuring that the mapping is consistent throughout both strings.
-
-**Decomposition:**
-1. **Check length equality**: If strings have different lengths, they can't be isomorphic
-2. **Create mapping dictionaries**: Track character mappings from s to t and from t to s
-3. **Iterate through characters**: Check each character pair for mapping consistency
-4. **Verify isomorphism**: Ensure no conflicts in the mapping
-
-**Brute force vs. optimized strategy:**
-- **Brute force**: Try all possible character mappings. This is extremely inefficient.
-- **Optimized**: Use hash tables to track mappings in a single pass. This takes O(n) time.
-
-### Steps
-Let's walk through the solution step by step using the first example: `s = "egg"`, `t = "add"`
-
-**Step 1: Initialize mapping dictionaries**
-- `s_to_t = {}` (maps characters from s to t)
-- `t_to_s = {}` (maps characters from t to s)
-
-**Step 2: Check first character pair**
-- `s[0] = 'e'`, `t[0] = 'a'`
-- Check if 'e' is already mapped: No
-- Check if 'a' is already mapped: No
-- Add mappings: `s_to_t['e'] = 'a'`, `t_to_s['a'] = 'e'`
-
-**Step 3: Check second character pair**
-- `s[1] = 'g'`, `t[1] = 'd'`
-- Check if 'g' is already mapped: No
-- Check if 'd' is already mapped: No
-- Add mappings: `s_to_t['g'] = 'd'`, `t_to_s['d'] = 'g'`
-
-**Step 4: Check third character pair**
-- `s[2] = 'g'`, `t[2] = 'd'`
-- Check if 'g' is already mapped: Yes, to 'd'
-- Verify consistency: `s_to_t['g'] == 'd'` ✓
-- Check if 'd' is already mapped: Yes, to 'g'
-- Verify consistency: `t_to_s['d'] == 'g'` ✓
-
-**Step 5: Result**
-- All character pairs are consistent
-- Strings are isomorphic: `true`
-
-**Why this works:**
-By maintaining mappings in both directions, we ensure that:
-1. No character in `s` maps to multiple characters in `t`
-2. No character in `t` is mapped to by multiple characters in `s`
-3. The mapping is consistent throughout both strings
-
-> **Note:** The key insight is using bidirectional mapping to ensure the isomorphism property. We need to check both that each character in s maps to exactly one character in t, and that each character in t is mapped to by exactly one character in s.
-
-**Time Complexity:** O(n) - we visit each character once  
-**Space Complexity:** O(k) - where k is the number of unique characters (bounded by ASCII character set)
-
-### Solution
-
-```python
-def isIsomorphic(s, t):
-    if len(s) != len(t):
-        return False
-    
-    # Create mapping dictionaries for both directions
-    s_to_t = {}
-    t_to_s = {}
-    
-    # Check each character pair
-    for i in range(len(s)):
-        char_s = s[i]
-        char_t = t[i]
-        
-        # Check if char_s is already mapped
-        if char_s in s_to_t:
-            # Verify the mapping is consistent
-            if s_to_t[char_s] != char_t:
-                return False
-        else:
-            # Check if char_t is already mapped to by another character
-            if char_t in t_to_s:
-                return False
-            
-            # Add new mapping
-            s_to_t[char_s] = char_t
-            t_to_s[char_t] = char_s
-    
-    return True
 ```
 
 ## 290. Word Pattern [Easy]
@@ -2020,6 +1466,220 @@ def __init__(self, val=0, next=None):
         self.next = next
 ```
 
+## 21. Merge Two Sorted Lists [Easy]
+https://leetcode.com/problems/merge-two-sorted-lists/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+Given two sorted linked lists `list1` and `list2`, we need to merge them into one sorted list and return the head of the merged list.
+
+**1.1 Constraints & Complexity:**
+
+- **Input Size:** The total number of nodes can be up to $50$.
+- **Value Range:** Node values are between $-100$ and $100$.
+- **Time Complexity:** $O(n + m)$ where $n$ and $m$ are the lengths of the two lists. We visit each node exactly once.
+- **Space Complexity:** $O(1)$ - We only use a constant amount of extra space for the dummy node and pointers.
+- **Edge Case:** If one list is empty, return the other list. If both are empty, return `null`.
+
+**1.2 High-level approach:**
+
+The goal is to merge two sorted linked lists into one sorted list.
+
+We use a dummy node to simplify edge cases and a current pointer to build the merged list. We compare nodes from both lists and attach the smaller one to the result, then move the pointer of the list we took from.
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** Convert both lists to arrays, merge the arrays, then convert back to a linked list. This takes $O(n + m)$ time and $O(n + m)$ space.
+- **Optimized Strategy (Two Pointers):** Use two pointers to traverse both lists simultaneously, building the merged list in-place. This takes $O(n + m)$ time and $O(1)$ space.
+- **Why it's better:** The two-pointer approach uses $O(1)$ extra space instead of $O(n + m)$ for arrays, while maintaining the same time complexity.
+
+**1.4 Decomposition:**
+
+1. Create a dummy node to simplify edge cases.
+2. Initialize a current pointer at the dummy node.
+3. While both lists have nodes, compare the values and attach the smaller node to the result.
+4. Move the pointer of the list we took from.
+5. Attach the remaining nodes from the non-empty list.
+6. Return the head of the merged list (dummy.next).
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example: $list1 = [1,2,4]$, $list2 = [1,3,4]$
+
+We initialize:
+- `dummy = ListNode(0)`
+- `current = dummy`
+
+**2.2 Start Merging:**
+
+We begin comparing nodes from both lists.
+
+**2.3 Trace Walkthrough:**
+
+| Step | list1.val | list2.val | Compare | Attach | current.next | list1/list2 After |
+|------|-----------|-----------|---------|--------|--------------|-------------------|
+| 1 | 1 | 1 | Equal | list1 | 1 | list1 = 2 |
+| 2 | 2 | 1 | 2 > 1 | list2 | 1 | list2 = 3 |
+| 3 | 2 | 3 | 2 < 3 | list1 | 2 | list1 = 4 |
+| 4 | 4 | 3 | 4 > 3 | list2 | 3 | list2 = 4 |
+| 5 | 4 | 4 | Equal | list1 | 4 | list1 = null |
+| 6 | null | 4 | - | list2 | 4 | list2 = null |
+
+**2.4 Final Result:**
+
+After merging: $[1,1,2,3,4,4]$
+
+**2.5 Return Result:**
+
+We return the head of the merged list: $[1,1,2,3,4,4]$
+
+> **Note:** The dummy node simplifies the code by providing a starting point. Without it, we'd need special handling for the first node. The key is to always attach the smaller node and move the corresponding pointer forward.
+
+### Solution
+
+```python
+def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+class Solution:
+    def mergeTwoLists(self, list1, list2):
+        # Create a dummy node to simplify edge cases
+        dummy = ListNode(0)
+        current = dummy
+        
+        # Merge while both lists have nodes
+        while list1 and list2:
+            if list1.val <= list2.val:
+                current.next = list1
+                list1 = list1.next
+            else:
+                current.next = list2
+                list2 = list2.next
+            current = current.next
+        
+        # Append remaining nodes
+        current.next = list1 if list1 else list2
+        
+        return dummy.next
+```
+
+## 19. Remove Nth Node From End of List [Medium]
+https://leetcode.com/problems/remove-nth-node-from-end-of-list/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+Given the head of a linked list and an integer $n$, we need to remove the $n$-th node from the end of the list and return the head.
+
+**1.1 Constraints & Complexity:**
+
+- **Input Size:** The number of nodes $N$ can be between $1$ and $30$.
+- **Value Range:** Node values are between $1$ and $100$.
+- **Time Complexity:** $O(L)$ where $L$ is the length of the list. We make one pass through the list.
+- **Space Complexity:** $O(1)$ - We only use a constant amount of extra space for pointers.
+- **Edge Case:** If we need to remove the head node ($n$ equals the list length), we need special handling. Using a dummy node simplifies this.
+
+**1.2 High-level approach:**
+
+The goal is to remove the $n$-th node from the end of a linked list.
+
+![Remove Nth Node](https://assets.leetcode.com/uploads/2020/10/03/remove_ex1.jpg)
+
+We use two pointers: a fast pointer and a slow pointer. We move the fast pointer $n+1$ steps ahead, then move both pointers together. When fast reaches the end, slow will be at the node before the one to remove.
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** First pass to count the length, second pass to find and remove the $(L-n+1)$-th node from the beginning. This takes two passes.
+- **Optimized Strategy (Two Pointers):** Use two pointers with a gap of $n+1$ nodes. Move both together until the fast pointer reaches the end. This takes one pass.
+- **Why it's better:** The two-pointer approach is more elegant and requires only one pass through the list, though both approaches have the same time complexity.
+
+**1.4 Decomposition:**
+
+1. Create a dummy node pointing to the head (to handle edge cases).
+2. Initialize two pointers (fast and slow) at the dummy node.
+3. Move the fast pointer $n+1$ steps ahead.
+4. Move both pointers together until fast reaches the end.
+5. Remove the node after slow (which is the $n$-th node from the end).
+6. Return the head (via dummy.next).
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example: head = $[1,2,3,4,5]$, $n = 2$
+
+We initialize:
+- `dummy = ListNode(0)`, `dummy.next = head`
+- `fast = dummy`, `slow = dummy`
+
+**2.2 Start Processing:**
+
+We move the fast pointer $n+1 = 3$ steps ahead.
+
+**2.3 Trace Walkthrough:**
+
+| Step | Fast Position | Slow Position | Action |
+|------|---------------|---------------|--------|
+| Initial | dummy | dummy | - |
+| After moving fast 3 steps | node 4 | dummy | Fast is 3 steps ahead |
+| Move both together | node 5 | node 1 | Continue... |
+| Move both together | null | node 3 | Fast reached end |
+
+When fast is null, slow is at node 3 (the node before node 4, which is the 2nd from end).
+
+**2.4 Remove Node:**
+
+- `slow.next = slow.next.next` removes node 4
+- Result: $[1,2,3,5]$
+
+**2.5 Return Result:**
+
+We return `dummy.next` which points to the new head $[1,2,3,5]$.
+
+> **Note:** The dummy node is crucial because it handles the edge case where we need to remove the head node. Without it, we'd need special handling for that case.
+
+### Solution
+
+```python
+def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+class Solution:
+    def removeNthFromEnd(self, head, n: int):
+        # Create a dummy node to handle edge cases
+        dummy = ListNode(0)
+        dummy.next = head
+        
+        # Two pointers: fast and slow
+        fast = dummy
+        slow = dummy
+        
+        # Move fast pointer n+1 steps ahead
+        for _ in range(n + 1):
+            fast = fast.next
+        
+        # Move both pointers until fast reaches the end
+        while fast:
+            fast = fast.next
+            slow = slow.next
+        
+        # Remove the nth node from end
+        slow.next = slow.next.next
+        
+        return dummy.next
+```
+
 ## 61. Rotate List [Medium]
 https://leetcode.com/problems/rotate-list/
 
@@ -2320,6 +1980,847 @@ class Node:
         self.next = None
 ```
 
+## 104. Maximum Depth of Binary Tree [Easy]
+https://leetcode.com/problems/maximum-depth-of-binary-tree/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+Given the root of a binary tree, we need to find its maximum depth. The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
+
+**1.1 Constraints & Complexity:**
+
+- **Input Size:** The number of nodes $N$ in the tree can be between $0$ and $10^4$.
+- **Value Range:** Node values are between $-100$ and $100$.
+- **Time Complexity:** $O(n)$ - We visit each node exactly once.
+- **Space Complexity:** $O(h)$ where $h$ is the height of the tree. In the worst case (skewed tree), $h = n$, so $O(n)$. In the average case (balanced tree), $h = \log n$, so $O(\log n)$.
+- **Edge Case:** If the tree is empty (root is null), return 0.
+
+**1.2 High-level approach:**
+
+The goal is to find the maximum depth of a binary tree.
+
+![Maximum Depth](https://assets.leetcode.com/uploads/2020/11/26/tmp-tree.jpg)
+
+We use recursion: the maximum depth of a tree is 1 plus the maximum of the depths of its left and right subtrees.
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** There isn't really a brute force approach - we must traverse the tree to find the depth.
+- **Optimized Strategy (Recursion):** Recursively compute the depth of left and right subtrees, then return 1 plus the maximum. This is the natural and efficient approach.
+- **Why it's better:** Recursion naturally follows the tree structure. Each node's depth depends only on its children's depths, creating optimal substructure.
+
+**1.4 Decomposition:**
+
+1. Base case: if the root is null, return 0.
+2. Recursively find the maximum depth of the left subtree.
+3. Recursively find the maximum depth of the right subtree.
+4. Return 1 (for current node) plus the maximum of the two subtree depths.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example: root = $[3,9,20,null,null,15,7]$
+
+The tree structure:
+```
+    3
+   / \
+  9   20
+     /  \
+    15   7
+```
+
+**2.2 Start Recursion:**
+
+We begin from the root node (value 3).
+
+**2.3 Trace Walkthrough:**
+
+| Node | Left Depth | Right Depth | Max Depth | Return Value |
+|------|------------|--------------|-----------|--------------|
+| 3 | ? | ? | - | Compute... |
+| 9 | 0 (null) | 0 (null) | 0 | $0 + 1 = 1$ |
+| 20 | ? | ? | - | Compute... |
+| 15 | 0 (null) | 0 (null) | 0 | $0 + 1 = 1$ |
+| 7 | 0 (null) | 0 (null) | 0 | $0 + 1 = 1$ |
+| 20 | 1 | 1 | 1 | $1 + 1 = 2$ |
+| 3 | 1 | 2 | 2 | $2 + 1 = 3$ |
+
+**2.4 Recursion Flow:**
+
+- Root (3): left depth = 1, right depth = 2, return $max(1, 2) + 1 = 3$
+- Node 9: both children null, return $0 + 1 = 1$
+- Node 20: left depth = 1, right depth = 1, return $max(1, 1) + 1 = 2$
+
+**2.5 Return Result:**
+
+We return 3, which is the maximum depth of the tree.
+
+> **Note:** The recursive approach naturally handles the tree structure. The depth of each node is computed from its children's depths, working from the leaves upward to the root.
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+class Solution:
+    def maxDepth(self, root) -> int:
+        if not root:
+            return 0
+        
+        # Recursively find max depth of left and right subtrees
+        left_depth = self.maxDepth(root.left)
+        right_depth = self.maxDepth(root.right)
+        
+        # Return max depth plus 1 for current node
+        return max(left_depth, right_depth) + 1
+```
+
+## 101. Symmetric Tree [Easy]
+https://leetcode.com/problems/symmetric-tree/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+Given the root of a binary tree, we need to check whether it is a mirror of itself (symmetric around its center).
+
+**1.1 Constraints & Complexity:**
+
+- **Input Size:** The number of nodes can be up to $1000$.
+- **Value Range:** Node values are between $-100$ and $100$.
+- **Time Complexity:** $O(n)$ - We visit each node exactly once.
+- **Space Complexity:** $O(h)$ where $h$ is the height of the tree. In the worst case (skewed tree), $h = n$, so $O(n)$.
+- **Edge Case:** An empty tree is symmetric. A tree with only one node is symmetric.
+
+**1.2 High-level approach:**
+
+The goal is to determine if a binary tree is symmetric (mirror of itself).
+
+We use recursion to check if the left and right subtrees are mirrors of each other. Two trees are mirrors if their roots have the same value, and the left subtree of one is a mirror of the right subtree of the other, and vice versa.
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** There isn't really a brute force approach - we must check the mirror property.
+- **Optimized Strategy (Recursion):** Use recursion to check if left and right subtrees are mirrors. This is the standard and efficient approach.
+- **Why it's better:** Recursion naturally checks the mirror property by comparing corresponding nodes in the left and right subtrees.
+
+**1.4 Decomposition:**
+
+1. Define a helper function that checks if two trees are mirrors.
+2. Two trees are mirrors if:
+   - Both are null (base case: true).
+   - One is null and the other is not (false).
+   - Both roots have the same value, and:
+     - Left subtree of first is mirror of right subtree of second.
+     - Right subtree of first is mirror of left subtree of second.
+3. Check if root's left and right subtrees are mirrors.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example: root = $[1,2,2,3,4,4,3]$
+
+The tree structure:
+```
+      1
+     / \
+    2   2
+   / \ / \
+  3  4 4  3
+```
+
+We initialize:
+- Call `is_mirror(root.left, root.right)`
+
+**2.2 Start Checking:**
+
+We begin checking if left and right subtrees are mirrors.
+
+**2.3 Trace Walkthrough:**
+
+| left | right | left.val | right.val | Check | Result |
+|------|-------|----------|-----------|-------|--------|
+| 2 | 2 | 2 | 2 | Equal ✓ | Check children |
+| 3 | 3 | 3 | 3 | Equal ✓ | Both null ✓ |
+| 4 | 4 | 4 | 4 | Equal ✓ | Both null ✓ |
+| 4 | 4 | 4 | 4 | Equal ✓ | Both null ✓ |
+| 3 | 3 | 3 | 3 | Equal ✓ | Both null ✓ |
+
+**2.4 Explanation:**
+
+- Root's left (2) and right (2) have same value ✓
+- Left's left (3) and right's right (3) are mirrors ✓
+- Left's right (4) and right's left (4) are mirrors ✓
+
+**2.5 Return Result:**
+
+We return `True` because the tree is symmetric.
+
+> **Note:** The key insight is that a tree is symmetric if its left and right subtrees are mirrors. Two trees are mirrors if their roots match and the left of one mirrors the right of the other (and vice versa).
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+class Solution:
+    def isSymmetric(self, root) -> bool:
+        def is_mirror(left, right):
+            if not left and not right:
+                return True
+            if not left or not right:
+                return False
+            return (left.val == right.val and 
+                    is_mirror(left.left, right.right) and 
+                    is_mirror(left.right, right.left))
+        
+        if not root:
+            return True
+        
+        return is_mirror(root.left, root.right)
+```
+
+## 199. Binary Tree Right Side View [Medium]
+https://leetcode.com/problems/binary-tree-right-side-view/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+Given the root of a binary tree, we need to return the values of the nodes you can see when standing on the right side of the tree, ordered from top to bottom.
+
+**1.1 Constraints & Complexity:**
+
+- **Input Size:** The number of nodes $N$ can be up to $100$.
+- **Value Range:** Node values are between $0$ and $100$.
+- **Time Complexity:** $O(n)$ - We visit each node exactly once.
+- **Space Complexity:** $O(n)$ - The queue can contain at most all nodes at the widest level.
+- **Edge Case:** If the tree is empty, return an empty list. If the tree has only one node, return that node's value.
+
+**1.2 High-level approach:**
+
+The goal is to find the rightmost node at each level of the tree.
+
+![Right Side View](https://assets.leetcode.com/uploads/2021/02/14/tree.jpg)
+
+We use BFS (breadth-first search) level by level. For each level, we add the rightmost node (the last node processed at that level) to our result.
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** There isn't really a brute force approach - we must traverse the tree.
+- **Optimized Strategy (BFS):** Use BFS to process nodes level by level. For each level, track the last node processed, which is the rightmost node. This is the same as level-order traversal, but we only keep the last element of each level.
+- **Why it's better:** BFS naturally processes nodes level by level from left to right, so the last node at each level is the rightmost node.
+
+**1.4 Decomposition:**
+
+1. If the tree is empty, return an empty list.
+2. Initialize a queue with the root node.
+3. While the queue is not empty:
+   - Get the number of nodes at the current level.
+   - Process all nodes at this level.
+   - For the last node at each level (rightmost), add its value to the result.
+   - Add all children to the queue for the next level.
+4. Return the result.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example: root = $[1,2,3,null,5,null,4]$
+
+The tree structure:
+```
+    1
+   / \
+  2   3
+   \   \
+    5   4
+```
+
+We initialize:
+- `queue = deque([1])`
+- `res = []`
+
+**2.2 Start BFS:**
+
+We begin processing level by level.
+
+**2.3 Trace Walkthrough:**
+
+| Level | Queue Before | Level Size | Process | Rightmost Node | res |
+|-------|--------------|------------|---------|----------------|-----|
+| 0 | [1] | 1 | Node 1 (last) | 1 | [1] |
+| 1 | [2, 3] | 2 | Node 2, Node 3 (last) | 3 | [1, 3] |
+| 2 | [5, 4] | 2 | Node 5, Node 4 (last) | 4 | [1, 3, 4] |
+
+**2.4 Explanation:**
+
+- Level 0: Only node 1 → add 1
+- Level 1: Nodes 2 and 3 → add 3 (rightmost)
+- Level 2: Nodes 5 and 4 → add 4 (rightmost)
+
+**2.5 Return Result:**
+
+We return `[1, 3, 4]`, which are the values of the rightmost nodes at each level.
+
+> **Note:** The key is to identify the last node processed at each level during BFS. Since BFS processes nodes from left to right, the last node at each level is the rightmost node visible from the right side.
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+from typing import List
+from collections import deque
+
+class Solution:
+    def rightSideView(self, root) -> List[int]:
+        if not root:
+            return []
+        
+        res = []
+        queue = deque([root])
+        
+        while queue:
+            level_size = len(queue)
+            
+            for i in range(level_size):
+                node = queue.popleft()
+                
+                # Add the rightmost node of each level
+                if i == level_size - 1:
+                    res.append(node.val)
+                
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+        
+        return res
+```
+
+## 102. Binary Tree Level Order Traversal [Medium]
+https://leetcode.com/problems/binary-tree-level-order-traversal/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+Given the root of a binary tree, we need to return the level-order traversal of its nodes' values (i.e., from left to right, level by level).
+
+**1.1 Constraints & Complexity:**
+
+- **Input Size:** The number of nodes $N$ can be up to $2000$.
+- **Value Range:** Node values are between $-1000$ and $1000$.
+- **Time Complexity:** $O(n)$ - We visit each node exactly once.
+- **Space Complexity:** $O(n)$ - The queue can contain at most all nodes at the widest level, which is $O(n)$ in the worst case.
+- **Edge Case:** If the tree is empty, return an empty list.
+
+**1.2 High-level approach:**
+
+The goal is to traverse the tree level by level, collecting values at each level.
+
+![Level Order Traversal](https://assets.leetcode.com/uploads/2021/02/19/tree1.jpg)
+
+We use BFS (breadth-first search) with a queue. We process nodes level by level, adding all nodes at the current level to a list before moving to the next level.
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** There isn't really a brute force approach - we must traverse the tree.
+- **Optimized Strategy (BFS with Queue):** Use a queue to process nodes level by level. For each level, process all nodes in the queue (which represents the current level), then add their children for the next level.
+- **Why it's better:** BFS naturally processes nodes level by level. Using a queue ensures we process all nodes at one level before moving to the next.
+
+**1.4 Decomposition:**
+
+1. If the tree is empty, return an empty list.
+2. Initialize a queue with the root node.
+3. While the queue is not empty:
+   - Get the number of nodes at the current level (queue size).
+   - Process all nodes at this level, adding their values to a level list.
+   - Add all children of these nodes to the queue for the next level.
+   - Add the level list to the result.
+4. Return the result.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example: root = $[3,9,20,null,null,15,7]$
+
+The tree structure:
+```
+    3
+   / \
+  9   20
+     /  \
+    15   7
+```
+
+We initialize:
+- `queue = deque([3])`
+- `res = []`
+
+**2.2 Start BFS:**
+
+We begin processing level by level.
+
+**2.3 Trace Walkthrough:**
+
+| Level | Queue Before | Level Size | Process Nodes | Level List | Queue After |
+|-------|--------------|------------|---------------|------------|-------------|
+| 0 | [3] | 1 | 3 | [3] | [9, 20] |
+| 1 | [9, 20] | 2 | 9, 20 | [9, 20] | [15, 7] |
+| 2 | [15, 7] | 2 | 15, 7 | [15, 7] | [] |
+
+**2.4 Final Result:**
+
+After processing all levels:
+- `res = [[3], [9, 20], [15, 7]]`
+
+**2.5 Return Result:**
+
+We return `[[3], [9, 20], [15, 7]]`, which represents the level-order traversal.
+
+> **Note:** The key is to process all nodes at the current level before moving to the next. We do this by getting the queue size at the start of each iteration, which represents the number of nodes at the current level.
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+from typing import List
+from collections import deque
+
+class Solution:
+    def levelOrder(self, root) -> List[List[int]]:
+        if not root:
+            return []
+        
+        res = []
+        queue = deque([root])
+        
+        while queue:
+            level_size = len(queue)
+            level = []
+            
+            for _ in range(level_size):
+                node = queue.popleft()
+                level.append(node.val)
+                
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+            
+            res.append(level)
+        
+        return res
+```
+
+## 230. Kth Smallest Element in a BST [Medium]
+https://leetcode.com/problems/kth-smallest-element-in-a-bst/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+Given the root of a binary search tree (BST) and an integer $k$, we need to find the $k$-th smallest element in the BST.
+
+**1.1 Constraints & Complexity:**
+
+- **Input Size:** The number of nodes $N$ in the BST can be up to $10^4$.
+- **Value Range:** Node values are between $1$ and $10^4$.
+- **Time Complexity:** $O(n)$ - We traverse all nodes in the BST using in-order traversal, which visits each node exactly once.
+- **Space Complexity:** $O(n)$ - In the worst case (a skewed tree), the recursion stack can be $O(n)$ deep. Additionally, we store all node values in a list, which requires $O(n)$ space.
+- **Edge Case:** If $k$ is 1, we return the smallest element. If $k$ equals the number of nodes, we return the largest element.
+
+**1.2 High-level approach:**
+
+The goal is to find the $k$-th smallest element in a BST.
+
+![BST In-order Traversal](https://assets.leetcode.com/uploads/2021/01/28/kthtree1.jpg)
+
+A key property of a BST is that an in-order traversal (left → root → right) visits nodes in ascending order. Therefore, the $k$-th element visited during an in-order traversal is the $k$-th smallest element.
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** Perform an in-order traversal to collect all node values in a list, then return the element at index $k-1$. This approach is straightforward and works correctly.
+- **Optimized Strategy:** We can optimize by stopping the traversal once we've found the $k$-th element, using an iterative approach or early termination in recursion. However, for clarity and beginner-friendliness, we'll use the complete traversal approach.
+- **Why it's better:** The brute force approach is actually quite efficient for this problem. A more optimized version would use iterative in-order traversal with early termination, but the complete traversal approach is easier to understand.
+
+**1.4 Decomposition:**
+
+1. Perform an in-order traversal of the BST (visit left subtree, then root, then right subtree).
+2. Collect all node values in a list during the traversal.
+3. Since in-order traversal of a BST produces values in sorted order, the list will be sorted.
+4. Return the element at index $k-1$ (since $k$ is 1-indexed).
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example: root = $[3, 1, 4, null, 2]$, $k = 1$
+
+The BST structure:
+```
+    3
+   / \
+  1   4
+   \
+    2
+```
+
+We initialize:
+- An empty list `res = []` to store node values
+- We'll perform in-order traversal starting from the root
+
+**2.2 Start Traversing:**
+
+We begin the in-order traversal from the root node (value 3).
+
+**2.3 Trace Walkthrough:**
+
+The in-order traversal visits nodes in this order:
+
+| Step | Current Node | Action | List State |
+|------|--------------|--------|------------|
+| 1 | 3 (root) | Go to left child (1) | [] |
+| 2 | 1 | Go to left child (null) | [] |
+| 3 | null | Return (base case) | [] |
+| 4 | 1 | Add 1 to list | [1] |
+| 5 | 1 | Go to right child (2) | [1] |
+| 6 | 2 | Go to left child (null) | [1] |
+| 7 | null | Return (base case) | [1] |
+| 8 | 2 | Add 2 to list | [1, 2] |
+| 9 | 2 | Go to right child (null) | [1, 2] |
+| 10 | null | Return (base case) | [1, 2] |
+| 11 | 3 | Add 3 to list | [1, 2, 3] |
+| 12 | 3 | Go to right child (4) | [1, 2, 3] |
+| 13 | 4 | Go to left child (null) | [1, 2, 3] |
+| 14 | null | Return (base case) | [1, 2, 3] |
+| 15 | 4 | Add 4 to list | [1, 2, 3, 4] |
+| 16 | 4 | Go to right child (null) | [1, 2, 3, 4] |
+| 17 | null | Return (base case) | [1, 2, 3, 4] |
+
+After traversal: `res = [1, 2, 3, 4]`
+
+**2.4 Return Result:**
+
+Since $k = 1$ (1-indexed), we return `res[0] = 1`, which is the 1st smallest element.
+
+For $k = 3$, we would return `res[2] = 3`, which is the 3rd smallest element.
+
+> **Note:** In-order traversal of a BST always produces values in ascending order because of the BST property: all values in the left subtree are less than the root, and all values in the right subtree are greater than the root.
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+class Solution:
+    def kthSmallest(self, root, k: int) -> int:
+        # In-order traversal to get elements in sorted order
+        res = []
+        
+        def inorder(node):
+            if not node:
+                return
+            inorder(node.left)
+            res.append(node.val)
+            inorder(node.right)
+        
+        inorder(root)
+        
+        # Return the k-th smallest element (1-indexed)
+        return res[k - 1]
+```
+
+## 98. Validate Binary Search Tree [Medium]
+https://leetcode.com/problems/validate-binary-search-tree/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+Given the root of a binary tree, we need to determine if it is a valid binary search tree (BST). A BST is valid if for every node, all nodes in its left subtree are less than it, and all nodes in its right subtree are greater than it.
+
+**1.1 Constraints & Complexity:**
+
+- **Input Size:** The number of nodes can be up to $10^4$.
+- **Value Range:** Node values are between $-2^{31}$ and $2^{31} - 1$.
+- **Time Complexity:** $O(n)$ - We visit each node exactly once.
+- **Space Complexity:** $O(h)$ where $h$ is the height of the tree. In the worst case (skewed tree), $h = n$, so $O(n)$. In the average case (balanced tree), $h = \log n$, so $O(\log n)$.
+- **Edge Case:** An empty tree is a valid BST. A tree with only one node is a valid BST.
+
+**1.2 High-level approach:**
+
+The goal is to validate that a binary tree satisfies the BST property.
+
+We use recursion with range validation. For each node, we check if its value is within the valid range (min_val, max_val). The range is updated as we traverse: left children must be less than the parent, right children must be greater than the parent.
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** For each node, check if all nodes in its left subtree are less and all nodes in its right subtree are greater. This would be $O(n^2)$ time.
+- **Optimized Strategy (Range Validation):** Use recursion with min and max bounds. Each node must be within its allowed range. This takes $O(n)$ time.
+- **Why it's better:** The range validation approach reduces time complexity from $O(n^2)$ to $O(n)$ by passing down constraints instead of checking all descendants for each node.
+
+**1.4 Decomposition:**
+
+1. Define a recursive function that takes a node and its allowed range (min_val, max_val).
+2. If the node is null, return true (base case).
+3. Check if the node's value is within the range (strictly greater than min_val and strictly less than max_val).
+4. Recursively validate left subtree with range (min_val, node.val).
+5. Recursively validate right subtree with range (node.val, max_val).
+6. Return true only if all checks pass.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example: root = $[5,1,4,null,null,3,6]$
+
+The tree structure:
+```
+    5
+   / \
+  1   4
+     / \
+    3   6
+```
+
+We initialize:
+- Call `validate(root, -∞, +∞)`
+
+**2.2 Start Validation:**
+
+We begin validating from the root.
+
+**2.3 Trace Walkthrough:**
+
+| Node | min_val | max_val | node.val | Check | Result |
+|------|---------|---------|----------|-------|--------|
+| 5 | -∞ | +∞ | 5 | $-∞ < 5 < +∞$ | ✓ |
+| 1 | -∞ | 5 | 1 | $-∞ < 1 < 5$ | ✓ |
+| 4 | 5 | +∞ | 4 | $5 < 4 < +∞$ | ✗ |
+
+**2.4 Explanation:**
+
+- Root (5): Valid, within range (-∞, +∞)
+- Left child (1): Valid, within range (-∞, 5)
+- Right child (4): Invalid! It should be greater than 5, but 4 < 5
+
+**2.5 Return Result:**
+
+We return `False` because node 4 violates the BST property (it's in the right subtree of 5 but is less than 5).
+
+> **Note:** The key insight is to pass down the allowed range for each node. A node's value must be strictly within its range, and we update the range for children: left children get (min_val, node.val) and right children get (node.val, max_val).
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+class Solution:
+    def isValidBST(self, root) -> bool:
+        def validate(node, min_val, max_val):
+            # Empty tree is valid
+            if not node:
+                return True
+            
+            # Check if current node value is within valid range
+            if node.val <= min_val or node.val >= max_val:
+                return False
+            
+            # Recursively validate left and right subtrees
+            return (validate(node.left, min_val, node.val) and 
+                    validate(node.right, node.val, max_val))
+        
+        return validate(root, float('-inf'), float('inf'))
+```
+
+## 208. Implement Trie (Prefix Tree) [Medium]
+https://leetcode.com/problems/implement-trie-prefix-tree/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+We need to implement a Trie (prefix tree) data structure that supports inserting words, searching for complete words, and checking if any word starts with a given prefix.
+
+**1.1 Constraints & Complexity:**
+
+- **Input Size:** The number of operations $N$ can be up to $3 \times 10^4$.
+- **Value Range:** Words and prefixes consist of lowercase English letters only, with length between 1 and 2000.
+- **Time Complexity:** 
+  - `insert`: $O(m)$ where $m$ is the length of the word
+  - `search`: $O(m)$ where $m$ is the length of the word
+  - `startsWith`: $O(m)$ where $m$ is the length of the prefix
+- **Space Complexity:** $O(ALPHABET\_SIZE \times N \times M)$ where $N$ is the number of words and $M$ is the average length. In practice, this is $O(\text{total characters in all words})$.
+- **Edge Case:** Searching for an empty string should return false (unless an empty word was inserted). Checking prefix of empty string should return true if any word exists.
+
+**1.2 High-level approach:**
+
+The goal is to implement a Trie data structure that efficiently stores and retrieves words.
+
+![Trie Structure](https://assets.leetcode.com/uploads/2021/04/28/trie-1.png)
+
+A Trie is a tree-like data structure where each node represents a character. Words that share common prefixes share the same path in the tree. This makes prefix searches very efficient.
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** Store all words in a list. For search and prefix operations, iterate through all words checking each one. This takes $O(n \times m)$ time where $n$ is the number of words.
+- **Optimized Strategy (Trie):** Use a tree structure where each node has children representing possible next characters. This allows us to search in $O(m)$ time regardless of how many words are stored.
+- **Why it's better:** The Trie structure eliminates the need to check every word. We only traverse the path relevant to the word or prefix we're looking for, making it much more efficient for large datasets.
+
+**1.4 Decomposition:**
+
+1. Create a `TrieNode` class with a dictionary of children and a flag indicating if it's the end of a word.
+2. Initialize the Trie with a root `TrieNode`.
+3. For `insert`: Traverse the tree, creating nodes as needed, and mark the final node as an end-of-word.
+4. For `search`: Traverse the tree following the word's characters. Return true only if we reach the end and the final node is marked as end-of-word.
+5. For `startsWith`: Similar to search, but return true if we can traverse the entire prefix, regardless of whether it's a complete word.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example operations:
+- `insert("apple")`
+- `search("apple")` → returns true
+- `search("app")` → returns false
+- `startsWith("app")` → returns true
+- `insert("app")`
+- `search("app")` → returns true
+
+We initialize:
+- A root `TrieNode` with empty children dictionary
+- `is_end = False` for all nodes initially
+
+**2.2 Start Inserting:**
+
+We begin by inserting "apple".
+
+**2.3 Trace Walkthrough:**
+
+**Insert "apple":**
+
+| Step | Current Node | Character | Action | New Node Created? |
+|------|--------------|-----------|--------|-------------------|
+| 1 | root | 'a' | Create node for 'a' | Yes |
+| 2 | a-node | 'p' | Create node for 'p' | Yes |
+| 3 | p-node | 'p' | Create node for 'p' | Yes |
+| 4 | p-node | 'l' | Create node for 'l' | Yes |
+| 5 | l-node | 'e' | Create node for 'e', mark as end | Yes |
+
+**Search "apple":**
+
+| Step | Current Node | Character | Found? | Action |
+|------|--------------|-----------|--------|--------|
+| 1 | root | 'a' | Yes | Move to 'a' node |
+| 2 | a-node | 'p' | Yes | Move to 'p' node |
+| 3 | p-node | 'p' | Yes | Move to 'p' node |
+| 4 | p-node | 'l' | Yes | Move to 'l' node |
+| 5 | l-node | 'e' | Yes | Check is_end → true → Return true |
+
+**Search "app":**
+
+| Step | Current Node | Character | Found? | Action |
+|------|--------------|-----------|--------|--------|
+| 1 | root | 'a' | Yes | Move to 'a' node |
+| 2 | a-node | 'p' | Yes | Move to 'p' node |
+| 3 | p-node | 'p' | Yes | Check is_end → false → Return false |
+
+**startsWith "app":**
+
+| Step | Current Node | Character | Found? | Action |
+|------|--------------|-----------|--------|--------|
+| 1 | root | 'a' | Yes | Move to 'a' node |
+| 2 | a-node | 'p' | Yes | Move to 'p' node |
+| 3 | p-node | 'p' | Yes | All characters found → Return true |
+
+**2.4 Insert "app" and Search Again:**
+
+After inserting "app", the second 'p' node now has `is_end = true`. So searching "app" will now return true.
+
+**2.5 Return Result:**
+
+The Trie correctly handles all operations, allowing efficient word storage and prefix matching.
+
+> **Note:** The key difference between `search` and `startsWith` is that `search` requires the final node to be marked as an end-of-word, while `startsWith` only requires that the path exists.
+
+### Solution
+
+```python
+def __init__(self):
+        self.children = {}
+        self.is_end = False
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert(self, word: str) -> None:
+        node = self.root
+        for char in word:
+            if char not in node.children:
+                node.children[char] = TrieNode()
+            node = node.children[char]
+        node.is_end = True
+
+    def search(self, word: str) -> bool:
+        node = self.root
+        for char in word:
+            if char not in node.children:
+                return False
+            node = node.children[char]
+        return node.is_end
+
+    def startsWith(self, prefix: str) -> bool:
+        node = self.root
+        for char in prefix:
+            if char not in node.children:
+                return False
+            node = node.children[char]
+        return True
+```
+
 ## 148. Sort List [Medium]
 https://leetcode.com/problems/sort-list/
 
@@ -2484,5 +2985,118 @@ class Solution:
             current.next = right
 
         # Return the merged list (skip dummy node)
+        return dummy.next
+```
+
+## 23. Merge k Sorted Lists [Hard]
+https://leetcode.com/problems/merge-k-sorted-lists/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+Given an array of $k$ sorted linked lists, we need to merge all of them into one sorted linked list and return it.
+
+**1.1 Constraints & Complexity:**
+
+- **Input Size:** $k$ can be between $0$ and $10^4$, and the total number of nodes can be up to $10^4$.
+- **Value Range:** Node values are between $-10^4$ and $10^4$.
+- **Time Complexity:** $O(n \log k)$ where $n$ is the total number of nodes. We use a heap of size $k$, and each insertion/extraction takes $O(\log k)$ time. We do this for $n$ nodes.
+- **Space Complexity:** $O(k)$ - We maintain a heap of size $k$.
+- **Edge Case:** If the array is empty, return null. If all lists are empty, return null.
+
+**1.2 High-level approach:**
+
+The goal is to merge $k$ sorted linked lists into one sorted list.
+
+We use a min heap to always get the smallest node among all lists. We add the first node from each list to the heap, then repeatedly extract the minimum, add it to the result, and add the next node from that list to the heap.
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** Merge lists one by one. This takes $O(kn)$ time where $n$ is the average list length.
+- **Optimized Strategy (Min Heap):** Use a min heap to efficiently get the minimum node at each step. This takes $O(n \log k)$ time.
+- **Why it's better:** The heap approach reduces time complexity by maintaining only $k$ nodes in the heap instead of comparing all $k$ lists at each step.
+
+**1.4 Decomposition:**
+
+1. Create a min heap and add the first node from each non-empty list.
+2. Create a dummy node to simplify edge cases.
+3. While the heap is not empty:
+   - Extract the minimum node from the heap.
+   - Add it to the result list.
+   - If that node has a next node, add the next node to the heap.
+4. Return the head of the merged list.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example: $lists = [[1,4,5],[1,3,4],[2,6]]$
+
+We initialize:
+- `heap = [(1,0,node1), (1,1,node1), (2,2,node2)]`
+- `dummy = ListNode(0)`
+- `current = dummy`
+
+**2.2 Start Merging:**
+
+We begin extracting from the heap.
+
+**2.3 Trace Walkthrough:**
+
+| Step | Extract | current.next | Add to heap | heap After |
+|------|---------|--------------|-------------|------------|
+| 1 | (1,0) | 1 | (4,0) | [(1,1), (2,2), (4,0)] |
+| 2 | (1,1) | 1 | (3,1) | [(2,2), (3,1), (4,0)] |
+| 3 | (2,2) | 2 | (6,2) | [(3,1), (4,0), (6,2)] |
+| 4 | (3,1) | 3 | (4,1) | [(4,0), (4,1), (6,2)] |
+| ... | ... | ... | ... | ... |
+
+**2.4 Final Result:**
+
+After merging: $[1,1,2,3,4,4,5,6]$
+
+**2.5 Return Result:**
+
+We return the head of the merged list: $[1,1,2,3,4,4,5,6]$.
+
+> **Note:** The key insight is to use a min heap to efficiently get the minimum node among all lists at each step. By maintaining only the current head of each list in the heap, we avoid storing all nodes and achieve $O(n \log k)$ time complexity.
+
+### Solution
+
+```python
+def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+from typing import List
+import heapq
+
+class Solution:
+    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+        # Create a min heap
+        heap = []
+        
+        # Add first node from each list to heap
+        for i, node in enumerate(lists):
+            if node:
+                heapq.heappush(heap, (node.val, i, node))
+        
+        # Create dummy node
+        dummy = ListNode(0)
+        current = dummy
+        
+        # Merge lists
+        while heap:
+            val, idx, node = heapq.heappop(heap)
+            current.next = node
+            current = current.next
+            
+            # Add next node from the same list if it exists
+            if node.next:
+                heapq.heappush(heap, (node.next.val, idx, node.next))
+        
         return dummy.next
 ```
