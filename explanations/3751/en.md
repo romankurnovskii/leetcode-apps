@@ -4,50 +4,51 @@
 
 **Constraints & Edge Cases**
 
-  * **Range Size:** The input numbers go up to 100,000.
-  * **Performance:** If we calculate the waviness for every number in the range `[num1, num2]` every time the function is called, we will likely hit a Time Limit Exceeded (TLE) error. The constraints imply we need a faster way to query.
-  * **Edge Case:** Numbers less than 100 (0-99) have fewer than 3 digits. You cannot have a "middle" digit with neighbors on both sides, so their waviness is always 0.
+  * **Range Size:** The range $[num1, num2]$ can contain up to $10^5$ numbers, so we need an efficient approach.
+  * **Number Size:** Each number can be up to $10^5$, which means at most 6 digits.
+  * **Time Complexity:** For each number, we check its digits once. With up to $10^5$ numbers and at most 6 digits each, this is $O(n \times d)$ where $n$ is the range size and $d$ is the average number of digits. This is acceptable for the constraints.
+  * **Edge Cases:**
+    * Numbers with fewer than 3 digits have waviness 0 (no middle digits to check).
+    * The first and last digits cannot be peaks or valleys (they only have one neighbor).
 
 **High-level approach**
-We will use the **Prefix Sum** technique (also called Cumulative Sum). Instead of calculating the waviness on the fly, we will **precompute** the waviness for every possible number up to the maximum limit (100,000) once. We then store the cumulative totals in an array.
+The problem asks us to find the total waviness across all numbers in a range. Waviness is defined as the count of peaks and valleys in a number's digit sequence.
+
+  * A **peak** is a digit that is strictly greater than both its immediate neighbors.
+  * A **valley** is a digit that is strictly less than both its immediate neighbors.
+  * Only middle digits (not first or last) can be peaks or valleys.
+  * For each number in the range, we count its peaks and valleys, then sum all waviness values.
 
 **Brute force vs. optimized strategy**
 
-  * **Brute Force:** Loop from `num1` to `num2`. For each number, convert to string, check digits, count peaks/valleys, and add to total. This repeats the same heavy work for every query.
-  * **Optimized:** Create a lookup table `P`.
-    `P[i]` stores the total waviness of *all* numbers from `0` to `i`.
-    To find the waviness between `num1` and `num2`, we simply do `P[num2] - P[num1 - 1]`. This answers any query in $O(1)$ time.
+  * **Brute Force:** Iterate through each number in the range $[num1, num2]$, convert to string, check each middle digit for peaks/valleys, and sum the results. This is straightforward and efficient enough for the given constraints.
+  * **Optimized (Digit DP):** Could use digit dynamic programming to count waviness patterns more efficiently, but for the given constraints ($num2 \leq 10^5$), brute force is sufficient and simpler.
 
 **Decomposition**
 
-1.  **Helper Logic:** Define how to calculate waviness for a single number (check neighbors).
-2.  **Precomputation:** Build an array where we store the cumulative waviness.
-3.  **Range Query:** Use the array to answer the user's request instantly.
+1.  **Waviness Calculation:** For a single number, convert it to a string and examine each middle digit (positions 1 to len-2).
+2.  **Peak/Valley Detection:** For each middle digit, compare it with its left and right neighbors to determine if it's a peak or valley.
+3.  **Range Iteration:** Iterate through all numbers from $num1$ to $num2$ (inclusive).
+4.  **Summation:** Sum the waviness of all numbers in the range.
 
 ### Steps
 
-1.  **Define Waviness**
-    A digit is part of a "wave" if it is strictly greater than its neighbors (Peak) or strictly smaller than its neighbors (Valley).
+1.  **Define Waviness Function**
+    Create a helper function `get_waviness(num)` that calculates the waviness of a single number:
+      * Convert the number to a string to access individual digits.
+      * If the number has fewer than 3 digits, return 0 (no middle digits to check).
 
-      * *Visual Peak:* `1 -> 5 -> 2` (5 is a peak)
-      * *Visual Valley:* `9 -> 0 -> 4` (0 is a valley)
-      * We ignore the first and last digits because they don't have neighbors on both sides.
+2.  **Check Middle Digits**
+    For each middle digit at position $i$ (where $1 \leq i < len(s) - 1$):
+      * Get the digit value and its left and right neighbors.
+      * Check if the digit is a **peak**: `digit > left and digit > right`
+      * Check if the digit is a **valley**: `digit < left and digit < right`
+      * Increment the waviness counter for each peak or valley found.
 
-2.  **Initialize the Prefix Array**
-    We create an array `prefix` of size 100,001 (covering 0 to 100,000).
-    We define `running_total` to keep track of the sum as we build the array.
+3.  **Iterate Through Range**
+    For each number $n$ from $num1$ to $num2$ (inclusive):
+      * Calculate its waviness using the helper function.
+      * Add it to the running total.
 
-3.  **Populate the Array**
-    We loop through every number `i` from 0 to 100,000.
-
-      * Convert `i` to a string (or use math) to access digits.
-      * Count the peaks and valleys for `i`.
-      * Add this count to `running_total`.
-      * Store `running_total` in `prefix[i]`.
-
-4.  **Answer the Query**
-    When the user asks for the range `[num1, num2]`:
-
-      * Take the total waviness up to `num2` (`prefix[num2]`).
-      * Subtract the total waviness before the range starts (`prefix[num1 - 1]`).
-      * Return the result.
+4.  **Return Total**
+    Return the sum of all waviness values across the range.

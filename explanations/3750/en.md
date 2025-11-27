@@ -45,7 +45,3 @@ Imagine the binary string as a row of lights. We compare the light at the very s
 
 4.  **Close the Window**
     Increment `l` and decrement `r` to check the next pair of bits. Continue until the pointers meet in the middle.
-
------
-
-See the solution code in `solutions/3750/01.py`.
