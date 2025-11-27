@@ -4,7 +4,7 @@
 Reads a JSON file, sorts its top-level keys numerically,
 and writes the sorted data to a new JSON file.
 
-python scripts/normilize_json.py data/leetcode-problems.json
+python scripts/normalize_json.py data/leetcode-problems.json
 """
 
 import json
