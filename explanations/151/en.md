@@ -1,60 +1,72 @@
-Given an input string `s`, reverse the order of the **words**.
-
-A **word** is defined as a sequence of non-space characters. The **words** in `s` will be separated by at least one space.
-
-Return a string of the words in reverse order concatenated by a single space.
-
-Note that `s` may contain leading or trailing spaces or multiple spaces between two words. The returned string should only have a single space separating the words. Do not include any extra spaces.
-
-**Examples**
-
-```text
-Input: s = "the sky is blue"
-Output: "blue is sky the"
-
-Input: s = "  hello world  "
-Output: "world hello"
-Explanation: Your reversed string should not contain leading or trailing spaces.
-
-Input: s = "a good   example"
-Output: "example good a"
-Explanation: You need to reduce multiple spaces between two words to a single space in the reversed string.
-```
-
-**Constraints**
-```text
-1 <= s.length <= 10^4
-s contains English letters (upper-case and lower-case), digits, and spaces ' '.
-There is at least one word in s.
-```
-
 ## Explanation
 
-### Strategy
-- **Type:** String, Two Pointers, Simulation
-- **Given:** A string `s` with words separated by spaces (possibly multiple spaces, leading/trailing spaces)
-- **Asked:** Return a string with the words in reverse order, separated by a single space, with no leading/trailing spaces
+### Strategy (The "Why")
 
-#### What does "reverse words" mean?
-- The order of the words is reversed, but the characters within each word remain in the same order.
-- All extra spaces (leading, trailing, or between words) are reduced to a single space between words.
+Given a string `s`, we need to reverse the order of words. A word is a sequence of non-space characters. The string may have leading or trailing spaces and multiple spaces between words.
 
-#### High-Level Plan
-1. Split the string into words (ignoring extra spaces)
-2. Reverse the list of words
-3. Join the words back together with a single space
+**1.1 Constraints & Complexity:**
 
-### Steps
+- **Input Size:** The string length can be up to $10^4$.
+- **Value Range:** The string contains English letters (upper and lower case), digits, and spaces.
+- **Time Complexity:** $O(n)$ - We split the string (which takes $O(n)$) and then reverse and join (which also takes $O(n)$).
+- **Space Complexity:** $O(n)$ - We create a list of words, which requires $O(n)$ space.
+- **Edge Case:** If the string contains only spaces, return an empty string. Multiple spaces between words should be reduced to single spaces.
 
-Let's walk through an example: s = "a good   example"
+**1.2 High-level approach:**
 
-1. Split into words: ["a", "good", "example"]
-2. Reverse: ["example", "good", "a"]
-3. Join: "example good a"
+The goal is to reverse the order of words in a string.
 
-> **Note:**
-> - Python's `split()` automatically removes extra spaces and splits on any whitespace.
-> - This approach is both simple and efficient, making use of built-in functions.
+![Reverse Words](https://assets.leetcode.com/uploads/2021/10/20/reverse-words-example-1.png)
 
-- **Time Complexity:** O(n), where n is the length of the string
-- **Space Complexity:** O(n)
+We split the string by spaces (which automatically handles multiple spaces), reverse the list of words, and join them back with single spaces.
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** Manually parse the string character by character, building words and handling spaces. This is more complex and error-prone.
+- **Optimized Strategy (Split and Reverse):** Use Python's `split()` method which handles multiple spaces automatically, reverse the list, and join with spaces. This is simpler and cleaner.
+- **Why it's better:** The split-and-reverse approach is more readable and less error-prone. Python's `split()` automatically handles multiple spaces and leading/trailing spaces correctly.
+
+**1.4 Decomposition:**
+
+1. Split the string by spaces using `split()`. This automatically handles multiple spaces and removes leading/trailing spaces.
+2. Reverse the list of words.
+3. Join the reversed words with single spaces.
+4. Return the resulting string.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example: $s = "the sky is blue"$
+
+We process:
+- Split: $["the", "sky", "is", "blue"]$
+- Reverse: $["blue", "is", "sky", "the"]$
+- Join: $"blue is sky the"$
+
+**2.2 Start Processing:**
+
+We split the string by spaces.
+
+**2.3 Trace Walkthrough:**
+
+**Example 1:** $s = "the sky is blue"$
+- `split()` → $["the", "sky", "is", "blue"]$
+- `reversed()` → $["blue", "is", "sky", "the"]$
+- `join()` → $"blue is sky the"$
+
+**Example 2:** $s = "  hello world  "$
+- `split()` → $["hello", "world"]$ (leading/trailing spaces removed)
+- `reversed()` → $["world", "hello"]$
+- `join()` → $"world hello"$
+
+**Example 3:** $s = "a good   example"$
+- `split()` → $["a", "good", "example"]$ (multiple spaces handled)
+- `reversed()` → $["example", "good", "a"]$
+- `join()` → $"example good a"$
+
+**2.4 Return Result:**
+
+We return the reversed string of words.
+
+> **Note:** Python's `split()` method without arguments automatically splits on any whitespace (spaces, tabs, newlines) and removes empty strings from the result, which perfectly handles the problem requirements.
