@@ -1149,6 +1149,113 @@ class Solution:
         return max(left_depth, right_depth) + 1
 ```
 
+## 105. Construct Binary Tree from Preorder and Inorder Traversal [Medium]
+https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+The problem asks us to construct a binary tree from its preorder and inorder traversal arrays.
+
+**1.1 Constraints & Complexity:**
+
+- **Input Constraints:** $1 \leq n \leq 3000$, values in $[-3000, 3000]$, all values are unique.
+- **Time Complexity:** $O(n)$ - We visit each node once. The hash map lookup is $O(1)$.
+- **Space Complexity:** $O(n)$ - Hash map for inorder indices takes $O(n)$, recursion stack takes $O(h)$ where $h$ is tree height.
+- **Edge Case:** Empty arrays return `None`.
+
+**1.2 High-level approach:**
+
+The goal is to reconstruct the tree using the property that in preorder, the root comes first, and in inorder, the root separates left and right subtrees.
+
+![Tree Construction](https://assets.leetcode.com/uploads/2021/02/19/tree.jpg)
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** For each root, search for it in inorder array linearly. This takes $O(n^2)$ time.
+- **Optimized (Hash Map):** Use a hash map to store inorder indices for $O(1)$ lookup. This takes $O(n)$ time.
+- **Emphasize the optimization:** The hash map reduces the time complexity from $O(n^2)$ to $O(n)$ by eliminating linear searches.
+
+**1.4 Decomposition:**
+
+1. **Build Hash Map:** Create a map from values to their inorder indices.
+2. **Recursive Build:** Use preorder to get root, use inorder to split left/right subtrees.
+3. **Calculate Ranges:** Determine preorder and inorder ranges for left and right subtrees.
+4. **Return Root:** Build and return the root node.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's trace through an example: `preorder = [3,9,20,15,7]`, `inorder = [9,3,15,20,7]`.
+
+Hash map: `{9:0, 3:1, 15:2, 20:3, 7:4}`
+
+**2.2 Start Building:**
+
+Root is `preorder[0] = 3`. Find its position in inorder: `inorder[1] = 3`.
+
+**2.3 Trace Walkthrough:**
+
+| Root | Preorder Range | Inorder Range | Left Size | Left Subtree | Right Subtree |
+|------|----------------|---------------|-----------|--------------|---------------|
+| 3 | [0:4] | [0:4] | 1 | pre[1:2], in[0:0] | pre[2:5], in[2:4] |
+| 9 | [1:2] | [0:0] | 0 | None | None |
+| 20 | [2:5] | [2:4] | 1 | pre[3:4], in[2:2] | pre[4:5], in[3:4] |
+| 15 | [3:4] | [2:2] | 0 | None | None |
+| 7 | [4:5] | [3:4] | 0 | None | None |
+
+**2.4 Complete Construction:**
+
+Tree structure: `3` (root) with left child `9` and right child `20`. `20` has left child `15` and right child `7`.
+
+**2.5 Return Result:**
+
+The function returns the root node of the constructed tree.
+
+> **Note:** The key insight is that preorder gives us the root, and inorder tells us how many nodes are in the left subtree, allowing us to split the preorder array correctly.
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        if not preorder or not inorder:
+            return None
+        
+        # Create a map for O(1) lookup of inorder indices
+        inorder_map = {val: idx for idx, val in enumerate(inorder)}
+        
+        def build(pre_start, pre_end, in_start, in_end):
+            if pre_start > pre_end:
+                return None
+            
+            # Root is the first element in preorder
+            root_val = preorder[pre_start]
+            root = TreeNode(root_val)
+            
+            # Find root position in inorder
+            root_idx = inorder_map[root_val]
+            
+            # Calculate sizes of left and right subtrees
+            left_size = root_idx - in_start
+            
+            # Recursively build left and right subtrees
+            root.left = build(pre_start + 1, pre_start + left_size, in_start, root_idx - 1)
+            root.right = build(pre_start + left_size + 1, pre_end, root_idx + 1, in_end)
+            
+            return root
+        
+        return build(0, len(preorder) - 1, 0, len(inorder) - 1)
+```
+
 ## 128. Longest Consecutive Sequence [Medium]
 https://leetcode.com/problems/longest-consecutive-sequence/
 
@@ -2257,6 +2364,190 @@ class Solution:
         return res[k - 1]
 ```
 
+## 234. Palindrome Linked List [Easy]
+https://leetcode.com/problems/palindrome-linked-list/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+The problem asks us to determine if a singly linked list is a palindrome (reads the same forwards and backwards).
+
+**1.1 Constraints & Complexity:**
+
+- **Input Constraints:** The list has $1 \leq n \leq 10^5$ nodes, with values in $[0, 9]$.
+- **Time Complexity:** $O(n)$ - We traverse the list once to collect values, then compare them.
+- **Space Complexity:** $O(n)$ - We store all node values in an array for comparison.
+- **Edge Case:** A single-node list is always a palindrome.
+
+**1.2 High-level approach:**
+
+The goal is to check if the linked list values form a palindrome. We convert the list to an array, then use two pointers to compare values from both ends.
+
+![Palindrome Linked List](https://assets.leetcode.com/uploads/2021/03/03/pal1linked-list.jpg)
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** Reverse the entire list, then compare with original. This requires $O(n)$ time and $O(n)$ space for the reversed list.
+- **Optimized (Array Conversion):** Convert list to array, then use two pointers. This takes $O(n)$ time and $O(n)$ space.
+- **Emphasize the optimization:** While both approaches have similar complexity, the array approach is simpler and more intuitive. For $O(1)$ space, we could reverse half the list, but that's more complex.
+
+**1.4 Decomposition:**
+
+1. **Convert to Array:** Traverse the list and store all values in an array.
+2. **Two-Pointer Comparison:** Use left and right pointers to compare values from both ends.
+3. **Check Match:** If any pair doesn't match, return `False`. If all pairs match, return `True`.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's trace through an example: `head = [1,2,2,1]`.
+
+After conversion: `values = [1, 2, 2, 1]`
+
+**2.2 Start Checking:**
+
+Initialize `left = 0` and `right = len(values) - 1 = 3`.
+
+**2.3 Trace Walkthrough:**
+
+| Step | left | right | values[left] | values[right] | Match? | Action |
+|------|------|-------|--------------|----------------|--------|--------|
+| 1 | 0 | 3 | 1 | 1 | Yes | Continue |
+| 2 | 1 | 2 | 2 | 2 | Yes | Continue |
+| 3 | 2 | 1 | - | - | - | Stop (left >= right) |
+
+**2.4 Complete Comparison:**
+
+All pairs matched: (1,1) and (2,2).
+
+**2.5 Return Result:**
+
+Since all comparisons passed, the function returns `True`.
+
+> **Note:** The two-pointer technique efficiently checks palindromes by comparing symmetric positions without needing to reverse the list.
+
+### Solution
+
+```python
+def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def isPalindrome(self, head: Optional[ListNode]) -> bool:
+        # Convert linked list to array
+        values = []
+        current = head
+        while current:
+            values.append(current.val)
+            current = current.next
+        
+        # Check if array is palindrome
+        left, right = 0, len(values) - 1
+        while left < right:
+            if values[left] != values[right]:
+                return False
+            left += 1
+            right -= 1
+        
+        return True
+```
+
+## 236. Lowest Common Ancestor of a Binary Tree [Medium]
+https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+The problem asks us to find the lowest common ancestor (LCA) of two nodes in a binary tree. The LCA is the deepest node that has both nodes as descendants (a node can be a descendant of itself).
+
+**1.1 Constraints & Complexity:**
+
+- **Input Constraints:** The tree has $2 \leq n \leq 10^5$ nodes with unique values in $[-10^9, 10^9]$.
+- **Time Complexity:** $O(n)$ - We may need to visit all nodes in the worst case.
+- **Space Complexity:** $O(h)$ - The recursion stack depth is at most the height $h$ of the tree. In worst case (skewed tree), $h = n$.
+- **Edge Case:** If one node is an ancestor of the other, return that ancestor node.
+
+**1.2 High-level approach:**
+
+The goal is to find the deepest node that is an ancestor of both target nodes. We use recursive DFS: if we find both nodes in a subtree, the current root is the LCA.
+
+![Binary Tree LCA](https://assets.leetcode.com/uploads/2018/12/14/binarytree.png)
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** Find paths to both nodes, then find the last common node in both paths. This requires storing paths and takes $O(n)$ time and $O(n)$ space.
+- **Optimized (Recursive DFS):** Recursively search both subtrees. If both subtrees return non-null, the current root is the LCA. This takes $O(n)$ time and $O(h)$ space.
+- **Emphasize the optimization:** The recursive approach finds the LCA in a single pass without storing paths, making it more space-efficient.
+
+**1.4 Decomposition:**
+
+1. **Base Case:** If root is `None` or equals `p` or `q`, return root.
+2. **Recursive Search:** Recursively search left and right subtrees for `p` and `q`.
+3. **Combine Results:** If both subtrees return non-null, root is the LCA. Otherwise, return whichever subtree found a node.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's trace through an example: `root = [3,5,1,6,2,0,8,null,null,7,4]`, `p = 5`, `q = 1`.
+
+**2.2 Start Searching:**
+
+Begin at root node `3`.
+
+**2.3 Trace Walkthrough:**
+
+| Node | Left Result | Right Result | Action |
+|------|-------------|--------------|---------|
+| 3 | Search left (5) | Search right (1) | Both found → Return 3 |
+| 5 | Search left (6) | Search right (2) | Found p → Return 5 |
+| 1 | Search left (0) | Search right (8) | Found q → Return 1 |
+
+**2.4 Recursive Unwinding:**
+
+- Node `5` returns itself (found `p`).
+- Node `1` returns itself (found `q`).
+- Node `3` receives both results, so it's the LCA.
+
+**2.5 Return Result:**
+
+The function returns node `3`, which is the LCA of nodes `5` and `1`.
+
+> **Note:** The key insight is that if both left and right subtrees return non-null, the current root must be the LCA. If only one subtree returns non-null, that subtree contains the LCA.
+
+### Solution
+
+```python
+def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        # Base case: if root is None or root is p or q, return root
+        if not root or root == p or root == q:
+            return root
+        
+        # Recursively search in left and right subtrees
+        left = self.lowestCommonAncestor(root.left, p, q)
+        right = self.lowestCommonAncestor(root.right, p, q)
+        
+        # If both left and right return non-None, root is the LCA
+        if left and right:
+            return root
+        
+        # Otherwise, return whichever side found p or q
+        return left if left else right
+```
+
 ## 242. Valid Anagram [Easy]
 https://leetcode.com/problems/valid-anagram/
 
@@ -2387,6 +2678,145 @@ def isAnagram(s, t):
             return False
     
     return True
+```
+
+## 297. Serialize and Deserialize Binary Tree [Hard]
+https://leetcode.com/problems/serialize-and-deserialize-binary-tree/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+The problem asks us to design an algorithm to serialize a binary tree to a string and deserialize it back to the original tree structure.
+
+**1.1 Constraints & Complexity:**
+
+- **Input Constraints:** $0 \leq n \leq 10^4$ nodes with values in $[-1000, 1000]$.
+- **Time Complexity:** $O(n)$ - We visit each node once during both serialization and deserialization.
+- **Space Complexity:** $O(n)$ - The serialized string and queue both require $O(n)$ space.
+- **Edge Case:** Empty tree serializes to empty string and deserializes to `None`.
+
+**1.2 High-level approach:**
+
+The goal is to convert a tree to a string representation and reconstruct it. We use level-order (BFS) traversal to serialize, then use the same order to deserialize.
+
+![Serialize Deserialize](https://assets.leetcode.com/uploads/2020/09/15/serdeser.jpg)
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** Use preorder/inorder or postorder/inorder pairs. This requires two traversals and more complex deserialization.
+- **Optimized (Level-Order BFS):** Use BFS to serialize level by level, including null nodes. Deserialize by processing nodes in the same order. This is straightforward and intuitive.
+- **Emphasize the optimization:** Level-order serialization is easier to understand and implement, making it a practical choice despite similar complexity.
+
+**1.4 Decomposition:**
+
+1. **Serialize:** Use BFS to traverse tree level by level, adding node values (or "null") to result string.
+2. **Deserialize:** Split string, use BFS to reconstruct tree level by level, creating nodes as we process the values.
+3. **Handle Nulls:** Include null nodes in serialization to preserve tree structure.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's trace through an example: `root = [1,2,3,null,null,4,5]`.
+
+**2.2 Serialization:**
+
+Start with queue containing root.
+
+**2.3 Trace Walkthrough (Serialize):**
+
+| Step | Queue | Process | Result So Far |
+|------|-------|---------|---------------|
+| 0 | [1] | 1 | "1" |
+| 1 | [2, 3] | 2 | "1,2" |
+| 2 | [3, null, null] | 3 | "1,2,3" |
+| 3 | [null, null, 4, 5] | null | "1,2,3,null" |
+| ... | ... | ... | "1,2,3,null,null,4,5" |
+
+**2.4 Deserialization:**
+
+Split string: `["1","2","3","null","null","4","5"]`
+
+| Step | Queue | Value | Action | Tree State |
+|------|-------|-------|--------|------------|
+| 0 | [1] | "1" | Create root(1) | 1 |
+| 1 | [2, 3] | "2" | Create left(2) | 1→2 |
+| 2 | [3] | "3" | Create right(3) | 1→2,3 |
+| 3 | [4, 5] | "null" | Skip | 1→2,3 |
+| 4 | [5] | "null" | Skip | 1→2,3 |
+| 5 | [] | "4" | Create left(4) | 1→2,3→4 |
+| 6 | [] | "5" | Create right(5) | 1→2,3→4,5 |
+
+**2.5 Return Result:**
+
+Deserialization returns the original tree structure.
+
+> **Note:** Level-order serialization preserves the tree structure naturally, making it easier to reconstruct than preorder/inorder approaches.
+
+### Solution
+
+```python
+def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Codec:
+
+    def serialize(self, root):
+        """Encodes a tree to a single string.
+        
+        :type root: TreeNode
+        :rtype: str
+        """
+        if not root:
+            return ""
+        
+        res = []
+        queue = [root]
+        
+        while queue:
+            node = queue.pop(0)
+            if node:
+                res.append(str(node.val))
+                queue.append(node.left)
+                queue.append(node.right)
+            else:
+                res.append("null")
+        
+        return ",".join(res)
+
+    def deserialize(self, data):
+        """Decodes your encoded data to tree.
+        
+        :type data: str
+        :rtype: TreeNode
+        """
+        if not data:
+            return None
+        
+        values = data.split(",")
+        root = TreeNode(int(values[0]))
+        queue = [root]
+        i = 1
+        
+        while queue and i < len(values):
+            node = queue.pop(0)
+            
+            if values[i] != "null":
+                node.left = TreeNode(int(values[i]))
+                queue.append(node.left)
+            i += 1
+            
+            if i < len(values) and values[i] != "null":
+                node.right = TreeNode(int(values[i]))
+                queue.append(node.right)
+            i += 1
+        
+        return root
 ```
 
 ## 647. Palindromic Substrings [Medium]

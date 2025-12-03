@@ -413,6 +413,134 @@ class Solution:
         return dummy.next
 ```
 
+## 25. Reverse Nodes in k-Group [Hard]
+https://leetcode.com/problems/reverse-nodes-in-k-group/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity**
+
+* **Input Size:** The linked list has $n$ nodes where $1 \leq k \leq n \leq 5000$.
+* **Time Complexity:** $O(n)$ where $n$ is the number of nodes. We visit each node exactly once.
+* **Space Complexity:** $O(n/k)$ for the recursion stack, which is $O(n)$ in the worst case when $k = 1$.
+* **Edge Case:** If the number of nodes is not a multiple of $k$, the remaining nodes at the end stay in their original order.
+
+**1.2 High-level approach**
+
+The goal is to reverse nodes in groups of $k$. We reverse each group of $k$ nodes, then recursively process the remaining list. If there are fewer than $k$ nodes remaining, we leave them unchanged.
+
+![Linked list reversal in groups showing how k nodes are reversed at a time]
+
+**1.3 Brute force vs. optimized strategy**
+
+* **Brute Force:** Convert the linked list to an array, reverse groups in the array, then rebuild the list. This uses $O(n)$ extra space.
+* **Optimized (In-Place Reversal):** Reverse groups of $k$ nodes in-place using pointer manipulation. This uses $O(1)$ extra space (excluding recursion stack) and maintains the linked list structure.
+
+**1.4 Decomposition**
+
+1. Check if there are at least $k$ nodes remaining.
+2. If yes, reverse the first $k$ nodes.
+3. Recursively process the remaining list.
+4. Connect the reversed group with the result of the recursive call.
+5. If fewer than $k$ nodes remain, return the list as is.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup**
+
+Let's use the example $head = [1,2,3,4,5]$, $k = 2$.
+
+The linked list: `1 -> 2 -> 3 -> 4 -> 5 -> None`
+
+**2.2 Start Checking/Processing**
+
+We first check if there are at least $k$ nodes. For the first call, we have 5 nodes, which is more than 2.
+
+**2.3 Trace Walkthrough**
+
+**First group (nodes 1-2):**
+1. Count nodes: We have 5 nodes, so we can reverse a group of 2.
+2. Reverse nodes 1-2:
+   - Before: `1 -> 2 -> 3 -> 4 -> 5`
+   - After: `2 -> 1 -> 3 -> 4 -> 5`
+3. Recursively process remaining: `3 -> 4 -> 5`
+
+**Second group (nodes 3-4):**
+1. Count nodes: We have 3 nodes, so we can reverse a group of 2.
+2. Reverse nodes 3-4:
+   - Before: `3 -> 4 -> 5`
+   - After: `4 -> 3 -> 5`
+3. Recursively process remaining: `5`
+
+**Remaining (node 5):**
+1. Count nodes: We have 1 node, which is less than 2.
+2. Return as is: `5`
+
+**Final result:** `2 -> 1 -> 4 -> 3 -> 5`
+
+**2.4 Increment and Loop**
+
+The reversal process:
+1. Use a helper function to reverse a segment from `start` to `end` (exclusive).
+2. The helper reverses the segment by:
+   - Setting `prev = None`
+   - For each node, save `next`, point `curr.next` to `prev`, move `prev` and `curr` forward
+3. After reversing $k$ nodes, recursively call on the remaining list.
+4. Connect the reversed head with the result of recursion.
+
+**2.5 Return Result**
+
+After processing all groups, the list becomes `[2,1,4,3,5]`:
+* Group 1: `[1,2]` → `[2,1]`
+* Group 2: `[3,4]` → `[4,3]`
+* Remaining: `[5]` → `[5]`
+
+The final result is `2 -> 1 -> 4 -> 3 -> 5`.
+
+### Solution
+
+```python
+def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+from typing import Optional
+
+class Solution:
+    def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        # Helper function to reverse a linked list segment
+        def reverse_segment(start, end):
+            prev = None
+            curr = start
+            while curr != end:
+                next_node = curr.next
+                curr.next = prev
+                prev = curr
+                curr = next_node
+            return prev
+        
+        # Count nodes to check if we have enough for a group
+        count = 0
+        curr = head
+        while curr and count < k:
+            curr = curr.next
+            count += 1
+        
+        # If we have k nodes, reverse them
+        if count == k:
+            # Reverse the first k nodes
+            reversed_head = reverse_segment(head, curr)
+            # Recursively reverse the rest
+            head.next = self.reverseKGroup(curr, k)
+            return reversed_head
+        
+        # Not enough nodes, return as is
+        return head
+```
+
 ## 42. Trapping Rain Water [Hard]
 https://leetcode.com/problems/trapping-rain-water/
 
@@ -1072,6 +1200,99 @@ class Solution:
         return validate(root, float('-inf'), float('inf'))
 ```
 
+## 100. Same Tree [Easy]
+https://leetcode.com/problems/same-tree/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+The problem asks us to determine if two binary trees are structurally identical and have the same node values.
+
+**1.1 Constraints & Complexity:**
+
+- **Input Constraints:** Both trees have at most 100 nodes, and node values are in the range $[-10^4, 10^4]$.
+- **Time Complexity:** $O(n)$ - We visit each node exactly once, where $n$ is the minimum number of nodes in the two trees.
+- **Space Complexity:** $O(h)$ - The recursion stack depth is at most the height $h$ of the tree. In the worst case (skewed tree), $h = n$, giving $O(n)$ space.
+- **Edge Case:** Both trees are empty (both roots are `None`), which should return `True`.
+
+**1.2 High-level approach:**
+
+The goal is to check if two trees have the same structure and values by comparing them node by node recursively. We compare the root values, then recursively check left and right subtrees.
+
+![Binary tree comparison](https://assets.leetcode.com/uploads/2020/12/20/ex1.jpg)
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** Convert both trees to arrays using traversal, then compare arrays. This requires $O(n)$ time and $O(n)$ space for storing both arrays.
+- **Optimized (Recursive Comparison):** Compare nodes directly during traversal without storing intermediate results. This uses $O(n)$ time but only $O(h)$ space for the recursion stack.
+- **Emphasize the optimization:** By comparing nodes directly during traversal, we can short-circuit early if we find a mismatch, potentially avoiding full tree traversal.
+
+**1.4 Decomposition:**
+
+1. **Base Cases:** If both nodes are `None`, return `True`. If only one is `None`, return `False`.
+2. **Value Comparison:** Check if the current nodes have the same value.
+3. **Recursive Check:** Recursively check if left subtrees match and right subtrees match.
+4. **Combine Results:** Return `True` only if values match and both subtrees match.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's trace through an example: `p = [1,2,3]`, `q = [1,2,3]`.
+
+Both trees have the same structure and values.
+
+**2.2 Start Comparison:**
+
+We begin at the root nodes of both trees.
+
+**2.3 Trace Walkthrough:**
+
+| Node Pair | p.val | q.val | Match? | Left Check | Right Check | Result |
+|-----------|-------|-------|--------|------------|-------------|--------|
+| Root (1, 1) | 1 | 1 | Yes | Check (2, 2) | Check (3, 3) | Continue |
+| Left (2, 2) | 2 | 2 | Yes | Check (None, None) | Check (None, None) | True |
+| Right (3, 3) | 3 | 3 | Yes | Check (None, None) | Check (None, None) | True |
+
+**2.4 Recursive Unwinding:**
+
+- Both left subtrees (2, 2) match: both have value 2 and no children.
+- Both right subtrees (3, 3) match: both have value 3 and no children.
+- Root nodes (1, 1) match.
+
+**2.5 Return Result:**
+
+Since all nodes match in structure and value, the function returns `True`.
+
+> **Note:** The algorithm short-circuits: if any node comparison fails, the entire function returns `False` immediately without checking remaining nodes.
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
+        # Both are None
+        if not p and not q:
+            return True
+        
+        # One is None, the other is not
+        if not p or not q:
+            return False
+        
+        # Both exist, check values and recursively check children
+        if p.val != q.val:
+            return False
+        
+        return self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right)
+```
+
 ## 101. Symmetric Tree [Easy]
 https://leetcode.com/problems/symmetric-tree/
 
@@ -1306,6 +1527,112 @@ class Solution:
         return res
 ```
 
+## 103. Binary Tree Zigzag Level Order Traversal [Medium]
+https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+The problem asks us to return the zigzag level order traversal of a binary tree: left-to-right for even levels, right-to-left for odd levels.
+
+**1.1 Constraints & Complexity:**
+
+- **Input Constraints:** The tree has $0 \leq n \leq 2000$ nodes with values in $[-100, 100]$.
+- **Time Complexity:** $O(n)$ - We visit each node exactly once.
+- **Space Complexity:** $O(n)$ - The queue can contain at most all nodes at the widest level.
+- **Edge Case:** Empty tree returns empty list.
+
+**1.2 High-level approach:**
+
+The goal is to traverse the tree level by level, alternating the direction at each level. We use BFS with a flag to track direction.
+
+![Zigzag Traversal](https://assets.leetcode.com/uploads/2021/02/19/tree1.jpg)
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** Do regular level-order traversal, then reverse every other level. This takes $O(n)$ time and $O(n)$ space.
+- **Optimized (BFS with Direction Flag):** Use BFS and reverse the level list when needed based on a flag. This takes $O(n)$ time and $O(n)$ space.
+- **Emphasize the optimization:** While complexity is the same, the direction flag approach is cleaner and more efficient than reversing after collection.
+
+**1.4 Decomposition:**
+
+1. **BFS Traversal:** Use a queue to process nodes level by level.
+2. **Track Direction:** Use a boolean flag to alternate between left-to-right and right-to-left.
+3. **Reverse When Needed:** For odd levels (right-to-left), reverse the level list before adding to result.
+4. **Return Result:** Return the list of levels.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's trace through an example: `root = [3,9,20,null,null,15,7]`.
+
+Initialize: `queue = [3]`, `left_to_right = True`, `res = []`
+
+**2.2 Start Processing:**
+
+Process level 0 (root).
+
+**2.3 Trace Walkthrough:**
+
+| Level | Queue Before | Level Values | Direction | After Reverse | Result |
+|-------|--------------|--------------|-----------|---------------|--------|
+| 0 | [3] | [3] | L→R | [3] | [[3]] |
+| 1 | [9, 20] | [9, 20] | R→L | [20, 9] | [[3], [20, 9]] |
+| 2 | [15, 7] | [15, 7] | L→R | [15, 7] | [[3], [20, 9], [15, 7]] |
+
+**2.4 Complete Traversal:**
+
+All levels processed: Level 0 (L→R), Level 1 (R→L), Level 2 (L→R).
+
+**2.5 Return Result:**
+
+The function returns `[[3], [20, 9], [15, 7]]`.
+
+> **Note:** The direction alternates at each level: even levels (0, 2, ...) are left-to-right, odd levels (1, 3, ...) are right-to-left.
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        if not root:
+            return []
+        
+        res = []
+        queue = [root]
+        left_to_right = True
+        
+        while queue:
+            level_size = len(queue)
+            level = []
+            
+            for _ in range(level_size):
+                node = queue.pop(0)
+                level.append(node.val)
+                
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+            
+            # Reverse if needed for zigzag
+            if not left_to_right:
+                level.reverse()
+            
+            res.append(level)
+            left_to_right = not left_to_right
+        
+        return res
+```
+
 ## 104. Maximum Depth of Binary Tree [Easy]
 https://leetcode.com/problems/maximum-depth-of-binary-tree/
 
@@ -1408,6 +1735,220 @@ class Solution:
         
         # Return max depth plus 1 for current node
         return max(left_depth, right_depth) + 1
+```
+
+## 105. Construct Binary Tree from Preorder and Inorder Traversal [Medium]
+https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+The problem asks us to construct a binary tree from its preorder and inorder traversal arrays.
+
+**1.1 Constraints & Complexity:**
+
+- **Input Constraints:** $1 \leq n \leq 3000$, values in $[-3000, 3000]$, all values are unique.
+- **Time Complexity:** $O(n)$ - We visit each node once. The hash map lookup is $O(1)$.
+- **Space Complexity:** $O(n)$ - Hash map for inorder indices takes $O(n)$, recursion stack takes $O(h)$ where $h$ is tree height.
+- **Edge Case:** Empty arrays return `None`.
+
+**1.2 High-level approach:**
+
+The goal is to reconstruct the tree using the property that in preorder, the root comes first, and in inorder, the root separates left and right subtrees.
+
+![Tree Construction](https://assets.leetcode.com/uploads/2021/02/19/tree.jpg)
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** For each root, search for it in inorder array linearly. This takes $O(n^2)$ time.
+- **Optimized (Hash Map):** Use a hash map to store inorder indices for $O(1)$ lookup. This takes $O(n)$ time.
+- **Emphasize the optimization:** The hash map reduces the time complexity from $O(n^2)$ to $O(n)$ by eliminating linear searches.
+
+**1.4 Decomposition:**
+
+1. **Build Hash Map:** Create a map from values to their inorder indices.
+2. **Recursive Build:** Use preorder to get root, use inorder to split left/right subtrees.
+3. **Calculate Ranges:** Determine preorder and inorder ranges for left and right subtrees.
+4. **Return Root:** Build and return the root node.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's trace through an example: `preorder = [3,9,20,15,7]`, `inorder = [9,3,15,20,7]`.
+
+Hash map: `{9:0, 3:1, 15:2, 20:3, 7:4}`
+
+**2.2 Start Building:**
+
+Root is `preorder[0] = 3`. Find its position in inorder: `inorder[1] = 3`.
+
+**2.3 Trace Walkthrough:**
+
+| Root | Preorder Range | Inorder Range | Left Size | Left Subtree | Right Subtree |
+|------|----------------|---------------|-----------|--------------|---------------|
+| 3 | [0:4] | [0:4] | 1 | pre[1:2], in[0:0] | pre[2:5], in[2:4] |
+| 9 | [1:2] | [0:0] | 0 | None | None |
+| 20 | [2:5] | [2:4] | 1 | pre[3:4], in[2:2] | pre[4:5], in[3:4] |
+| 15 | [3:4] | [2:2] | 0 | None | None |
+| 7 | [4:5] | [3:4] | 0 | None | None |
+
+**2.4 Complete Construction:**
+
+Tree structure: `3` (root) with left child `9` and right child `20`. `20` has left child `15` and right child `7`.
+
+**2.5 Return Result:**
+
+The function returns the root node of the constructed tree.
+
+> **Note:** The key insight is that preorder gives us the root, and inorder tells us how many nodes are in the left subtree, allowing us to split the preorder array correctly.
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        if not preorder or not inorder:
+            return None
+        
+        # Create a map for O(1) lookup of inorder indices
+        inorder_map = {val: idx for idx, val in enumerate(inorder)}
+        
+        def build(pre_start, pre_end, in_start, in_end):
+            if pre_start > pre_end:
+                return None
+            
+            # Root is the first element in preorder
+            root_val = preorder[pre_start]
+            root = TreeNode(root_val)
+            
+            # Find root position in inorder
+            root_idx = inorder_map[root_val]
+            
+            # Calculate sizes of left and right subtrees
+            left_size = root_idx - in_start
+            
+            # Recursively build left and right subtrees
+            root.left = build(pre_start + 1, pre_start + left_size, in_start, root_idx - 1)
+            root.right = build(pre_start + left_size + 1, pre_end, root_idx + 1, in_end)
+            
+            return root
+        
+        return build(0, len(preorder) - 1, 0, len(inorder) - 1)
+```
+
+## 106. Construct Binary Tree from Inorder and Postorder Traversal [Medium]
+https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+The problem asks us to construct a binary tree from its inorder and postorder traversal arrays.
+
+**1.1 Constraints & Complexity:**
+
+- **Input Constraints:** $1 \leq n \leq 3000$, values in $[-3000, 3000]$, all values are unique.
+- **Time Complexity:** $O(n)$ - We visit each node once. The hash map lookup is $O(1)$.
+- **Space Complexity:** $O(n)$ - Hash map for inorder indices takes $O(n)$, recursion stack takes $O(h)$.
+- **Edge Case:** Empty arrays return `None`.
+
+**1.2 High-level approach:**
+
+The goal is to reconstruct the tree using the property that in postorder, the root comes last, and in inorder, the root separates left and right subtrees.
+
+![Tree Construction](https://assets.leetcode.com/uploads/2021/02/19/tree.jpg)
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** For each root, search for it in inorder array linearly. This takes $O(n^2)$ time.
+- **Optimized (Hash Map):** Use a hash map to store inorder indices for $O(1)$ lookup. This takes $O(n)$ time.
+- **Emphasize the optimization:** The hash map reduces the time complexity from $O(n^2)$ to $O(n)$ by eliminating linear searches.
+
+**1.4 Decomposition:**
+
+1. **Build Hash Map:** Create a map from values to their inorder indices.
+2. **Recursive Build:** Use postorder to get root (last element), use inorder to split left/right subtrees.
+3. **Calculate Ranges:** Determine inorder and postorder ranges for left and right subtrees.
+4. **Return Root:** Build and return the root node.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's trace through an example: `inorder = [9,3,15,20,7]`, `postorder = [9,15,7,20,3]`.
+
+Hash map: `{9:0, 3:1, 15:2, 20:3, 7:4}`
+
+**2.2 Start Building:**
+
+Root is `postorder[4] = 3`. Find its position in inorder: `inorder[1] = 3`.
+
+**2.3 Trace Walkthrough:**
+
+| Root | Inorder Range | Postorder Range | Left Size | Left Subtree | Right Subtree |
+|------|---------------|-----------------|-----------|--------------|---------------|
+| 3 | [0:4] | [0:4] | 1 | in[0:0], post[0:0] | in[2:4], post[1:3] |
+| 9 | [0:0] | [0:0] | 0 | None | None |
+| 20 | [2:4] | [1:3] | 1 | in[2:2], post[1:1] | in[3:4], post[2:2] |
+| 15 | [2:2] | [1:1] | 0 | None | None |
+| 7 | [3:4] | [2:2] | 0 | None | None |
+
+**2.4 Complete Construction:**
+
+Tree structure: `3` (root) with left child `9` and right child `20`. `20` has left child `15` and right child `7`.
+
+**2.5 Return Result:**
+
+The function returns the root node of the constructed tree.
+
+> **Note:** Similar to problem 105, but here the root is the last element in postorder instead of the first in preorder.
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def buildTree(self, inorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
+        if not inorder or not postorder:
+            return None
+        
+        # Create a map for O(1) lookup of inorder indices
+        inorder_map = {val: idx for idx, val in enumerate(inorder)}
+        
+        def build(in_start, in_end, post_start, post_end):
+            if in_start > in_end:
+                return None
+            
+            # Root is the last element in postorder
+            root_val = postorder[post_end]
+            root = TreeNode(root_val)
+            
+            # Find root position in inorder
+            root_idx = inorder_map[root_val]
+            
+            # Calculate sizes of left and right subtrees
+            left_size = root_idx - in_start
+            
+            # Recursively build left and right subtrees
+            root.left = build(in_start, root_idx - 1, post_start, post_start + left_size - 1)
+            root.right = build(root_idx + 1, in_end, post_start + left_size, post_end - 1)
+            
+            return root
+        
+        return build(0, len(inorder) - 1, 0, len(postorder) - 1)
 ```
 
 ## 116. Populating Next Right Pointers in Each Node [Medium]
@@ -3091,6 +3632,98 @@ class Solution:
         return res[k - 1]
 ```
 
+## 234. Palindrome Linked List [Easy]
+https://leetcode.com/problems/palindrome-linked-list/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+The problem asks us to determine if a singly linked list is a palindrome (reads the same forwards and backwards).
+
+**1.1 Constraints & Complexity:**
+
+- **Input Constraints:** The list has $1 \leq n \leq 10^5$ nodes, with values in $[0, 9]$.
+- **Time Complexity:** $O(n)$ - We traverse the list once to collect values, then compare them.
+- **Space Complexity:** $O(n)$ - We store all node values in an array for comparison.
+- **Edge Case:** A single-node list is always a palindrome.
+
+**1.2 High-level approach:**
+
+The goal is to check if the linked list values form a palindrome. We convert the list to an array, then use two pointers to compare values from both ends.
+
+![Palindrome Linked List](https://assets.leetcode.com/uploads/2021/03/03/pal1linked-list.jpg)
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** Reverse the entire list, then compare with original. This requires $O(n)$ time and $O(n)$ space for the reversed list.
+- **Optimized (Array Conversion):** Convert list to array, then use two pointers. This takes $O(n)$ time and $O(n)$ space.
+- **Emphasize the optimization:** While both approaches have similar complexity, the array approach is simpler and more intuitive. For $O(1)$ space, we could reverse half the list, but that's more complex.
+
+**1.4 Decomposition:**
+
+1. **Convert to Array:** Traverse the list and store all values in an array.
+2. **Two-Pointer Comparison:** Use left and right pointers to compare values from both ends.
+3. **Check Match:** If any pair doesn't match, return `False`. If all pairs match, return `True`.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's trace through an example: `head = [1,2,2,1]`.
+
+After conversion: `values = [1, 2, 2, 1]`
+
+**2.2 Start Checking:**
+
+Initialize `left = 0` and `right = len(values) - 1 = 3`.
+
+**2.3 Trace Walkthrough:**
+
+| Step | left | right | values[left] | values[right] | Match? | Action |
+|------|------|-------|--------------|----------------|--------|--------|
+| 1 | 0 | 3 | 1 | 1 | Yes | Continue |
+| 2 | 1 | 2 | 2 | 2 | Yes | Continue |
+| 3 | 2 | 1 | - | - | - | Stop (left >= right) |
+
+**2.4 Complete Comparison:**
+
+All pairs matched: (1,1) and (2,2).
+
+**2.5 Return Result:**
+
+Since all comparisons passed, the function returns `True`.
+
+> **Note:** The two-pointer technique efficiently checks palindromes by comparing symmetric positions without needing to reverse the list.
+
+### Solution
+
+```python
+def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def isPalindrome(self, head: Optional[ListNode]) -> bool:
+        # Convert linked list to array
+        values = []
+        current = head
+        while current:
+            values.append(current.val)
+            current = current.next
+        
+        # Check if array is palindrome
+        left, right = 0, len(values) - 1
+        while left < right:
+            if values[left] != values[right]:
+                return False
+            left += 1
+            right -= 1
+        
+        return True
+```
+
 ## 235. Lowest Common Ancestor of a Binary Search Tree [Medium]
 https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/
 
@@ -3192,6 +3825,98 @@ class Solution:
         
         # Otherwise, root is the LCA
         return root
+```
+
+## 236. Lowest Common Ancestor of a Binary Tree [Medium]
+https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+The problem asks us to find the lowest common ancestor (LCA) of two nodes in a binary tree. The LCA is the deepest node that has both nodes as descendants (a node can be a descendant of itself).
+
+**1.1 Constraints & Complexity:**
+
+- **Input Constraints:** The tree has $2 \leq n \leq 10^5$ nodes with unique values in $[-10^9, 10^9]$.
+- **Time Complexity:** $O(n)$ - We may need to visit all nodes in the worst case.
+- **Space Complexity:** $O(h)$ - The recursion stack depth is at most the height $h$ of the tree. In worst case (skewed tree), $h = n$.
+- **Edge Case:** If one node is an ancestor of the other, return that ancestor node.
+
+**1.2 High-level approach:**
+
+The goal is to find the deepest node that is an ancestor of both target nodes. We use recursive DFS: if we find both nodes in a subtree, the current root is the LCA.
+
+![Binary Tree LCA](https://assets.leetcode.com/uploads/2018/12/14/binarytree.png)
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** Find paths to both nodes, then find the last common node in both paths. This requires storing paths and takes $O(n)$ time and $O(n)$ space.
+- **Optimized (Recursive DFS):** Recursively search both subtrees. If both subtrees return non-null, the current root is the LCA. This takes $O(n)$ time and $O(h)$ space.
+- **Emphasize the optimization:** The recursive approach finds the LCA in a single pass without storing paths, making it more space-efficient.
+
+**1.4 Decomposition:**
+
+1. **Base Case:** If root is `None` or equals `p` or `q`, return root.
+2. **Recursive Search:** Recursively search left and right subtrees for `p` and `q`.
+3. **Combine Results:** If both subtrees return non-null, root is the LCA. Otherwise, return whichever subtree found a node.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's trace through an example: `root = [3,5,1,6,2,0,8,null,null,7,4]`, `p = 5`, `q = 1`.
+
+**2.2 Start Searching:**
+
+Begin at root node `3`.
+
+**2.3 Trace Walkthrough:**
+
+| Node | Left Result | Right Result | Action |
+|------|-------------|--------------|---------|
+| 3 | Search left (5) | Search right (1) | Both found → Return 3 |
+| 5 | Search left (6) | Search right (2) | Found p → Return 5 |
+| 1 | Search left (0) | Search right (8) | Found q → Return 1 |
+
+**2.4 Recursive Unwinding:**
+
+- Node `5` returns itself (found `p`).
+- Node `1` returns itself (found `q`).
+- Node `3` receives both results, so it's the LCA.
+
+**2.5 Return Result:**
+
+The function returns node `3`, which is the LCA of nodes `5` and `1`.
+
+> **Note:** The key insight is that if both left and right subtrees return non-null, the current root must be the LCA. If only one subtree returns non-null, that subtree contains the LCA.
+
+### Solution
+
+```python
+def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        # Base case: if root is None or root is p or q, return root
+        if not root or root == p or root == q:
+            return root
+        
+        # Recursively search in left and right subtrees
+        left = self.lowestCommonAncestor(root.left, p, q)
+        right = self.lowestCommonAncestor(root.right, p, q)
+        
+        # If both left and right return non-None, root is the LCA
+        if left and right:
+            return root
+        
+        # Otherwise, return whichever side found p or q
+        return left if left else right
 ```
 
 ## 242. Valid Anagram [Easy]
@@ -3801,6 +4526,145 @@ def wordPattern(pattern, s):
             word_to_char[word] = char
     
     return True
+```
+
+## 297. Serialize and Deserialize Binary Tree [Hard]
+https://leetcode.com/problems/serialize-and-deserialize-binary-tree/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+The problem asks us to design an algorithm to serialize a binary tree to a string and deserialize it back to the original tree structure.
+
+**1.1 Constraints & Complexity:**
+
+- **Input Constraints:** $0 \leq n \leq 10^4$ nodes with values in $[-1000, 1000]$.
+- **Time Complexity:** $O(n)$ - We visit each node once during both serialization and deserialization.
+- **Space Complexity:** $O(n)$ - The serialized string and queue both require $O(n)$ space.
+- **Edge Case:** Empty tree serializes to empty string and deserializes to `None`.
+
+**1.2 High-level approach:**
+
+The goal is to convert a tree to a string representation and reconstruct it. We use level-order (BFS) traversal to serialize, then use the same order to deserialize.
+
+![Serialize Deserialize](https://assets.leetcode.com/uploads/2020/09/15/serdeser.jpg)
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** Use preorder/inorder or postorder/inorder pairs. This requires two traversals and more complex deserialization.
+- **Optimized (Level-Order BFS):** Use BFS to serialize level by level, including null nodes. Deserialize by processing nodes in the same order. This is straightforward and intuitive.
+- **Emphasize the optimization:** Level-order serialization is easier to understand and implement, making it a practical choice despite similar complexity.
+
+**1.4 Decomposition:**
+
+1. **Serialize:** Use BFS to traverse tree level by level, adding node values (or "null") to result string.
+2. **Deserialize:** Split string, use BFS to reconstruct tree level by level, creating nodes as we process the values.
+3. **Handle Nulls:** Include null nodes in serialization to preserve tree structure.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's trace through an example: `root = [1,2,3,null,null,4,5]`.
+
+**2.2 Serialization:**
+
+Start with queue containing root.
+
+**2.3 Trace Walkthrough (Serialize):**
+
+| Step | Queue | Process | Result So Far |
+|------|-------|---------|---------------|
+| 0 | [1] | 1 | "1" |
+| 1 | [2, 3] | 2 | "1,2" |
+| 2 | [3, null, null] | 3 | "1,2,3" |
+| 3 | [null, null, 4, 5] | null | "1,2,3,null" |
+| ... | ... | ... | "1,2,3,null,null,4,5" |
+
+**2.4 Deserialization:**
+
+Split string: `["1","2","3","null","null","4","5"]`
+
+| Step | Queue | Value | Action | Tree State |
+|------|-------|-------|--------|------------|
+| 0 | [1] | "1" | Create root(1) | 1 |
+| 1 | [2, 3] | "2" | Create left(2) | 1→2 |
+| 2 | [3] | "3" | Create right(3) | 1→2,3 |
+| 3 | [4, 5] | "null" | Skip | 1→2,3 |
+| 4 | [5] | "null" | Skip | 1→2,3 |
+| 5 | [] | "4" | Create left(4) | 1→2,3→4 |
+| 6 | [] | "5" | Create right(5) | 1→2,3→4,5 |
+
+**2.5 Return Result:**
+
+Deserialization returns the original tree structure.
+
+> **Note:** Level-order serialization preserves the tree structure naturally, making it easier to reconstruct than preorder/inorder approaches.
+
+### Solution
+
+```python
+def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Codec:
+
+    def serialize(self, root):
+        """Encodes a tree to a single string.
+        
+        :type root: TreeNode
+        :rtype: str
+        """
+        if not root:
+            return ""
+        
+        res = []
+        queue = [root]
+        
+        while queue:
+            node = queue.pop(0)
+            if node:
+                res.append(str(node.val))
+                queue.append(node.left)
+                queue.append(node.right)
+            else:
+                res.append("null")
+        
+        return ",".join(res)
+
+    def deserialize(self, data):
+        """Decodes your encoded data to tree.
+        
+        :type data: str
+        :rtype: TreeNode
+        """
+        if not data:
+            return None
+        
+        values = data.split(",")
+        root = TreeNode(int(values[0]))
+        queue = [root]
+        i = 1
+        
+        while queue and i < len(values):
+            node = queue.pop(0)
+            
+            if values[i] != "null":
+                node.left = TreeNode(int(values[i]))
+                queue.append(node.left)
+            i += 1
+            
+            if i < len(values) and values[i] != "null":
+                node.right = TreeNode(int(values[i]))
+                queue.append(node.right)
+            i += 1
+        
+        return root
 ```
 
 ## 443. String Compression [Medium]
@@ -5796,58 +6660,6 @@ class Solution:
 https://leetcode.com/problems/count-number-of-trapezoids-i/
 
 ### Explanation
-
-## 3623. Count Number of Trapezoids I [Medium]
-
-https://leetcode.com/problems/count-number-of-trapezoids-i
-
-## Description
-You are given a 2D integer array `points`, where `points[i] = [x_i, y_i]` represents the coordinates of the `i`-th point on the Cartesian plane.
-
-A **horizontal trapezoid** is a convex quadrilateral with **at least one pair** of horizontal sides (i.e., parallel to the x-axis). Two lines are parallel if and only if they have the same slope.
-
-Return the number of unique **horizontal trapezoids** that can be formed by choosing any four distinct points from `points`.
-
-Since the answer may be very large, return it **modulo** 10^9 + 7.
-
-**Examples**
-
-**Example 1:**
-
-Input:
-points = [[1,0],[2,0],[3,0],[2,2],[3,2]]
-
-Output: 3
-
-Explanation:
-There are three distinct ways to pick four points that form a horizontal trapezoid:
-- Using points [1,0], [2,0], [3,2], and [2,2].
-- Using points [2,0], [3,0], [3,2], and [2,2].
-- Using points [1,0], [3,0], [3,2], and [2,2].
-
-![Trapezoid 1](https://assets.leetcode.com/uploads/2025/05/01/desmos-graph-6.png)
-![Trapezoid 2](https://assets.leetcode.com/uploads/2025/05/01/desmos-graph-7.png)
-![Trapezoid 3](https://assets.leetcode.com/uploads/2025/05/01/desmos-graph-8.png)
-
-**Example 2:**
-
-Input:
-points = [[0,0],[1,0],[0,1],[2,1]]
-
-Output: 1
-
-Explanation:
-There is only one horizontal trapezoid that can be formed.
-
-![Trapezoid Example 2](https://assets.leetcode.com/uploads/2025/04/29/desmos-graph-5.png)
-
-**Constraints**
-
-```text
-4 <= points.length <= 10^5
--10^8 <= x_i, y_i <= 10^8
-All points are pairwise distinct.
-```
 
 ## Explanation
 
