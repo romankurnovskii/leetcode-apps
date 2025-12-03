@@ -1299,6 +1299,118 @@ def summaryRanges(nums):
     return result
 ```
 
+## 155. Min Stack [Medium]
+https://leetcode.com/problems/min-stack/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+
+- **Constraints:** Values are in the range $[-2^{31}, 2^{31} - 1]$. At most $3 \times 10^4$ operations will be performed. Operations are called on non-empty stacks.
+- **Time Complexity:** $O(1)$ for all operations (push, pop, top, getMin). Each operation is constant time.
+- **Space Complexity:** $O(n)$ where $n$ is the number of elements pushed. We maintain two stacks.
+- **Edge Case:** If we push the same minimum value multiple times, we need to track all occurrences to handle pops correctly.
+
+**1.2 High-level approach:**
+
+The goal is to design a stack that supports retrieving the minimum element in $O(1)$ time. We use two stacks: one for all elements and one to track minimum values. When pushing, if the new value is less than or equal to the current minimum, we also push it to the min stack.
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** Store all elements and scan for minimum when `getMin()` is called. This is $O(n)$ time for `getMin()`.
+- **Optimized Strategy:** Maintain a separate stack for minimum values. When pushing, if the value is $\leq$ current min, push to min stack. When popping, if the popped value equals the current min, pop from min stack. This gives $O(1)$ for all operations.
+- **Why optimized is better:** The optimized strategy achieves $O(1)$ time for `getMin()` by trading a small amount of space for constant-time operations.
+
+**1.4 Decomposition:**
+
+1. Maintain two stacks: `stack` for all elements and `min_stack` for minimum values.
+2. `push(val)`: Push to `stack`. If `min_stack` is empty or `val <= min_stack[-1]`, push to `min_stack`.
+3. `pop()`: Pop from `stack`. If the popped value equals `min_stack[-1]`, pop from `min_stack`.
+4. `top()`: Return `stack[-1]`.
+5. `getMin()`: Return `min_stack[-1]`.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example: `["MinStack","push","push","push","getMin","pop","top","getMin"]` with values `[[],[-2],[0],[-3],[],[],[],[]]`
+
+We initialize:
+- `stack = []`
+- `min_stack = []`
+
+**2.2 Start Checking:**
+
+We perform each operation in sequence.
+
+**2.3 Trace Walkthrough:**
+
+| Operation | Value | stack | min_stack | Return |
+|-----------|-------|-------|-----------|--------|
+| push(-2) | -2 | [-2] | [-2] | - |
+| push(0) | 0 | [-2,0] | [-2] | - |
+| push(-3) | -3 | [-2,0,-3] | [-2,-3] | - |
+| getMin() | - | [-2,0,-3] | [-2,-3] | -3 |
+| pop() | - | [-2,0] | [-2] | - |
+| top() | - | [-2,0] | [-2] | 0 |
+| getMin() | - | [-2,0] | [-2] | -2 |
+
+**2.4 Increment and Loop:**
+
+- **push(val)**: 
+  - `stack.append(val)`
+  - If `not min_stack or val <= min_stack[-1]`: `min_stack.append(val)`
+
+- **pop()**: 
+  - `val = stack.pop()`
+  - If `val == min_stack[-1]`: `min_stack.pop()`
+
+**2.5 Return Result:**
+
+After all operations:
+- `top()` returns `0` (the top element).
+- `getMin()` returns `-2` (the minimum element in the remaining stack).
+
+The stack correctly maintains both the elements and the minimum value in $O(1)$ time for all operations.
+
+### Solution
+
+```python
+def __init__(self):
+        self.stack = []
+        self.min_stack = []
+
+    def push(self, val: int) -> None:
+        self.stack.append(val)
+        # Push to min_stack only if it's empty or val <= current min
+        if not self.min_stack or val <= self.min_stack[-1]:
+            self.min_stack.append(val)
+
+    def pop(self) -> None:
+        val = self.stack.pop()
+        # Pop from min_stack if the popped value is the current min
+        if val == self.min_stack[-1]:
+            self.min_stack.pop()
+
+    def top(self) -> int:
+        return self.stack[-1]
+
+    def getMin(self) -> int:
+        return self.min_stack[-1]
+
+
+# Your MinStack object will be instantiated and called as such:
+# obj = MinStack()
+# obj.push(val)
+# obj.pop()
+# param_3 = obj.top()
+# param_4 = obj.getMin()
+```
+
 ## 141. Linked List Cycle [Easy]
 https://leetcode.com/problems/linked-list-cycle/
 
@@ -1570,6 +1682,225 @@ class Solution:
         return dummy.next
 ```
 
+## 138. Copy List with Random Pointer [Medium]
+https://leetcode.com/problems/copy-list-with-random-pointer/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+
+- **Constraints:** $0 \leq n \leq 1000$ nodes. Node values are in the range $[-10^4, 10^4]$. Random pointers can point to any node or `None`.
+- **Time Complexity:** $O(n)$ where $n$ is the number of nodes. We make two passes through the list.
+- **Space Complexity:** $O(n)$ for the hash map storing original-to-clone node mappings.
+- **Edge Case:** If the list is empty (`head` is `None`), return `None`.
+
+**1.2 High-level approach:**
+
+The goal is to create a deep copy of the linked list where each node has both `next` and `random` pointers. We use a hash map to store mappings from original nodes to cloned nodes, then set up the pointers in a second pass.
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** Create all nodes first, then try to set random pointers. This is complex because random pointers can point to nodes we haven't created yet.
+- **Optimized Strategy:** Two-pass approach: first pass creates all nodes and stores mappings, second pass sets `next` and `random` pointers using the map. This is $O(n)$ time and $O(n)$ space.
+- **Why optimized is better:** The two-pass approach cleanly separates node creation from pointer setup, making the logic straightforward.
+
+**1.4 Decomposition:**
+
+1. Create a hash map to store mappings from original nodes to cloned nodes.
+2. First pass: traverse the list and create a clone of each node, storing the mapping.
+3. Second pass: traverse the list again and set `next` and `random` pointers for each clone using the map.
+4. Return the cloned head node.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example: `head = [[7,null],[13,0],[11,4],[10,2],[1,0]]`
+
+This represents:
+- Node 0: value 7, random = null
+- Node 1: value 13, random = node 0
+- Node 2: value 11, random = node 4
+- Node 3: value 10, random = node 2
+- Node 4: value 1, random = node 0
+
+We initialize `node_map = {}`.
+
+**2.2 Start Checking:**
+
+We perform two passes: first to create nodes, second to set pointers.
+
+**2.3 Trace Walkthrough:**
+
+**First pass (create nodes):**
+
+| Original Node | Value | Clone Created | node_map |
+|---------------|-------|---------------|----------|
+| Node 0 | 7 | Clone(7) | {Node0: Clone(7)} |
+| Node 1 | 13 | Clone(13) | {Node0: Clone(7), Node1: Clone(13)} |
+| Node 2 | 11 | Clone(11) | {Node0: Clone(7), Node1: Clone(13), Node2: Clone(11)} |
+| Node 3 | 10 | Clone(10) | {Node0: Clone(7), Node1: Clone(13), Node2: Clone(11), Node3: Clone(10)} |
+| Node 4 | 1 | Clone(1) | {Node0: Clone(7), ..., Node4: Clone(1)} |
+
+**Second pass (set pointers):**
+
+| Original Node | next points to | random points to | Clone's next | Clone's random |
+|---------------|----------------|------------------|--------------|----------------|
+| Node 0 | Node 1 | null | Clone(13) | null |
+| Node 1 | Node 2 | Node 0 | Clone(11) | Clone(7) |
+| Node 2 | Node 3 | Node 4 | Clone(10) | Clone(1) |
+| Node 3 | Node 4 | Node 2 | Clone(1) | Clone(11) |
+| Node 4 | null | Node 0 | null | Clone(7) |
+
+**2.4 Increment and Loop:**
+
+- First pass: `while curr: node_map[curr] = Node(curr.val); curr = curr.next`
+- Second pass: `while curr: node_map[curr].next = node_map.get(curr.next); node_map[curr].random = node_map.get(curr.random); curr = curr.next`
+
+**2.5 Return Result:**
+
+We return `node_map[head]`, which is the cloned head node. The entire list structure is cloned with all `next` and `random` pointers correctly set.
+
+### Solution
+
+```python
+def __init__(self, x: int, next: 'Node' = None, random: 'Node' = None):
+        self.val = int(x)
+        self.next = next
+        self.random = random
+"""
+
+class Solution:
+    def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
+        if not head:
+            return None
+        
+        # First pass: create new nodes and map old to new
+        node_map = {}
+        curr = head
+        
+        while curr:
+            node_map[curr] = Node(curr.val)
+            curr = curr.next
+        
+        # Second pass: set next and random pointers
+        curr = head
+        while curr:
+            if curr.next:
+                node_map[curr].next = node_map[curr.next]
+            if curr.random:
+                node_map[curr].random = node_map[curr.random]
+            curr = curr.next
+        
+        return node_map[head]
+```
+
+## 92. Reverse Linked List II [Medium]
+https://leetcode.com/problems/reverse-linked-list-ii/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity**
+
+* **Input Size:** The linked list has $n$ nodes where $1 \leq n \leq 500$, and $1 \leq left \leq right \leq n$.
+* **Time Complexity:** $O(n)$ - We traverse the list once to find the reversal segment, then reverse it in-place.
+* **Space Complexity:** $O(1)$ - We only use a constant amount of extra space for pointers.
+* **Edge Case:** If $left == right$, no reversal is needed, return the list as is.
+
+**1.2 High-level approach**
+
+The goal is to reverse a specific segment of a linked list from position $left$ to position $right$, while keeping the rest of the list unchanged. We use a dummy node to handle the case when reversal starts at the head.
+
+![Linked list partial reversal showing how nodes are reversed in a segment]
+
+**1.3 Brute force vs. optimized strategy**
+
+* **Brute Force:** Convert the linked list to an array, reverse the segment, then rebuild the list. This uses $O(n)$ extra space.
+* **Optimized (In-Place Reversal):** Use pointer manipulation to reverse the segment in-place. We find the segment boundaries, then reverse nodes one by one. This uses $O(1)$ extra space.
+
+**1.4 Decomposition**
+
+1. Create a dummy node to handle edge cases.
+2. Move to the node before the reversal segment.
+3. Reverse the segment by adjusting pointers iteratively.
+4. Connect the reversed segment back to the list.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup**
+
+Let's use the example $head = [1,2,3,4,5]$, $left = 2$, $right = 4$.
+
+We initialize:
+* `dummy = ListNode(0)` with `dummy.next = head`
+* `prev = dummy` (will point to node before reversal segment)
+
+**2.2 Start Processing**
+
+We move `prev` to position $left - 1$ (node with value 1).
+
+**2.3 Trace Walkthrough**
+
+| Step | prev | curr | next_node | List State |
+|------|------|------|-----------|------------|
+| Initial | node(0) | node(1) | - | [0,1,2,3,4,5] |
+| Move prev | node(1) | node(2) | - | [0,1,2,3,4,5] |
+| Reverse 1 | node(1) | node(2) | node(3) | [0,1,3,2,4,5] |
+| Reverse 2 | node(1) | node(2) | node(4) | [0,1,4,3,2,5] |
+
+After reversal: `[1,4,3,2,5]` (segment [2,3,4] reversed to [4,3,2]).
+
+**2.4 Increment and Loop**
+
+For each iteration in the reversal loop:
+1. Save `next_node = curr.next`
+2. Set `curr.next = next_node.next` (skip next_node)
+3. Set `next_node.next = prev.next` (insert next_node at start)
+4. Set `prev.next = next_node` (update prev's next)
+
+**2.5 Return Result**
+
+After reversal, `dummy.next` points to the modified list: `[1,4,3,2,5]`.
+
+### Solution
+
+```python
+def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
+        if not head or left == right:
+            return head
+        
+        # Create dummy node to handle edge case when left = 1
+        dummy = ListNode(0)
+        dummy.next = head
+        prev = dummy
+        
+        # Move to the node before the reversal starts
+        for _ in range(left - 1):
+            prev = prev.next
+        
+        # Reverse the segment
+        curr = prev.next
+        for _ in range(right - left):
+            next_node = curr.next
+            curr.next = next_node.next
+            next_node.next = prev.next
+            prev.next = next_node
+        
+        return dummy.next
+```
+
 ## 25. Reverse Nodes in k-Group [Hard]
 https://leetcode.com/problems/reverse-nodes-in-k-group/
 
@@ -1808,6 +2139,111 @@ class Solution:
         return dummy.next
 ```
 
+## 82. Remove Duplicates from Sorted List II [Medium]
+https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+
+- **Constraints:** The list has at most 300 nodes, with values in the range $[-100, 100]$. The list is guaranteed to be sorted in ascending order.
+- **Time Complexity:** $O(n)$ where $n$ is the number of nodes. We traverse the list once.
+- **Space Complexity:** $O(1)$ as we only use a constant amount of extra space (dummy node and pointers).
+- **Edge Case:** If the list is empty or contains only duplicates, we return an empty list.
+
+**1.2 High-level approach:**
+
+The goal is to remove all nodes that have duplicate values, keeping only nodes with unique values. We use a two-pointer approach with a dummy node to handle edge cases where the head needs to be removed.
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** Count occurrences of each value, then rebuild the list with only unique values. This requires $O(n)$ space for counting and $O(n)$ time, but is less efficient in practice.
+- **Optimized Strategy:** Use two pointers (`prev` and `curr`) to traverse the list. When duplicates are found, skip all nodes with that value and link `prev` to the node after the duplicates. This is $O(n)$ time and $O(1)$ space.
+- **Why optimized is better:** The optimized approach processes the list in a single pass without extra space for counting.
+
+**1.4 Decomposition:**
+
+1. Create a dummy node to handle cases where the head is removed.
+2. Use two pointers: `prev` (points to the last unique node) and `curr` (current node being examined).
+3. When duplicates are detected, skip all nodes with the duplicate value.
+4. Link `prev.next` to the node after the duplicates.
+5. Continue until the end of the list.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example: `head = [1,2,3,3,4,4,5]`
+
+We create a dummy node with value 0, and set `dummy.next = head`. This gives us:
+- `dummy -> 1 -> 2 -> 3 -> 3 -> 4 -> 4 -> 5`
+- `prev = dummy`
+- `curr = head` (node with value 1)
+
+**2.2 Start Checking:**
+
+We begin traversing the list. `prev` points to the last confirmed unique node, and `curr` points to the current node being examined.
+
+**2.3 Trace Walkthrough:**
+
+| Step | prev.val | curr.val | curr.next.val | Action |
+|------|----------|----------|---------------|--------|
+| 1 | 0 (dummy) | 1 | 2 | No duplicates, move both pointers |
+| 2 | 1 | 2 | 3 | No duplicates, move both pointers |
+| 3 | 2 | 3 | 3 | Duplicates found! Skip all 3s |
+| 4 | 2 | 4 | 4 | Duplicates found! Skip all 4s |
+| 5 | 2 | 5 | None | No duplicates, move both pointers |
+| 6 | 5 | None | - | End of list |
+
+**2.4 Increment and Loop:**
+
+When duplicates are found (e.g., `curr.val == curr.next.val`), we:
+1. Store the duplicate value.
+2. Skip all nodes with that value: `while curr and curr.val == duplicate_val: curr = curr.next`
+3. Link `prev.next = curr` to remove the duplicates.
+
+When no duplicates are found, we move both pointers: `prev = curr` and `curr = curr.next`.
+
+**2.5 Return Result:**
+
+After processing, `dummy.next` points to the first unique node. For our example `[1,2,3,3,4,4,5]`, the result is `[1,2,5]`, which is returned.
+
+### Solution
+
+```python
+def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        # Create a dummy node to handle edge cases
+        dummy = ListNode(0)
+        dummy.next = head
+        
+        prev = dummy
+        curr = head
+        
+        while curr and curr.next:
+            # If we find duplicates
+            if curr.val == curr.next.val:
+                # Skip all nodes with the same value
+                duplicate_val = curr.val
+                while curr and curr.val == duplicate_val:
+                    curr = curr.next
+                # Link prev to the node after duplicates
+                prev.next = curr
+            else:
+                # No duplicates, move both pointers
+                prev = curr
+                curr = curr.next
+        
+        return dummy.next
+```
+
 ## 61. Rotate List [Medium]
 https://leetcode.com/problems/rotate-list/
 
@@ -1915,6 +2351,111 @@ Result: [4,5,1,2,3]
 def __init__(self, val=0, next=None):
 #         self.val = val
 #         self.next = next
+```
+
+## 86. Partition List [Medium]
+https://leetcode.com/problems/partition-list/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+
+- **Constraints:** The list has at most 200 nodes, with values in the range $[-100, 100]$. The partition value $x$ is in the range $[-200, 200]$.
+- **Time Complexity:** $O(n)$ where $n$ is the number of nodes. We traverse the list once.
+- **Space Complexity:** $O(1)$ as we only use constant extra space (two dummy nodes and pointers).
+- **Edge Case:** If the list is empty, return `None`. If all nodes are less than $x$ or all are greater than or equal to $x$, we still maintain relative order.
+
+**1.2 High-level approach:**
+
+The goal is to partition the list such that all nodes with values less than $x$ come before nodes with values greater than or equal to $x$, while preserving the original relative order within each partition.
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** Create two separate lists, collect nodes less than $x$ in one list and nodes greater than or equal to $x$ in another, then concatenate them. This requires $O(n)$ space.
+- **Optimized Strategy:** Use two dummy nodes to build two partitions in-place as we traverse. This is $O(n)$ time and $O(1)$ space.
+- **Why optimized is better:** The optimized approach maintains $O(1)$ space complexity while still being straightforward to implement.
+
+**1.4 Decomposition:**
+
+1. Create two dummy nodes: one for nodes less than $x$, one for nodes greater than or equal to $x$.
+2. Traverse the original list, appending each node to the appropriate partition.
+3. Connect the two partitions: link the end of the "less than" partition to the start of the "greater than or equal to" partition.
+4. Set the tail of the "greater than or equal to" partition to `None` to terminate the list.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example: `head = [1,4,3,2,5,2]`, `x = 3`
+
+We create two dummy nodes:
+- `less_head` for nodes with value < 3
+- `greater_head` for nodes with value >= 3
+
+We also create pointers `less` and `greater` that point to the current tail of each partition.
+
+**2.2 Start Checking:**
+
+We begin traversing the list from `head`. For each node, we check if its value is less than $x$ or greater than or equal to $x$.
+
+**2.3 Trace Walkthrough:**
+
+| Node Value | Comparison | Action | less partition | greater partition |
+|------------|------------|--------|----------------|-------------------|
+| 1 | 1 < 3 | Append to less | [1] | [] |
+| 4 | 4 >= 3 | Append to greater | [1] | [4] |
+| 3 | 3 >= 3 | Append to greater | [1] | [4,3] |
+| 2 | 2 < 3 | Append to less | [1,2] | [4,3] |
+| 5 | 5 >= 3 | Append to greater | [1,2] | [4,3,5] |
+| 2 | 2 < 3 | Append to less | [1,2,2] | [4,3,5] |
+
+**2.4 Increment and Loop:**
+
+After processing all nodes:
+- `less` partition: `1 -> 2 -> 2`
+- `greater` partition: `4 -> 3 -> 5`
+
+We connect them: `less.next = greater_head.next`, which gives: `1 -> 2 -> 2 -> 4 -> 3 -> 5`
+
+**2.5 Return Result:**
+
+We set `greater.next = None` to terminate the list, then return `less_head.next`, which points to `1`. The final result is `[1,2,2,4,3,5]`.
+
+### Solution
+
+```python
+def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def partition(self, head: Optional[ListNode], x: int) -> Optional[ListNode]:
+        # Create two dummy nodes for less than x and greater than or equal to x
+        less_head = ListNode(0)
+        greater_head = ListNode(0)
+        
+        less = less_head
+        greater = greater_head
+        
+        curr = head
+        
+        while curr:
+            if curr.val < x:
+                less.next = curr
+                less = less.next
+            else:
+                greater.next = curr
+                greater = greater.next
+            curr = curr.next
+        
+        # Connect the two partitions
+        less.next = greater_head.next
+        greater.next = None  # Important: break the chain
+        
+        return less_head.next
 ```
 
 ## 146. LRU Cache [Medium]
@@ -2630,6 +3171,657 @@ class Solution:
         return build(0, len(inorder) - 1, 0, len(postorder) - 1)
 ```
 
+## 117. Populating Next Right Pointers in Each Node II [Medium]
+https://leetcode.com/problems/populating-next-right-pointers-in-each-node-ii/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity**
+
+* **Input Size:** The tree has $0 \leq n \leq 6000$ nodes, with values in $[-100, 100]$.
+* **Time Complexity:** $O(n)$ - We visit each node exactly once using BFS.
+* **Space Complexity:** $O(n)$ - The queue can contain at most all nodes at the widest level.
+* **Edge Case:** An empty tree returns `None`. A single-node tree has no next pointers to set.
+
+**1.2 High-level approach**
+
+The goal is to connect each node's `next` pointer to its next right node at the same level. We use level-order traversal (BFS) to process nodes level by level, connecting them as we go.
+
+![Next pointer connection showing how nodes are connected level by level]
+
+**1.3 Brute force vs. optimized strategy**
+
+* **Brute Force:** Store nodes by level in separate arrays, then connect them. This uses $O(n)$ extra space for level arrays.
+* **Optimized (BFS with Queue):** Use a queue to process nodes level by level. Connect nodes within the same level as we process them. This uses $O(n)$ space for the queue, which is necessary for BFS.
+
+**1.4 Decomposition**
+
+1. **Level-Order Traversal:** Use BFS to process nodes level by level.
+2. **Track Level Size:** Process exactly `level_size` nodes at each iteration.
+3. **Connect Nodes:** For each node in a level, set `prev.next = node` (except the first node).
+4. **Update Queue:** Add children to queue for next level.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup**
+
+Let's use the example $root = [1,2,3,4,5,null,7]$.
+
+We initialize:
+* `queue = deque([1])` (root node)
+* `prev = None` (previous node in current level)
+
+**2.2 Start Processing**
+
+We process level 0 (root).
+
+**2.3 Trace Walkthrough**
+
+| Level | Queue Before | Level Size | Process | prev | Queue After | Next Pointers |
+|-------|--------------|------------|---------|------|-------------|---------------|
+| 0 | [1] | 1 | 1 | None | [2,3] | 1.next = None |
+| 1 | [2,3] | 2 | 2 | None | [3,4,5] | 2.next = None |
+| 1 | [3,4,5] | - | 3 | 2 | [4,5,7] | 2.next = 3, 3.next = None |
+| 2 | [4,5,7] | 3 | 4 | None | [5,7] | 4.next = None |
+| 2 | [5,7] | - | 5 | 4 | [7] | 4.next = 5, 5.next = None |
+| 2 | [7] | - | 7 | 5 | [] | 5.next = 7, 7.next = None |
+
+**2.4 Level Processing**
+
+For each level:
+1. Get `level_size = len(queue)`
+2. Initialize `prev = None`
+3. For `level_size` iterations:
+   - Pop node from queue
+   - If `prev` exists, set `prev.next = node`
+   - Update `prev = node`
+   - Add children to queue
+
+**2.5 Return Result**
+
+After processing, all nodes have their `next` pointers set correctly:
+- Level 0: `1.next = None`
+- Level 1: `2.next = 3`, `3.next = None`
+- Level 2: `4.next = 5`, `5.next = 7`, `7.next = None`
+
+### Solution
+
+```python
+def __init__(self, val: int = 0, left: 'Node' = None, right: 'Node' = None, next: 'Node' = None):
+        self.val = val
+        self.left = left
+        self.right = right
+        self.next = next
+"""
+
+class Solution:
+    def connect(self, root: 'Node') -> 'Node':
+        if not root:
+            return root
+        
+        queue = deque([root])
+        
+        while queue:
+            level_size = len(queue)
+            prev = None
+            
+            for _ in range(level_size):
+                node = queue.popleft()
+                
+                if prev:
+                    prev.next = node
+                prev = node
+                
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+        
+        return root
+```
+
+## 114. Flatten Binary Tree to Linked List [Medium]
+https://leetcode.com/problems/flatten-binary-tree-to-linked-list/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity**
+
+* **Input Size:** The tree has $0 \leq n \leq 2000$ nodes, with values in $[-100, 100]$.
+* **Time Complexity:** $O(n)$ - We visit each node exactly once during the flattening process.
+* **Space Complexity:** $O(h)$ - The recursion stack depth is at most the height $h$ of the tree. In worst case (skewed tree), $h = n$.
+* **Edge Case:** An empty tree requires no modification. A single-node tree remains unchanged.
+
+**1.2 High-level approach**
+
+The goal is to flatten a binary tree into a linked list in pre-order traversal order. We recursively flatten subtrees, then rearrange pointers to form a linear structure.
+
+![Tree flattening visualization showing how tree nodes are rearranged into a linked list]
+
+**1.3 Brute force vs. optimized strategy**
+
+* **Brute Force:** Store pre-order traversal in a list, then rebuild the tree as a linked list. This uses $O(n)$ extra space.
+* **Optimized (In-Place):** Flatten subtrees recursively, then rearrange pointers in-place. This uses $O(h)$ space for recursion stack.
+
+**1.4 Decomposition**
+
+1. **Flatten Subtrees:** Recursively flatten left and right subtrees.
+2. **Save Right:** Store the right subtree before modifying pointers.
+3. **Move Left to Right:** Set `root.right = root.left` and `root.left = None`.
+4. **Attach Saved Right:** Find the end of the flattened left subtree and attach the saved right subtree.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup**
+
+Let's use the example $root = [1,2,5,3,4,null,6]$.
+
+We start at the root node with value 1.
+
+**2.2 Start Processing**
+
+We call `flatten(root)`.
+
+**2.3 Trace Walkthrough**
+
+The flattening process happens bottom-up:
+
+**Step 1: Flatten leaf nodes**
+- Node 3: Already flat (no children)
+- Node 4: Already flat (no children)
+- Node 6: Already flat (no children)
+
+**Step 2: Flatten node 2**
+- Left subtree [3,4] is already flat
+- Right subtree is None
+- Move left to right: `2.right = 2.left = [3,4]`, `2.left = None`
+
+**Step 3: Flatten node 5**
+- Left subtree is None
+- Right subtree [6] is already flat
+- No change needed
+
+**Step 4: Flatten root 1**
+- Left subtree [2,3,4] is flattened
+- Right subtree [5,6] is flattened
+- Save right: `right = [5,6]`
+- Move left to right: `1.right = [2,3,4]`, `1.left = None`
+- Find end of [2,3,4] (node 4) and attach: `4.right = [5,6]`
+
+**2.4 Recursive Processing**
+
+For each node:
+1. If `not root`, return (base case)
+2. Recursively flatten `root.left`
+3. Recursively flatten `root.right`
+4. Save `right = root.right`
+5. Set `root.right = root.left` and `root.left = None`
+6. Traverse to end of new right subtree and set `curr.right = right`
+
+**2.5 Return Result**
+
+After flattening, the tree becomes a linked list: `[1,null,2,null,3,null,4,null,5,null,6]`, which matches the pre-order traversal.
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def flatten(self, root: Optional[TreeNode]) -> None:
+        """
+        Do not return anything, modify root in-place instead.
+        """
+        if not root:
+            return
+        
+        # Flatten left and right subtrees
+        self.flatten(root.left)
+        self.flatten(root.right)
+        
+        # Save right subtree
+        right = root.right
+        
+        # Move left subtree to right
+        root.right = root.left
+        root.left = None
+        
+        # Find the end of the new right subtree and attach saved right
+        curr = root
+        while curr.right:
+            curr = curr.right
+        curr.right = right
+```
+
+## 112. Path Sum [Easy]
+https://leetcode.com/problems/path-sum/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity**
+
+* **Input Size:** The tree has $0 \leq n \leq 5000$ nodes, with values in $[-1000, 1000]$.
+* **Time Complexity:** $O(n)$ - We visit each node at most once in the worst case.
+* **Space Complexity:** $O(h)$ - The recursion stack depth is at most the height $h$ of the tree. In worst case (skewed tree), $h = n$.
+* **Edge Case:** An empty tree returns `False`. A single-node tree returns `True` if the node value equals `targetSum`.
+
+**1.2 High-level approach**
+
+The goal is to check if there exists a root-to-leaf path where the sum of node values equals `targetSum`. We traverse the tree recursively, subtracting each node's value from the remaining sum, and check if we reach a leaf with the correct sum.
+
+![Path sum visualization showing root-to-leaf paths and their sums]
+
+**1.3 Brute force vs. optimized strategy**
+
+* **Brute Force:** Find all root-to-leaf paths, calculate their sums, then check if any equals `targetSum`. This requires storing all paths, using $O(n \times h)$ space.
+* **Optimized (Recursive DFS):** Traverse the tree and check the sum incrementally. If we find a valid path, return immediately. This uses $O(h)$ space for recursion stack.
+
+**1.4 Decomposition**
+
+1. **Base Case:** If node is `None`, return `False`.
+2. **Leaf Check:** If node is a leaf, check if its value equals the remaining sum.
+3. **Recursive Check:** Recursively check left and right subtrees with updated remaining sum.
+4. **Return Result:** Return `True` if either subtree has a valid path.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup**
+
+Let's use the example $root = [5,4,8,11,null,13,4,7,2,null,null,null,1]$, $targetSum = 22$.
+
+We start at the root node with value 5.
+
+**2.2 Start Checking**
+
+We call `hasPathSum(root, 22)`.
+
+**2.3 Trace Walkthrough**
+
+| Node | targetSum (before) | Is Leaf? | targetSum (after) | Left Result | Right Result | Final Result |
+|------|-------------------|----------|-------------------|-------------|--------------|--------------|
+| 5 | 22 | No | 17 | Check(4, 17) | Check(8, 17) | OR result |
+| 4 | 17 | No | 13 | Check(11, 13) | None | OR result |
+| 11 | 13 | No | 2 | Check(7, 2) | Check(2, 2) | OR result |
+| 7 | 2 | Yes | -5 | - | - | False |
+| 2 | 2 | Yes | 0 | - | - | **True** |
+
+Since node 2 is a leaf and `2 == 2`, we return `True` for the path $5 \to 4 \to 11 \to 2$.
+
+**2.4 Recursive Processing**
+
+For each node:
+1. If `not root`, return `False`
+2. If leaf (`not root.left and not root.right`), return `root.val == targetSum`
+3. Otherwise, recursively check: `hasPathSum(root.left, targetSum - root.val) or hasPathSum(root.right, targetSum - root.val)`
+
+**2.5 Return Result**
+
+The function returns `True` because there exists a path $5 \to 4 \to 11 \to 2$ with sum $5 + 4 + 11 + 2 = 22$.
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
+        if not root:
+            return False
+        
+        # If leaf node, check if value equals remaining sum
+        if not root.left and not root.right:
+            return root.val == targetSum
+        
+        # Recursively check left and right subtrees
+        remaining = targetSum - root.val
+        return self.hasPathSum(root.left, remaining) or self.hasPathSum(root.right, remaining)
+```
+
+## 129. Sum Root to Leaf Numbers [Medium]
+https://leetcode.com/problems/sum-root-to-leaf-numbers/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity**
+
+* **Input Size:** The tree has $1 \leq n \leq 1000$ nodes, with values in $[0, 9]$, and depth at most 10.
+* **Time Complexity:** $O(n)$ - We visit each node exactly once during DFS traversal.
+* **Space Complexity:** $O(h)$ - The recursion stack depth is at most the height $h$ of the tree. Given depth ≤ 10, this is effectively $O(1)$.
+* **Edge Case:** A single-node tree returns the node's value. All nodes have digit values (0-9).
+
+**1.2 High-level approach**
+
+The goal is to sum all numbers formed by root-to-leaf paths. Each path represents a number where digits are concatenated. We use DFS to traverse all paths, building numbers as we go, and sum them when we reach leaves.
+
+![Root-to-leaf number visualization showing how paths form numbers]
+
+**1.3 Brute force vs. optimized strategy**
+
+* **Brute Force:** Collect all root-to-leaf paths, convert each to a number, then sum. This requires storing all paths, using $O(n \times h)$ space.
+* **Optimized (DFS with Running Sum):** Build numbers incrementally during traversal. When reaching a leaf, add the number to the total. This uses $O(h)$ space for recursion stack.
+
+**1.4 Decomposition**
+
+1. **DFS Traversal:** Recursively visit each node.
+2. **Build Number:** For each node, update the running number: $current = current \times 10 + node.val$.
+3. **Leaf Check:** If node is a leaf, add the number to the result.
+4. **Recursive Calls:** Process left and right subtrees with updated number.
+5. **Return Sum:** Return the total sum of all root-to-leaf numbers.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup**
+
+Let's use the example $root = [1,2,3]$.
+
+We initialize:
+* `res = 0` (accumulator for sum)
+* `current_sum = 0` (running number being built)
+
+**2.2 Start Processing**
+
+We call `dfs(root, 0)`.
+
+**2.3 Trace Walkthrough**
+
+| Node | current_sum (before) | current_sum (after) | Is Leaf? | Action | res |
+|------|----------------------|---------------------|----------|--------|-----|
+| 1 | 0 | 1 | No | Continue | 0 |
+| 2 (left) | 1 | 12 | Yes | Add 12 | 12 |
+| 3 (right) | 1 | 13 | Yes | Add 13 | 25 |
+
+**2.4 Recursive Processing**
+
+For each node:
+1. If `not node`, return (base case)
+2. Update: `current_sum = current_sum * 10 + node.val`
+3. If leaf (`not node.left and not node.right`):
+   - Add to result: `res += current_sum`
+   - Return
+4. Recursively process: `dfs(node.left, current_sum)` and `dfs(node.right, current_sum)`
+
+**2.5 Return Result**
+
+After processing all paths:
+- Path $1 \to 2$: number = 12
+- Path $1 \to 3$: number = 13
+- Sum: $12 + 13 = 25$
+
+The function returns `res = 25`.
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def sumNumbers(self, root: Optional[TreeNode]) -> int:
+        res = 0
+        
+        def dfs(node, current_sum):
+            nonlocal res
+            if not node:
+                return
+            
+            # Update current number
+            current_sum = current_sum * 10 + node.val
+            
+            # If leaf node, add to result
+            if not node.left and not node.right:
+                res += current_sum
+                return
+            
+            # Recursively process left and right subtrees
+            dfs(node.left, current_sum)
+            dfs(node.right, current_sum)
+        
+        dfs(root, 0)
+        return res
+```
+
+## 124. Binary Tree Maximum Path Sum [Hard]
+https://leetcode.com/problems/binary-tree-maximum-path-sum/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity**
+
+* **Input Size:** The tree has $1 \leq n \leq 3 \times 10^4$ nodes, with values in $[-1000, 1000]$.
+* **Time Complexity:** $O(n)$ - We visit each node exactly once during DFS traversal.
+* **Space Complexity:** $O(h)$ - The recursion stack depth is at most the height $h$ of the tree. In worst case (skewed tree), $h = n$.
+* **Edge Case:** A single-node tree returns the node's value. All negative values require careful handling (we use `max(0, ...)` to avoid negative contributions).
+
+**1.2 High-level approach**
+
+The goal is to find the maximum path sum in a binary tree, where a path can start and end at any nodes (not necessarily root or leaf). We use DFS to calculate the maximum path sum that can be extended upward from each node, while tracking the global maximum.
+
+![Maximum path sum visualization showing paths that can go through any node]
+
+**1.3 Brute force vs. optimized strategy**
+
+* **Brute Force:** Try all possible paths in the tree. This is exponential in complexity.
+* **Optimized (DFS with Global Tracking):** For each node, calculate the maximum path sum that can be extended upward (for parent) and the maximum path sum through the node (for global maximum). This achieves $O(n)$ time.
+
+**1.4 Decomposition**
+
+1. **DFS Traversal:** Recursively visit each node.
+2. **Calculate Contributions:** For each node, get maximum contributions from left and right subtrees (non-negative only).
+3. **Update Global Maximum:** Calculate path sum through current node and update global maximum.
+4. **Return Upward Contribution:** Return the maximum path sum that can be extended to parent.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup**
+
+Let's use the example $root = [-10,9,20,null,null,15,7]$.
+
+We initialize:
+* `res = -inf` (global maximum path sum)
+* Start DFS from root node (-10)
+
+**2.2 Start Processing**
+
+We call `dfs(root)`.
+
+**2.3 Trace Walkthrough**
+
+| Node | left_sum | right_sum | Path Through Node | Return Value | res (after) |
+|------|----------|-----------|-------------------|--------------|-------------|
+| -10 | max(0, dfs(9)) | max(0, dfs(20)) | -10 + 0 + 0 = -10 | -10 + max(0,0) = -10 | -10 |
+| 9 | 0 | 0 | 9 + 0 + 0 = 9 | 9 + 0 = 9 | 9 |
+| 20 | max(0, dfs(15)) | max(0, dfs(7)) | 20 + 15 + 7 = 42 | 20 + max(15,7) = 35 | 42 |
+| 15 | 0 | 0 | 15 + 0 + 0 = 15 | 15 + 0 = 15 | 42 |
+| 7 | 0 | 0 | 7 + 0 + 0 = 7 | 7 + 0 = 7 | 42 |
+
+**2.4 Recursive Processing**
+
+For each node:
+1. If `not node`, return 0 (base case)
+2. Recursively get `left_sum = max(0, dfs(node.left))` (non-negative only)
+3. Recursively get `right_sum = max(0, dfs(node.right))` (non-negative only)
+4. Update global: `res = max(res, node.val + left_sum + right_sum)`
+5. Return: `node.val + max(left_sum, right_sum)` (for parent)
+
+**2.5 Return Result**
+
+After processing all nodes, `res = 42`, which is the maximum path sum from the path $15 \to 20 \to 7$.
+
+> **Note:** We use `max(0, ...)` to ensure we only consider positive contributions from subtrees. If a subtree contributes negatively, we ignore it (treat as 0).
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def maxPathSum(self, root: Optional[TreeNode]) -> int:
+        res = float('-inf')
+        
+        def dfs(node):
+            nonlocal res
+            if not node:
+                return 0
+            
+            # Get max path sum from left and right subtrees
+            left_sum = max(0, dfs(node.left))
+            right_sum = max(0, dfs(node.right))
+            
+            # Update global maximum (path through current node)
+            res = max(res, node.val + left_sum + right_sum)
+            
+            # Return max path sum that can be extended upward
+            return node.val + max(left_sum, right_sum)
+        
+        dfs(root)
+        return res
+```
+
+## 173. Binary Search Tree Iterator [Medium]
+https://leetcode.com/problems/binary-search-tree-iterator/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+
+- **Constraints:** $1 \leq n \leq 10^5$ nodes. Node values are in the range $[0, 10^6]$. At most $10^5$ calls to `next()` and `hasNext()`.
+- **Time Complexity:** 
+  - `__init__`: $O(h)$ where $h$ is the height of the tree (we push left nodes).
+  - `next()`: Amortized $O(1)$ per call.
+  - `hasNext()`: $O(1)$.
+- **Space Complexity:** $O(h)$ for the stack storing nodes along the path to the leftmost node.
+- **Edge Case:** If the tree has only one node, the stack contains that node initially.
+
+**1.2 High-level approach:**
+
+The goal is to implement an iterator that returns nodes in in-order traversal (left, root, right) order. We use a stack to simulate the in-order traversal. Initially, we push all left nodes. When `next()` is called, we pop a node, push its right subtree's left nodes, and return the node's value.
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** Perform full in-order traversal, store all values in a list, then iterate through the list. This requires $O(n)$ space and doesn't meet the $O(h)$ space requirement.
+- **Optimized Strategy:** Use a stack to maintain only the nodes needed for the current path. Push left nodes initially, and when popping, push left nodes of the right child. This uses $O(h)$ space.
+- **Why optimized is better:** The optimized approach meets the $O(h)$ space requirement and provides amortized $O(1)$ time for `next()`.
+
+**1.4 Decomposition:**
+
+1. In `__init__`, push all left nodes starting from the root.
+2. In `next()`, pop a node from the stack, push all left nodes of its right child, and return the node's value.
+3. In `hasNext()`, check if the stack is non-empty.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example: `root = [7, 3, 15, null, null, 9, 20]`
+
+The tree structure:
+```
+      7
+     / \
+    3   15
+       /  \
+      9    20
+```
+
+We initialize `stack = []` and call `_push_left(root)`.
+
+**2.2 Start Checking:**
+
+The `_push_left` function pushes all left nodes: 7, then 3. So `stack = [7, 3]` (top is 3).
+
+**2.3 Trace Walkthrough:**
+
+| Operation | Stack before | Action | Stack after | Return |
+|-----------|--------------|--------|-------------|--------|
+| __init__ | [] | Push left: 7, 3 | [7, 3] | - |
+| next() | [7, 3] | Pop 3, push left of 3.right (none) | [7] | 3 |
+| next() | [7] | Pop 7, push left of 7.right: 15, 9 | [15, 9] | 7 |
+| hasNext() | [15, 9] | Check stack non-empty | [15, 9] | True |
+| next() | [15, 9] | Pop 9, push left of 9.right (none) | [15] | 9 |
+| next() | [15] | Pop 15, push left of 15.right: 20 | [20] | 15 |
+| next() | [20] | Pop 20, push left of 20.right (none) | [] | 20 |
+| hasNext() | [] | Check stack empty | [] | False |
+
+**2.4 Increment and Loop:**
+
+- **`_push_left(node)`**: While `node` is not None, push `node` to stack and move to `node.left`.
+- **`next()`**: 
+  - Pop a node from the stack.
+  - Call `_push_left(node.right)` to push all left nodes of the right subtree.
+  - Return the popped node's value.
+
+**2.5 Return Result:**
+
+The iterator returns values in in-order order: 3, 7, 9, 15, 20. Each call to `next()` returns the next value, and `hasNext()` correctly indicates when more values are available.
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class BSTIterator:
+
+    def __init__(self, root: Optional[TreeNode]):
+        self.stack = []
+        self._push_left(root)
+
+    def _push_left(self, node):
+        # Push all left nodes to stack
+        while node:
+            self.stack.append(node)
+            node = node.left
+
+    def next(self) -> int:
+        # Pop the smallest element
+        node = self.stack.pop()
+        # Push all left nodes of the right child
+        if node.right:
+            self._push_left(node.right)
+        return node.val
+
+    def hasNext(self) -> bool:
+        return len(self.stack) > 0
+
+
+# Your BSTIterator object will be instantiated and called as such:
+# obj = BSTIterator(root)
+# param_1 = obj.next()
+# param_2 = obj.hasNext()
+```
+
 ## 236. Lowest Common Ancestor of a Binary Tree [Medium]
 https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
 
@@ -3306,6 +4498,115 @@ class Solution:
         return validate(root, float('-inf'), float('inf'))
 ```
 
+## 133. Clone Graph [Medium]
+https://leetcode.com/problems/clone-graph/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+
+- **Constraints:** The graph has at most 100 nodes. Each node has a unique value in the range $[1, 100]$. The graph is connected and undirected.
+- **Time Complexity:** $O(V + E)$ where $V$ is the number of vertices and $E$ is the number of edges. We visit each node and edge once.
+- **Space Complexity:** $O(V)$ for the hash map storing original-to-clone mappings and the recursion stack.
+- **Edge Case:** If the input node is `None`, return `None`. If the graph has only one node, return a clone of that node.
+
+**1.2 High-level approach:**
+
+The goal is to create a deep copy of the graph. We use a hash map to track which nodes have been cloned, and recursively clone each node and its neighbors.
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** Create all nodes first, then set up connections. This requires two passes and is more complex.
+- **Optimized Strategy:** Use DFS with a hash map. When cloning a node, recursively clone its neighbors. The hash map prevents creating duplicate clones of the same node.
+- **Why optimized is better:** The optimized approach handles cycles naturally and is more elegant, requiring only one traversal.
+
+**1.4 Decomposition:**
+
+1. Create a hash map to store mappings from original nodes to cloned nodes.
+2. Use DFS to clone nodes recursively.
+3. For each node, if it's already cloned, return the clone from the map.
+4. Otherwise, create a new node, add it to the map, and recursively clone all neighbors.
+5. Return the cloned graph starting from the given node.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example: `adjList = [[2,4],[1,3],[2,4],[1,3]]`
+
+This represents a graph with 4 nodes:
+- Node 1 is connected to nodes 2 and 4
+- Node 2 is connected to nodes 1 and 3
+- Node 3 is connected to nodes 2 and 4
+- Node 4 is connected to nodes 1 and 3
+
+We initialize an empty hash map `node_map = {}`.
+
+**2.2 Start Checking:**
+
+We call the `clone` function with the given node (node 1).
+
+**2.3 Trace Walkthrough:**
+
+| Step | Node | Action | node_map |
+|------|------|--------|----------|
+| 1 | 1 | Create clone(1), add to map | {1: clone(1)} |
+| 2 | Clone neighbors of 1: [2,4] | Clone node 2 | {1: clone(1), 2: clone(2)} |
+| 3 | Clone neighbors of 2: [1,3] | Node 1 already cloned, use it | {1: clone(1), 2: clone(2), 3: clone(3)} |
+| 4 | Clone neighbors of 3: [2,4] | Node 2 already cloned, use it | {1: clone(1), 2: clone(2), 3: clone(3), 4: clone(4)} |
+| 5 | Clone neighbors of 4: [1,3] | Both already cloned, use them | Complete |
+
+**2.4 Increment and Loop:**
+
+The recursive `clone` function:
+1. Checks if the node is already in `node_map`. If yes, returns the clone.
+2. Creates a new `Node` with the same value.
+3. Adds the mapping to `node_map`.
+4. Recursively clones all neighbors and adds them to the clone's neighbors list.
+
+**2.5 Return Result:**
+
+The function returns `clone(node)`, which is the cloned version of the input node. The entire graph structure is cloned, with all connections preserved.
+
+### Solution
+
+```python
+def __init__(self, val = 0, neighbors = None):
+        self.val = val
+        self.neighbors = neighbors if neighbors is not None else []
+"""
+
+from typing import Optional
+class Solution:
+    def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
+        if not node:
+            return None
+        
+        # Dictionary to map original nodes to cloned nodes
+        node_map = {}
+        
+        def clone(node):
+            # If already cloned, return the clone
+            if node in node_map:
+                return node_map[node]
+            
+            # Create a new node
+            clone_node = Node(node.val)
+            node_map[node] = clone_node
+            
+            # Clone all neighbors
+            for neighbor in node.neighbors:
+                clone_node.neighbors.append(clone(neighbor))
+            
+            return clone_node
+        
+        return clone(node)
+```
+
 ## 208. Implement Trie (Prefix Tree) [Medium]
 https://leetcode.com/problems/implement-trie-prefix-tree/
 
@@ -3452,6 +4753,103 @@ class Trie:
                 return False
             node = node.children[char]
         return True
+```
+
+## 108. Convert Sorted Array to Binary Search Tree [Easy]
+https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity**
+
+* **Input Size:** The array $nums$ has length $1 \leq n \leq 10^4$, with values in $[-10^4, 10^4]$.
+* **Time Complexity:** $O(n)$ - We visit each element exactly once to build the tree.
+* **Space Complexity:** $O(n)$ - The recursion stack depth is $O(\log n)$ for a balanced tree, and the tree itself uses $O(n)$ space.
+* **Edge Case:** An empty array returns `None`. A single-element array creates a tree with one node.
+
+**1.2 High-level approach**
+
+The goal is to convert a sorted array into a height-balanced binary search tree. We use the middle element as the root to ensure balance, then recursively build left and right subtrees.
+
+![BST construction from sorted array showing how middle element becomes root]
+
+**1.3 Brute force vs. optimized strategy**
+
+* **Brute Force:** Try all possible tree structures and check if they're balanced. This is exponential in complexity.
+* **Optimized (Divide and Conquer):** Always choose the middle element as root, ensuring the tree is balanced. This achieves $O(n)$ time and creates an optimal height-balanced tree.
+
+**1.4 Decomposition**
+
+1. **Choose Root:** Select the middle element of the current range as the root.
+2. **Build Left Subtree:** Recursively build BST from elements before the middle.
+3. **Build Right Subtree:** Recursively build BST from elements after the middle.
+4. **Return Root:** Connect subtrees and return the root node.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup**
+
+Let's use the example $nums = [-10,-3,0,5,9]$.
+
+We initialize:
+* `left = 0`, `right = 4`
+* Middle index: $mid = (0 + 4) // 2 = 2$
+
+**2.2 Start Building**
+
+Root is `nums[2] = 0`.
+
+**2.3 Trace Walkthrough**
+
+| Level | left | right | mid | nums[mid] | Left Range | Right Range | Action |
+|-------|------|-------|-----|-----------|------------|-------------|--------|
+| 0 | 0 | 4 | 2 | 0 | [0,1] | [3,4] | Create root(0) |
+| 1 (left) | 0 | 1 | 0 | -10 | [0,-1] | [1,1] | Create left(-10) |
+| 1 (right) | 3 | 4 | 3 | 5 | [3,2] | [4,4] | Create right(5) |
+| 2 (left) | 1 | 1 | 1 | -3 | [1,0] | [1,1] | Create right(-3) |
+| 2 (right) | 4 | 4 | 4 | 9 | [4,3] | [4,4] | Create right(9) |
+
+**2.4 Recursive Building**
+
+For each recursive call:
+1. If `left > right`, return `None` (base case)
+2. Calculate `mid = (left + right) // 2`
+3. Create root with `nums[mid]`
+4. Recursively build left subtree: `build(left, mid - 1)`
+5. Recursively build right subtree: `build(mid + 1, right)`
+
+**2.5 Return Result**
+
+The function returns the root of the balanced BST: `[0,-10,5,null,-3,null,9]`.
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def sortedArrayToBST(self, nums: List[int]) -> Optional[TreeNode]:
+        def build(left, right):
+            if left > right:
+                return None
+            
+            # Choose middle element as root
+            mid = (left + right) // 2
+            root = TreeNode(nums[mid])
+            
+            # Recursively build left and right subtrees
+            root.left = build(left, mid - 1)
+            root.right = build(mid + 1, right)
+            
+            return root
+        
+        return build(0, len(nums) - 1)
 ```
 
 ## 148. Sort List [Medium]
