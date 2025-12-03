@@ -1,74 +1,72 @@
-# Problem 71: Simplify Path
-**Difficulty:** Medium  
-**Link:** https://leetcode.com/problems/simplify-path/
-
 ## Explanation
 
 ### Strategy (The "Why")
 
-The problem asks us to transform an absolute Unix-style file path into its simplified canonical path. We need to handle special directory indicators: `.` (current directory), `..` (parent directory), and multiple consecutive slashes.
+**1.1 Constraints & Complexity**
 
-**1.1 Constraints & Complexity:**
+* **Input Size:** The path string can have length up to 3000 characters.
+* **Time Complexity:** $O(n)$ where $n$ is the length of the path. We split the path and process each component once.
+* **Space Complexity:** $O(n)$ for the stack storing path components.
+* **Edge Case:** Paths like "/../" should simplify to "/". Paths with multiple slashes like "//" should become "/". Paths ending with "/" should have the trailing slash removed (except for root "/").
 
-- **Input Constraints:** $1 \leq \text{path.length} \leq 3000$. The path consists of English letters, digits, period `.`, slash `/`, or underscore `_`.
-- **Time Complexity:** $O(n)$ - We split the path once ($O(n)$) and iterate through the parts once ($O(n)$), where $n$ is the length of the path.
-- **Space Complexity:** $O(n)$ - We store the split parts and the stack, both of which can contain up to $O(n)$ elements in the worst case.
-- **Edge Case:** When the path is `/../`, we cannot go above the root directory, so the result is `/`.
+**1.2 High-level approach**
 
-**1.2 High-level approach:**
+The goal is to simplify an absolute Unix path by resolving "." (current directory), ".." (parent directory), and multiple slashes. We use a stack to track the valid directory components.
 
-The goal is to process the path components and build a canonical path by handling `.` (ignore), `..` (go up one level), and multiple slashes (treat as single slash). We use a stack to track the valid directory structure.
+![Stack-based path simplification showing how directories are pushed and popped]
 
-![Path simplification visualization](https://assets.leetcode.com/static_assets/others/simplify-path-example.png)
+**1.3 Brute force vs. optimized strategy**
 
-**1.3 Brute force vs. optimized strategy:**
+* **Brute Force:** Use string manipulation to repeatedly find and replace patterns. This is error-prone and inefficient.
+* **Optimized (Stack):** Split the path by "/", process each component: ignore ".", pop from stack for "..", push valid names. This is clean and efficient.
 
-- **Brute Force:** Manually parse character by character, building the result string while tracking the current depth. This requires complex state management and is error-prone.
-- **Optimized (Stack-based):** Split the path by `/`, filter out empty strings and `.`, then use a stack to handle `..` (pop) and valid names (push). Finally, join the stack with `/`. This is clean, efficient, and easy to understand.
-- **Emphasize the optimization:** By using a stack, we naturally handle nested directory structures and the `..` operation becomes a simple pop operation, making the logic straightforward and maintainable.
+**1.4 Decomposition**
 
-**1.4 Decomposition:**
-
-1. **Split and Filter:** Split the path by `/` and remove empty strings (from multiple slashes) and `.` (current directory indicators).
-2. **Process Components:** Iterate through each component.
-3. **Handle Parent Directory:** If the component is `..`, pop from the stack (if not empty) to go up one level.
-4. **Handle Valid Names:** If the component is a valid directory or file name, push it onto the stack.
-5. **Build Result:** Join all stack elements with `/` and prepend `/` to create the canonical path.
+1. Split the path by "/" and filter out empty strings.
+2. Use a stack to store valid directory/file names.
+3. For each component:
+   - If ".", ignore (current directory).
+   - If "..", pop from stack if not empty (go up one level).
+   - Otherwise, push to stack (valid name).
+4. Join stack components with "/" and prepend "/".
 
 ### Steps (The "How")
 
-**2.1 Initialization & Example Setup:**
+**2.1 Initialization & Example Setup**
 
-Let's trace through an example: `path = "/home/user/Documents/../Pictures"`.
+Let's use the example $path = "/home/user/Documents/../Pictures"$.
 
-We want to simplify this to `/home/user/Pictures`.
+We initialize:
+* Split path: `parts = ["home", "user", "Documents", "..", "Pictures"]`
+* `stack = []` (empty stack)
 
-After splitting by `/` and filtering:
-- `parts = ['home', 'user', 'Documents', '..', 'Pictures']`
-- `stack = []` (initially empty)
+**2.2 Start Checking/Processing**
 
-**2.2 Start Processing:**
+We iterate through each component in `parts`.
 
-We iterate through each part in the `parts` list.
+**2.3 Trace Walkthrough**
 
-**2.3 Trace Walkthrough:**
+| Component | stack (before) | Action | stack (after) |
+|-----------|----------------|--------|---------------|
+| "home" | [] | Push | ["home"] |
+| "user" | ["home"] | Push | ["home", "user"] |
+| "Documents" | ["home", "user"] | Push | ["home", "user", "Documents"] |
+| ".." | ["home", "user", "Documents"] | Pop | ["home", "user"] |
+| "Pictures" | ["home", "user"] | Push | ["home", "user", "Pictures"] |
 
-| Part | Action | Stack After Processing | Explanation |
-|------|--------|------------------------|-------------|
-| `'home'` | Push | `['home']` | Valid directory name |
-| `'user'` | Push | `['home', 'user']` | Valid directory name |
-| `'Documents'` | Push | `['home', 'user', 'Documents']` | Valid directory name |
-| `'..'` | Pop | `['home', 'user']` | Go up one level (remove `'Documents'`) |
-| `'Pictures'` | Push | `['home', 'user', 'Pictures']` | Valid directory name |
+**2.4 Increment and Loop**
 
-**2.4 Building the Result:**
+For each `part` in `parts`:
+1. If `part == "."`, continue (do nothing).
+2. If `part == ".."`:
+   - If `stack` is not empty, `stack.pop()`
+3. Otherwise, `stack.append(part)`.
 
-After processing all parts, the stack contains `['home', 'user', 'Pictures']`.
+**2.5 Return Result**
 
-We join these with `/` to get `'home/user/Pictures'`, then prepend `/` to get the final result: `/home/user/Pictures`.
+After processing all components:
+* `stack = ["home", "user", "Pictures"]`
+* Join with "/": `"/home/user/Pictures"`
+* Return `res = "/home/user/Pictures"`
 
-**2.5 Return Result:**
-
-The function returns `/home/user/Pictures`, which is the simplified canonical path.
-
-> **Note:** Sequences like `'...'` or `'....'` are treated as valid directory or file names, not as special indicators. Only `'.'` and `'..'` have special meaning.
+This is the simplified canonical path.
