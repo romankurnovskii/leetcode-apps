@@ -26297,5 +26297,47 @@
     "title": "Number of Effective Subsequences",
     "difficulty": "Hard",
     "link": "https://leetcode.com/problems/number-of-effective-subsequences/"
+  },
+  "3758": {
+    "id": 3758,
+    "category": "Array & Hashing",
+    "title": "Convert Number Words to Digits",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/convert-number-words-to-digits/"
+  },
+  "3759": {
+    "id": 3759,
+    "category": "Array & Hashing",
+    "title": "Count Elements With at Least K Greater Values",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/count-elements-with-at-least-k-greater-values/"
+  },
+  "3760": {
+    "id": 3760,
+    "category": "Array & Hashing",
+    "title": "Minimum Operations to Equalize Subarrays",
+    "difficulty": "Hard",
+    "link": "https://leetcode.com/problems/minimum-operations-to-equalize-subarrays/"
+  },
+  "3761": {
+    "id": 3761,
+    "category": "Array & Hashing",
+    "title": "Minimum Absolute Distance Between Mirror Pairs",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/minimum-absolute-distance-between-mirror-pairs/"
+  },
+  "3762": {
+    "id": 3762,
+    "category": "Array & Hashing",
+    "title": "Remove K-Balanced Substrings",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/remove-k-balanced-substrings/"
+  },
+  "3763": {
+    "id": 3763,
+    "category": "Array & Hashing",
+    "title": "Maximum Substrings With Distinct Start",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/maximum-substrings-with-distinct-start/"
   }
 }
