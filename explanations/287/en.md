@@ -1,7 +1,3 @@
-# Problem 287: Find the Duplicate Number
-**Difficulty:** Medium  
-**Link:** https://leetcode.com/problems/find-the-duplicate-number/
-
 ## Explanation
 
 ### Strategy (The "Why")

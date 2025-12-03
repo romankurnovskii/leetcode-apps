@@ -1,7 +1,3 @@
-# Problem 236: Lowest Common Ancestor of a Binary Tree
-**Difficulty:** Medium  
-**Link:** https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
-
 ## Explanation
 
 ### Strategy (The "Why")

@@ -1,7 +1,3 @@
-# Problem 297: Serialize and Deserialize Binary Tree
-**Difficulty:** Hard  
-**Link:** https://leetcode.com/problems/serialize-and-deserialize-binary-tree/
-
 ## Explanation
 
 ### Strategy (The "Why")

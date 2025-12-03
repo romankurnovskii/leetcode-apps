@@ -1,7 +1,3 @@
-# Problem 100: Same Tree
-**Difficulty:** Easy  
-**Link:** https://leetcode.com/problems/same-tree/
-
 ## Explanation
 
 ### Strategy (The "Why")

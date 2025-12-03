@@ -1,7 +1,3 @@
-# Problem 103: Binary Tree Zigzag Level Order Traversal
-**Difficulty:** Medium  
-**Link:** https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/
-
 ## Explanation
 
 ### Strategy (The "Why")

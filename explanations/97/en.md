@@ -1,7 +1,3 @@
-# Problem 97: Interleaving String
-**Difficulty:** Medium  
-**Link:** https://leetcode.com/problems/interleaving-string/
-
 ## Explanation
 
 ### Strategy (The "Why")

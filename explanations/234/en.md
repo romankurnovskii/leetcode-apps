@@ -1,7 +1,3 @@
-# Problem 234: Palindrome Linked List
-**Difficulty:** Easy  
-**Link:** https://leetcode.com/problems/palindrome-linked-list/
-
 ## Explanation
 
 ### Strategy (The "Why")
