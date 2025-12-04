@@ -138,6 +138,93 @@ def hIndex(citations):
     return 0
 ```
 
+## 380. Insert Delete GetRandom O(1) [Medium]
+https://leetcode.com/problems/insert-delete-getrandom-o1/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+- **Input Size:** At most `2 * 10^5` calls to insert, remove, getRandom.
+- **Time Complexity:** O(1) average for all operations - using array and hash map.
+- **Space Complexity:** O(n) where n is the number of elements stored.
+- **Edge Case:** Removing the last element, getting random from single element.
+
+**1.2 High-level approach:**
+The goal is to implement a data structure with O(1) insert, remove, and getRandom. We use an array for random access and a hash map to track indices for O(1) removal.
+
+**1.3 Brute force vs. optimized strategy:**
+- **Brute Force:** Use only array - remove is O(n), getRandom is O(1).
+- **Optimized Strategy:** Use array + hash map - all operations O(1) average.
+
+**1.4 Decomposition:**
+1. Maintain an array of values and a hash map from value to index.
+2. Insert: Add to array, store index in map.
+3. Remove: Swap with last element, update map, remove last.
+4. GetRandom: Use random.choice on array.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+Initialize `nums = []`, `val_to_index = {}`.
+
+**2.2 Start Checking:**
+We perform operations: insert(1), remove(2), insert(2), getRandom().
+
+**2.3 Trace Walkthrough:**
+
+| Operation | nums | val_to_index | Result |
+|-----------|------|--------------|--------|
+| insert(1) | [1] | {1:0} | True |
+| remove(2) | [1] | {1:0} | False |
+| insert(2) | [1,2] | {1:0,2:1} | True |
+| getRandom() | [1,2] | {1:0,2:1} | 1 or 2 |
+
+**2.4 Increment and Loop:**
+Not applicable - these are individual operations.
+
+**2.5 Return Result:**
+Operations return their respective results.
+
+### Solution
+
+```python
+def __init__(self):
+        self.nums = []
+        self.val_to_index = {}
+
+    def insert(self, val: int) -> bool:
+        if val in self.val_to_index:
+            return False
+        
+        self.val_to_index[val] = len(self.nums)
+        self.nums.append(val)
+        return True
+
+    def remove(self, val: int) -> bool:
+        if val not in self.val_to_index:
+            return False
+        
+        # Move last element to the position of element to remove
+        index = self.val_to_index[val]
+        last_val = self.nums[-1]
+        
+        self.nums[index] = last_val
+        self.val_to_index[last_val] = index
+        
+        # Remove the last element
+        self.nums.pop()
+        del self.val_to_index[val]
+        
+        return True
+
+    def getRandom(self) -> int:
+        return random.choice(self.nums)
+```
+
 ## 42. Trapping Rain Water [Hard]
 https://leetcode.com/problems/trapping-rain-water/
 
@@ -2846,6 +2933,100 @@ class Solution:
         return self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right)
 ```
 
+## 226. Invert Binary Tree [Easy]
+https://leetcode.com/problems/invert-binary-tree/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+- **Constraints:** The tree has 0 to 100 nodes, and node values range from -100 to 100.
+- **Time Complexity:** O(n) where n is the number of nodes. We visit each node once.
+- **Space Complexity:** O(h) where h is the height of the tree for the recursion stack. In worst case (skewed tree), this is O(n).
+- **Edge Case:** If the root is None, return None.
+
+**1.2 High-level approach:**
+The goal is to invert a binary tree by swapping left and right children at every node. We use recursion to process each node.
+
+**1.3 Brute force vs. optimized strategy:**
+- **Brute Force:** Same recursive approach - there's no significantly different brute force method for this problem.
+- **Optimized Strategy:** Use recursion to swap children at each node, then recursively invert the subtrees.
+- **Why optimized is better:** This is the natural and most efficient approach for tree problems.
+
+**1.4 Decomposition:**
+1. If the node is None, return None (base case).
+2. Swap the left and right children of the current node.
+3. Recursively invert the left subtree.
+4. Recursively invert the right subtree.
+5. Return the root.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+Example tree: `[4,2,7,1,3,6,9]`
+
+```
+    4
+   / \
+  2   7
+ / \ / \
+1  3 6  9
+```
+
+**2.2 Start Checking:**
+Start from the root and recursively process each node.
+
+**2.3 Trace Walkthrough:**
+
+| Node | Before Swap | After Swap | Left Child | Right Child |
+|------|------------|------------|------------|--------------|
+| 4 | left=2, right=7 | left=7, right=2 | Invert 7 | Invert 2 |
+| 7 | left=6, right=9 | left=9, right=6 | Invert 9 | Invert 6 |
+| 2 | left=1, right=3 | left=3, right=1 | Invert 3 | Invert 1 |
+
+**2.4 Increment and Loop:**
+For each node:
+- Swap: `root.left, root.right = root.right, root.left`
+- Recursively invert: `self.invertTree(root.left)`, `self.invertTree(root.right)`
+
+**2.5 Return Result:**
+After inversion:
+```
+    4
+   / \
+  7   2
+ / \ / \
+9  6 3  1
+```
+
+Return the root node.
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+class Solution:
+    def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        if not root:
+            return None
+        
+        # Swap left and right children
+        root.left, root.right = root.right, root.left
+        
+        # Recursively invert subtrees
+        self.invertTree(root.left)
+        self.invertTree(root.right)
+        
+        return root
+```
+
 ## 101. Symmetric Tree [Easy]
 https://leetcode.com/problems/symmetric-tree/
 
@@ -3822,6 +4003,96 @@ class BSTIterator:
 # param_2 = obj.hasNext()
 ```
 
+## 222. Count Complete Tree Nodes [Easy]
+https://leetcode.com/problems/count-complete-tree-nodes/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+- **Constraints:** The tree has 0 to 5*10^4 nodes and is guaranteed to be complete.
+- **Time Complexity:** O(log² n) - We do O(log n) work at each level, and there are O(log n) levels.
+- **Space Complexity:** O(log n) for the recursion stack.
+- **Edge Case:** If the root is None, return 0.
+
+**1.2 High-level approach:**
+The goal is to count nodes in a complete binary tree efficiently. We use the property that in a complete tree, we can check if subtrees are full by comparing left and right heights.
+
+**1.3 Brute force vs. optimized strategy:**
+- **Brute Force:** Recursively count all nodes: O(n) time.
+- **Optimized Strategy:** Use the complete tree property. If left and right heights are equal, the left subtree is full. Otherwise, the right subtree is full. This allows us to skip counting full subtrees.
+- **Why optimized is better:** We avoid counting nodes in full subtrees, reducing time complexity to O(log² n).
+
+**1.4 Decomposition:**
+1. Calculate the height of the left subtree by following left children.
+2. Calculate the height of the right subtree by following left children from the right child.
+3. If heights are equal, the left subtree is full (2^height - 1 nodes), so recursively count the right subtree.
+4. If heights differ, the right subtree is full, so recursively count the left subtree.
+5. Add 1 for the root and the full subtree size.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+Example tree: `[1,2,3,4,5,6]` (complete binary tree with 6 nodes)
+
+Root = 1, left = 2, right = 3
+
+**2.2 Start Checking:**
+Calculate left height from root.left (node 2): follow left children → 4 → None, height = 2
+Calculate right height from root.right (node 3): follow left children → None, height = 0
+
+**2.3 Trace Walkthrough:**
+
+| Node | Left Height | Right Height | Action |
+|------|-------------|---------------|--------|
+| 1 | 2 | 0 | Heights differ, right is full. Count = 2^0 + countNodes(left) |
+| 2 | 1 | 0 | Heights differ, right is full. Count = 2^0 + countNodes(left) |
+| 4 | 0 | 0 | Heights equal, left is full. Count = 2^0 + countNodes(right) |
+| 5 | 0 | 0 | Base case, return 1 |
+
+**2.4 Increment and Loop:**
+Recursively:
+- If left_height == right_height: return (1 << left_height) + countNodes(right)
+- Else: return (1 << right_height) + countNodes(left)
+
+**2.5 Return Result:**
+Total count = 1 (root) + 1 (node 2) + 1 (node 4) + 1 (node 5) + 1 (node 3) + 1 (node 6) = 6 nodes.
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+class Solution:
+    def countNodes(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
+        
+        # Get left and right heights
+        left_height = self.get_height(root.left)
+        right_height = self.get_height(root.right)
+        
+        if left_height == right_height:
+            # Left subtree is full, right subtree may not be
+            return (1 << left_height) + self.countNodes(root.right)
+        else:
+            # Right subtree is full, left subtree may not be
+            return (1 << right_height) + self.countNodes(root.left)
+    
+    def get_height(self, node):
+        height = 0
+        while node:
+            height += 1
+            node = node.left
+        return height
+```
+
 ## 236. Lowest Common Ancestor of a Binary Tree [Medium]
 https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
 
@@ -4034,6 +4305,93 @@ class Solution:
                     queue.append(node.left)
                 if node.right:
                     queue.append(node.right)
+        
+        return res
+```
+
+## 637. Average of Levels in Binary Tree [Easy]
+https://leetcode.com/problems/average-of-levels-in-binary-tree/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+- **Input Size:** `1 <= nodes <= 10^4`.
+- **Time Complexity:** O(n) - we visit each node once using BFS.
+- **Space Complexity:** O(w) where w is maximum width - queue storage.
+- **Edge Case:** Single node tree returns [node.val].
+
+**1.2 High-level approach:**
+The goal is to calculate the average value of nodes at each level. We use BFS (level-order traversal) to process nodes level by level, calculating the sum and count for each level.
+
+**1.3 Brute force vs. optimized strategy:**
+- **Brute Force:** Same as optimized - BFS is the natural approach.
+- **Optimized Strategy:** BFS processes one level at a time, calculate average per level.
+
+**1.4 Decomposition:**
+1. Use BFS with a queue.
+2. For each level, process all nodes at that level.
+3. Calculate sum and count of nodes in the level.
+4. Compute average (sum / count).
+5. Add to result list.
+6. Continue to next level.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+Let's use `root = [3,9,20,null,null,15,7]`. Initialize queue with [root], res = [].
+
+**2.2 Start Checking:**
+We process nodes level by level.
+
+**2.3 Trace Walkthrough:**
+
+| Level | Nodes | Sum | Count | Average | res |
+|-------|-------|-----|-------|---------|-----|
+| 0 | [3] | 3 | 1 | 3.0 | [3.0] |
+| 1 | [9,20] | 29 | 2 | 14.5 | [3.0,14.5] |
+| 2 | [15,7] | 22 | 2 | 11.0 | [3.0,14.5,11.0] |
+
+**2.4 Increment and Loop:**
+After processing each level, we move to the next.
+
+**2.5 Return Result:**
+Return `res = [3.0,14.5,11.0]`, averages for each level.
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+from collections import deque
+
+class Solution:
+    def averageOfLevels(self, root: Optional[TreeNode]) -> List[float]:
+        if not root:
+            return []
+        
+        queue = deque([root])
+        res = []
+        
+        while queue:
+            level_size = len(queue)
+            level_sum = 0
+            
+            for _ in range(level_size):
+                node = queue.popleft()
+                level_sum += node.val
+                
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+            
+            res.append(level_sum / level_size)
         
         return res
 ```
@@ -4263,6 +4621,81 @@ class Solution:
             
             res.append(level)
             left_to_right = not left_to_right
+        
+        return res
+```
+
+## 530. Minimum Absolute Difference in BST [Easy]
+https://leetcode.com/problems/minimum-absolute-difference-in-bst/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+- **Input Size:** `2 <= nodes <= 10^4`, `0 <= Node.val <= 10^5`.
+- **Time Complexity:** O(n) - we traverse the tree once to collect values.
+- **Space Complexity:** O(n) - we store all node values.
+- **Edge Case:** Tree with only two nodes.
+
+**1.2 High-level approach:**
+The goal is to find the minimum absolute difference between any two nodes in a BST. We use in-order traversal to get sorted values, then find minimum difference between consecutive values.
+
+**1.3 Brute force vs. optimized strategy:**
+- **Brute Force:** Compare all pairs - O(n²) time.
+- **Optimized Strategy:** In-order traversal gives sorted order, check adjacent pairs - O(n) time.
+
+**1.4 Decomposition:**
+1. Perform in-order traversal to get sorted values.
+2. Iterate through sorted values.
+3. Calculate difference between consecutive values.
+4. Track minimum difference.
+5. Return minimum.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+Let's use `root = [4,2,6,1,3]`. In-order traversal gives [1,2,3,4,6].
+
+**2.2 Start Checking:**
+We compare consecutive values in sorted order.
+
+**2.3 Trace Walkthrough:**
+
+| i | values[i] | values[i+1] | Difference | Min |
+|---|-----------|-------------|------------|-----|
+| 0 | 1 | 2 | 1 | 1 |
+| 1 | 2 | 3 | 1 | 1 |
+| 2 | 3 | 4 | 1 | 1 |
+| 3 | 4 | 6 | 2 | 1 |
+
+**2.4 Increment and Loop:**
+After checking each pair, we move to the next.
+
+**2.5 Return Result:**
+Return `res = 1`, the minimum absolute difference.
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def getMinimumDifference(self, root: Optional[TreeNode]) -> int:
+        def inorder(node):
+            if not node:
+                return []
+            return inorder(node.left) + [node.val] + inorder(node.right)
+        
+        values = inorder(root)
+        res = float('inf')
+        
+        for i in range(len(values) - 1):
+            res = min(res, values[i + 1] - values[i])
         
         return res
 ```
@@ -4755,6 +5188,223 @@ class Trie:
         return True
 ```
 
+## 211. Design Add and Search Words Data Structure [Medium]
+https://leetcode.com/problems/design-add-and-search-words-data-structure/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+- **Constraints:** Word length is 1 to 25, and there are at most 10^4 calls to `addWord` and `search`. Search queries have at most 2 dots.
+- **Time Complexity:** 
+  - `addWord`: O(m) where m is the word length
+  - `search`: O(m * 26^k) in worst case where k is the number of dots, but typically much better
+- **Space Complexity:** O(N * M) where N is the number of words and M is the average word length.
+- **Edge Case:** Searching for a word with no dots is O(m) time, same as a regular trie search.
+
+**1.2 High-level approach:**
+The goal is to design a data structure that supports adding words and searching with wildcard characters (dots). A trie (prefix tree) is perfect for this, with special handling for dots during search.
+
+**1.3 Brute force vs. optimized strategy:**
+- **Brute Force:** Store words in a list. For search with dots, check each word character by character. This is O(N * M) per search.
+- **Optimized Strategy:** Use a trie to store words. For dots, recursively search all possible children. This is much more efficient for prefix matching.
+- **Why optimized is better:** Trie allows early termination when prefixes don't match and efficiently handles wildcard searches.
+
+**1.4 Decomposition:**
+1. Build a trie data structure with nodes containing children and an `is_end` flag.
+2. For `addWord`, traverse the trie, creating nodes as needed, and mark the end.
+3. For `search`, use DFS to handle dots by recursively searching all children when encountering a dot.
+4. Return true if we find a complete word matching the pattern.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+Initialize: `root = TrieNode()`
+
+Add words: "bad", "dad", "mad"
+
+**2.2 Start Checking:**
+Search for: ".ad"
+
+**2.3 Trace Walkthrough:**
+
+| Step | Current Node | Char | Action |
+|------|---------------|------|--------|
+| 0 | root | '.' | Check all children (b, d, m) |
+| 1 | node['b'] | 'a' | Check if 'a' in children |
+| 2 | node['b']['a'] | 'd' | Check if 'd' in children and is_end |
+| 3 | - | - | Found "bad", return True |
+
+For ".ad", we check all first-level children (b, d, m), then continue with 'a' and 'd'.
+
+**2.4 Increment and Loop:**
+For each character in the search word:
+- If it's a dot, recursively search all children
+- If it's a regular character, follow that child if it exists
+- If we reach the end and `is_end` is true, return true
+
+**2.5 Return Result:**
+The search ".ad" matches "bad", "dad", or "mad", so return `True`.
+
+### Solution
+
+```python
+def __init__(self):
+        self.children = {}
+        self.is_end = False
+
+class WordDictionary:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def addWord(self, word: str) -> None:
+        node = self.root
+        for char in word:
+            if char not in node.children:
+                node.children[char] = TrieNode()
+            node = node.children[char]
+        node.is_end = True
+
+    def search(self, word: str) -> bool:
+        def dfs(node, index):
+            if index == len(word):
+                return node.is_end
+            
+            char = word[index]
+            if char == '.':
+                for child in node.children.values():
+                    if dfs(child, index + 1):
+                        return True
+                return False
+            else:
+                if char not in node.children:
+                    return False
+                return dfs(node.children[char], index + 1)
+        
+        return dfs(self.root, 0)
+```
+
+## 212. Word Search II [Hard]
+https://leetcode.com/problems/word-search-ii/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+- **Constraints:** Board size is up to 12x12, word length is 1 to 10, and there are up to 3*10^4 words.
+- **Time Complexity:** O(M * N * 4^L) where M and N are board dimensions and L is the maximum word length. With trie optimization, we can prune early.
+- **Space Complexity:** O(AL) where A is the alphabet size and L is the total length of all words for the trie, plus O(L) for recursion stack.
+- **Edge Case:** If no words can be formed, return an empty list.
+
+**1.2 High-level approach:**
+The goal is to find all words from a list that can be formed on the board by moving to adjacent cells. We use a trie to store words and backtracking to explore the board.
+
+**1.3 Brute force vs. optimized strategy:**
+- **Brute Force:** For each word, use DFS to search the board. This is O(W * M * N * 4^L) where W is the number of words.
+- **Optimized Strategy:** Build a trie from all words, then use backtracking with the trie to search all words simultaneously. Prune branches when the current path doesn't match any word prefix.
+- **Why optimized is better:** The trie allows us to search all words in parallel and prune early when no words match the current path.
+
+**1.4 Decomposition:**
+1. Build a trie from all words, storing the complete word at the end node.
+2. For each cell on the board, start DFS if the cell's character matches a trie root child.
+3. During DFS, mark the cell as visited, check if we found a word, explore neighbors, and restore the cell.
+4. Prune the trie by removing nodes with no children after processing.
+5. Collect all found words and return them.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+Board: `[["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]]`
+Words: `["oath","pea","eat","rain"]`
+
+Build trie with all words.
+
+**2.2 Start Checking:**
+Start DFS from each cell that matches a trie root child.
+
+**2.3 Trace Walkthrough:**
+
+Starting from (0,0) with 'o':
+- 'o' matches trie root child
+- Mark (0,0) as '#'
+- Explore neighbors: (0,1)='a', (1,0)='e'
+- From (0,1): 'a' matches, continue to 't', then 'h'
+- Found "oath", add to result
+- Continue exploring...
+
+**2.4 Increment and Loop:**
+For each cell (i, j):
+- If board[i][j] matches a trie child, start DFS
+- During DFS: mark visited, check for word, explore neighbors, restore cell
+- Prune trie nodes with no children
+
+**2.5 Return Result:**
+After processing all cells, `res = ["eat","oath"]`. Return this list.
+
+### Solution
+
+```python
+def __init__(self):
+        self.children = {}
+        self.word = None
+
+from typing import List
+
+class Solution:
+    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
+        # Build trie
+        root = TrieNode()
+        for word in words:
+            node = root
+            for char in word:
+                if char not in node.children:
+                    node.children[char] = TrieNode()
+                node = node.children[char]
+            node.word = word
+        
+        res = []
+        rows, cols = len(board), len(board[0])
+        
+        def dfs(row, col, node):
+            char = board[row][col]
+            curr_node = node.children[char]
+            
+            # Check if we found a word
+            if curr_node.word:
+                res.append(curr_node.word)
+                curr_node.word = None  # Avoid duplicates
+            
+            # Mark as visited
+            board[row][col] = '#'
+            
+            # Explore neighbors
+            for dr, dc in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
+                new_row, new_col = row + dr, col + dc
+                if (0 <= new_row < rows and 0 <= new_col < cols and 
+                    board[new_row][new_col] in curr_node.children):
+                    dfs(new_row, new_col, curr_node)
+            
+            # Restore character
+            board[row][col] = char
+            
+            # Prune if node has no children
+            if not curr_node.children:
+                node.children.pop(char)
+        
+        for i in range(rows):
+            for j in range(cols):
+                if board[i][j] in root.children:
+                    dfs(i, j, root)
+        
+        return res
+```
+
 ## 108. Convert Sorted Array to Binary Search Tree [Easy]
 https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/
 
@@ -5019,6 +5669,105 @@ class Solution:
         return dummy.next
 ```
 
+## 427. Construct Quad Tree [Medium]
+https://leetcode.com/problems/construct-quad-tree/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+- **Input Size:** `n == grid.length == grid[i].length`, `n == 2^x` where `0 <= x <= 6`.
+- **Time Complexity:** O(n²) - we process each cell, but with divide-and-conquer optimization.
+- **Space Complexity:** O(log n) - recursion depth.
+- **Edge Case:** All cells have the same value, single leaf node.
+
+**1.2 High-level approach:**
+The goal is to construct a Quad-Tree from a binary grid. We use divide-and-conquer: if all values in a region are the same, create a leaf; otherwise, divide into 4 quadrants and recurse.
+
+**1.3 Brute force vs. optimized strategy:**
+- **Brute Force:** Same as optimized - divide-and-conquer is the natural approach.
+- **Optimized Strategy:** Recursively divide grid into quadrants until uniform or single cell.
+
+**1.4 Decomposition:**
+1. Check if all values in current region are the same.
+2. If yes, create a leaf node with that value.
+3. If no, divide into 4 quadrants (top-left, top-right, bottom-left, bottom-right).
+4. Recursively construct each quadrant.
+5. Create internal node with 4 children.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+Let's use `grid = [[0,1],[1,0]]`. We start with the entire 2x2 grid.
+
+**2.2 Start Checking:**
+We check if all values are the same.
+
+**2.3 Trace Walkthrough:**
+
+| Region | All Same? | Action | Result |
+|--------|-----------|--------|--------|
+| [[0,1],[1,0]] | No | Divide | Internal node |
+| Top-left [0] | Yes | Leaf | Node(val=0, isLeaf=True) |
+| Top-right [1] | Yes | Leaf | Node(val=1, isLeaf=True) |
+| Bottom-left [1] | Yes | Leaf | Node(val=1, isLeaf=True) |
+| Bottom-right [0] | Yes | Leaf | Node(val=0, isLeaf=True) |
+
+**2.4 Increment and Loop:**
+After processing each quadrant, we combine results.
+
+**2.5 Return Result:**
+Return root node with 4 leaf children.
+
+### Solution
+
+```python
+def __init__(self, val, isLeaf, topLeft, topRight, bottomLeft, bottomRight):
+        self.val = val
+        self.isLeaf = isLeaf
+        self.topLeft = topLeft
+        self.topRight = topRight
+        self.bottomLeft = bottomLeft
+        self.bottomRight = bottomRight
+"""
+
+class Solution:
+    def construct(self, grid: List[List[int]]) -> 'Node':
+        def build(r1, c1, r2, c2):
+            # Check if all values in the grid are the same
+            all_same = True
+            first_val = grid[r1][c1]
+            
+            for i in range(r1, r2 + 1):
+                for j in range(c1, c2 + 1):
+                    if grid[i][j] != first_val:
+                        all_same = False
+                        break
+                if not all_same:
+                    break
+            
+            if all_same:
+                return Node(first_val == 1, True, None, None, None, None)
+            
+            # Divide into four quadrants
+            mid_r = (r1 + r2) // 2
+            mid_c = (c1 + c2) // 2
+            
+            top_left = build(r1, c1, mid_r, mid_c)
+            top_right = build(r1, mid_c + 1, mid_r, c2)
+            bottom_left = build(mid_r + 1, c1, r2, mid_c)
+            bottom_right = build(mid_r + 1, mid_c + 1, r2, c2)
+            
+            return Node(False, False, top_left, top_right, bottom_left, bottom_right)
+        
+        n = len(grid)
+        res = build(0, 0, n - 1, n - 1)
+        return res
+```
+
 ## 23. Merge k Sorted Lists [Hard]
 https://leetcode.com/problems/merge-k-sorted-lists/
 
@@ -5130,4 +5879,94 @@ class Solution:
                 heapq.heappush(heap, (node.next.val, idx, node.next))
         
         return dummy.next
+```
+
+## 295. Find Median from Data Stream [Hard]
+https://leetcode.com/problems/find-median-from-data-stream/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+- **Constraints:** Numbers range from -10^5 to 10^5, and there are at most 5*10^4 calls to `addNum` and `findMedian`.
+- **Time Complexity:** 
+  - `addNum`: O(log n) to insert into a heap
+  - `findMedian`: O(1) to access heap tops
+- **Space Complexity:** O(n) to store all numbers in the heaps.
+- **Edge Case:** If only one number has been added, the median is that number.
+
+**1.2 High-level approach:**
+The goal is to efficiently find the median of a stream of numbers. We maintain two heaps: a max-heap for the smaller half and a min-heap for the larger half. The median is the top of the larger heap or the average of both tops.
+
+**1.3 Brute force vs. optimized strategy:**
+- **Brute Force:** Store all numbers in a list and sort to find median. This is O(n log n) per median query.
+- **Optimized Strategy:** Use two heaps to maintain the two halves. Insertion is O(log n) and median query is O(1).
+- **Why optimized is better:** Heaps allow efficient insertion and constant-time median access, much better than sorting.
+
+**1.4 Decomposition:**
+1. Maintain two heaps: `max_heap` (smaller half, use negative values) and `min_heap` (larger half).
+2. For `addNum`, insert into the appropriate heap and balance if needed (difference should be at most 1).
+3. For `findMedian`, if heaps are equal size, return average of both tops; otherwise, return the top of the larger heap.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+Initialize: `max_heap = []`, `min_heap = []`
+
+Add numbers: 1, 2, 3
+
+**2.2 Start Checking:**
+After each addition, balance the heaps to maintain the property that the size difference is at most 1.
+
+**2.3 Trace Walkthrough:**
+
+| Step | Number | max_heap | min_heap | Action |
+|------|--------|----------|----------|--------|
+| 0 | - | [] | [] | Initialize |
+| 1 | 1 | [-1] | [] | Add to max_heap |
+| 2 | 2 | [-1] | [2] | Add to min_heap, balanced |
+| 3 | 3 | [-1] | [2,3] | Add to min_heap, balance: move 2 to max_heap |
+| 4 | - | [-2,-1] | [3] | Balanced, find median |
+
+**2.4 Increment and Loop:**
+For each `addNum`:
+- Insert into appropriate heap
+- Balance if size difference > 1
+
+**2.5 Return Result:**
+After adding 1, 2, 3:
+- `max_heap = [-2, -1]`, `min_heap = [3]`
+- Median = (-(-2) + 3) / 2 = (2 + 3) / 2 = 2.5 (if equal sizes)
+- Or median = -(-2) = 2 (if max_heap is larger)
+
+### Solution
+
+```python
+def __init__(self):
+        # max_heap for smaller half, min_heap for larger half
+        self.max_heap = []  # Use negative values for max heap
+        self.min_heap = []
+
+    def addNum(self, num: int) -> None:
+        if not self.max_heap or num <= -self.max_heap[0]:
+            heapq.heappush(self.max_heap, -num)
+        else:
+            heapq.heappush(self.min_heap, num)
+        
+        # Balance heaps
+        if len(self.max_heap) > len(self.min_heap) + 1:
+            heapq.heappush(self.min_heap, -heapq.heappop(self.max_heap))
+        elif len(self.min_heap) > len(self.max_heap) + 1:
+            heapq.heappush(self.max_heap, -heapq.heappop(self.min_heap))
+
+    def findMedian(self) -> float:
+        if len(self.max_heap) == len(self.min_heap):
+            return (-self.max_heap[0] + self.min_heap[0]) / 2.0
+        elif len(self.max_heap) > len(self.min_heap):
+            return float(-self.max_heap[0])
+        else:
+            return float(self.min_heap[0])
 ```
