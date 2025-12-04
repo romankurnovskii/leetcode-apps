@@ -7,14 +7,16 @@ from typing import Optional
 #         self.left = left
 #         self.right = right
 
-def invertTree(root: Optional[TreeNode]) -> Optional[TreeNode]:
-    # Base case: If the node is null, there's nothing to do.
-    if not root:
-        return None
+class Solution:
+    def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        if not root:
+            return None
         
-    root.left, root.right = root.right, root.left
-    
-    invertTree(root.left)
-    invertTree(root.right)
-    
-    return root
+        # Swap left and right children
+        root.left, root.right = root.right, root.left
+        
+        # Recursively invert subtrees
+        self.invertTree(root.left)
+        self.invertTree(root.right)
+        
+        return root
