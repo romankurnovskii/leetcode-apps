@@ -2203,6 +2203,100 @@ def __init__(self):
 # param_4 = obj.getMin()
 ```
 
+## 160. Intersection of Two Linked Lists [Easy]
+https://leetcode.com/problems/intersection-of-two-linked-lists/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+- **Constraints:** We have two linked lists with `m` and `n` nodes respectively, where `1 <= m, n <= 3 * 10^4`. Each node value is between `1` and `10^5`.
+- **Time Complexity:** O(m + n) - In the worst case, we traverse both lists once before finding the intersection or determining there is none.
+- **Space Complexity:** O(1) - We only use two pointer variables, no additional data structures.
+- **Edge Case:** When the two lists have no intersection, both pointers will eventually become `None` and the loop will terminate, returning `None`.
+
+**1.2 High-level approach:**
+The goal is to find the node where two linked lists intersect, or return `None` if they don't intersect. The key insight is that if we traverse both lists simultaneously, switching to the other list when we reach the end, both pointers will eventually meet at the intersection point (if it exists) after traversing the same total distance.
+
+![Two linked lists intersecting](https://assets.leetcode.com/uploads/2021/03/05/160_statement.png)
+
+**1.3 Brute force vs. optimized strategy:**
+- **Brute Force:** For each node in list A, check if it exists in list B by traversing list B. This would take O(m * n) time complexity.
+- **Optimized Strategy (Two Pointers):** Use two pointers that traverse both lists, switching lists when reaching the end. This ensures both pointers cover the same total distance and will meet at the intersection. Time complexity is O(m + n) with O(1) space.
+
+**1.4 Decomposition:**
+1. Initialize two pointers, one for each list.
+2. Traverse both lists simultaneously, moving each pointer forward.
+3. When a pointer reaches the end of its list, switch it to the head of the other list.
+4. Continue until both pointers point to the same node (intersection found) or both are `None` (no intersection).
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+Let's use an example: `headA = [4,1,8,4,5]` and `headB = [5,6,1,8,4,5]`, where the lists intersect at node with value 8.
+
+Initialize:
+- `p1 = headA` (points to node 4)
+- `p2 = headB` (points to node 5)
+
+**2.2 Start Checking:**
+We enter a loop that continues while `p1 != p2`.
+
+**2.3 Trace Walkthrough:**
+
+| Step | p1 position | p2 position | p1 value | p2 value | Action |
+|------|-------------|--------------|----------|----------|--------|
+| 1 | headA[0] | headB[0] | 4 | 5 | Both advance |
+| 2 | headA[1] | headB[1] | 1 | 6 | Both advance |
+| 3 | headA[2] | headB[2] | 8 | 1 | Both advance |
+| 4 | headA[3] | headB[3] | 4 | 8 | Both advance |
+| 5 | headA[4] | headB[4] | 5 | 4 | Both advance |
+| 6 | None | headB[5] | - | 5 | p1 switches to headB |
+| 7 | headB[0] | None | 5 | - | p2 switches to headA |
+| 8 | headB[1] | headA[0] | 6 | 4 | Both advance |
+| 9 | headB[2] | headA[1] | 1 | 1 | Both advance |
+| 10 | headB[3] | headA[2] | 8 | 8 | **Match!** Intersection found |
+
+**2.4 Increment and Loop:**
+At each iteration:
+- If `p1` is not `None`, move it to `p1.next`; otherwise, set it to `headB`.
+- If `p2` is not `None`, move it to `p2.next`; otherwise, set it to `headA`.
+
+**2.5 Return Result:**
+When `p1 == p2`, the loop exits. This happens either:
+- When both point to the intersection node (return that node)
+- When both are `None` (no intersection, return `None`)
+
+In our example, both pointers meet at the node with value 8, which is the intersection point.
+
+### Solution
+
+```python
+def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> Optional[ListNode]:
+        # Two pointer approach: traverse both lists
+        # When one pointer reaches end, switch to other list
+        # This way both pointers will meet at intersection (if exists)
+        # or both will be None (if no intersection)
+        
+        p1, p2 = headA, headB
+        
+        while p1 != p2:
+            # If p1 reaches end, switch to headB
+            p1 = p1.next if p1 else headB
+            # If p2 reaches end, switch to headA
+            p2 = p2.next if p2 else headA
+        
+        return p1
+```
+
 ## 199. Binary Tree Right Side View [Medium]
 https://leetcode.com/problems/binary-tree-right-side-view/
 
@@ -3151,6 +3245,285 @@ class Codec:
             i += 1
         
         return root
+```
+
+## 337. House Robber III [Medium]
+https://leetcode.com/problems/house-robber-iii/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+- **Constraints:** The tree has at most 10^4 nodes, and each node value is between 0 and 10^4.
+- **Time Complexity:** O(n) - We visit each node exactly once, where n is the number of nodes.
+- **Space Complexity:** O(h) - The recursion stack depth is at most the height h of the tree. In the worst case (skewed tree), h = n, giving O(n) space.
+- **Edge Case:** If the tree is empty (root is None), return 0.
+
+**1.2 High-level approach:**
+The goal is to find the maximum amount of money we can rob from a binary tree without robbing two directly connected nodes. We use dynamic programming with a post-order traversal, where for each node we calculate two values: the maximum if we rob this node, and the maximum if we don't rob this node.
+
+![House Robber III tree](https://assets.leetcode.com/uploads/2021/03/10/rob1-tree.jpg)
+
+**1.3 Brute force vs. optimized strategy:**
+- **Brute Force:** Try all possible combinations of robbing/not robbing each node, checking constraints. This would be exponential time O(2^n).
+- **Optimized Strategy (DP with DFS):** For each node, calculate the maximum profit for two cases: robbing this node (can't rob children) and not robbing this node (can rob children). This takes O(n) time.
+- **Emphasize the optimization:** By storing both possibilities at each node, we avoid recalculating subproblems and reduce time complexity from exponential to linear.
+
+**1.4 Decomposition:**
+1. Perform a post-order traversal of the tree.
+2. For each node, return a tuple: (rob_this, dont_rob_this).
+3. If we rob this node, we can't rob its children, so we take children's "don't rob" values.
+4. If we don't rob this node, we can choose the maximum from each child's two options.
+5. Return the maximum of the root's two options.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+Let's use an example: `root = [3,2,3,null,3,null,1]`
+
+Initialize:
+- Start DFS from root node with value 3.
+
+**2.2 Start Processing:**
+We traverse the tree using post-order DFS (process children before parent).
+
+**2.3 Trace Walkthrough:**
+
+| Node | Left Child Result | Right Child Result | Rob This | Don't Rob This | Max |
+|------|-------------------|-------------------|----------|----------------|-----|
+| 1 (leaf) | (0,0) | (0,0) | 1 + 0 + 0 = 1 | 0 + 0 = 0 | 1 |
+| 3 (leaf) | (0,0) | (0,0) | 3 + 0 + 0 = 3 | 0 + 0 = 0 | 3 |
+| 2 | (0,0) | (3,0) | 2 + 0 + 0 = 2 | 0 + 3 = 3 | 3 |
+| 3 (root) | (2,3) | (1,0) | 3 + 3 + 0 = 6 | 3 + 1 = 4 | 7 |
+
+**2.4 Return Result:**
+The final result is max(rob_root, dont_rob_root) = max(6, 4) = 7.
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def rob(self, root: Optional[TreeNode]) -> int:
+        def dfs(node):
+            if not node:
+                return (0, 0)  # (rob this node, don't rob this node)
+            
+            left = dfs(node.left)
+            right = dfs(node.right)
+            
+            # If we rob this node, we can't rob children
+            rob_this = node.val + left[1] + right[1]
+            
+            # If we don't rob this node, we can choose to rob or not rob children
+            dont_rob_this = max(left) + max(right)
+            
+            return (rob_this, dont_rob_this)
+        
+        return max(dfs(root))
+```
+
+## 460. LFU Cache [Hard]
+https://leetcode.com/problems/lfu-cache/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+- **Constraints:** Capacity is between 1 and 10^4, keys are between 0 and 10^5, values are between 0 and 10^9. At most 2 * 10^5 calls to get and put.
+- **Time Complexity:** O(1) average for both get and put operations - We use hash maps and ordered dictionaries for constant-time access.
+- **Space Complexity:** O(capacity) - We store at most capacity key-value pairs.
+- **Edge Case:** When capacity is 0, all operations return -1 or do nothing.
+
+**1.2 High-level approach:**
+The goal is to implement an LFU (Least Frequently Used) cache that evicts the least frequently used item when at capacity. For ties in frequency, we evict the least recently used item. We maintain frequency buckets using OrderedDict to track both frequency and recency.
+
+**1.3 Brute force vs. optimized strategy:**
+- **Brute Force:** Store (value, frequency, timestamp) for each key, and find minimum on eviction by scanning all keys. This takes O(capacity) time for eviction.
+- **Optimized Strategy (Frequency Buckets with OrderedDict):** Use frequency buckets where each bucket is an OrderedDict maintaining insertion order. This allows O(1) access and O(1) eviction.
+- **Emphasize the optimization:** By organizing keys by frequency and using OrderedDict for recency, we can find the LFU key in O(1) time.
+
+**1.4 Decomposition:**
+1. Maintain a dictionary mapping keys to their frequencies.
+2. Maintain frequency buckets: each frequency maps to an OrderedDict of keys.
+3. Track the minimum frequency currently in use.
+4. For get: update frequency, move key to new frequency bucket.
+5. For put: if at capacity, evict from min_freq bucket (FIFO), then add/update key.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+Let's trace: `capacity = 2`, operations: `put(1,1)`, `put(2,2)`, `get(1)`, `put(3,3)`, `get(2)`, `get(3)`, `put(4,4)`, `get(1)`, `get(3)`, `get(4)`
+
+Initialize:
+- `key_to_freq = {}`
+- `freq_to_keys = {1: OrderedDict()}`
+- `key_to_val = {}`
+- `min_freq = 1`
+
+**2.2 Start Processing:**
+Process each operation step by step.
+
+**2.3 Trace Walkthrough:**
+
+| Operation | Key | Value | State After | min_freq |
+|-----------|-----|-------|-------------|----------|
+| put(1,1) | 1 | 1 | {1:1}, freq1={1} | 1 |
+| put(2,2) | 2 | 2 | {1:1,2:2}, freq1={1,2} | 1 |
+| get(1) | 1 | 1 | {1:2,2:1}, freq1={2}, freq2={1} | 1 |
+| put(3,3) | 3 | 3 | Evict 2, {1:2,3:1}, freq1={3}, freq2={1} | 1 |
+| get(2) | 2 | -1 | Not found | 1 |
+| get(3) | 3 | 3 | {1:2,3:2}, freq2={1,3} | 2 |
+| put(4,4) | 4 | 4 | Evict 1, {3:2,4:1}, freq1={4}, freq2={3} | 1 |
+| get(1) | 1 | -1 | Not found | 1 |
+| get(3) | 3 | 3 | {3:3,4:1}, freq1={4}, freq3={3} | 1 |
+| get(4) | 4 | 4 | {3:3,4:2}, freq2={4}, freq3={3} | 2 |
+
+**2.4 Return Result:**
+Final sequence: `[null, null, null, 1, null, -1, 3, null, -1, 3, 4]`
+
+### Solution
+
+```python
+def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.min_freq = 0
+        self.key_to_freq = {}  # key -> frequency
+        self.freq_to_keys = defaultdict(OrderedDict)  # frequency -> OrderedDict of keys
+        self.key_to_val = {}  # key -> value
+
+    def get(self, key: int) -> int:
+        if key not in self.key_to_val:
+            return -1
+        
+        # Update frequency
+        freq = self.key_to_freq[key]
+        self.freq_to_keys[freq].pop(key)
+        
+        if not self.freq_to_keys[freq] and freq == self.min_freq:
+            self.min_freq += 1
+        
+        self.key_to_freq[key] = freq + 1
+        self.freq_to_keys[freq + 1][key] = None
+        
+        return self.key_to_val[key]
+
+    def put(self, key: int, value: int) -> None:
+        if self.capacity == 0:
+            return
+        
+        if key in self.key_to_val:
+            # Update existing key
+            self.key_to_val[key] = value
+            self.get(key)  # Update frequency
+            return
+        
+        # Remove LFU key if at capacity
+        if len(self.key_to_val) >= self.capacity:
+            # Remove least recently used key with min_freq
+            lfu_key, _ = self.freq_to_keys[self.min_freq].popitem(last=False)
+            del self.key_to_val[lfu_key]
+            del self.key_to_freq[lfu_key]
+        
+        # Add new key
+        self.key_to_val[key] = value
+        self.key_to_freq[key] = 1
+        self.freq_to_keys[1][key] = None
+        self.min_freq = 1
+```
+
+## 543. Diameter of Binary Tree [Easy]
+https://leetcode.com/problems/diameter-of-binary-tree/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+- **Constraints:** Tree has between 1 and 10^4 nodes, and node values are between -100 and 100.
+- **Time Complexity:** O(n) - We visit each node exactly once during DFS, where n is the number of nodes.
+- **Space Complexity:** O(h) - The recursion stack depth is at most the height h of the tree. In the worst case (skewed tree), h = n, giving O(n) space.
+- **Edge Case:** If the tree has only one node, the diameter is 0 (no edges).
+
+**1.2 High-level approach:**
+The goal is to find the diameter (longest path between any two nodes) of a binary tree. The diameter may or may not pass through the root. We use DFS to calculate the depth of each subtree and track the maximum diameter found so far.
+
+![Diameter of Binary Tree](https://assets.leetcode.com/uploads/2021/03/06/diamtree.jpg)
+
+**1.3 Brute force vs. optimized strategy:**
+- **Brute Force:** For each node, find the longest path passing through it by calculating depths of left and right subtrees. This still requires visiting each node once, so it's O(n) but with redundant calculations.
+- **Optimized Strategy (DFS with Global Tracking):** Perform a single DFS pass, calculating subtree depths and updating the maximum diameter as we go. This takes O(n) time with a single traversal.
+- **Emphasize the optimization:** By tracking the maximum diameter during a single DFS pass, we avoid multiple traversals and redundant calculations.
+
+**1.4 Decomposition:**
+1. Perform DFS traversal of the tree.
+2. For each node, calculate the depth of its left and right subtrees.
+3. The diameter passing through this node is left_depth + right_depth.
+4. Update the global maximum diameter if this is larger.
+5. Return the depth of the current subtree (1 + max(left_depth, right_depth)).
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+Let's use an example: `root = [1,2,3,4,5]`
+
+Initialize:
+- `res = 0` (global maximum diameter)
+
+**2.2 Start Processing:**
+We perform DFS starting from the root.
+
+**2.3 Trace Walkthrough:**
+
+| Node | Left Depth | Right Depth | Diameter Through Node | Max Diameter | Return Depth |
+|------|------------|-------------|----------------------|--------------|--------------|
+| 4 (leaf) | 0 | 0 | 0 | 0 | 1 |
+| 5 (leaf) | 0 | 0 | 0 | 0 | 1 |
+| 2 | 1 | 1 | 2 | 2 | 2 |
+| 3 (leaf) | 0 | 0 | 0 | 2 | 1 |
+| 1 (root) | 2 | 1 | 3 | 3 | 3 |
+
+**2.4 Return Result:**
+The maximum diameter found is 3, which is the path [4,2,1,3] or [5,2,1,3].
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
+        res = 0
+        
+        def dfs(node):
+            nonlocal res
+            if not node:
+                return 0
+            
+            left_depth = dfs(node.left)
+            right_depth = dfs(node.right)
+            
+            # Diameter passing through this node
+            res = max(res, left_depth + right_depth)
+            
+            # Return depth of this subtree
+            return 1 + max(left_depth, right_depth)
+        
+        dfs(root)
+        return res
 ```
 
 ## 647. Palindromic Substrings [Medium]
