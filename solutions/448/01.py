@@ -13,4 +13,3 @@ class Solution:
                 res.append(i + 1)
         
         return res
-
