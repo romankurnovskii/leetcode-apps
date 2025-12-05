@@ -26339,5 +26339,12 @@
     "title": "Maximum Substrings With Distinct Start",
     "difficulty": "Medium",
     "link": "https://leetcode.com/problems/maximum-substrings-with-distinct-start/"
+  },
+  "3764": {
+    "id": 3764,
+    "category": "Database",
+    "title": "Most Common Course Pairs",
+    "difficulty": "Hard",
+    "link": "https://leetcode.com/problems/most-common-course-pairs/"
   }
 }
