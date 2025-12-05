@@ -2,70 +2,53 @@
 
 ### Strategy (The "Why")
 
-**1.1 Constraints & Complexity:**
+**Restate the problem:** We need to find the minimum number of operations to make all array values equal to k. In each operation, we can select a valid integer h and set all values greater than h to h. A valid h means all values strictly greater than h are identical.
 
-- **Constraints:** $1 \leq n \leq 4 \times 10^4$ elements, $1 \leq k \leq 10^9$, $1 \leq q \leq 4 \times 10^4$ queries.
-- **Time Complexity:** $O(n + q \times m \log m)$ where $m$ is the average subarray length. For each query, we extract and sort the subarray.
-- **Space Complexity:** $O(n)$ for the validity check array and $O(m)$ for each query's subarray.
-- **Edge Case:** If a subarray cannot be equalized (elements have different modulo $k$), return $-1$ for that query.
+**1.1 Constraints & Complexity:**
+- Input size: `1 <= nums.length <= 100`, `1 <= nums[i] <= 100`, `1 <= k <= 100`
+- **Time Complexity:** O(n) where n is the length of nums, as we iterate through the array once to collect distinct values
+- **Space Complexity:** O(n) in the worst case to store distinct values greater than k
+- **Edge Case:** If any element is less than k, it's impossible to make all elements equal to k, so return -1
 
 **1.2 High-level approach:**
+The key insight is that we need one operation for each distinct value greater than k. We can reduce values from highest to lowest, and each distinct value requires one operation.
 
-The goal is to find the minimum operations to make all elements in a subarray equal, where each operation can add or subtract $k$. Key insight: elements can only be equalized if they all have the same remainder modulo $k$. The minimum operations is achieved by converting all elements to the median value (after dividing by $k$).
+![Greedy reduction visualization](https://assets.leetcode.com/static_assets/others/greedy-algorithm.png)
 
 **1.3 Brute force vs. optimized strategy:**
-
-- **Brute Force:** For each query, try all possible target values and calculate operations. This is exponential.
-- **Optimized Strategy:** Precompute validity (check if all elements have same modulo $k$). For valid queries, extract subarray, divide by $k$, find median, and calculate sum of absolute differences from median. This is $O(q \times m \log m)$ where $m$ is subarray length.
-- **Why optimized is better:** The median property minimizes sum of absolute differences, and precomputing validity avoids unnecessary processing.
+- **Brute Force:** Try all possible sequences of operations, which would be exponential.
+- **Optimized Strategy:** Count the number of distinct values greater than k. This is exactly the number of operations needed, as we can reduce them one by one from highest to lowest.
 
 **1.4 Decomposition:**
-
-1. Precompute `last_match_idx`: for each index, find the rightmost index where all elements from current index have the same modulo $k$.
-2. For each query, check validity using `last_match_idx`.
-3. If valid, extract subarray and divide each element by $k$.
-4. Sort the normalized subarray and find the median.
-5. Calculate sum of absolute differences from median.
-6. Return the result (or $-1$ if invalid).
+1. Check if any element is less than k (impossible case)
+2. Collect all distinct values that are greater than k
+3. Return the count of distinct values, which equals the number of operations needed
 
 ### Steps (The "How")
 
 **2.1 Initialization & Example Setup:**
-
-Let's use the example: `nums = [1,4,7]`, `k = 3`, `queries = [[0,1],[0,2]]`
-
-We precompute validity: all elements have remainder 1 modulo 3, so both queries are valid.
+Let's use the example: `nums = [5, 2, 5, 4, 5]`, `k = 2`
+- Initialize check for values less than k
+- Initialize a set to collect distinct values greater than k
 
 **2.2 Start Checking:**
-
-For each query, we check validity and calculate operations.
+We iterate through the array to check for impossible cases and collect distinct values.
 
 **2.3 Trace Walkthrough:**
+Using the example `nums = [5, 2, 5, 4, 5]`, `k = 2`:
 
-**Query 1: [0,1]**
-- Subarray: `[1,4]`
-- Normalized (divide by k): `[0,1]` (since 1//3=0, 4//3=1)
-- Sorted: `[0,1]`
-- Median: `0` (or `1`, both work)
-- Operations: `|0-0| + |1-0| = 1`
+| Element | Is < k? | Is > k? | Distinct Set | Action |
+|---------|---------|---------|--------------|--------|
+| 5 | No | Yes | {5} | Add 5 |
+| 2 | No | No | {5} | Skip |
+| 5 | No | Yes | {5} | Already in set |
+| 4 | No | Yes | {5, 4} | Add 4 |
+| 5 | No | Yes | {5, 4} | Already in set |
 
-**Query 2: [0,2]**
-- Subarray: `[1,4,7]`
-- Normalized: `[0,1,2]`
-- Sorted: `[0,1,2]`
-- Median: `1`
-- Operations: `|0-1| + |1-1| + |2-1| = 1 + 0 + 1 = 2`
+After processing: distinct values > k = {5, 4}, count = 2
 
 **2.4 Increment and Loop:**
-
-For each query `[l, r]`:
-- Check: `if last_match_idx[l] < r: return -1`
-- Extract: `subarray = [nums[i] // k for i in range(l, r+1)]`
-- Sort: `subarray.sort()`
-- Median: `median = subarray[len(subarray) // 2]`
-- Calculate: `operations = sum(abs(x - median) for x in subarray)`
+For each element greater than k, we add it to our set of distinct values. The loop continues until all elements are processed.
 
 **2.5 Return Result:**
-
-For the example, we return `[1, 2]` - 1 operation for the first query, 2 operations for the second.
-
+The result is the number of distinct values greater than k, which is 2. This means we need 2 operations: first reduce 5 to 4, then reduce 4 to 2.

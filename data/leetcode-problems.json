@@ -24018,9 +24018,11 @@
   },
   "3432": {
     "id": 3432,
-    "category": "Math & Geometry",
-    "title": "Count Partitions with Even Sum Difference",
-    "difficulty": "Easy",
+    "category": "Array & Hashing",
+    "title": "Find the Power of K-Size Subarrays I",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/find-the-power-of-k-size-subarrays-i/",
+    "tags": ["array", "sliding-window"]
     "link": "https://leetcode.com/problems/count-partitions-with-even-sum-difference/"
   },
   "3433": {
@@ -26167,9 +26169,11 @@
   },
   "3739": {
     "id": 3739,
-    "category": "Tree",
-    "title": "Count Subarrays With Majority Element II",
-    "difficulty": "Hard",
+    "category": "Array & Hashing",
+    "title": "Find Minimum Operations to Make All Elements Divisible by Three",
+    "difficulty": "Easy",
+    "link": "https://leetcode.com/problems/find-minimum-operations-to-make-all-elements-divisible-by-three/",
+    "tags": ["array", "math"]
     "link": "https://leetcode.com/problems/count-subarrays-with-majority-element-ii/"
   },
   "3740": {
@@ -26195,10 +26199,11 @@
   },
   "3743": {
     "id": 3743,
-    "category": "Dynamic Programming",
-    "title": "Maximize Cyclic Partition Score",
-    "difficulty": "Hard",
-    "link": "https://leetcode.com/problems/maximize-cyclic-partition-score/"
+    "category": "Array & Hashing",
+    "title": "Count the Number of Beautiful Subarrays",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/count-the-number-of-beautiful-subarrays/",
+    "tags": ["array", "hash-table", "bit-manipulation", "prefix-sum"]
   },
   "3744": {
     "id": 3744,
@@ -26223,17 +26228,19 @@
   },
   "3747": {
     "id": 3747,
-    "category": "Dynamic Programming",
-    "title": "Count Distinct Integers After Removing Zeros",
+    "category": "String",
+    "title": "Count Beautiful Substrings I",
     "difficulty": "Medium",
-    "link": "https://leetcode.com/problems/count-distinct-integers-after-removing-zeros/"
+    "link": "https://leetcode.com/problems/count-beautiful-substrings-i/",
+    "tags": ["hash-table", "math", "string", "enumeration", "number-theory", "prefix-sum"]
   },
   "3748": {
     "id": 3748,
-    "category": "Binary Search",
-    "title": "Count Stable Subarrays",
+    "category": "String",
+    "title": "Count Beautiful Substrings II",
     "difficulty": "Hard",
-    "link": "https://leetcode.com/problems/count-stable-subarrays/"
+    "link": "https://leetcode.com/problems/count-beautiful-substrings-ii/",
+    "tags": ["hash-table", "math", "string", "number-theory", "prefix-sum"]
   },
   "3749": {
     "id": 3749,
@@ -26265,10 +26272,11 @@
   },
   "3753": {
     "id": 3753,
-    "category": "Array & Hashing",
-    "title": "Total Waviness of Numbers in Range II",
+    "category": "Dynamic Programming",
+    "title": "Paths in Matrix Whose Sum Is Divisible by K",
     "difficulty": "Hard",
-    "link": "https://leetcode.com/problems/total-waviness-of-numbers-in-range-ii/"
+    "link": "https://leetcode.com/problems/paths-in-matrix-whose-sum-is-divisible-by-k/",
+    "tags": ["array", "dynamic-programming", "matrix"]
   },
   "3754": {
     "id": 3754,
@@ -26307,31 +26315,35 @@
   },
   "3759": {
     "id": 3759,
-    "category": "Array & Hashing",
-    "title": "Count Elements With at Least K Greater Values",
+    "category": "Graph",
+    "title": "Minimum Cost to Convert String I",
     "difficulty": "Medium",
-    "link": "https://leetcode.com/problems/count-elements-with-at-least-k-greater-values/"
+    "link": "https://leetcode.com/problems/minimum-cost-to-convert-string-i/",
+    "tags": ["array", "string", "graph", "shortest-path"]
   },
   "3760": {
     "id": 3760,
-    "category": "Array & Hashing",
-    "title": "Minimum Operations to Equalize Subarrays",
+    "category": "Graph",
+    "title": "Minimum Cost to Convert String II",
     "difficulty": "Hard",
-    "link": "https://leetcode.com/problems/minimum-operations-to-equalize-subarrays/"
+    "link": "https://leetcode.com/problems/minimum-cost-to-convert-string-ii/",
+    "tags": ["array", "string", "dynamic-programming", "graph", "trie", "shortest-path"]
   },
   "3761": {
     "id": 3761,
-    "category": "Array & Hashing",
-    "title": "Minimum Absolute Distance Between Mirror Pairs",
-    "difficulty": "Medium",
-    "link": "https://leetcode.com/problems/minimum-absolute-distance-between-mirror-pairs/"
+    "category": "Tree",
+    "title": "Count Valid Paths in a Tree",
+    "difficulty": "Hard",
+    "link": "https://leetcode.com/problems/count-valid-paths-in-a-tree/",
+    "tags": ["math", "dynamic-programming", "tree", "depth-first-search", "number-theory"]
   },
   "3762": {
     "id": 3762,
     "category": "Array & Hashing",
-    "title": "Remove K-Balanced Substrings",
-    "difficulty": "Medium",
-    "link": "https://leetcode.com/problems/remove-k-balanced-substrings/"
+    "title": "Minimum Operations to Make Array Values Equal to K",
+    "difficulty": "Easy",
+    "link": "https://leetcode.com/problems/minimum-operations-to-make-array-values-equal-to-k/",
+    "tags": ["array", "hash-table"]
   },
   "3763": {
     "id": 3763,

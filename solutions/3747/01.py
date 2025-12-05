@@ -1,34 +1,22 @@
 class Solution:
-    def countDistinct(self, n: int) -> int:
-        # Convert n to string for digit manipulation
-        s = str(n)
-        length = len(s)
-        
-        # Precompute powers of 9 (for digits 1-9, excluding 0)
-        pow9 = [1] * (length + 1)
-        for i in range(1, length + 1):
-            pow9[i] = pow9[i - 1] * 9
-        
+    def beautifulSubstrings(self, s: str, k: int) -> int:
+        vowels = {'a', 'e', 'i', 'o', 'u'}
+        n = len(s)
         res = 0
         
-        # Count all numbers with fewer digits than n
-        # For each length l from 1 to length-1, there are 9^l numbers without zeros
-        for l in range(1, length):
-            res += pow9[l]
-        
-        # Count numbers with same number of digits as n but <= n
-        for i in range(length):
-            digit = int(s[i])
+        # Try all possible substrings
+        for i in range(n):
+            vowel_count = 0
+            consonant_count = 0
             
-            # If we encounter a zero, we can't form any more valid numbers
-            if digit == 0:
-                return res
-            
-            # For each digit d from 1 to digit-1, we can form
-            # pow9[remaining_positions] numbers
-            for d in range(1, digit):
-                res += pow9[length - i - 1]
+            for j in range(i, n):
+                if s[j] in vowels:
+                    vowel_count += 1
+                else:
+                    consonant_count += 1
+                
+                # Check if beautiful
+                if vowel_count == consonant_count and (vowel_count * consonant_count) % k == 0:
+                    res += 1
         
-        # Add 1 if n itself has no zeros
-        return res + 1
-
+        return res
