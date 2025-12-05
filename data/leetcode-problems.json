@@ -24022,8 +24022,10 @@
     "title": "Find the Power of K-Size Subarrays I",
     "difficulty": "Medium",
     "link": "https://leetcode.com/problems/find-the-power-of-k-size-subarrays-i/",
-    "tags": ["array", "sliding-window"]
-    "link": "https://leetcode.com/problems/count-partitions-with-even-sum-difference/"
+    "tags": [
+      "array",
+      "sliding-window"
+    ]
   },
   "3433": {
     "id": 3433,
@@ -26173,8 +26175,10 @@
     "title": "Find Minimum Operations to Make All Elements Divisible by Three",
     "difficulty": "Easy",
     "link": "https://leetcode.com/problems/find-minimum-operations-to-make-all-elements-divisible-by-three/",
-    "tags": ["array", "math"]
-    "link": "https://leetcode.com/problems/count-subarrays-with-majority-element-ii/"
+    "tags": [
+      "array",
+      "math"
+    ]
   },
   "3740": {
     "id": 3740,
@@ -26203,7 +26207,12 @@
     "title": "Count the Number of Beautiful Subarrays",
     "difficulty": "Medium",
     "link": "https://leetcode.com/problems/count-the-number-of-beautiful-subarrays/",
-    "tags": ["array", "hash-table", "bit-manipulation", "prefix-sum"]
+    "tags": [
+      "array",
+      "hash-table",
+      "bit-manipulation",
+      "prefix-sum"
+    ]
   },
   "3744": {
     "id": 3744,
@@ -26232,7 +26241,14 @@
     "title": "Count Beautiful Substrings I",
     "difficulty": "Medium",
     "link": "https://leetcode.com/problems/count-beautiful-substrings-i/",
-    "tags": ["hash-table", "math", "string", "enumeration", "number-theory", "prefix-sum"]
+    "tags": [
+      "hash-table",
+      "math",
+      "string",
+      "enumeration",
+      "number-theory",
+      "prefix-sum"
+    ]
   },
   "3748": {
     "id": 3748,
@@ -26240,7 +26256,13 @@
     "title": "Count Beautiful Substrings II",
     "difficulty": "Hard",
     "link": "https://leetcode.com/problems/count-beautiful-substrings-ii/",
-    "tags": ["hash-table", "math", "string", "number-theory", "prefix-sum"]
+    "tags": [
+      "hash-table",
+      "math",
+      "string",
+      "number-theory",
+      "prefix-sum"
+    ]
   },
   "3749": {
     "id": 3749,
@@ -26276,7 +26298,11 @@
     "title": "Paths in Matrix Whose Sum Is Divisible by K",
     "difficulty": "Hard",
     "link": "https://leetcode.com/problems/paths-in-matrix-whose-sum-is-divisible-by-k/",
-    "tags": ["array", "dynamic-programming", "matrix"]
+    "tags": [
+      "array",
+      "dynamic-programming",
+      "matrix"
+    ]
   },
   "3754": {
     "id": 3754,
@@ -26319,7 +26345,12 @@
     "title": "Minimum Cost to Convert String I",
     "difficulty": "Medium",
     "link": "https://leetcode.com/problems/minimum-cost-to-convert-string-i/",
-    "tags": ["array", "string", "graph", "shortest-path"]
+    "tags": [
+      "array",
+      "string",
+      "graph",
+      "shortest-path"
+    ]
   },
   "3760": {
     "id": 3760,
@@ -26327,7 +26358,14 @@
     "title": "Minimum Cost to Convert String II",
     "difficulty": "Hard",
     "link": "https://leetcode.com/problems/minimum-cost-to-convert-string-ii/",
-    "tags": ["array", "string", "dynamic-programming", "graph", "trie", "shortest-path"]
+    "tags": [
+      "array",
+      "string",
+      "dynamic-programming",
+      "graph",
+      "trie",
+      "shortest-path"
+    ]
   },
   "3761": {
     "id": 3761,
@@ -26335,7 +26373,13 @@
     "title": "Count Valid Paths in a Tree",
     "difficulty": "Hard",
     "link": "https://leetcode.com/problems/count-valid-paths-in-a-tree/",
-    "tags": ["math", "dynamic-programming", "tree", "depth-first-search", "number-theory"]
+    "tags": [
+      "math",
+      "dynamic-programming",
+      "tree",
+      "depth-first-search",
+      "number-theory"
+    ]
   },
   "3762": {
     "id": 3762,
@@ -26343,7 +26387,10 @@
     "title": "Minimum Operations to Make Array Values Equal to K",
     "difficulty": "Easy",
     "link": "https://leetcode.com/problems/minimum-operations-to-make-array-values-equal-to-k/",
-    "tags": ["array", "hash-table"]
+    "tags": [
+      "array",
+      "hash-table"
+    ]
   },
   "3763": {
     "id": 3763,
