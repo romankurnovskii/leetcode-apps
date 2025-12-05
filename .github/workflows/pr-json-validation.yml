@@ -1,0 +1,82 @@
+name: PR JSON Validation
+
+on:
+  pull_request:
+    paths:
+      - "data/leetcode-problems.json"
+      - "scripts/normalize_json.py"
+    branches:
+      - main
+
+jobs:
+  validate-json:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate JSON syntax
+        run: |
+          python3 -m json.tool data/leetcode-problems.json > /dev/null
+          echo "✓ JSON syntax is valid"
+
+      - name: Test normalization script
+        run: |
+          # Make script executable
+          chmod +x scripts/normalize_json.py
+          
+          # Normalize to a temporary file to compare
+          python3 scripts/normalize_json.py data/leetcode-problems.json data/leetcode-problems.json.normalized
+          
+          # Check if the normalized version differs from the original
+          if ! diff -q data/leetcode-problems.json data/leetcode-problems.json.normalized > /dev/null; then
+            echo "❌ Error: JSON file is not normalized."
+            echo "Please run './scripts/normalize_json.py data/leetcode-problems.json' and commit the changes."
+            echo ""
+            echo "Diff showing what needs to be normalized:"
+            diff data/leetcode-problems.json data/leetcode-problems.json.normalized || true
+            rm data/leetcode-problems.json.normalized
+            exit 1
+          else
+            echo "✓ JSON file is properly normalized"
+            rm data/leetcode-problems.json.normalized
+          fi
+
+      - name: Verify JSON structure
+        run: |
+          python3 << 'EOF'
+          import json
+          import sys
+
+          with open('data/leetcode-problems.json', 'r') as f:
+              data = json.load(f)
+
+          # Check if root is a dict
+          if not isinstance(data, dict):
+              print("❌ Error: Root must be a dictionary")
+              sys.exit(1)
+
+          # Check if all keys are numeric strings
+          for key in data.keys():
+              try:
+                  int(key)
+              except ValueError:
+                  print(f"❌ Error: Key '{key}' is not a numeric string")
+                  sys.exit(1)
+
+          # Check if keys are sorted
+          keys = [int(k) for k in data.keys()]
+          if keys != sorted(keys):
+              print("❌ Error: Keys are not sorted numerically")
+              sys.exit(1)
+
+          print(f"✓ JSON structure is valid ({len(data)} entries)")
+          print(f"✓ All keys are numeric and sorted")
+          EOF
