@@ -2,64 +2,58 @@
 
 ### Strategy (The "Why")
 
-**1.1 Constraints & Complexity:**
+**Restate the problem:** We need to convert string `source` to `target` with minimum cost. We can change characters using given conversion rules, and we can use intermediate characters to reduce cost.
 
-- **Constraints:** $1 \leq n \leq 10^5$ elements. Values are in the range $[1, 10^9]$. $0 \leq k < n$.
-- **Time Complexity:** $O(n \log n)$ where $n$ is the array length. Sorting takes $O(n \log n)$ and counting takes $O(n)$.
-- **Space Complexity:** $O(1)$ if sorting is in-place, or $O(n)$ depending on the sorting algorithm.
-- **Edge Case:** If $k = 0$, every element qualifies (no greater elements needed), so return $n$.
+**1.1 Constraints & Complexity:**
+- Input size: `1 <= source.length == target.length <= 10^5`, `1 <= cost.length <= 2000`
+- **Time Complexity:** O(26³ + n) = O(n) where n is string length, as Floyd-Warshall on 26 nodes is constant
+- **Space Complexity:** O(26²) = O(1) for the distance matrix
+- **Edge Case:** If source[i] == target[i], no conversion needed for that position
 
 **1.2 High-level approach:**
+We model character conversions as a graph where edges represent direct conversions with costs. We use Floyd-Warshall to find shortest paths between all character pairs, then sum up the minimum costs for each position.
 
-The goal is to count elements that have at least $k$ elements strictly greater than them. After sorting, the $k$-th largest element acts as a threshold. Any element smaller than this threshold automatically has at least $k$ greater elements.
+![Graph shortest path visualization](https://assets.leetcode.com/static_assets/others/graph-shortest-path.png)
 
 **1.3 Brute force vs. optimized strategy:**
-
-- **Brute Force:** For each element, count how many elements are greater than it. This is $O(n^2)$ time.
-- **Optimized Strategy:** Sort the array first. The $k$-th largest element (at index $n-k$) has exactly $k-1$ elements greater than it, so it doesn't qualify. Any element smaller than this threshold has at least $k$ greater elements. This is $O(n \log n)$ time.
-- **Why optimized is better:** Sorting reduces the problem to a simple threshold check, avoiding nested loops.
+- **Brute Force:** Try all possible conversion sequences, which is exponential.
+- **Optimized Strategy:** Use Floyd-Warshall to precompute shortest paths between all character pairs in O(26³) time, then use these in O(n) time to compute total cost.
 
 **1.4 Decomposition:**
-
-1. Handle edge case: if $k = 0$, return $n$.
-2. Sort the array in ascending order.
-3. Find the threshold: the element at index $n - k$ (the $k$-th largest element).
-4. Count all elements strictly smaller than the threshold.
-5. Return the count.
+1. Build a graph with 26 nodes (characters) and edges from conversion rules
+2. Use Floyd-Warshall algorithm to find shortest paths between all pairs
+3. For each position, if characters differ, use the shortest path cost
+4. Return total cost, or -1 if any conversion is impossible
 
 ### Steps (The "How")
 
 **2.1 Initialization & Example Setup:**
-
-Let's use the example: `nums = [3,1,2]`, `k = 1`
-
-After sorting: `nums = [1,2,3]`
+Let's use the example: `source = "abcd"`, `target = "acbe"`, `original = ["a","b","c","c","e","d"]`, `changed = ["b","c","b","e","b","e"]`, `cost = [2,5,5,1,2,20]`
+- Initialize distance matrix with INF, diagonal with 0
+- Add edges: a→b(2), b→c(5), c→b(5), c→e(1), e→b(2), d→e(20)
 
 **2.2 Start Checking:**
-
-We find the threshold element and count elements smaller than it.
+We run Floyd-Warshall to compute shortest paths, then process each character position.
 
 **2.3 Trace Walkthrough:**
+After Floyd-Warshall, key shortest paths:
+- a→c: a→b(2) + b→c(5) = 7, or a→b(2) + b→c(5) = 7
+- b→e: b→c(5) + c→e(1) = 6
+- d→e: d→e(20) = 20
 
-| Step | Action | nums (sorted) | n | k | threshold index | threshold value | Count |
-|------|--------|---------------|---|---|-----------------|-----------------|-------|
-| 1 | Sort | [1,2,3] | 3 | 1 | 3-1=2 | 3 | 0 |
-| 2 | Check 1 | [1,2,3] | - | - | - | - | 1 < 3? Yes → count=1 |
-| 3 | Check 2 | [1,2,3] | - | - | - | - | 2 < 3? Yes → count=2 |
-| 4 | Check 3 | [1,2,3] | - | - | - | - | 3 < 3? No → count=2 |
+Processing `source = "abcd"` to `target = "acbe"`:
+
+| Index | source[i] | target[i] | Same? | Conversion | Cost | Total |
+|-------|-----------|-----------|-------|------------|------|-------|
+| 0 | 'a' | 'a' | Yes | None | 0 | 0 |
+| 1 | 'b' | 'c' | No | b→c | 5 | 5 |
+| 2 | 'c' | 'b' | No | c→b | 5 | 10 |
+| 3 | 'd' | 'e' | No | d→e | 20 | 30 |
+
+Wait, let's recalculate: b→c costs 5, c→b costs 5, but we can also do c→e(1) then e→b(2) = 3, which is better. So c→b = 3.
 
 **2.4 Increment and Loop:**
-
-- Sort the array: `nums.sort()`
-- Calculate threshold index: `threshold_idx = n - k`
-- Get threshold value: `threshold = nums[threshold_idx]`
-- Count elements: `for x in nums: if x < threshold: count += 1`
+For each position, we look up the shortest path cost in our precomputed matrix and add it to the total.
 
 **2.5 Return Result:**
-
-For `nums = [3,1,2]`, `k = 1`:
-- Sorted: `[1,2,3]`
-- Threshold (1st largest): `nums[2] = 3`
-- Elements < 3: `1` and `2`
-- Result: `2`
-
+The total cost is 0 + 5 + 3 + 20 = 28, which is the minimum cost to convert "abcd" to "acbe".

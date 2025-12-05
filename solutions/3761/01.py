@@ -1,29 +1,48 @@
 class Solution:
-    def reverse(self, x: int) -> int:
-        """Reverse the digits of an integer, removing leading zeros."""
+    def countPaths(self, n: int, edges: List[List[int]]) -> int:
+        # Sieve of Eratosthenes to find primes
+        is_prime = [True] * (n + 1)
+        is_prime[0] = is_prime[1] = False
+        
+        p = 2
+        while p * p <= n:
+            if is_prime[p]:
+                for i in range(p * p, n + 1, p):
+                    is_prime[i] = False
+            p += 1
+        
+        # Build tree
+        from collections import defaultdict
+        graph = defaultdict(list)
+        for u, v in edges:
+            graph[u].append(v)
+            graph[v].append(u)
+        
+        # DP: dp[node][0] = paths with 0 primes, dp[node][1] = paths with 1 prime
+        dp = [[0, 0] for _ in range(n + 1)]
         res = 0
-        while x:
-            res = res * 10 + x % 10
-            x //= 10
-        return res
-    
-    def minMirrorPairDistance(self, nums: List[int]) -> int:
-        # Map to store last occurrence index of reversed numbers
-        last_occ = {}
         
-        # Store reverse of first element
-        last_occ[self.reverse(nums[0])] = 0
-        
-        res = float('inf')
-        
-        # Process from index 1 onwards
-        for j in range(1, len(nums)):
-            # If current number appeared as a reversed number before
-            if nums[j] in last_occ:
-                res = min(res, j - last_occ[nums[j]])
+        def dfs(node, parent):
+            nonlocal res
             
-            # Update last occurrence of reversed current number
-            last_occ[self.reverse(nums[j])] = j
+            if is_prime[node]:
+                dp[node][1] = 1
+            else:
+                dp[node][0] = 1
+            
+            for child in graph[node]:
+                if child != parent:
+                    dfs(child, node)
+                    # Count paths passing through current node
+                    # Path with 1 prime: (node has 1 prime, child has 0) or (node has 0, child has 1)
+                    res += dp[node][1] * dp[child][0] + dp[node][0] * dp[child][1]
+                    
+                    # Update dp for current node
+                    if is_prime[node]:
+                        dp[node][1] += dp[child][0]
+                    else:
+                        dp[node][0] += dp[child][0]
+                        dp[node][1] += dp[child][1]
         
-        return res if res != float('inf') else -1
-
+        dfs(1, 0)
+        return res

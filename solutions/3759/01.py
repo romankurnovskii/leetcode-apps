@@ -1,22 +1,41 @@
 class Solution:
-    def countElements(self, nums: List[int], k: int) -> int:
-        # If k == 0, every element qualifies
-        if k == 0:
-            return len(nums)
+    def minimumCost(self, source: str, target: str, original: List[str], changed: List[str], cost: List[int]) -> int:
+        # Build graph: character -> character with cost
+        # Use Floyd-Warshall to find shortest path between all pairs
+        INF = float('inf')
+        dist = [[INF] * 26 for _ in range(26)]
         
-        # Sort the array
-        nums.sort()
-        n = len(nums)
+        # Initialize: same character costs 0
+        for i in range(26):
+            dist[i][i] = 0
         
-        # Find the threshold: the k-th largest element
-        # Index of k-th largest is n - k
-        threshold = nums[n - k]
+        # Add edges from original to changed
+        for i in range(len(original)):
+            orig_char = ord(original[i]) - ord('a')
+            changed_char = ord(changed[i]) - ord('a')
+            cost_val = cost[i]
+            # Keep minimum cost if multiple edges exist
+            dist[orig_char][changed_char] = min(dist[orig_char][changed_char], cost_val)
         
-        # Count all elements smaller than the threshold
+        # Floyd-Warshall algorithm
+        for k in range(26):
+            for i in range(26):
+                for j in range(26):
+                    if dist[i][k] != INF and dist[k][j] != INF:
+                        dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])
+        
+        # Calculate total cost
         res = 0
-        for x in nums:
-            if x < threshold:
-                res += 1
+        for i in range(len(source)):
+            src_char = ord(source[i]) - ord('a')
+            tgt_char = ord(target[i]) - ord('a')
+            
+            if src_char == tgt_char:
+                continue
+            
+            if dist[src_char][tgt_char] == INF:
+                return -1
+            
+            res += dist[src_char][tgt_char]
         
         return res
-
