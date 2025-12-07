@@ -147,7 +147,9 @@ def normalize_book_sets(
 
         if removed:
             changes_made = True
-            print(f"\n[All-TODO] Removing {len(removed)} problems with both solution and explanation:")
+            print(
+                f"\n[All-TODO] Removing {len(removed)} problems with both solution and explanation:"
+            )
             print(f"  Removed: {removed[:10]}{'...' if len(removed) > 10 else ''}")
             all_todo_obj["problems"] = sorted(new_problems)
             print(f"  Updated count: {original_count} -> {len(new_problems)}")
@@ -190,9 +192,13 @@ def normalize_book_sets(
 
             print(f"\n[All] Updating problem list:")
             if added:
-                print(f"  Added {len(added)} problems: {added[:10]}{'...' if len(added) > 10 else ''}")
+                print(
+                    f"  Added {len(added)} problems: {added[:10]}{'...' if len(added) > 10 else ''}"
+                )
             if removed:
-                print(f"  Removed {len(removed)} problems: {removed[:10]}{'...' if len(removed) > 10 else ''}")
+                print(
+                    f"  Removed {len(removed)} problems: {removed[:10]}{'...' if len(removed) > 10 else ''}"
+                )
             print(f"  Updated count: {original_count} -> {len(problems_with_both)}")
 
             all_obj["problems"] = problems_with_both
@@ -238,7 +244,9 @@ def normalize_book_sets(
             print(f"  Status: COMPLETE ({completed}/{total} problems)")
         else:
             print(f"\n✗ {title}")
-            print(f"  Status: INCOMPLETE ({completed}/{total} problems, {completion_pct:.1f}%)")
+            print(
+                f"  Status: INCOMPLETE ({completed}/{total} problems, {completion_pct:.1f}%)"
+            )
             if missing:
                 # Show first 20 missing problems, then count if more
                 if len(missing) <= 20:
@@ -257,9 +265,17 @@ def normalize_book_sets(
     print("SUMMARY")
     print("=" * 70)
     print(f"Total sets: {total_sets}")
-    print(f"Completed sets: {completed_sets} ({completed_sets/total_sets*100:.1f}%)" if total_sets > 0 else "Completed sets: 0")
+    print(
+        f"Completed sets: {completed_sets} ({completed_sets/total_sets*100:.1f}%)"
+        if total_sets > 0
+        else "Completed sets: 0"
+    )
     print(f"Total problems across all sets: {total_problems}")
-    print(f"Completed problems: {total_completed_problems} ({total_completed_problems/total_problems*100:.1f}%)" if total_problems > 0 else "Completed problems: 0")
+    print(
+        f"Completed problems: {total_completed_problems} ({total_completed_problems/total_problems*100:.1f}%)"
+        if total_problems > 0
+        else "Completed problems: 0"
+    )
 
     # Write the updated JSON file
     if changes_made:
@@ -322,4 +338,3 @@ if __name__ == "__main__":
         args.explanations_dir,
         dry_run=dry_run,
     )
-
