@@ -17,7 +17,6 @@ import json
 import os
 import sys
 import argparse
-import subprocess
 from pathlib import Path
 
 # Paths
@@ -184,22 +183,9 @@ def main():
         print(f"Dry run complete. Would update {updated_count} set(s).")
     else:
         if updated_count > 0:
-            # Save updated book-sets.json
+            # Save updated book-sets.json (Prettier will format it via pre-commit hook)
             with open(BOOK_SETS_PATH, "w", encoding="utf-8") as f:
                 json.dump(book_sets, f, ensure_ascii=False)
-            
-            # Format with prettier
-            try:
-                subprocess.run(
-                    ["npx", "prettier", "--write", str(BOOK_SETS_PATH)],
-                    check=True,
-                    capture_output=True,
-                )
-            except subprocess.CalledProcessError as e:
-                print(f"Warning: Prettier formatting failed: {e}")
-            except FileNotFoundError:
-                print("Warning: npx/prettier not found, skipping formatting")
-            
             print(f"✓ Updated {updated_count} book set(s) in {BOOK_SETS_PATH}")
         else:
             print("No changes needed. All sets are already sorted.")

@@ -10,7 +10,6 @@ python scripts/normalize_json.py data/leetcode-problems.json
 
 import json
 import argparse
-import subprocess
 from collections import OrderedDict
 
 
@@ -33,19 +32,9 @@ def sort_json_by_numeric_keys(input_file, output_file):
         sorted_items = sorted(data.items(), key=lambda item: int(item[0]))
         sorted_data = OrderedDict(sorted_items)
 
-        # Write JSON (Prettier will format it)
+        # Write JSON (Prettier will format it via pre-commit hook)
         with open(output_file, "w", encoding="utf-8") as f:
             json.dump(sorted_data, f, ensure_ascii=False)
-
-        # Format with prettier
-        try:
-            subprocess.run(
-                ["npx", "prettier", "--write", output_file],
-                check=True,
-                capture_output=True,
-            )
-        except (subprocess.CalledProcessError, FileNotFoundError):
-            pass  # Silently fail if prettier is not available
 
         print(
             f"Successfully sorted '{input_file}' and saved the result to '{output_file}'."

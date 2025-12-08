@@ -156,20 +156,9 @@ def save_json(data):
         )
         sorted_data = OrderedDict(sorted_items)
 
+        # Write JSON (Prettier will format it via pre-commit hook)
         with open(JSON_PATH, "w", encoding="utf-8") as f:
             json.dump(sorted_data, f, ensure_ascii=False)
-        
-        # Format with prettier
-        import subprocess
-        try:
-            subprocess.run(
-                ["npx", "prettier", "--write", str(JSON_PATH)],
-                check=True,
-                capture_output=True,
-            )
-        except (subprocess.CalledProcessError, FileNotFoundError):
-            pass  # Silently fail if prettier is not available
-        
         return True
     except Exception as e:
         print(f"Error saving JSON: {e}")
