@@ -26356,5 +26356,61 @@
     "title": "Most Common Course Pairs",
     "difficulty": "Hard",
     "link": "https://leetcode.com/problems/most-common-course-pairs/"
+  },
+  "3765": {
+    "id": 3765,
+    "category": "Math & Geometry",
+    "title": "Complete Prime Number",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/complete-prime-number/"
+  },
+  "3766": {
+    "id": 3766,
+    "category": "Array & Hashing",
+    "title": "Minimum Operations to Make Binary Palindrome",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/minimum-operations-to-make-binary-palindrome/"
+  },
+  "3767": {
+    "id": 3767,
+    "category": "Greedy",
+    "title": "Maximize Points After Choosing K Tasks",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/maximize-points-after-choosing-k-tasks/"
+  },
+  "3768": {
+    "id": 3768,
+    "category": "Array & Hashing",
+    "title": "Minimum Inversion Count in Subarrays of Fixed Length",
+    "difficulty": "Hard",
+    "link": "https://leetcode.com/problems/minimum-inversion-count-in-subarrays-of-fixed-length/"
+  },
+  "3769": {
+    "id": 3769,
+    "category": "Array & Hashing",
+    "title": "Sort Integers by Binary Reflection",
+    "difficulty": "Easy",
+    "link": "https://leetcode.com/problems/sort-integers-by-binary-reflection/"
+  },
+  "3770": {
+    "id": 3770,
+    "category": "Math & Geometry",
+    "title": "Largest Prime from Consecutive Prime Sum",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/largest-prime-from-consecutive-prime-sum/"
+  },
+  "3771": {
+    "id": 3771,
+    "category": "Dynamic Programming",
+    "title": "Total Score of Dungeon Runs",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/total-score-of-dungeon-runs/"
+  },
+  "3772": {
+    "id": 3772,
+    "category": "Tree",
+    "title": "Maximum Subgraph Score in a Tree",
+    "difficulty": "Hard",
+    "link": "https://leetcode.com/problems/maximum-subgraph-score-in-a-tree/"
   }
 }

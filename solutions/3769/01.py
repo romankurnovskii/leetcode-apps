@@ -1,0 +1,11 @@
+class Solution:
+    def sortByReflection(self, nums: List[int]) -> List[int]:
+        def binary_reflection(n):
+            # Convert to binary, reverse, convert back to decimal
+            binary = bin(n)[2:]  # Remove '0b' prefix
+            reversed_binary = binary[::-1]
+            return int(reversed_binary, 2)
+        
+        # Sort by binary reflection, then by original value
+        res = sorted(nums, key=lambda x: (binary_reflection(x), x))
+        return res
