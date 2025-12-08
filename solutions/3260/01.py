@@ -1,45 +1,72 @@
 class Solution:
     def largestPalindrome(self, n: int, k: int) -> str:
-        # Build palindrome from outside to inside
-        # Use DP: track remainder as we build
+        # For very large n, use optimized construction
+        # Build palindrome digit by digit, only keeping best per remainder
         
-        def build(pos, rem, pal_list):
-            if pos >= (n + 1) // 2:
-                if rem == 0:
-                    return ''.join(pal_list)
-                return None
-            
-            mirror_pos = n - 1 - pos
-            best = None
-            
-            for digit in range(9, -1, -1):
-                if pos == 0 and digit == 0:
-                    continue
-                
-                # Calculate remainder contribution
-                if pos == mirror_pos:
-                    # Center position (odd n)
-                    power = pow(10, pos, k)
-                    new_rem = (rem + digit * power) % k
-                    new_pal = pal_list[:]
-                    new_pal[pos] = str(digit)
-                else:
-                    # Symmetric positions
-                    left_power = pow(10, pos, k)
-                    right_power = pow(10, mirror_pos, k)
-                    new_rem = (rem + digit * (left_power + right_power)) % k
-                    new_pal = pal_list[:]
-                    new_pal[pos] = str(digit)
-                    new_pal[mirror_pos] = str(digit)
-                
-                result = build(pos + 1, new_rem, new_pal)
-                if result and (not best or result > best):
-                    best = result
-                if best:
-                    break  # Found largest, no need to try smaller digits
-            
-            return best
+        # dp[rem] = tuple of digits (first half only)
+        dp = {0: ()}
         
-        pal_list = [''] * n
-        res = build(0, 0, pal_list)
-        return res if res else str(k) * n
+        half = (n + 1) // 2
+        
+        for pos in range(half):
+            new_dp = {}
+            
+            for rem, digits in dp.items():
+                # Try digits 9 down to 0, but stop early if we find a solution
+                found_solution = False
+                
+                for digit in range(9, -1, -1):
+                    if pos == 0 and digit == 0:
+                        continue
+                    
+                    mirror_pos = n - 1 - pos
+                    
+                    # Calculate new remainder
+                    if pos == mirror_pos:
+                        power = pow(10, pos, k)
+                        new_rem = (rem + digit * power) % k
+                    else:
+                        left_power = pow(10, pos, k)
+                        right_power = pow(10, mirror_pos, k)
+                        new_rem = (rem + digit * (left_power + right_power)) % k
+                    
+                    new_digits = digits + (digit,)
+                    
+                    # Keep best for this remainder
+                    if new_rem not in new_dp or new_digits > new_dp[new_rem]:
+                        new_dp[new_rem] = new_digits
+                    
+                    # Early check: if this is the last position and remainder is 0, we're done
+                    if pos == half - 1 and new_rem == 0:
+                        found_solution = True
+                        # Reconstruct and return immediately
+                        pal_list = [''] * n
+                        for i, d in enumerate(new_digits):
+                            pal_list[i] = str(d)
+                            if i != n - 1 - i:
+                                pal_list[n - 1 - i] = str(d)
+                        res = ''.join(pal_list)
+                        if len(res) == n and res[0] != '0':
+                            return res
+                
+                # If we found a solution, we can break early
+                if found_solution:
+                    break
+            
+            dp = new_dp
+            # Limit states: only keep best candidate per remainder
+            # This prevents explosion of states
+            
+        # Final reconstruction
+        if 0 in dp:
+            digits = dp[0]
+            pal_list = [''] * n
+            for i, d in enumerate(digits):
+                pal_list[i] = str(d)
+                if i != n - 1 - i:
+                    pal_list[n - 1 - i] = str(d)
+            res = ''.join(pal_list)
+            if len(res) == n and res[0] != '0':
+                return res
+        
+        return str(k) * n
