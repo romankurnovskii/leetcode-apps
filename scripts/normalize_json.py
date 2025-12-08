@@ -3,6 +3,7 @@
 """
 Reads a JSON file, sorts its top-level keys numerically,
 and writes the sorted data to a new JSON file.
+Prettier will format the output according to .prettierrc config.
 
 python scripts/normalize_json.py data/leetcode-problems.json
 """
@@ -14,7 +15,7 @@ from collections import OrderedDict
 
 def sort_json_by_numeric_keys(input_file, output_file):
     """
-    Sort JSON file by numeric keys
+    Sort JSON file by numeric keys and format according to Prettier style.
 
     Args:
         input_file (str): The path to the input JSON file.
@@ -31,6 +32,7 @@ def sort_json_by_numeric_keys(input_file, output_file):
         sorted_items = sorted(data.items(), key=lambda item: int(item[0]))
         sorted_data = OrderedDict(sorted_items)
 
+        # Write JSON (Prettier will format it via pre-commit hook)
         with open(output_file, "w", encoding="utf-8") as f:
             json.dump(sorted_data, f, ensure_ascii=False)
 

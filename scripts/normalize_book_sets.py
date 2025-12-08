@@ -299,6 +299,7 @@ def normalize_book_sets(
             print("[DRY RUN] Would write changes to file (use --write to apply)")
         else:
             try:
+                # Write JSON file (prettier will format it via pre-commit hook)
                 with open(book_sets_file, "w", encoding="utf-8") as f:
                     json.dump(data, f, ensure_ascii=False)
 

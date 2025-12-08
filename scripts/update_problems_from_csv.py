@@ -156,6 +156,7 @@ def save_json(data):
         )
         sorted_data = OrderedDict(sorted_items)
 
+        # Write JSON (Prettier will format it via pre-commit hook)
         with open(JSON_PATH, "w", encoding="utf-8") as f:
             json.dump(sorted_data, f, ensure_ascii=False)
         return True
