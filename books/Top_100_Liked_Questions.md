@@ -34,6 +34,1252 @@ def two_sum(nums, target):
     return []
 ```
 
+## 21. Merge Two Sorted Lists [Easy]
+https://leetcode.com/problems/merge-two-sorted-lists/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+Given two sorted linked lists `list1` and `list2`, we need to merge them into one sorted list and return the head of the merged list.
+
+**1.1 Constraints & Complexity:**
+
+- **Input Size:** The total number of nodes can be up to $50$.
+- **Value Range:** Node values are between $-100$ and $100$.
+- **Time Complexity:** $O(n + m)$ where $n$ and $m$ are the lengths of the two lists. We visit each node exactly once.
+- **Space Complexity:** $O(1)$ - We only use a constant amount of extra space for the dummy node and pointers.
+- **Edge Case:** If one list is empty, return the other list. If both are empty, return `null`.
+
+**1.2 High-level approach:**
+
+The goal is to merge two sorted linked lists into one sorted list.
+
+We use a dummy node to simplify edge cases and a current pointer to build the merged list. We compare nodes from both lists and attach the smaller one to the result, then move the pointer of the list we took from.
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** Convert both lists to arrays, merge the arrays, then convert back to a linked list. This takes $O(n + m)$ time and $O(n + m)$ space.
+- **Optimized Strategy (Two Pointers):** Use two pointers to traverse both lists simultaneously, building the merged list in-place. This takes $O(n + m)$ time and $O(1)$ space.
+- **Why it's better:** The two-pointer approach uses $O(1)$ extra space instead of $O(n + m)$ for arrays, while maintaining the same time complexity.
+
+**1.4 Decomposition:**
+
+1. Create a dummy node to simplify edge cases.
+2. Initialize a current pointer at the dummy node.
+3. While both lists have nodes, compare the values and attach the smaller node to the result.
+4. Move the pointer of the list we took from.
+5. Attach the remaining nodes from the non-empty list.
+6. Return the head of the merged list (dummy.next).
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example: $list1 = [1,2,4]$, $list2 = [1,3,4]$
+
+We initialize:
+- `dummy = ListNode(0)`
+- `current = dummy`
+
+**2.2 Start Merging:**
+
+We begin comparing nodes from both lists.
+
+**2.3 Trace Walkthrough:**
+
+| Step | list1.val | list2.val | Compare | Attach | current.next | list1/list2 After |
+|------|-----------|-----------|---------|--------|--------------|-------------------|
+| 1 | 1 | 1 | Equal | list1 | 1 | list1 = 2 |
+| 2 | 2 | 1 | 2 > 1 | list2 | 1 | list2 = 3 |
+| 3 | 2 | 3 | 2 < 3 | list1 | 2 | list1 = 4 |
+| 4 | 4 | 3 | 4 > 3 | list2 | 3 | list2 = 4 |
+| 5 | 4 | 4 | Equal | list1 | 4 | list1 = null |
+| 6 | null | 4 | - | list2 | 4 | list2 = null |
+
+**2.4 Final Result:**
+
+After merging: $[1,1,2,3,4,4]$
+
+**2.5 Return Result:**
+
+We return the head of the merged list: $[1,1,2,3,4,4]$
+
+> **Note:** The dummy node simplifies the code by providing a starting point. Without it, we'd need special handling for the first node. The key is to always attach the smaller node and move the corresponding pointer forward.
+
+### Solution
+
+```python
+def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+class Solution:
+    def mergeTwoLists(self, list1, list2):
+        # Create a dummy node to simplify edge cases
+        dummy = ListNode(0)
+        current = dummy
+        
+        # Merge while both lists have nodes
+        while list1 and list2:
+            if list1.val <= list2.val:
+                current.next = list1
+                list1 = list1.next
+            else:
+                current.next = list2
+                list2 = list2.next
+            current = current.next
+        
+        # Append remaining nodes
+        current.next = list1 if list1 else list2
+        
+        return dummy.next
+```
+
+## 94. Binary Tree Inorder Traversal [Easy]
+https://leetcode.com/problems/binary-tree-inorder-traversal/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+Given the root of a binary tree, we need to return the inorder traversal of its nodes' values.
+
+**1.1 Constraints & Complexity:**
+
+- **Input Size:** The number of nodes can be up to $100$.
+- **Value Range:** Node values are between $-100$ and $100$.
+- **Time Complexity:** $O(n)$ - We visit each node exactly once.
+- **Space Complexity:** $O(h)$ where $h$ is the height of the tree. In the worst case (skewed tree), $h = n$, so $O(n)$. In the average case (balanced tree), $h = \log n$, so $O(\log n)$.
+- **Edge Case:** If the tree is empty, return an empty list. If the tree has only one node, return that node's value.
+
+**1.2 High-level approach:**
+
+The goal is to traverse the tree in inorder (left, root, right) order.
+
+We use recursion to implement inorder traversal. We recursively traverse the left subtree, visit the root, then recursively traverse the right subtree.
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** There isn't really a brute force approach - we must traverse the tree.
+- **Optimized Strategy (Recursion):** Use recursion to naturally implement inorder traversal. This is the standard and efficient approach.
+- **Why it's better:** Recursion naturally follows the tree structure and implements inorder traversal efficiently. An iterative approach using a stack is also possible but more complex.
+
+**1.4 Decomposition:**
+
+1. Define a recursive function that takes a node.
+2. Base case: if node is null, return.
+3. Recursively traverse left subtree.
+4. Visit current node (add value to result).
+5. Recursively traverse right subtree.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example: root = $[1,null,2,3]$
+
+The tree structure:
+```
+    1
+     \
+      2
+     /
+    3
+```
+
+We initialize:
+- `res = []`
+
+**2.2 Start Traversal:**
+
+We begin from the root.
+
+**2.3 Trace Walkthrough:**
+
+| Node | Action | res After |
+|------|--------|-----------|
+| 1 | Go left (null) | [] |
+| 1 | Visit 1 | [1] |
+| 1 | Go right (2) | [1] |
+| 2 | Go left (3) | [1] |
+| 3 | Go left (null) | [1] |
+| 3 | Visit 3 | [1,3] |
+| 3 | Go right (null) | [1,3] |
+| 2 | Visit 2 | [1,3,2] |
+| 2 | Go right (null) | [1,3,2] |
+
+**2.4 Final Result:**
+
+After traversal: `res = [1,3,2]`
+
+**2.5 Return Result:**
+
+We return `[1,3,2]`, which is the inorder traversal.
+
+> **Note:** The key is to follow the inorder order: left subtree first, then root, then right subtree. Recursion naturally implements this by processing the left subtree before the root, and the root before the right subtree.
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+from typing import List
+
+class Solution:
+    def inorderTraversal(self, root) -> List[int]:
+        res = []
+        
+        def inorder(node):
+            if not node:
+                return
+            inorder(node.left)
+            res.append(node.val)
+            inorder(node.right)
+        
+        inorder(root)
+        return res
+```
+
+## 101. Symmetric Tree [Easy]
+https://leetcode.com/problems/symmetric-tree/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+Given the root of a binary tree, we need to check whether it is a mirror of itself (symmetric around its center).
+
+**1.1 Constraints & Complexity:**
+
+- **Input Size:** The number of nodes can be up to $1000$.
+- **Value Range:** Node values are between $-100$ and $100$.
+- **Time Complexity:** $O(n)$ - We visit each node exactly once.
+- **Space Complexity:** $O(h)$ where $h$ is the height of the tree. In the worst case (skewed tree), $h = n$, so $O(n)$.
+- **Edge Case:** An empty tree is symmetric. A tree with only one node is symmetric.
+
+**1.2 High-level approach:**
+
+The goal is to determine if a binary tree is symmetric (mirror of itself).
+
+We use recursion to check if the left and right subtrees are mirrors of each other. Two trees are mirrors if their roots have the same value, and the left subtree of one is a mirror of the right subtree of the other, and vice versa.
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** There isn't really a brute force approach - we must check the mirror property.
+- **Optimized Strategy (Recursion):** Use recursion to check if left and right subtrees are mirrors. This is the standard and efficient approach.
+- **Why it's better:** Recursion naturally checks the mirror property by comparing corresponding nodes in the left and right subtrees.
+
+**1.4 Decomposition:**
+
+1. Define a helper function that checks if two trees are mirrors.
+2. Two trees are mirrors if:
+   - Both are null (base case: true).
+   - One is null and the other is not (false).
+   - Both roots have the same value, and:
+     - Left subtree of first is mirror of right subtree of second.
+     - Right subtree of first is mirror of left subtree of second.
+3. Check if root's left and right subtrees are mirrors.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example: root = $[1,2,2,3,4,4,3]$
+
+The tree structure:
+```
+      1
+     / \
+    2   2
+   / \ / \
+  3  4 4  3
+```
+
+We initialize:
+- Call `is_mirror(root.left, root.right)`
+
+**2.2 Start Checking:**
+
+We begin checking if left and right subtrees are mirrors.
+
+**2.3 Trace Walkthrough:**
+
+| left | right | left.val | right.val | Check | Result |
+|------|-------|----------|-----------|-------|--------|
+| 2 | 2 | 2 | 2 | Equal ✓ | Check children |
+| 3 | 3 | 3 | 3 | Equal ✓ | Both null ✓ |
+| 4 | 4 | 4 | 4 | Equal ✓ | Both null ✓ |
+| 4 | 4 | 4 | 4 | Equal ✓ | Both null ✓ |
+| 3 | 3 | 3 | 3 | Equal ✓ | Both null ✓ |
+
+**2.4 Explanation:**
+
+- Root's left (2) and right (2) have same value ✓
+- Left's left (3) and right's right (3) are mirrors ✓
+- Left's right (4) and right's left (4) are mirrors ✓
+
+**2.5 Return Result:**
+
+We return `True` because the tree is symmetric.
+
+> **Note:** The key insight is that a tree is symmetric if its left and right subtrees are mirrors. Two trees are mirrors if their roots match and the left of one mirrors the right of the other (and vice versa).
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+class Solution:
+    def isSymmetric(self, root) -> bool:
+        def is_mirror(left, right):
+            if not left and not right:
+                return True
+            if not left or not right:
+                return False
+            return (left.val == right.val and 
+                    is_mirror(left.left, right.right) and 
+                    is_mirror(left.right, right.left))
+        
+        if not root:
+            return True
+        
+        return is_mirror(root.left, root.right)
+```
+
+## 104. Maximum Depth of Binary Tree [Easy]
+https://leetcode.com/problems/maximum-depth-of-binary-tree/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+Given the root of a binary tree, we need to find its maximum depth. The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
+
+**1.1 Constraints & Complexity:**
+
+- **Input Size:** The number of nodes $N$ in the tree can be between $0$ and $10^4$.
+- **Value Range:** Node values are between $-100$ and $100$.
+- **Time Complexity:** $O(n)$ - We visit each node exactly once.
+- **Space Complexity:** $O(h)$ where $h$ is the height of the tree. In the worst case (skewed tree), $h = n$, so $O(n)$. In the average case (balanced tree), $h = \log n$, so $O(\log n)$.
+- **Edge Case:** If the tree is empty (root is null), return 0.
+
+**1.2 High-level approach:**
+
+The goal is to find the maximum depth of a binary tree.
+
+![Maximum Depth](https://assets.leetcode.com/uploads/2020/11/26/tmp-tree.jpg)
+
+We use recursion: the maximum depth of a tree is 1 plus the maximum of the depths of its left and right subtrees.
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** There isn't really a brute force approach - we must traverse the tree to find the depth.
+- **Optimized Strategy (Recursion):** Recursively compute the depth of left and right subtrees, then return 1 plus the maximum. This is the natural and efficient approach.
+- **Why it's better:** Recursion naturally follows the tree structure. Each node's depth depends only on its children's depths, creating optimal substructure.
+
+**1.4 Decomposition:**
+
+1. Base case: if the root is null, return 0.
+2. Recursively find the maximum depth of the left subtree.
+3. Recursively find the maximum depth of the right subtree.
+4. Return 1 (for current node) plus the maximum of the two subtree depths.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example: root = $[3,9,20,null,null,15,7]$
+
+The tree structure:
+```
+    3
+   / \
+  9   20
+     /  \
+    15   7
+```
+
+**2.2 Start Recursion:**
+
+We begin from the root node (value 3).
+
+**2.3 Trace Walkthrough:**
+
+| Node | Left Depth | Right Depth | Max Depth | Return Value |
+|------|------------|--------------|-----------|--------------|
+| 3 | ? | ? | - | Compute... |
+| 9 | 0 (null) | 0 (null) | 0 | $0 + 1 = 1$ |
+| 20 | ? | ? | - | Compute... |
+| 15 | 0 (null) | 0 (null) | 0 | $0 + 1 = 1$ |
+| 7 | 0 (null) | 0 (null) | 0 | $0 + 1 = 1$ |
+| 20 | 1 | 1 | 1 | $1 + 1 = 2$ |
+| 3 | 1 | 2 | 2 | $2 + 1 = 3$ |
+
+**2.4 Recursion Flow:**
+
+- Root (3): left depth = 1, right depth = 2, return $max(1, 2) + 1 = 3$
+- Node 9: both children null, return $0 + 1 = 1$
+- Node 20: left depth = 1, right depth = 1, return $max(1, 1) + 1 = 2$
+
+**2.5 Return Result:**
+
+We return 3, which is the maximum depth of the tree.
+
+> **Note:** The recursive approach naturally handles the tree structure. The depth of each node is computed from its children's depths, working from the leaves upward to the root.
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+class Solution:
+    def maxDepth(self, root) -> int:
+        if not root:
+            return 0
+        
+        # Recursively find max depth of left and right subtrees
+        left_depth = self.maxDepth(root.left)
+        right_depth = self.maxDepth(root.right)
+        
+        # Return max depth plus 1 for current node
+        return max(left_depth, right_depth) + 1
+```
+
+## 141. Linked List Cycle [Easy]
+https://leetcode.com/problems/linked-list-cycle/
+
+### Explanation
+
+# 141. Linked List Cycle [Easy]
+
+https://leetcode.com/problems/linked-list-cycle
+
+## Description
+
+Given `head`, the head of a linked list, determine if the linked list has a cycle in it.
+
+There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the `next` pointer. Internally, `pos` is used to denote the index of the node that tail's `next` pointer is connected to. **Note that `pos` is not passed as a parameter**.
+
+Return `true` *if there is a cycle in the linked list*. Otherwise, return `false`.
+
+**Example 1:**
+```text
+Input: head = [3,2,0,-4], pos = 1
+Output: true
+Explanation: There is a cycle in the linked list, where the tail connects to the 1st node (0-indexed).
+```
+
+**Example 2:**
+```text
+Input: head = [1,2], pos = 0
+Output: true
+Explanation: There is a cycle in the linked list, where the tail connects to the 0th node.
+```
+
+**Example 3:**
+```text
+Input: head = [1], pos = -1
+Output: false
+Explanation: There is no cycle in the linked list.
+```
+
+**Constraints:**
+
+- The number of the nodes in the list is in the range `[0, 10^4]`.
+- `-10^5 <= Node.val <= 10^5`
+- `pos` is `-1` or a **valid index** in the linked-list.
+
+
+**Follow up:** Can you solve it using `O(1)` (i.e. constant) memory?
+
+## Explanation
+
+### Strategy
+
+This is a **two-pointer problem** that requires detecting a cycle in a linked list. The key insight is to use Floyd's Cycle-Finding Algorithm (also known as the "tortoise and hare" algorithm), which uses two pointers moving at different speeds.
+
+**Key observations:**
+- If there's a cycle, a fast pointer will eventually catch up to a slow pointer
+- If there's no cycle, the fast pointer will reach the end (null)
+- The fast pointer moves twice as fast as the slow pointer
+- This approach uses O(1) space, which is optimal
+
+**High-level approach:**
+1. **Use two pointers**: Slow pointer (tortoise) and fast pointer (hare)
+2. **Move pointers**: Slow moves 1 step, fast moves 2 steps
+3. **Check for cycle**: If fast catches slow, there's a cycle
+4. **Check for end**: If fast reaches null, there's no cycle
+
+### Steps
+
+Let's break down the solution step by step:
+
+**Step 1: Handle edge cases**
+- If head is null or head.next is null, return false
+
+**Step 2: Initialize pointers**
+- `slow = head` (moves 1 step at a time)
+- `fast = head.next` (moves 2 steps at a time)
+
+**Step 3: Move pointers until they meet or reach end**
+While `fast` is not null and `fast.next` is not null:
+- Move slow pointer: `slow = slow.next`
+- Move fast pointer: `fast = fast.next.next`
+- If slow and fast meet, return true (cycle detected)
+
+**Step 4: Return result**
+- If you exit the loop, return false (no cycle)
+
+**Example walkthrough:**
+Let's trace through the first example:
+
+```text
+head = [3,2,0,-4], pos = 1 (cycle from -4 back to 2)
+
+Initial state:
+slow = 3, fast = 2
+
+Step 1: slow = 2, fast = 0
+Step 2: slow = 0, fast = 2
+Step 3: slow = -4, fast = 0
+Step 4: slow = 2, fast = 2 (they meet!)
+
+Result: Return true (cycle detected)
+```
+
+> **Note:** Floyd's Cycle-Finding Algorithm is optimal because it uses O(1) space and O(n) time. The mathematical proof shows that if there's a cycle, the fast pointer will eventually catch the slow pointer within one cycle length.
+
+**Time Complexity:** O(n) - in the worst case, you visit each node at most twice  
+**Space Complexity:** O(1) - you only use two pointers regardless of input size
+
+### Solution
+
+```python
+def __init__(self, x):
+#         self.val = x
+#         self.next = None
+```
+
+## 160. Intersection of Two Linked Lists [Easy]
+https://leetcode.com/problems/intersection-of-two-linked-lists/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+- **Constraints:** We have two linked lists with `m` and `n` nodes respectively, where `1 <= m, n <= 3 * 10^4`. Each node value is between `1` and `10^5`.
+- **Time Complexity:** O(m + n) - In the worst case, we traverse both lists once before finding the intersection or determining there is none.
+- **Space Complexity:** O(1) - We only use two pointer variables, no additional data structures.
+- **Edge Case:** When the two lists have no intersection, both pointers will eventually become `None` and the loop will terminate, returning `None`.
+
+**1.2 High-level approach:**
+The goal is to find the node where two linked lists intersect, or return `None` if they don't intersect. The key insight is that if we traverse both lists simultaneously, switching to the other list when we reach the end, both pointers will eventually meet at the intersection point (if it exists) after traversing the same total distance.
+
+![Two linked lists intersecting](https://assets.leetcode.com/uploads/2021/03/05/160_statement.png)
+
+**1.3 Brute force vs. optimized strategy:**
+- **Brute Force:** For each node in list A, check if it exists in list B by traversing list B. This would take O(m * n) time complexity.
+- **Optimized Strategy (Two Pointers):** Use two pointers that traverse both lists, switching lists when reaching the end. This ensures both pointers cover the same total distance and will meet at the intersection. Time complexity is O(m + n) with O(1) space.
+
+**1.4 Decomposition:**
+1. Initialize two pointers, one for each list.
+2. Traverse both lists simultaneously, moving each pointer forward.
+3. When a pointer reaches the end of its list, switch it to the head of the other list.
+4. Continue until both pointers point to the same node (intersection found) or both are `None` (no intersection).
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+Let's use an example: `headA = [4,1,8,4,5]` and `headB = [5,6,1,8,4,5]`, where the lists intersect at node with value 8.
+
+Initialize:
+- `p1 = headA` (points to node 4)
+- `p2 = headB` (points to node 5)
+
+**2.2 Start Checking:**
+We enter a loop that continues while `p1 != p2`.
+
+**2.3 Trace Walkthrough:**
+
+| Step | p1 position | p2 position | p1 value | p2 value | Action |
+|------|-------------|--------------|----------|----------|--------|
+| 1 | headA[0] | headB[0] | 4 | 5 | Both advance |
+| 2 | headA[1] | headB[1] | 1 | 6 | Both advance |
+| 3 | headA[2] | headB[2] | 8 | 1 | Both advance |
+| 4 | headA[3] | headB[3] | 4 | 8 | Both advance |
+| 5 | headA[4] | headB[4] | 5 | 4 | Both advance |
+| 6 | None | headB[5] | - | 5 | p1 switches to headB |
+| 7 | headB[0] | None | 5 | - | p2 switches to headA |
+| 8 | headB[1] | headA[0] | 6 | 4 | Both advance |
+| 9 | headB[2] | headA[1] | 1 | 1 | Both advance |
+| 10 | headB[3] | headA[2] | 8 | 8 | **Match!** Intersection found |
+
+**2.4 Increment and Loop:**
+At each iteration:
+- If `p1` is not `None`, move it to `p1.next`; otherwise, set it to `headB`.
+- If `p2` is not `None`, move it to `p2.next`; otherwise, set it to `headA`.
+
+**2.5 Return Result:**
+When `p1 == p2`, the loop exits. This happens either:
+- When both point to the intersection node (return that node)
+- When both are `None` (no intersection, return `None`)
+
+In our example, both pointers meet at the node with value 8, which is the intersection point.
+
+### Solution
+
+```python
+def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> Optional[ListNode]:
+        # Two pointer approach: traverse both lists
+        # When one pointer reaches end, switch to other list
+        # This way both pointers will meet at intersection (if exists)
+        # or both will be None (if no intersection)
+        
+        p1, p2 = headA, headB
+        
+        while p1 != p2:
+            # If p1 reaches end, switch to headB
+            p1 = p1.next if p1 else headB
+            # If p2 reaches end, switch to headA
+            p2 = p2.next if p2 else headA
+        
+        return p1
+```
+
+## 206. Reverse Linked List [Easy]
+https://leetcode.com/problems/reverse-linked-list/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+Given the head of a singly linked list, we need to reverse the list and return the reversed list's head.
+
+**1.1 Constraints & Complexity:**
+
+- **Input Size:** The number of nodes can be between $0$ and $5000$.
+- **Value Range:** Node values are between $-5000$ and $5000$.
+- **Time Complexity:** $O(n)$ - We visit each node exactly once.
+- **Space Complexity:** $O(1)$ - We only use a constant amount of extra space for pointers.
+- **Edge Case:** If the list is empty (head is null), return null. If the list has only one node, return that node.
+
+**1.2 High-level approach:**
+
+The goal is to reverse the links between nodes in a linked list.
+
+We use an iterative approach with three pointers: `prev` (previous node), `current` (current node), and `next_node` (next node). We traverse the list, reversing each link as we go.
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** Convert the list to an array, reverse the array, then convert back to a linked list. This takes $O(n)$ time and $O(n)$ space.
+- **Optimized Strategy (Iterative):** Use pointers to reverse links in-place. This takes $O(n)$ time and $O(1)$ space.
+- **Why it's better:** The iterative approach uses $O(1)$ extra space instead of $O(n)$ for an array, while maintaining the same time complexity.
+
+**1.4 Decomposition:**
+
+1. Initialize `prev = None` and `current = head`.
+2. While `current` is not null:
+   - Store the next node.
+   - Reverse the link: `current.next = prev`.
+   - Move pointers forward: `prev = current`, `current = next_node`.
+3. Return `prev` (which is the new head).
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example: $head = [1,2,3,4,5]$
+
+We initialize:
+- `prev = None`
+- `current = 1`
+
+**2.2 Start Reversing:**
+
+We begin reversing links.
+
+**2.3 Trace Walkthrough:**
+
+| Step | current | next_node | current.next | prev After | current After |
+|------|---------|-----------|--------------|------------|---------------|
+| 1 | 1 | 2 | None | 1 | 2 |
+| 2 | 2 | 3 | 1 | 2 | 3 |
+| 3 | 3 | 4 | 2 | 3 | 4 |
+| 4 | 4 | 5 | 3 | 4 | 5 |
+| 5 | 5 | None | 4 | 5 | None |
+
+**2.4 Final State:**
+
+After reversing:
+- Original: $1 \rightarrow 2 \rightarrow 3 \rightarrow 4 \rightarrow 5 \rightarrow null$
+- Reversed: $5 \rightarrow 4 \rightarrow 3 \rightarrow 2 \rightarrow 1 \rightarrow null$
+
+**2.5 Return Result:**
+
+We return the node with value 5, which is the new head of the reversed list.
+
+> **Note:** The key insight is to maintain three pointers: previous, current, and next. We reverse the link from current to previous, then move all pointers forward. The previous pointer becomes the new head at the end.
+
+### Solution
+
+```python
+def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+class Solution:
+    def reverseList(self, head):
+        prev = None
+        current = head
+        
+        while current:
+            # Store next node
+            next_node = current.next
+            # Reverse the link
+            current.next = prev
+            # Move pointers forward
+            prev = current
+            current = next_node
+        
+        return prev
+```
+
+## 234. Palindrome Linked List [Easy]
+https://leetcode.com/problems/palindrome-linked-list/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+The problem asks us to determine if a singly linked list is a palindrome (reads the same forwards and backwards).
+
+**1.1 Constraints & Complexity:**
+
+- **Input Constraints:** The list has $1 \leq n \leq 10^5$ nodes, with values in $[0, 9]$.
+- **Time Complexity:** $O(n)$ - We traverse the list once to collect values, then compare them.
+- **Space Complexity:** $O(n)$ - We store all node values in an array for comparison.
+- **Edge Case:** A single-node list is always a palindrome.
+
+**1.2 High-level approach:**
+
+The goal is to check if the linked list values form a palindrome. We convert the list to an array, then use two pointers to compare values from both ends.
+
+![Palindrome Linked List](https://assets.leetcode.com/uploads/2021/03/03/pal1linked-list.jpg)
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** Reverse the entire list, then compare with original. This requires $O(n)$ time and $O(n)$ space for the reversed list.
+- **Optimized (Array Conversion):** Convert list to array, then use two pointers. This takes $O(n)$ time and $O(n)$ space.
+- **Emphasize the optimization:** While both approaches have similar complexity, the array approach is simpler and more intuitive. For $O(1)$ space, we could reverse half the list, but that's more complex.
+
+**1.4 Decomposition:**
+
+1. **Convert to Array:** Traverse the list and store all values in an array.
+2. **Two-Pointer Comparison:** Use left and right pointers to compare values from both ends.
+3. **Check Match:** If any pair doesn't match, return `False`. If all pairs match, return `True`.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's trace through an example: `head = [1,2,2,1]`.
+
+After conversion: `values = [1, 2, 2, 1]`
+
+**2.2 Start Checking:**
+
+Initialize `left = 0` and `right = len(values) - 1 = 3`.
+
+**2.3 Trace Walkthrough:**
+
+| Step | left | right | values[left] | values[right] | Match? | Action |
+|------|------|-------|--------------|----------------|--------|--------|
+| 1 | 0 | 3 | 1 | 1 | Yes | Continue |
+| 2 | 1 | 2 | 2 | 2 | Yes | Continue |
+| 3 | 2 | 1 | - | - | - | Stop (left >= right) |
+
+**2.4 Complete Comparison:**
+
+All pairs matched: (1,1) and (2,2).
+
+**2.5 Return Result:**
+
+Since all comparisons passed, the function returns `True`.
+
+> **Note:** The two-pointer technique efficiently checks palindromes by comparing symmetric positions without needing to reverse the list.
+
+### Solution
+
+```python
+def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def isPalindrome(self, head: Optional[ListNode]) -> bool:
+        # Convert linked list to array
+        values = []
+        current = head
+        while current:
+            values.append(current.val)
+            current = current.next
+        
+        # Check if array is palindrome
+        left, right = 0, len(values) - 1
+        while left < right:
+            if values[left] != values[right]:
+                return False
+            left += 1
+            right -= 1
+        
+        return True
+```
+
+## 242. Valid Anagram [Easy]
+https://leetcode.com/problems/valid-anagram/
+
+### Explanation
+
+Given two strings `s` and `t`, return `true` if `t` is an [anagram](https://en.wikipedia.org/wiki/Anagram) of `s`, and `false` otherwise.
+
+**Examples**
+
+```tex
+Example 1:
+Input: s = "anagram", t = "nagaram"
+Output: true
+
+Example 2:
+Input: s = "rat", t = "car"
+Output: false
+```
+
+**Constraints**
+```tex
+- 1 <= s.length, t.length <= 5 * 10^4
+- s and t consist of lowercase English letters
+```
+
+**Follow up:** What if the inputs contain Unicode characters? How would you adapt your solution to such a case?
+
+## Explanation
+
+### Strategy
+Let's restate the problem: You're given two strings, and you need to determine if one is an anagram of the other. An anagram is a word or phrase formed by rearranging the letters of another word or phrase, using all the original letters exactly once.
+
+This is a **character counting problem** that can be solved using hash tables to track the frequency of each character in both strings.
+
+**What is given?** Two strings `s` and `t` of potentially different lengths.
+
+**What is being asked?** Determine if `t` is an anagram of `s`.
+
+**Constraints:** The strings can be up to 50,000 characters long and contain only lowercase English letters.
+
+**Edge cases:** 
+- Strings of different lengths
+- Empty strings
+- Strings with repeated characters
+- Strings with all identical characters
+
+**High-level approach:**
+The solution involves counting the frequency of each character in both strings and comparing them. If the character counts match exactly, the strings are anagrams.
+
+**Decomposition:**
+1. **Check length equality**: If strings have different lengths, they can't be anagrams
+2. **Count characters in first string**: Use a hash table to track character frequencies
+3. **Decrement counts for second string**: For each character in the second string, decrement its count
+4. **Verify all counts are zero**: If any count is not zero, the strings are not anagrams
+
+**Brute force vs. optimized strategy:**
+- **Brute force**: Try all possible permutations of one string. This takes O(n!) time.
+- **Optimized**: Use character counting with hash tables. This takes O(n) time.
+
+### Steps
+Let's walk through the solution step by step using the first example: `s = "anagram"`, `t = "nagaram"`
+
+**Step 1: Check string lengths**
+- `s.length = 7`, `t.length = 7`
+- Lengths match ✓
+
+**Step 2: Initialize character count dictionary**
+- `char_count = {}`
+
+**Step 3: Count characters in first string (s)**
+- `s = "anagram"`
+- `char_count['a'] = 3` (appears 3 times)
+- `char_count['n'] = 1` (appears 1 time)
+- `char_count['g'] = 1` (appears 1 time)
+- `char_count['r'] = 1` (appears 1 time)
+- `char_count['m'] = 1` (appears 1 time)
+
+**Step 4: Decrement counts for second string (t)**
+- `t = "nagaram"`
+- `t[0] = 'n'`: `char_count['n'] = 1 - 1 = 0`
+- `t[1] = 'a'`: `char_count['a'] = 3 - 1 = 2`
+- `t[2] = 'g'`: `char_count['g'] = 1 - 1 = 0`
+- `t[3] = 'a'`: `char_count['a'] = 2 - 1 = 1`
+- `t[4] = 'r'`: `char_count['r'] = 1 - 1 = 0`
+- `t[5] = 'a'`: `char_count['a'] = 1 - 1 = 0`
+- `t[6] = 'm'`: `char_count['m'] = 1 - 1 = 0`
+
+**Step 5: Verify all counts are zero**
+- All character counts are now 0
+- The strings are anagrams: `true`
+
+**Why this works:**
+By counting characters in the first string and then decrementing for the second string, we ensure that:
+1. Both strings contain the same characters
+2. Each character appears the same number of times in both strings
+3. The final count of 0 for all characters confirms the anagram property
+
+> **Note:** The key insight is using character frequency counting to verify that both strings contain exactly the same characters with the same frequencies. This is much more efficient than trying to find permutations.
+
+**Time Complexity:** O(n) - we visit each character once in each string  
+**Space Complexity:** O(k) - where k is the number of unique characters (bounded by the character set size)
+
+### Solution
+
+```python
+def isAnagram(s, t):
+    if len(s) != len(t):
+        return False
+    
+    char_count = {}
+    
+    for char in s:
+        char_count[char] = char_count.get(char, 0) + 1
+    
+    for char in t:
+        if char not in char_count:
+            return False
+        
+        char_count[char] -= 1
+        
+        # If count becomes negative, strings are not anagrams
+        if char_count[char] < 0:
+            return False
+    
+    # Check if all counts are zero
+    for count in char_count.values():
+        if count != 0:
+            return False
+    
+    return True
+```
+
+## 543. Diameter of Binary Tree [Easy]
+https://leetcode.com/problems/diameter-of-binary-tree/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+- **Constraints:** Tree has between 1 and 10^4 nodes, and node values are between -100 and 100.
+- **Time Complexity:** O(n) - We visit each node exactly once during DFS, where n is the number of nodes.
+- **Space Complexity:** O(h) - The recursion stack depth is at most the height h of the tree. In the worst case (skewed tree), h = n, giving O(n) space.
+- **Edge Case:** If the tree has only one node, the diameter is 0 (no edges).
+
+**1.2 High-level approach:**
+The goal is to find the diameter (longest path between any two nodes) of a binary tree. The diameter may or may not pass through the root. We use DFS to calculate the depth of each subtree and track the maximum diameter found so far.
+
+![Diameter of Binary Tree](https://assets.leetcode.com/uploads/2021/03/06/diamtree.jpg)
+
+**1.3 Brute force vs. optimized strategy:**
+- **Brute Force:** For each node, find the longest path passing through it by calculating depths of left and right subtrees. This still requires visiting each node once, so it's O(n) but with redundant calculations.
+- **Optimized Strategy (DFS with Global Tracking):** Perform a single DFS pass, calculating subtree depths and updating the maximum diameter as we go. This takes O(n) time with a single traversal.
+- **Emphasize the optimization:** By tracking the maximum diameter during a single DFS pass, we avoid multiple traversals and redundant calculations.
+
+**1.4 Decomposition:**
+1. Perform DFS traversal of the tree.
+2. For each node, calculate the depth of its left and right subtrees.
+3. The diameter passing through this node is left_depth + right_depth.
+4. Update the global maximum diameter if this is larger.
+5. Return the depth of the current subtree (1 + max(left_depth, right_depth)).
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+Let's use an example: `root = [1,2,3,4,5]`
+
+Initialize:
+- `res = 0` (global maximum diameter)
+
+**2.2 Start Processing:**
+We perform DFS starting from the root.
+
+**2.3 Trace Walkthrough:**
+
+| Node | Left Depth | Right Depth | Diameter Through Node | Max Diameter | Return Depth |
+|------|------------|-------------|----------------------|--------------|--------------|
+| 4 (leaf) | 0 | 0 | 0 | 0 | 1 |
+| 5 (leaf) | 0 | 0 | 0 | 0 | 1 |
+| 2 | 1 | 1 | 2 | 2 | 2 |
+| 3 (leaf) | 0 | 0 | 0 | 2 | 1 |
+| 1 (root) | 2 | 1 | 3 | 3 | 3 |
+
+**2.4 Return Result:**
+The maximum diameter found is 3, which is the path [4,2,1,3] or [5,2,1,3].
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
+        res = 0
+        
+        def dfs(node):
+            nonlocal res
+            if not node:
+                return 0
+            
+            left_depth = dfs(node.left)
+            right_depth = dfs(node.right)
+            
+            # Diameter passing through this node
+            res = max(res, left_depth + right_depth)
+            
+            # Return depth of this subtree
+            return 1 + max(left_depth, right_depth)
+        
+        dfs(root)
+        return res
+```
+
+## 617. Merge Two Binary Trees [Easy]
+https://leetcode.com/problems/merge-two-binary-trees/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+
+- **Input Size:** The number of nodes in both trees is in the range `[0, 2000]`.
+- **Value Range:** `-10^4 <= Node.val <= 10^4`.
+- **Time Complexity:** O(min(m, n)) where m and n are the number of nodes in the two trees. We visit each node at most once.
+- **Space Complexity:** O(min(m, n)) for the recursion stack in the worst case (skewed tree).
+- **Edge Case:** If one tree is null, return the other tree. If both are null, return null.
+
+**1.2 High-level approach:**
+
+The goal is to merge two binary trees by summing overlapping nodes and using non-null nodes when one tree has a node and the other doesn't. We use recursion to traverse both trees simultaneously, creating new nodes for the merged tree.
+
+![Visualization showing how two binary trees are merged node by node, with overlapping nodes summed and non-overlapping nodes preserved]
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** There isn't really a brute force approach - we must traverse both trees to merge them.
+- **Optimized Strategy:** Use recursive depth-first search to traverse both trees simultaneously, creating merged nodes as we go.
+- **Why it's better:** Recursion naturally handles the tree structure and allows us to process each node exactly once.
+
+**1.4 Decomposition:**
+
+1. If both nodes are null, return null.
+2. If one node is null, return the other node (no merging needed).
+3. If both nodes exist, create a new node with the sum of their values.
+4. Recursively merge the left subtrees.
+5. Recursively merge the right subtrees.
+6. Return the merged node.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example:
+- `root1 = [1, 3, 2, 5]` (tree structure: 1 has left=3, right=2; 3 has left=5)
+- `root2 = [2, 1, 3, null, 4, null, 7]` (tree structure: 2 has left=1, right=3; 1 has right=4; 3 has right=7)
+
+**2.2 Start Checking:**
+
+We start from the root nodes of both trees.
+
+**2.3 Trace Walkthrough:**
+
+| Step | root1 node | root2 node | Action | Merged value | Left child | Right child |
+|------|------------|------------|--------|--------------|------------|-------------|
+| 1 | 1 | 2 | Both exist | 1 + 2 = 3 | Merge(3, 1) | Merge(2, 3) |
+| 2 | 3 | 1 | Both exist | 3 + 1 = 4 | Merge(5, null) | Merge(null, 4) |
+| 3 | 5 | null | root2 is null | 5 | null | null |
+| 4 | null | 4 | root1 is null | 4 | null | null |
+| 5 | 2 | 3 | Both exist | 2 + 3 = 5 | Merge(null, null) | Merge(null, 7) |
+| 6 | null | null | Both null | null | - | - |
+| 7 | null | 7 | root1 is null | 7 | null | null |
+
+The merged tree structure:
+- Root: 3 (1 + 2)
+  - Left: 4 (3 + 1)
+    - Left: 5 (5 + null)
+    - Right: 4 (null + 4)
+  - Right: 5 (2 + 3)
+    - Left: null
+    - Right: 7 (null + 7)
+
+**2.4 Increment and Loop:**
+
+Recursion handles the traversal automatically.
+
+**2.5 Return Result:**
+
+Return the merged tree root: `[3, 4, 5, 5, 4, null, 7]`.
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def mergeTrees(self, root1: Optional[TreeNode], root2: Optional[TreeNode]) -> Optional[TreeNode]:
+        if not root1 and not root2:
+            return None
+        
+        if not root1:
+            return root2
+        
+        if not root2:
+            return root1
+        
+        # Merge values
+        merged = TreeNode(root1.val + root2.val)
+        
+        # Recursively merge left and right subtrees
+        merged.left = self.mergeTrees(root1.left, root2.left)
+        merged.right = self.mergeTrees(root1.right, root2.right)
+        
+        return merged
+```
+
+## 876. Middle of the Linked List [Easy]
+https://leetcode.com/problems/middle-of-the-linked-list/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+Given the head of a singly linked list, we need to return the middle node of the linked list. If there are two middle nodes, return the second one.
+
+**1.1 Constraints & Complexity:**
+
+- **Input Size:** The number of nodes can be between $1$ and $100$.
+- **Value Range:** Node values are between $1$ and $100$.
+- **Time Complexity:** $O(n)$ - We traverse the list once with two pointers.
+- **Space Complexity:** $O(1)$ - We only use a constant amount of extra space for pointers.
+- **Edge Case:** If the list has only one node, return that node. If the list has two nodes, return the second one.
+
+**1.2 High-level approach:**
+
+The goal is to find the middle node of a linked list.
+
+We use the "tortoise and hare" approach: one pointer moves one step at a time (slow), and another moves two steps at a time (fast). When the fast pointer reaches the end, the slow pointer is at the middle.
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** First pass to count nodes, second pass to find the middle node. This takes $O(n)$ time but requires two passes.
+- **Optimized Strategy (Two Pointers):** Use two pointers moving at different speeds. This takes $O(n)$ time in a single pass.
+- **Why it's better:** The two-pointer approach finds the middle in one pass instead of two, making it more efficient and elegant.
+
+**1.4 Decomposition:**
+
+1. Initialize two pointers (slow and fast) at the head.
+2. Move slow one step and fast two steps at a time.
+3. When fast reaches the end (null or last node), slow is at the middle.
+4. Return the slow pointer.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example: $head = [1,2,3,4,5]$
+
+We initialize:
+- `slow = 1`
+- `fast = 1`
+
+**2.2 Start Processing:**
+
+We begin moving the pointers.
+
+**2.3 Trace Walkthrough:**
+
+| Step | slow position | fast position | Action |
+|------|---------------|---------------|--------|
+| 0 | 1 | 1 | Start |
+| 1 | 2 | 3 | Move slow 1, fast 2 |
+| 2 | 3 | 5 | Move slow 1, fast 2 |
+| 3 | 3 | null | fast.next is null, stop |
+
+**2.4 Explanation:**
+
+- When fast reaches the end (node 5, where fast.next is null), slow is at node 3, which is the middle node.
+
+**2.5 Return Result:**
+
+We return the node with value 3, which is the middle node.
+
+> **Note:** The key insight is that when the fast pointer moves twice as fast, it covers twice the distance. When it reaches the end, the slow pointer has covered half the distance, which is exactly the middle.
+
+### Solution
+
+```python
+def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+class Solution:
+    def middleNode(self, head):
+        slow = head
+        fast = head
+        
+        # Move fast pointer twice as fast as slow pointer
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        
+        # When fast reaches the end, slow is at the middle
+        return slow
+```
+
 ## 2. Add Two Numbers [Medium]
 https://leetcode.com/problems/add-two-numbers/
 
@@ -196,513 +1442,6 @@ class Solution:
         return dummy.next
 ```
 
-## 21. Merge Two Sorted Lists [Easy]
-https://leetcode.com/problems/merge-two-sorted-lists/
-
-### Explanation
-
-## Explanation
-
-### Strategy (The "Why")
-
-Given two sorted linked lists `list1` and `list2`, we need to merge them into one sorted list and return the head of the merged list.
-
-**1.1 Constraints & Complexity:**
-
-- **Input Size:** The total number of nodes can be up to $50$.
-- **Value Range:** Node values are between $-100$ and $100$.
-- **Time Complexity:** $O(n + m)$ where $n$ and $m$ are the lengths of the two lists. We visit each node exactly once.
-- **Space Complexity:** $O(1)$ - We only use a constant amount of extra space for the dummy node and pointers.
-- **Edge Case:** If one list is empty, return the other list. If both are empty, return `null`.
-
-**1.2 High-level approach:**
-
-The goal is to merge two sorted linked lists into one sorted list.
-
-We use a dummy node to simplify edge cases and a current pointer to build the merged list. We compare nodes from both lists and attach the smaller one to the result, then move the pointer of the list we took from.
-
-**1.3 Brute force vs. optimized strategy:**
-
-- **Brute Force:** Convert both lists to arrays, merge the arrays, then convert back to a linked list. This takes $O(n + m)$ time and $O(n + m)$ space.
-- **Optimized Strategy (Two Pointers):** Use two pointers to traverse both lists simultaneously, building the merged list in-place. This takes $O(n + m)$ time and $O(1)$ space.
-- **Why it's better:** The two-pointer approach uses $O(1)$ extra space instead of $O(n + m)$ for arrays, while maintaining the same time complexity.
-
-**1.4 Decomposition:**
-
-1. Create a dummy node to simplify edge cases.
-2. Initialize a current pointer at the dummy node.
-3. While both lists have nodes, compare the values and attach the smaller node to the result.
-4. Move the pointer of the list we took from.
-5. Attach the remaining nodes from the non-empty list.
-6. Return the head of the merged list (dummy.next).
-
-### Steps (The "How")
-
-**2.1 Initialization & Example Setup:**
-
-Let's use the example: $list1 = [1,2,4]$, $list2 = [1,3,4]$
-
-We initialize:
-- `dummy = ListNode(0)`
-- `current = dummy`
-
-**2.2 Start Merging:**
-
-We begin comparing nodes from both lists.
-
-**2.3 Trace Walkthrough:**
-
-| Step | list1.val | list2.val | Compare | Attach | current.next | list1/list2 After |
-|------|-----------|-----------|---------|--------|--------------|-------------------|
-| 1 | 1 | 1 | Equal | list1 | 1 | list1 = 2 |
-| 2 | 2 | 1 | 2 > 1 | list2 | 1 | list2 = 3 |
-| 3 | 2 | 3 | 2 < 3 | list1 | 2 | list1 = 4 |
-| 4 | 4 | 3 | 4 > 3 | list2 | 3 | list2 = 4 |
-| 5 | 4 | 4 | Equal | list1 | 4 | list1 = null |
-| 6 | null | 4 | - | list2 | 4 | list2 = null |
-
-**2.4 Final Result:**
-
-After merging: $[1,1,2,3,4,4]$
-
-**2.5 Return Result:**
-
-We return the head of the merged list: $[1,1,2,3,4,4]$
-
-> **Note:** The dummy node simplifies the code by providing a starting point. Without it, we'd need special handling for the first node. The key is to always attach the smaller node and move the corresponding pointer forward.
-
-### Solution
-
-```python
-def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
-
-class Solution:
-    def mergeTwoLists(self, list1, list2):
-        # Create a dummy node to simplify edge cases
-        dummy = ListNode(0)
-        current = dummy
-        
-        # Merge while both lists have nodes
-        while list1 and list2:
-            if list1.val <= list2.val:
-                current.next = list1
-                list1 = list1.next
-            else:
-                current.next = list2
-                list2 = list2.next
-            current = current.next
-        
-        # Append remaining nodes
-        current.next = list1 if list1 else list2
-        
-        return dummy.next
-```
-
-## 23. Merge k Sorted Lists [Hard]
-https://leetcode.com/problems/merge-k-sorted-lists/
-
-### Explanation
-
-## Explanation
-
-### Strategy (The "Why")
-
-Given an array of $k$ sorted linked lists, we need to merge all of them into one sorted linked list and return it.
-
-**1.1 Constraints & Complexity:**
-
-- **Input Size:** $k$ can be between $0$ and $10^4$, and the total number of nodes can be up to $10^4$.
-- **Value Range:** Node values are between $-10^4$ and $10^4$.
-- **Time Complexity:** $O(n \log k)$ where $n$ is the total number of nodes. We use a heap of size $k$, and each insertion/extraction takes $O(\log k)$ time. We do this for $n$ nodes.
-- **Space Complexity:** $O(k)$ - We maintain a heap of size $k$.
-- **Edge Case:** If the array is empty, return null. If all lists are empty, return null.
-
-**1.2 High-level approach:**
-
-The goal is to merge $k$ sorted linked lists into one sorted list.
-
-We use a min heap to always get the smallest node among all lists. We add the first node from each list to the heap, then repeatedly extract the minimum, add it to the result, and add the next node from that list to the heap.
-
-**1.3 Brute force vs. optimized strategy:**
-
-- **Brute Force:** Merge lists one by one. This takes $O(kn)$ time where $n$ is the average list length.
-- **Optimized Strategy (Min Heap):** Use a min heap to efficiently get the minimum node at each step. This takes $O(n \log k)$ time.
-- **Why it's better:** The heap approach reduces time complexity by maintaining only $k$ nodes in the heap instead of comparing all $k$ lists at each step.
-
-**1.4 Decomposition:**
-
-1. Create a min heap and add the first node from each non-empty list.
-2. Create a dummy node to simplify edge cases.
-3. While the heap is not empty:
-   - Extract the minimum node from the heap.
-   - Add it to the result list.
-   - If that node has a next node, add the next node to the heap.
-4. Return the head of the merged list.
-
-### Steps (The "How")
-
-**2.1 Initialization & Example Setup:**
-
-Let's use the example: $lists = [[1,4,5],[1,3,4],[2,6]]$
-
-We initialize:
-- `heap = [(1,0,node1), (1,1,node1), (2,2,node2)]`
-- `dummy = ListNode(0)`
-- `current = dummy`
-
-**2.2 Start Merging:**
-
-We begin extracting from the heap.
-
-**2.3 Trace Walkthrough:**
-
-| Step | Extract | current.next | Add to heap | heap After |
-|------|---------|--------------|-------------|------------|
-| 1 | (1,0) | 1 | (4,0) | [(1,1), (2,2), (4,0)] |
-| 2 | (1,1) | 1 | (3,1) | [(2,2), (3,1), (4,0)] |
-| 3 | (2,2) | 2 | (6,2) | [(3,1), (4,0), (6,2)] |
-| 4 | (3,1) | 3 | (4,1) | [(4,0), (4,1), (6,2)] |
-| ... | ... | ... | ... | ... |
-
-**2.4 Final Result:**
-
-After merging: $[1,1,2,3,4,4,5,6]$
-
-**2.5 Return Result:**
-
-We return the head of the merged list: $[1,1,2,3,4,4,5,6]$.
-
-> **Note:** The key insight is to use a min heap to efficiently get the minimum node among all lists at each step. By maintaining only the current head of each list in the heap, we avoid storing all nodes and achieve $O(n \log k)$ time complexity.
-
-### Solution
-
-```python
-def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
-
-from typing import List
-import heapq
-
-class Solution:
-    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
-        # Create a min heap
-        heap = []
-        
-        # Add first node from each list to heap
-        for i, node in enumerate(lists):
-            if node:
-                heapq.heappush(heap, (node.val, i, node))
-        
-        # Create dummy node
-        dummy = ListNode(0)
-        current = dummy
-        
-        # Merge lists
-        while heap:
-            val, idx, node = heapq.heappop(heap)
-            current.next = node
-            current = current.next
-            
-            # Add next node from the same list if it exists
-            if node.next:
-                heapq.heappush(heap, (node.next.val, idx, node.next))
-        
-        return dummy.next
-```
-
-## 42. Trapping Rain Water [Hard]
-https://leetcode.com/problems/trapping-rain-water/
-
-### Explanation
-
-## 42. Trapping Rain Water [Hard]
-
-https://leetcode.com/problems/trapping-rain-water
-
-## Description
-Given `n` non-negative integers representing an elevation map where the width of each bar is `1`, compute how much water it can trap after raining.
-
-**Examples**
-
-```text
-Example 1:
-Input: height = [0,1,0,2,1,0,1,3,2,1,2,1]
-Output: 6
-Explanation: The above elevation map (black section) is represented by array [0,1,0,2,1,0,1,3,2,1,2,1]. In this case, 6 units of rain water (blue section) are being trapped.
-
-Example 2:
-Input: height = [4,2,0,3,2,5]
-Output: 9
-```
-
-**Constraints**
-```text
-- n == height.length
-- 1 <= n <= 2 * 10^4
-- 0 <= height[i] <= 10^5
-```
-
-## Explanation
-
-### Strategy
-Let's restate the problem: You're given an array representing the heights of walls in a landscape. When it rains, water gets trapped between these walls. Your job is to calculate how much water can be trapped.
-
-This is a **two-pointer and dynamic programming problem** that requires understanding how water trapping works in real life.
-
-**What is given?** An array of non-negative integers representing wall heights.
-
-**What is being asked?** Calculate the total amount of water that can be trapped between the walls.
-
-**Constraints:** The array can be quite large (up to 20,000 elements), so we need an efficient solution. All heights are non-negative.
-
-**Edge cases:** 
-- If the array has less than 3 elements, no water can be trapped (need at least 3 walls to form a container)
-- If all heights are the same, no water can be trapped
-- If heights are strictly increasing or decreasing, no water can be trapped
-
-**High-level approach:**
-The key insight is that for any position, the amount of water that can be trapped depends on the **minimum** of the highest wall to its left and the highest wall to its right. Water can only be trapped up to the height of the shorter of these two walls.
-
-Think of it like this: at any point, water will rise to the level of the lower "dam" on either side. If you're in a valley between two mountains, the water level is limited by the shorter mountain.
-
-**Decomposition:**
-1. **Precompute left and right maximums**: For each position, find the highest wall to its left and right
-2. **Calculate trapped water**: For each position, the trapped water is the minimum of left and right max, minus the current height (if positive)
-3. **Sum up all trapped water**: Add up the water trapped at each position
-
-**Brute force vs. optimized strategy:**
-- **Brute force**: For each position, scan left and right to find maximums. This takes O(n²) time.
-- **Optimized**: Precompute left and right maximums in two passes, then calculate water in one pass. This takes O(n) time.
-
-### Steps
-Let's walk through the solution step by step using the first example: `height = [0,1,0,2,1,0,1,3,2,1,2,1]`
-
-**Step 1: Understand the visualization**
-Imagine this array as a landscape:
-```
-    ■
-    ■   ■     ■
-  ■ ■ ■ ■ ■ ■ ■ ■
-■ ■ ■ ■ ■ ■ ■ ■ ■ ■
-0 1 0 2 1 0 1 3 2 1 2 1
-```
-
-**Step 2: Precompute left maximums**
-We'll create an array `left_max` where `left_max[i]` is the highest wall to the left of position `i` (including position `i` itself).
-
-```
-height:    [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]
-left_max:  [0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3]
-```
-
-How we calculate this:
-- `left_max[0] = height[0] = 0` (no walls to the left)
-- `left_max[1] = max(left_max[0], height[1]) = max(0, 1) = 1`
-- `left_max[2] = max(left_max[1], height[2]) = max(1, 0) = 1`
-- `left_max[3] = max(left_max[2], height[3]) = max(1, 2) = 2`
-- And so on...
-
-**Step 3: Precompute right maximums**
-Similarly, create `right_max` where `right_max[i]` is the highest wall to the right of position `i` (including position `i` itself).
-
-```
-height:     [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]
-right_max:  [3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2, 1]
-```
-
-How we calculate this (from right to left):
-- `right_max[11] = height[11] = 1` (no walls to the right)
-- `right_max[10] = max(right_max[11], height[10]) = max(1, 2) = 2`
-- `right_max[9] = max(right_max[10], height[9]) = max(2, 1) = 2`
-- And so on...
-
-**Step 4: Calculate trapped water at each position**
-For each position `i`, the water trapped is:
-```
-water[i] = min(left_max[i], right_max[i]) - height[i]
-```
-
-But only if this value is positive (we can't have negative water).
-
-Let's calculate for a few positions:
-- Position 0: `min(0, 3) - 0 = 0` (no water trapped)
-- Position 1: `min(1, 3) - 1 = 0` (no water trapped)
-- Position 2: `min(1, 3) - 0 = 1` (1 unit of water trapped)
-- Position 3: `min(2, 3) - 2 = 0` (no water trapped)
-- Position 4: `min(2, 3) - 1 = 1` (1 unit of water trapped)
-- Position 5: `min(2, 3) - 0 = 2` (2 units of water trapped)
-
-**Step 5: Sum up all trapped water**
-```
-water = [0, 0, 1, 0, 1, 2, 1, 0, 0, 1, 0, 0]
-total = 0 + 0 + 1 + 0 + 1 + 2 + 1 + 0 + 0 + 1 + 0 + 0 = 6
-```
-
-> **Note:** The key insight is that water can only be trapped up to the height of the lower "dam" on either side. This is why we take the minimum of the left and right maximums.
-
-**Time Complexity:** O(n) - we make three passes through the array  
-**Space Complexity:** O(n) - we store two additional arrays of size n
-
-### Solution
-
-```python
-def trap(height):
-    """
-    Calculate the amount of water that can be trapped between walls.
-    
-    Args:
-        height: List[int] - Array representing wall heights
-        
-    Returns:
-        int - Total amount of water trapped
-    """
-    # Handle edge cases
-    if not height or len(height) < 3:
-        return 0
-    
-    n = len(height)
-    
-    # Step 1: Precompute left maximums
-    # left_max[i] = highest wall to the left of position i (including i)
-    left_max = [0] * n
-    left_max[0] = height[0]
-    
-    for i in range(1, n):
-        left_max[i] = max(left_max[i-1], height[i])
-    
-    # Step 2: Precompute right maximums
-    # right_max[i] = highest wall to the right of position i (including i)
-    right_max = [0] * n
-    right_max[n-1] = height[n-1]
-    
-    for i in range(n-2, -1, -1):
-        right_max[i] = max(right_max[i+1], height[i])
-    
-    # Step 3: Calculate trapped water at each position
-    res = 0
-    for i in range(n):
-        # Water trapped = min(left_max, right_max) - current_height
-        # But only if positive (can't have negative water)
-        water = min(left_max[i], right_max[i]) - height[i]
-        if water > 0:
-            res += water
-    
-    return res
-```
-
-## 94. Binary Tree Inorder Traversal [Easy]
-https://leetcode.com/problems/binary-tree-inorder-traversal/
-
-### Explanation
-
-## Explanation
-
-### Strategy (The "Why")
-
-Given the root of a binary tree, we need to return the inorder traversal of its nodes' values.
-
-**1.1 Constraints & Complexity:**
-
-- **Input Size:** The number of nodes can be up to $100$.
-- **Value Range:** Node values are between $-100$ and $100$.
-- **Time Complexity:** $O(n)$ - We visit each node exactly once.
-- **Space Complexity:** $O(h)$ where $h$ is the height of the tree. In the worst case (skewed tree), $h = n$, so $O(n)$. In the average case (balanced tree), $h = \log n$, so $O(\log n)$.
-- **Edge Case:** If the tree is empty, return an empty list. If the tree has only one node, return that node's value.
-
-**1.2 High-level approach:**
-
-The goal is to traverse the tree in inorder (left, root, right) order.
-
-We use recursion to implement inorder traversal. We recursively traverse the left subtree, visit the root, then recursively traverse the right subtree.
-
-**1.3 Brute force vs. optimized strategy:**
-
-- **Brute Force:** There isn't really a brute force approach - we must traverse the tree.
-- **Optimized Strategy (Recursion):** Use recursion to naturally implement inorder traversal. This is the standard and efficient approach.
-- **Why it's better:** Recursion naturally follows the tree structure and implements inorder traversal efficiently. An iterative approach using a stack is also possible but more complex.
-
-**1.4 Decomposition:**
-
-1. Define a recursive function that takes a node.
-2. Base case: if node is null, return.
-3. Recursively traverse left subtree.
-4. Visit current node (add value to result).
-5. Recursively traverse right subtree.
-
-### Steps (The "How")
-
-**2.1 Initialization & Example Setup:**
-
-Let's use the example: root = $[1,null,2,3]$
-
-The tree structure:
-```
-    1
-     \
-      2
-     /
-    3
-```
-
-We initialize:
-- `res = []`
-
-**2.2 Start Traversal:**
-
-We begin from the root.
-
-**2.3 Trace Walkthrough:**
-
-| Node | Action | res After |
-|------|--------|-----------|
-| 1 | Go left (null) | [] |
-| 1 | Visit 1 | [1] |
-| 1 | Go right (2) | [1] |
-| 2 | Go left (3) | [1] |
-| 3 | Go left (null) | [1] |
-| 3 | Visit 3 | [1,3] |
-| 3 | Go right (null) | [1,3] |
-| 2 | Visit 2 | [1,3,2] |
-| 2 | Go right (null) | [1,3,2] |
-
-**2.4 Final Result:**
-
-After traversal: `res = [1,3,2]`
-
-**2.5 Return Result:**
-
-We return `[1,3,2]`, which is the inorder traversal.
-
-> **Note:** The key is to follow the inorder order: left subtree first, then root, then right subtree. Recursion naturally implements this by processing the left subtree before the root, and the root before the right subtree.
-
-### Solution
-
-```python
-def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-
-from typing import List
-
-class Solution:
-    def inorderTraversal(self, root) -> List[int]:
-        res = []
-        
-        def inorder(node):
-            if not node:
-                return
-            inorder(node.left)
-            res.append(node.val)
-            inorder(node.right)
-        
-        inorder(root)
-        return res
-```
-
 ## 98. Validate Binary Search Tree [Medium]
 https://leetcode.com/problems/validate-binary-search-tree/
 
@@ -809,117 +1548,6 @@ class Solution:
                     validate(node.right, node.val, max_val))
         
         return validate(root, float('-inf'), float('inf'))
-```
-
-## 101. Symmetric Tree [Easy]
-https://leetcode.com/problems/symmetric-tree/
-
-### Explanation
-
-## Explanation
-
-### Strategy (The "Why")
-
-Given the root of a binary tree, we need to check whether it is a mirror of itself (symmetric around its center).
-
-**1.1 Constraints & Complexity:**
-
-- **Input Size:** The number of nodes can be up to $1000$.
-- **Value Range:** Node values are between $-100$ and $100$.
-- **Time Complexity:** $O(n)$ - We visit each node exactly once.
-- **Space Complexity:** $O(h)$ where $h$ is the height of the tree. In the worst case (skewed tree), $h = n$, so $O(n)$.
-- **Edge Case:** An empty tree is symmetric. A tree with only one node is symmetric.
-
-**1.2 High-level approach:**
-
-The goal is to determine if a binary tree is symmetric (mirror of itself).
-
-We use recursion to check if the left and right subtrees are mirrors of each other. Two trees are mirrors if their roots have the same value, and the left subtree of one is a mirror of the right subtree of the other, and vice versa.
-
-**1.3 Brute force vs. optimized strategy:**
-
-- **Brute Force:** There isn't really a brute force approach - we must check the mirror property.
-- **Optimized Strategy (Recursion):** Use recursion to check if left and right subtrees are mirrors. This is the standard and efficient approach.
-- **Why it's better:** Recursion naturally checks the mirror property by comparing corresponding nodes in the left and right subtrees.
-
-**1.4 Decomposition:**
-
-1. Define a helper function that checks if two trees are mirrors.
-2. Two trees are mirrors if:
-   - Both are null (base case: true).
-   - One is null and the other is not (false).
-   - Both roots have the same value, and:
-     - Left subtree of first is mirror of right subtree of second.
-     - Right subtree of first is mirror of left subtree of second.
-3. Check if root's left and right subtrees are mirrors.
-
-### Steps (The "How")
-
-**2.1 Initialization & Example Setup:**
-
-Let's use the example: root = $[1,2,2,3,4,4,3]$
-
-The tree structure:
-```
-      1
-     / \
-    2   2
-   / \ / \
-  3  4 4  3
-```
-
-We initialize:
-- Call `is_mirror(root.left, root.right)`
-
-**2.2 Start Checking:**
-
-We begin checking if left and right subtrees are mirrors.
-
-**2.3 Trace Walkthrough:**
-
-| left | right | left.val | right.val | Check | Result |
-|------|-------|----------|-----------|-------|--------|
-| 2 | 2 | 2 | 2 | Equal ✓ | Check children |
-| 3 | 3 | 3 | 3 | Equal ✓ | Both null ✓ |
-| 4 | 4 | 4 | 4 | Equal ✓ | Both null ✓ |
-| 4 | 4 | 4 | 4 | Equal ✓ | Both null ✓ |
-| 3 | 3 | 3 | 3 | Equal ✓ | Both null ✓ |
-
-**2.4 Explanation:**
-
-- Root's left (2) and right (2) have same value ✓
-- Left's left (3) and right's right (3) are mirrors ✓
-- Left's right (4) and right's left (4) are mirrors ✓
-
-**2.5 Return Result:**
-
-We return `True` because the tree is symmetric.
-
-> **Note:** The key insight is that a tree is symmetric if its left and right subtrees are mirrors. Two trees are mirrors if their roots match and the left of one mirrors the right of the other (and vice versa).
-
-### Solution
-
-```python
-def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-
-class Solution:
-    def isSymmetric(self, root) -> bool:
-        def is_mirror(left, right):
-            if not left and not right:
-                return True
-            if not left or not right:
-                return False
-            return (left.val == right.val and 
-                    is_mirror(left.left, right.right) and 
-                    is_mirror(left.right, right.left))
-        
-        if not root:
-            return True
-        
-        return is_mirror(root.left, root.right)
 ```
 
 ## 102. Binary Tree Level Order Traversal [Medium]
@@ -1043,110 +1671,6 @@ class Solution:
             res.append(level)
         
         return res
-```
-
-## 104. Maximum Depth of Binary Tree [Easy]
-https://leetcode.com/problems/maximum-depth-of-binary-tree/
-
-### Explanation
-
-## Explanation
-
-### Strategy (The "Why")
-
-Given the root of a binary tree, we need to find its maximum depth. The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
-
-**1.1 Constraints & Complexity:**
-
-- **Input Size:** The number of nodes $N$ in the tree can be between $0$ and $10^4$.
-- **Value Range:** Node values are between $-100$ and $100$.
-- **Time Complexity:** $O(n)$ - We visit each node exactly once.
-- **Space Complexity:** $O(h)$ where $h$ is the height of the tree. In the worst case (skewed tree), $h = n$, so $O(n)$. In the average case (balanced tree), $h = \log n$, so $O(\log n)$.
-- **Edge Case:** If the tree is empty (root is null), return 0.
-
-**1.2 High-level approach:**
-
-The goal is to find the maximum depth of a binary tree.
-
-![Maximum Depth](https://assets.leetcode.com/uploads/2020/11/26/tmp-tree.jpg)
-
-We use recursion: the maximum depth of a tree is 1 plus the maximum of the depths of its left and right subtrees.
-
-**1.3 Brute force vs. optimized strategy:**
-
-- **Brute Force:** There isn't really a brute force approach - we must traverse the tree to find the depth.
-- **Optimized Strategy (Recursion):** Recursively compute the depth of left and right subtrees, then return 1 plus the maximum. This is the natural and efficient approach.
-- **Why it's better:** Recursion naturally follows the tree structure. Each node's depth depends only on its children's depths, creating optimal substructure.
-
-**1.4 Decomposition:**
-
-1. Base case: if the root is null, return 0.
-2. Recursively find the maximum depth of the left subtree.
-3. Recursively find the maximum depth of the right subtree.
-4. Return 1 (for current node) plus the maximum of the two subtree depths.
-
-### Steps (The "How")
-
-**2.1 Initialization & Example Setup:**
-
-Let's use the example: root = $[3,9,20,null,null,15,7]$
-
-The tree structure:
-```
-    3
-   / \
-  9   20
-     /  \
-    15   7
-```
-
-**2.2 Start Recursion:**
-
-We begin from the root node (value 3).
-
-**2.3 Trace Walkthrough:**
-
-| Node | Left Depth | Right Depth | Max Depth | Return Value |
-|------|------------|--------------|-----------|--------------|
-| 3 | ? | ? | - | Compute... |
-| 9 | 0 (null) | 0 (null) | 0 | $0 + 1 = 1$ |
-| 20 | ? | ? | - | Compute... |
-| 15 | 0 (null) | 0 (null) | 0 | $0 + 1 = 1$ |
-| 7 | 0 (null) | 0 (null) | 0 | $0 + 1 = 1$ |
-| 20 | 1 | 1 | 1 | $1 + 1 = 2$ |
-| 3 | 1 | 2 | 2 | $2 + 1 = 3$ |
-
-**2.4 Recursion Flow:**
-
-- Root (3): left depth = 1, right depth = 2, return $max(1, 2) + 1 = 3$
-- Node 9: both children null, return $0 + 1 = 1$
-- Node 20: left depth = 1, right depth = 1, return $max(1, 1) + 1 = 2$
-
-**2.5 Return Result:**
-
-We return 3, which is the maximum depth of the tree.
-
-> **Note:** The recursive approach naturally handles the tree structure. The depth of each node is computed from its children's depths, working from the leaves upward to the root.
-
-### Solution
-
-```python
-def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-
-class Solution:
-    def maxDepth(self, root) -> int:
-        if not root:
-            return 0
-        
-        # Recursively find max depth of left and right subtrees
-        left_depth = self.maxDepth(root.left)
-        right_depth = self.maxDepth(root.right)
-        
-        # Return max depth plus 1 for current node
-        return max(left_depth, right_depth) + 1
 ```
 
 ## 105. Construct Binary Tree from Preorder and Inorder Traversal [Medium]
@@ -1375,109 +1899,6 @@ class Solution:
         curr.right = right
 ```
 
-## 124. Binary Tree Maximum Path Sum [Hard]
-https://leetcode.com/problems/binary-tree-maximum-path-sum/
-
-### Explanation
-
-## Explanation
-
-### Strategy (The "Why")
-
-**1.1 Constraints & Complexity**
-
-* **Input Size:** The tree has $1 \leq n \leq 3 \times 10^4$ nodes, with values in $[-1000, 1000]$.
-* **Time Complexity:** $O(n)$ - We visit each node exactly once during DFS traversal.
-* **Space Complexity:** $O(h)$ - The recursion stack depth is at most the height $h$ of the tree. In worst case (skewed tree), $h = n$.
-* **Edge Case:** A single-node tree returns the node's value. All negative values require careful handling (we use `max(0, ...)` to avoid negative contributions).
-
-**1.2 High-level approach**
-
-The goal is to find the maximum path sum in a binary tree, where a path can start and end at any nodes (not necessarily root or leaf). We use DFS to calculate the maximum path sum that can be extended upward from each node, while tracking the global maximum.
-
-![Maximum path sum visualization showing paths that can go through any node]
-
-**1.3 Brute force vs. optimized strategy**
-
-* **Brute Force:** Try all possible paths in the tree. This is exponential in complexity.
-* **Optimized (DFS with Global Tracking):** For each node, calculate the maximum path sum that can be extended upward (for parent) and the maximum path sum through the node (for global maximum). This achieves $O(n)$ time.
-
-**1.4 Decomposition**
-
-1. **DFS Traversal:** Recursively visit each node.
-2. **Calculate Contributions:** For each node, get maximum contributions from left and right subtrees (non-negative only).
-3. **Update Global Maximum:** Calculate path sum through current node and update global maximum.
-4. **Return Upward Contribution:** Return the maximum path sum that can be extended to parent.
-
-### Steps (The "How")
-
-**2.1 Initialization & Example Setup**
-
-Let's use the example $root = [-10,9,20,null,null,15,7]$.
-
-We initialize:
-* `res = -inf` (global maximum path sum)
-* Start DFS from root node (-10)
-
-**2.2 Start Processing**
-
-We call `dfs(root)`.
-
-**2.3 Trace Walkthrough**
-
-| Node | left_sum | right_sum | Path Through Node | Return Value | res (after) |
-|------|----------|-----------|-------------------|--------------|-------------|
-| -10 | max(0, dfs(9)) | max(0, dfs(20)) | -10 + 0 + 0 = -10 | -10 + max(0,0) = -10 | -10 |
-| 9 | 0 | 0 | 9 + 0 + 0 = 9 | 9 + 0 = 9 | 9 |
-| 20 | max(0, dfs(15)) | max(0, dfs(7)) | 20 + 15 + 7 = 42 | 20 + max(15,7) = 35 | 42 |
-| 15 | 0 | 0 | 15 + 0 + 0 = 15 | 15 + 0 = 15 | 42 |
-| 7 | 0 | 0 | 7 + 0 + 0 = 7 | 7 + 0 = 7 | 42 |
-
-**2.4 Recursive Processing**
-
-For each node:
-1. If `not node`, return 0 (base case)
-2. Recursively get `left_sum = max(0, dfs(node.left))` (non-negative only)
-3. Recursively get `right_sum = max(0, dfs(node.right))` (non-negative only)
-4. Update global: `res = max(res, node.val + left_sum + right_sum)`
-5. Return: `node.val + max(left_sum, right_sum)` (for parent)
-
-**2.5 Return Result**
-
-After processing all nodes, `res = 42`, which is the maximum path sum from the path $15 \to 20 \to 7$.
-
-> **Note:** We use `max(0, ...)` to ensure we only consider positive contributions from subtrees. If a subtree contributes negatively, we ignore it (treat as 0).
-
-### Solution
-
-```python
-def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-class Solution:
-    def maxPathSum(self, root: Optional[TreeNode]) -> int:
-        res = float('-inf')
-        
-        def dfs(node):
-            nonlocal res
-            if not node:
-                return 0
-            
-            # Get max path sum from left and right subtrees
-            left_sum = max(0, dfs(node.left))
-            right_sum = max(0, dfs(node.right))
-            
-            # Update global maximum (path through current node)
-            res = max(res, node.val + left_sum + right_sum)
-            
-            # Return max path sum that can be extended upward
-            return node.val + max(left_sum, right_sum)
-        
-        dfs(root)
-        return res
-```
-
 ## 128. Longest Consecutive Sequence [Medium]
 https://leetcode.com/problems/longest-consecutive-sequence/
 
@@ -1616,121 +2037,6 @@ def longestConsecutive(nums):
             max_length = max(max_length, current_length)
     
     return max_length
-```
-
-## 141. Linked List Cycle [Easy]
-https://leetcode.com/problems/linked-list-cycle/
-
-### Explanation
-
-# 141. Linked List Cycle [Easy]
-
-https://leetcode.com/problems/linked-list-cycle
-
-## Description
-
-Given `head`, the head of a linked list, determine if the linked list has a cycle in it.
-
-There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the `next` pointer. Internally, `pos` is used to denote the index of the node that tail's `next` pointer is connected to. **Note that `pos` is not passed as a parameter**.
-
-Return `true` *if there is a cycle in the linked list*. Otherwise, return `false`.
-
-**Example 1:**
-```text
-Input: head = [3,2,0,-4], pos = 1
-Output: true
-Explanation: There is a cycle in the linked list, where the tail connects to the 1st node (0-indexed).
-```
-
-**Example 2:**
-```text
-Input: head = [1,2], pos = 0
-Output: true
-Explanation: There is a cycle in the linked list, where the tail connects to the 0th node.
-```
-
-**Example 3:**
-```text
-Input: head = [1], pos = -1
-Output: false
-Explanation: There is no cycle in the linked list.
-```
-
-**Constraints:**
-
-- The number of the nodes in the list is in the range `[0, 10^4]`.
-- `-10^5 <= Node.val <= 10^5`
-- `pos` is `-1` or a **valid index** in the linked-list.
-
-
-**Follow up:** Can you solve it using `O(1)` (i.e. constant) memory?
-
-## Explanation
-
-### Strategy
-
-This is a **two-pointer problem** that requires detecting a cycle in a linked list. The key insight is to use Floyd's Cycle-Finding Algorithm (also known as the "tortoise and hare" algorithm), which uses two pointers moving at different speeds.
-
-**Key observations:**
-- If there's a cycle, a fast pointer will eventually catch up to a slow pointer
-- If there's no cycle, the fast pointer will reach the end (null)
-- The fast pointer moves twice as fast as the slow pointer
-- This approach uses O(1) space, which is optimal
-
-**High-level approach:**
-1. **Use two pointers**: Slow pointer (tortoise) and fast pointer (hare)
-2. **Move pointers**: Slow moves 1 step, fast moves 2 steps
-3. **Check for cycle**: If fast catches slow, there's a cycle
-4. **Check for end**: If fast reaches null, there's no cycle
-
-### Steps
-
-Let's break down the solution step by step:
-
-**Step 1: Handle edge cases**
-- If head is null or head.next is null, return false
-
-**Step 2: Initialize pointers**
-- `slow = head` (moves 1 step at a time)
-- `fast = head.next` (moves 2 steps at a time)
-
-**Step 3: Move pointers until they meet or reach end**
-While `fast` is not null and `fast.next` is not null:
-- Move slow pointer: `slow = slow.next`
-- Move fast pointer: `fast = fast.next.next`
-- If slow and fast meet, return true (cycle detected)
-
-**Step 4: Return result**
-- If you exit the loop, return false (no cycle)
-
-**Example walkthrough:**
-Let's trace through the first example:
-
-```text
-head = [3,2,0,-4], pos = 1 (cycle from -4 back to 2)
-
-Initial state:
-slow = 3, fast = 2
-
-Step 1: slow = 2, fast = 0
-Step 2: slow = 0, fast = 2
-Step 3: slow = -4, fast = 0
-Step 4: slow = 2, fast = 2 (they meet!)
-
-Result: Return true (cycle detected)
-```
-
-> **Note:** Floyd's Cycle-Finding Algorithm is optimal because it uses O(1) space and O(n) time. The mathematical proof shows that if there's a cycle, the fast pointer will eventually catch the slow pointer within one cycle length.
-
-**Time Complexity:** O(n) - in the worst case, you visit each node at most twice  
-**Space Complexity:** O(1) - you only use two pointers regardless of input size
-
-### Solution
-
-```python
-def __init__(self, x):
-#         self.val = x
-#         self.next = None
 ```
 
 ## 146. LRU Cache [Medium]
@@ -2203,100 +2509,6 @@ def __init__(self):
 # param_4 = obj.getMin()
 ```
 
-## 160. Intersection of Two Linked Lists [Easy]
-https://leetcode.com/problems/intersection-of-two-linked-lists/
-
-### Explanation
-
-## Explanation
-
-### Strategy (The "Why")
-
-**1.1 Constraints & Complexity:**
-- **Constraints:** We have two linked lists with `m` and `n` nodes respectively, where `1 <= m, n <= 3 * 10^4`. Each node value is between `1` and `10^5`.
-- **Time Complexity:** O(m + n) - In the worst case, we traverse both lists once before finding the intersection or determining there is none.
-- **Space Complexity:** O(1) - We only use two pointer variables, no additional data structures.
-- **Edge Case:** When the two lists have no intersection, both pointers will eventually become `None` and the loop will terminate, returning `None`.
-
-**1.2 High-level approach:**
-The goal is to find the node where two linked lists intersect, or return `None` if they don't intersect. The key insight is that if we traverse both lists simultaneously, switching to the other list when we reach the end, both pointers will eventually meet at the intersection point (if it exists) after traversing the same total distance.
-
-![Two linked lists intersecting](https://assets.leetcode.com/uploads/2021/03/05/160_statement.png)
-
-**1.3 Brute force vs. optimized strategy:**
-- **Brute Force:** For each node in list A, check if it exists in list B by traversing list B. This would take O(m * n) time complexity.
-- **Optimized Strategy (Two Pointers):** Use two pointers that traverse both lists, switching lists when reaching the end. This ensures both pointers cover the same total distance and will meet at the intersection. Time complexity is O(m + n) with O(1) space.
-
-**1.4 Decomposition:**
-1. Initialize two pointers, one for each list.
-2. Traverse both lists simultaneously, moving each pointer forward.
-3. When a pointer reaches the end of its list, switch it to the head of the other list.
-4. Continue until both pointers point to the same node (intersection found) or both are `None` (no intersection).
-
-### Steps (The "How")
-
-**2.1 Initialization & Example Setup:**
-Let's use an example: `headA = [4,1,8,4,5]` and `headB = [5,6,1,8,4,5]`, where the lists intersect at node with value 8.
-
-Initialize:
-- `p1 = headA` (points to node 4)
-- `p2 = headB` (points to node 5)
-
-**2.2 Start Checking:**
-We enter a loop that continues while `p1 != p2`.
-
-**2.3 Trace Walkthrough:**
-
-| Step | p1 position | p2 position | p1 value | p2 value | Action |
-|------|-------------|--------------|----------|----------|--------|
-| 1 | headA[0] | headB[0] | 4 | 5 | Both advance |
-| 2 | headA[1] | headB[1] | 1 | 6 | Both advance |
-| 3 | headA[2] | headB[2] | 8 | 1 | Both advance |
-| 4 | headA[3] | headB[3] | 4 | 8 | Both advance |
-| 5 | headA[4] | headB[4] | 5 | 4 | Both advance |
-| 6 | None | headB[5] | - | 5 | p1 switches to headB |
-| 7 | headB[0] | None | 5 | - | p2 switches to headA |
-| 8 | headB[1] | headA[0] | 6 | 4 | Both advance |
-| 9 | headB[2] | headA[1] | 1 | 1 | Both advance |
-| 10 | headB[3] | headA[2] | 8 | 8 | **Match!** Intersection found |
-
-**2.4 Increment and Loop:**
-At each iteration:
-- If `p1` is not `None`, move it to `p1.next`; otherwise, set it to `headB`.
-- If `p2` is not `None`, move it to `p2.next`; otherwise, set it to `headA`.
-
-**2.5 Return Result:**
-When `p1 == p2`, the loop exits. This happens either:
-- When both point to the intersection node (return that node)
-- When both are `None` (no intersection, return `None`)
-
-In our example, both pointers meet at the node with value 8, which is the intersection point.
-
-### Solution
-
-```python
-def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
-    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> Optional[ListNode]:
-        # Two pointer approach: traverse both lists
-        # When one pointer reaches end, switch to other list
-        # This way both pointers will meet at intersection (if exists)
-        # or both will be None (if no intersection)
-        
-        p1, p2 = headA, headB
-        
-        while p1 != p2:
-            # If p1 reaches end, switch to headB
-            p1 = p1.next if p1 else headB
-            # If p2 reaches end, switch to headA
-            p2 = p2.next if p2 else headA
-        
-        return p1
-```
-
 ## 199. Binary Tree Right Side View [Medium]
 https://leetcode.com/problems/binary-tree-right-side-view/
 
@@ -2419,106 +2631,6 @@ class Solution:
                     queue.append(node.right)
         
         return res
-```
-
-## 206. Reverse Linked List [Easy]
-https://leetcode.com/problems/reverse-linked-list/
-
-### Explanation
-
-## Explanation
-
-### Strategy (The "Why")
-
-Given the head of a singly linked list, we need to reverse the list and return the reversed list's head.
-
-**1.1 Constraints & Complexity:**
-
-- **Input Size:** The number of nodes can be between $0$ and $5000$.
-- **Value Range:** Node values are between $-5000$ and $5000$.
-- **Time Complexity:** $O(n)$ - We visit each node exactly once.
-- **Space Complexity:** $O(1)$ - We only use a constant amount of extra space for pointers.
-- **Edge Case:** If the list is empty (head is null), return null. If the list has only one node, return that node.
-
-**1.2 High-level approach:**
-
-The goal is to reverse the links between nodes in a linked list.
-
-We use an iterative approach with three pointers: `prev` (previous node), `current` (current node), and `next_node` (next node). We traverse the list, reversing each link as we go.
-
-**1.3 Brute force vs. optimized strategy:**
-
-- **Brute Force:** Convert the list to an array, reverse the array, then convert back to a linked list. This takes $O(n)$ time and $O(n)$ space.
-- **Optimized Strategy (Iterative):** Use pointers to reverse links in-place. This takes $O(n)$ time and $O(1)$ space.
-- **Why it's better:** The iterative approach uses $O(1)$ extra space instead of $O(n)$ for an array, while maintaining the same time complexity.
-
-**1.4 Decomposition:**
-
-1. Initialize `prev = None` and `current = head`.
-2. While `current` is not null:
-   - Store the next node.
-   - Reverse the link: `current.next = prev`.
-   - Move pointers forward: `prev = current`, `current = next_node`.
-3. Return `prev` (which is the new head).
-
-### Steps (The "How")
-
-**2.1 Initialization & Example Setup:**
-
-Let's use the example: $head = [1,2,3,4,5]$
-
-We initialize:
-- `prev = None`
-- `current = 1`
-
-**2.2 Start Reversing:**
-
-We begin reversing links.
-
-**2.3 Trace Walkthrough:**
-
-| Step | current | next_node | current.next | prev After | current After |
-|------|---------|-----------|--------------|------------|---------------|
-| 1 | 1 | 2 | None | 1 | 2 |
-| 2 | 2 | 3 | 1 | 2 | 3 |
-| 3 | 3 | 4 | 2 | 3 | 4 |
-| 4 | 4 | 5 | 3 | 4 | 5 |
-| 5 | 5 | None | 4 | 5 | None |
-
-**2.4 Final State:**
-
-After reversing:
-- Original: $1 \rightarrow 2 \rightarrow 3 \rightarrow 4 \rightarrow 5 \rightarrow null$
-- Reversed: $5 \rightarrow 4 \rightarrow 3 \rightarrow 2 \rightarrow 1 \rightarrow null$
-
-**2.5 Return Result:**
-
-We return the node with value 5, which is the new head of the reversed list.
-
-> **Note:** The key insight is to maintain three pointers: previous, current, and next. We reverse the link from current to previous, then move all pointers forward. The previous pointer becomes the new head at the end.
-
-### Solution
-
-```python
-def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
-
-class Solution:
-    def reverseList(self, head):
-        prev = None
-        current = head
-        
-        while current:
-            # Store next node
-            next_node = current.next
-            # Reverse the link
-            current.next = prev
-            # Move pointers forward
-            prev = current
-            current = next_node
-        
-        return prev
 ```
 
 ## 208. Implement Trie (Prefix Tree) [Medium]
@@ -2792,98 +2904,6 @@ class Solution:
         return res[k - 1]
 ```
 
-## 234. Palindrome Linked List [Easy]
-https://leetcode.com/problems/palindrome-linked-list/
-
-### Explanation
-
-## Explanation
-
-### Strategy (The "Why")
-
-The problem asks us to determine if a singly linked list is a palindrome (reads the same forwards and backwards).
-
-**1.1 Constraints & Complexity:**
-
-- **Input Constraints:** The list has $1 \leq n \leq 10^5$ nodes, with values in $[0, 9]$.
-- **Time Complexity:** $O(n)$ - We traverse the list once to collect values, then compare them.
-- **Space Complexity:** $O(n)$ - We store all node values in an array for comparison.
-- **Edge Case:** A single-node list is always a palindrome.
-
-**1.2 High-level approach:**
-
-The goal is to check if the linked list values form a palindrome. We convert the list to an array, then use two pointers to compare values from both ends.
-
-![Palindrome Linked List](https://assets.leetcode.com/uploads/2021/03/03/pal1linked-list.jpg)
-
-**1.3 Brute force vs. optimized strategy:**
-
-- **Brute Force:** Reverse the entire list, then compare with original. This requires $O(n)$ time and $O(n)$ space for the reversed list.
-- **Optimized (Array Conversion):** Convert list to array, then use two pointers. This takes $O(n)$ time and $O(n)$ space.
-- **Emphasize the optimization:** While both approaches have similar complexity, the array approach is simpler and more intuitive. For $O(1)$ space, we could reverse half the list, but that's more complex.
-
-**1.4 Decomposition:**
-
-1. **Convert to Array:** Traverse the list and store all values in an array.
-2. **Two-Pointer Comparison:** Use left and right pointers to compare values from both ends.
-3. **Check Match:** If any pair doesn't match, return `False`. If all pairs match, return `True`.
-
-### Steps (The "How")
-
-**2.1 Initialization & Example Setup:**
-
-Let's trace through an example: `head = [1,2,2,1]`.
-
-After conversion: `values = [1, 2, 2, 1]`
-
-**2.2 Start Checking:**
-
-Initialize `left = 0` and `right = len(values) - 1 = 3`.
-
-**2.3 Trace Walkthrough:**
-
-| Step | left | right | values[left] | values[right] | Match? | Action |
-|------|------|-------|--------------|----------------|--------|--------|
-| 1 | 0 | 3 | 1 | 1 | Yes | Continue |
-| 2 | 1 | 2 | 2 | 2 | Yes | Continue |
-| 3 | 2 | 1 | - | - | - | Stop (left >= right) |
-
-**2.4 Complete Comparison:**
-
-All pairs matched: (1,1) and (2,2).
-
-**2.5 Return Result:**
-
-Since all comparisons passed, the function returns `True`.
-
-> **Note:** The two-pointer technique efficiently checks palindromes by comparing symmetric positions without needing to reverse the list.
-
-### Solution
-
-```python
-def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
-class Solution:
-    def isPalindrome(self, head: Optional[ListNode]) -> bool:
-        # Convert linked list to array
-        values = []
-        current = head
-        while current:
-            values.append(current.val)
-            current = current.next
-        
-        # Check if array is palindrome
-        left, right = 0, len(values) - 1
-        while left < right:
-            if values[left] != values[right]:
-                return False
-            left += 1
-            right -= 1
-        
-        return True
-```
-
 ## 236. Lowest Common Ancestor of a Binary Tree [Medium]
 https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
 
@@ -2976,136 +2996,659 @@ class Solution:
         return left if left else right
 ```
 
-## 242. Valid Anagram [Easy]
-https://leetcode.com/problems/valid-anagram/
+## 337. House Robber III [Medium]
+https://leetcode.com/problems/house-robber-iii/
 
 ### Explanation
 
-Given two strings `s` and `t`, return `true` if `t` is an [anagram](https://en.wikipedia.org/wiki/Anagram) of `s`, and `false` otherwise.
-
-**Examples**
-
-```tex
-Example 1:
-Input: s = "anagram", t = "nagaram"
-Output: true
-
-Example 2:
-Input: s = "rat", t = "car"
-Output: false
-```
-
-**Constraints**
-```tex
-- 1 <= s.length, t.length <= 5 * 10^4
-- s and t consist of lowercase English letters
-```
-
-**Follow up:** What if the inputs contain Unicode characters? How would you adapt your solution to such a case?
-
 ## Explanation
 
-### Strategy
-Let's restate the problem: You're given two strings, and you need to determine if one is an anagram of the other. An anagram is a word or phrase formed by rearranging the letters of another word or phrase, using all the original letters exactly once.
+### Strategy (The "Why")
 
-This is a **character counting problem** that can be solved using hash tables to track the frequency of each character in both strings.
+**1.1 Constraints & Complexity:**
+- **Constraints:** The tree has at most 10^4 nodes, and each node value is between 0 and 10^4.
+- **Time Complexity:** O(n) - We visit each node exactly once, where n is the number of nodes.
+- **Space Complexity:** O(h) - The recursion stack depth is at most the height h of the tree. In the worst case (skewed tree), h = n, giving O(n) space.
+- **Edge Case:** If the tree is empty (root is None), return 0.
 
-**What is given?** Two strings `s` and `t` of potentially different lengths.
+**1.2 High-level approach:**
+The goal is to find the maximum amount of money we can rob from a binary tree without robbing two directly connected nodes. We use dynamic programming with a post-order traversal, where for each node we calculate two values: the maximum if we rob this node, and the maximum if we don't rob this node.
 
-**What is being asked?** Determine if `t` is an anagram of `s`.
+![House Robber III tree](https://assets.leetcode.com/uploads/2021/03/10/rob1-tree.jpg)
 
-**Constraints:** The strings can be up to 50,000 characters long and contain only lowercase English letters.
+**1.3 Brute force vs. optimized strategy:**
+- **Brute Force:** Try all possible combinations of robbing/not robbing each node, checking constraints. This would be exponential time O(2^n).
+- **Optimized Strategy (DP with DFS):** For each node, calculate the maximum profit for two cases: robbing this node (can't rob children) and not robbing this node (can rob children). This takes O(n) time.
+- **Emphasize the optimization:** By storing both possibilities at each node, we avoid recalculating subproblems and reduce time complexity from exponential to linear.
 
-**Edge cases:** 
-- Strings of different lengths
-- Empty strings
-- Strings with repeated characters
-- Strings with all identical characters
+**1.4 Decomposition:**
+1. Perform a post-order traversal of the tree.
+2. For each node, return a tuple: (rob_this, dont_rob_this).
+3. If we rob this node, we can't rob its children, so we take children's "don't rob" values.
+4. If we don't rob this node, we can choose the maximum from each child's two options.
+5. Return the maximum of the root's two options.
 
-**High-level approach:**
-The solution involves counting the frequency of each character in both strings and comparing them. If the character counts match exactly, the strings are anagrams.
+### Steps (The "How")
 
-**Decomposition:**
-1. **Check length equality**: If strings have different lengths, they can't be anagrams
-2. **Count characters in first string**: Use a hash table to track character frequencies
-3. **Decrement counts for second string**: For each character in the second string, decrement its count
-4. **Verify all counts are zero**: If any count is not zero, the strings are not anagrams
+**2.1 Initialization & Example Setup:**
+Let's use an example: `root = [3,2,3,null,3,null,1]`
 
-**Brute force vs. optimized strategy:**
-- **Brute force**: Try all possible permutations of one string. This takes O(n!) time.
-- **Optimized**: Use character counting with hash tables. This takes O(n) time.
+Initialize:
+- Start DFS from root node with value 3.
 
-### Steps
-Let's walk through the solution step by step using the first example: `s = "anagram"`, `t = "nagaram"`
+**2.2 Start Processing:**
+We traverse the tree using post-order DFS (process children before parent).
 
-**Step 1: Check string lengths**
-- `s.length = 7`, `t.length = 7`
-- Lengths match ✓
+**2.3 Trace Walkthrough:**
 
-**Step 2: Initialize character count dictionary**
-- `char_count = {}`
+| Node | Left Child Result | Right Child Result | Rob This | Don't Rob This | Max |
+|------|-------------------|-------------------|----------|----------------|-----|
+| 1 (leaf) | (0,0) | (0,0) | 1 + 0 + 0 = 1 | 0 + 0 = 0 | 1 |
+| 3 (leaf) | (0,0) | (0,0) | 3 + 0 + 0 = 3 | 0 + 0 = 0 | 3 |
+| 2 | (0,0) | (3,0) | 2 + 0 + 0 = 2 | 0 + 3 = 3 | 3 |
+| 3 (root) | (2,3) | (1,0) | 3 + 3 + 0 = 6 | 3 + 1 = 4 | 7 |
 
-**Step 3: Count characters in first string (s)**
-- `s = "anagram"`
-- `char_count['a'] = 3` (appears 3 times)
-- `char_count['n'] = 1` (appears 1 time)
-- `char_count['g'] = 1` (appears 1 time)
-- `char_count['r'] = 1` (appears 1 time)
-- `char_count['m'] = 1` (appears 1 time)
-
-**Step 4: Decrement counts for second string (t)**
-- `t = "nagaram"`
-- `t[0] = 'n'`: `char_count['n'] = 1 - 1 = 0`
-- `t[1] = 'a'`: `char_count['a'] = 3 - 1 = 2`
-- `t[2] = 'g'`: `char_count['g'] = 1 - 1 = 0`
-- `t[3] = 'a'`: `char_count['a'] = 2 - 1 = 1`
-- `t[4] = 'r'`: `char_count['r'] = 1 - 1 = 0`
-- `t[5] = 'a'`: `char_count['a'] = 1 - 1 = 0`
-- `t[6] = 'm'`: `char_count['m'] = 1 - 1 = 0`
-
-**Step 5: Verify all counts are zero**
-- All character counts are now 0
-- The strings are anagrams: `true`
-
-**Why this works:**
-By counting characters in the first string and then decrementing for the second string, we ensure that:
-1. Both strings contain the same characters
-2. Each character appears the same number of times in both strings
-3. The final count of 0 for all characters confirms the anagram property
-
-> **Note:** The key insight is using character frequency counting to verify that both strings contain exactly the same characters with the same frequencies. This is much more efficient than trying to find permutations.
-
-**Time Complexity:** O(n) - we visit each character once in each string  
-**Space Complexity:** O(k) - where k is the number of unique characters (bounded by the character set size)
+**2.4 Return Result:**
+The final result is max(rob_root, dont_rob_root) = max(6, 4) = 7.
 
 ### Solution
 
 ```python
-def isAnagram(s, t):
-    if len(s) != len(t):
-        return False
-    
-    char_count = {}
-    
-    for char in s:
-        char_count[char] = char_count.get(char, 0) + 1
-    
-    for char in t:
-        if char not in char_count:
-            return False
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def rob(self, root: Optional[TreeNode]) -> int:
+        def dfs(node):
+            if not node:
+                return (0, 0)  # (rob this node, don't rob this node)
+            
+            left = dfs(node.left)
+            right = dfs(node.right)
+            
+            # If we rob this node, we can't rob children
+            rob_this = node.val + left[1] + right[1]
+            
+            # If we don't rob this node, we can choose to rob or not rob children
+            dont_rob_this = max(left) + max(right)
+            
+            return (rob_this, dont_rob_this)
         
-        char_count[char] -= 1
+        return max(dfs(root))
+```
+
+## 647. Palindromic Substrings [Medium]
+https://leetcode.com/problems/palindromic-substrings/
+
+### Explanation
+
+## 647. Longest Subarray of 1's After Deleting One Element [Medium]
+
+https://leetcode.com/problems/longest-subarray-of-1s-after-deleting-one-element
+
+## Description
+Given a binary array nums, you should delete one element from it.
+
+Return the size of the longest non-empty subarray containing only 1's in the resulting array. Return 0 if there is no such subarray.
+
+**Examples**
+```text
+Input: nums = [1,1,0,1]
+Output: 3
+Explanation: After deleting the number in position 2, [1,1,1] contains 3 numbers with value of 1's.
+
+Input: nums = [0,1,1,1,0,1,1,0,1]
+Output: 5
+Explanation: After deleting the number in position 4, [0,1,1,1,1,1,0,1] longest subarray with value of 1's is [1,1,1,1,1].
+
+Input: nums = [1,1,1]
+Output: 2
+Explanation: You must delete one element.
+```
+**Constraints**
+```text
+- 1 <= nums.length <= 10^5
+- nums[i] is either 0 or 1.
+```
+
+## Hint
+Use a sliding window to keep at most one zero in the window.
+
+## Explanation
+We want the longest run of 1's after deleting one element. That means we can have at most one zero in our current window, since deleting it would leave only 1's.
+
+We use a sliding window to keep track of the current sequence. Every time we have more than one zero, we move the left end of the window forward until we're back to at most one zero.
+
+We do this because it lets us efficiently find the longest possible sequence without checking every possible subarray. By only moving the window when needed, we keep our solution fast and memory-efficient, especially for large arrays.
+
+### Solution
+
+```python
+def longestSubarray(nums):
+    left = 0
+    zeros = 0
+    max_len = 0
+    for right in range(len(nums)):
+        if nums[right] == 0:
+            zeros += 1
+        while zeros > 1:
+            if nums[left] == 0:
+                zeros -= 1
+            left += 1
+        max_len = max(max_len, right - left)
+    return max_len
+```
+
+## 981. Time Based Key-Value Store [Medium]
+https://leetcode.com/problems/time-based-key-value-store/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+
+- **Input Size:** `1 <= key.length, value.length <= 100`, `1 <= timestamp <= 10^7`, at most `2 * 10^5` calls to set and get.
+- **Time Complexity:** 
+  - `set`: O(1) - append to list.
+  - `get`: O(log m) where m is the number of timestamps for the key (binary search).
+- **Space Complexity:** O(n) where n is the total number of set operations.
+- **Edge Case:** If a key doesn't exist or no timestamp <= given timestamp exists, return empty string.
+
+**1.2 High-level approach:**
+
+The goal is to design a time-based key-value store that can store multiple values for the same key at different timestamps and retrieve the value associated with the largest timestamp that is <= the given timestamp. We use a dictionary to map keys to lists of (timestamp, value) pairs, and use binary search to efficiently find the correct value.
+
+![Visualization showing how timestamps are stored and retrieved using binary search to find the largest timestamp <= target]
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** For `get`, iterate through all timestamps for a key to find the largest one <= target. This takes O(m) time where m is the number of timestamps.
+- **Optimized Strategy:** Since timestamps are strictly increasing, we can use binary search to find the answer in O(log m) time.
+- **Why it's better:** Binary search reduces the time complexity from O(m) to O(log m), which is crucial when there are many timestamps for a key.
+
+**1.4 Decomposition:**
+
+1. Initialize a dictionary to store key -> list of (timestamp, value) pairs.
+2. For `set`: Append (timestamp, value) to the list for the key.
+3. For `get`: Use binary search to find the largest timestamp <= target timestamp.
+4. Return the corresponding value, or empty string if not found.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's trace through the example operations:
+- `set("foo", "bar", 1)`
+- `get("foo", 1)` -> should return "bar"
+- `get("foo", 3)` -> should return "bar" (largest timestamp <= 3 is 1)
+- `set("foo", "bar2", 4)`
+- `get("foo", 4)` -> should return "bar2"
+- `get("foo", 5)` -> should return "bar2" (largest timestamp <= 5 is 4)
+
+**2.2 Start Checking:**
+
+Initialize: `store = {}`
+
+**2.3 Trace Walkthrough:**
+
+| Operation | Key | Timestamp/Value | Store state | Action |
+|-----------|-----|-----------------|-------------|--------|
+| set | "foo" | ("bar", 1) | {"foo": [(1, "bar")]} | Append to list |
+| get | "foo" | 1 | - | Binary search: find timestamp <= 1 |
+| - | - | - | - | Found (1, "bar"), return "bar" |
+| get | "foo" | 3 | - | Binary search: find timestamp <= 3 |
+| - | - | - | - | Found (1, "bar"), return "bar" |
+| set | "foo" | ("bar2", 4) | {"foo": [(1, "bar"), (4, "bar2")]} | Append to list |
+| get | "foo" | 4 | - | Binary search: find timestamp <= 4 |
+| - | - | - | - | Found (4, "bar2"), return "bar2" |
+| get | "foo" | 5 | - | Binary search: find timestamp <= 5 |
+| - | - | - | - | Found (4, "bar2"), return "bar2" |
+
+Binary search details for `get("foo", 3)`:
+- List: `[(1, "bar"), (4, "bar2")]`
+- left = 0, right = 1
+- mid = 0, values[0][0] = 1 <= 3, so res = "bar", left = 1
+- left = 1, right = 1, mid = 1, values[1][0] = 4 > 3, so right = 0
+- left = 1 > right = 0, exit loop
+- Return "bar"
+
+**2.4 Increment and Loop:**
+
+Binary search continues until left > right.
+
+**2.5 Return Result:**
+
+Return the value associated with the largest timestamp <= target, or "" if not found.
+
+### Solution
+
+```python
+def __init__(self):
+        self.store = {}  # key -> list of (timestamp, value) pairs
+
+    def set(self, key: str, value: str, timestamp: int) -> None:
+        if key not in self.store:
+            self.store[key] = []
+        self.store[key].append((timestamp, value))
+
+    def get(self, key: str, timestamp: int) -> str:
+        if key not in self.store:
+            return ""
         
-        # If count becomes negative, strings are not anagrams
-        if char_count[char] < 0:
-            return False
+        # Binary search for the largest timestamp <= given timestamp
+        values = self.store[key]
+        left, right = 0, len(values) - 1
+        res = ""
+        
+        while left <= right:
+            mid = (left + right) // 2
+            if values[mid][0] <= timestamp:
+                res = values[mid][1]
+                left = mid + 1
+            else:
+                right = mid - 1
+        
+        return res
+```
+
+## 23. Merge k Sorted Lists [Hard]
+https://leetcode.com/problems/merge-k-sorted-lists/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+Given an array of $k$ sorted linked lists, we need to merge all of them into one sorted linked list and return it.
+
+**1.1 Constraints & Complexity:**
+
+- **Input Size:** $k$ can be between $0$ and $10^4$, and the total number of nodes can be up to $10^4$.
+- **Value Range:** Node values are between $-10^4$ and $10^4$.
+- **Time Complexity:** $O(n \log k)$ where $n$ is the total number of nodes. We use a heap of size $k$, and each insertion/extraction takes $O(\log k)$ time. We do this for $n$ nodes.
+- **Space Complexity:** $O(k)$ - We maintain a heap of size $k$.
+- **Edge Case:** If the array is empty, return null. If all lists are empty, return null.
+
+**1.2 High-level approach:**
+
+The goal is to merge $k$ sorted linked lists into one sorted list.
+
+We use a min heap to always get the smallest node among all lists. We add the first node from each list to the heap, then repeatedly extract the minimum, add it to the result, and add the next node from that list to the heap.
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** Merge lists one by one. This takes $O(kn)$ time where $n$ is the average list length.
+- **Optimized Strategy (Min Heap):** Use a min heap to efficiently get the minimum node at each step. This takes $O(n \log k)$ time.
+- **Why it's better:** The heap approach reduces time complexity by maintaining only $k$ nodes in the heap instead of comparing all $k$ lists at each step.
+
+**1.4 Decomposition:**
+
+1. Create a min heap and add the first node from each non-empty list.
+2. Create a dummy node to simplify edge cases.
+3. While the heap is not empty:
+   - Extract the minimum node from the heap.
+   - Add it to the result list.
+   - If that node has a next node, add the next node to the heap.
+4. Return the head of the merged list.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example: $lists = [[1,4,5],[1,3,4],[2,6]]$
+
+We initialize:
+- `heap = [(1,0,node1), (1,1,node1), (2,2,node2)]`
+- `dummy = ListNode(0)`
+- `current = dummy`
+
+**2.2 Start Merging:**
+
+We begin extracting from the heap.
+
+**2.3 Trace Walkthrough:**
+
+| Step | Extract | current.next | Add to heap | heap After |
+|------|---------|--------------|-------------|------------|
+| 1 | (1,0) | 1 | (4,0) | [(1,1), (2,2), (4,0)] |
+| 2 | (1,1) | 1 | (3,1) | [(2,2), (3,1), (4,0)] |
+| 3 | (2,2) | 2 | (6,2) | [(3,1), (4,0), (6,2)] |
+| 4 | (3,1) | 3 | (4,1) | [(4,0), (4,1), (6,2)] |
+| ... | ... | ... | ... | ... |
+
+**2.4 Final Result:**
+
+After merging: $[1,1,2,3,4,4,5,6]$
+
+**2.5 Return Result:**
+
+We return the head of the merged list: $[1,1,2,3,4,4,5,6]$.
+
+> **Note:** The key insight is to use a min heap to efficiently get the minimum node among all lists at each step. By maintaining only the current head of each list in the heap, we avoid storing all nodes and achieve $O(n \log k)$ time complexity.
+
+### Solution
+
+```python
+def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+from typing import List
+import heapq
+
+class Solution:
+    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+        # Create a min heap
+        heap = []
+        
+        # Add first node from each list to heap
+        for i, node in enumerate(lists):
+            if node:
+                heapq.heappush(heap, (node.val, i, node))
+        
+        # Create dummy node
+        dummy = ListNode(0)
+        current = dummy
+        
+        # Merge lists
+        while heap:
+            val, idx, node = heapq.heappop(heap)
+            current.next = node
+            current = current.next
+            
+            # Add next node from the same list if it exists
+            if node.next:
+                heapq.heappush(heap, (node.next.val, idx, node.next))
+        
+        return dummy.next
+```
+
+## 42. Trapping Rain Water [Hard]
+https://leetcode.com/problems/trapping-rain-water/
+
+### Explanation
+
+## 42. Trapping Rain Water [Hard]
+
+https://leetcode.com/problems/trapping-rain-water
+
+## Description
+Given `n` non-negative integers representing an elevation map where the width of each bar is `1`, compute how much water it can trap after raining.
+
+**Examples**
+
+```text
+Example 1:
+Input: height = [0,1,0,2,1,0,1,3,2,1,2,1]
+Output: 6
+Explanation: The above elevation map (black section) is represented by array [0,1,0,2,1,0,1,3,2,1,2,1]. In this case, 6 units of rain water (blue section) are being trapped.
+
+Example 2:
+Input: height = [4,2,0,3,2,5]
+Output: 9
+```
+
+**Constraints**
+```text
+- n == height.length
+- 1 <= n <= 2 * 10^4
+- 0 <= height[i] <= 10^5
+```
+
+## Explanation
+
+### Strategy
+Let's restate the problem: You're given an array representing the heights of walls in a landscape. When it rains, water gets trapped between these walls. Your job is to calculate how much water can be trapped.
+
+This is a **two-pointer and dynamic programming problem** that requires understanding how water trapping works in real life.
+
+**What is given?** An array of non-negative integers representing wall heights.
+
+**What is being asked?** Calculate the total amount of water that can be trapped between the walls.
+
+**Constraints:** The array can be quite large (up to 20,000 elements), so we need an efficient solution. All heights are non-negative.
+
+**Edge cases:** 
+- If the array has less than 3 elements, no water can be trapped (need at least 3 walls to form a container)
+- If all heights are the same, no water can be trapped
+- If heights are strictly increasing or decreasing, no water can be trapped
+
+**High-level approach:**
+The key insight is that for any position, the amount of water that can be trapped depends on the **minimum** of the highest wall to its left and the highest wall to its right. Water can only be trapped up to the height of the shorter of these two walls.
+
+Think of it like this: at any point, water will rise to the level of the lower "dam" on either side. If you're in a valley between two mountains, the water level is limited by the shorter mountain.
+
+**Decomposition:**
+1. **Precompute left and right maximums**: For each position, find the highest wall to its left and right
+2. **Calculate trapped water**: For each position, the trapped water is the minimum of left and right max, minus the current height (if positive)
+3. **Sum up all trapped water**: Add up the water trapped at each position
+
+**Brute force vs. optimized strategy:**
+- **Brute force**: For each position, scan left and right to find maximums. This takes O(n²) time.
+- **Optimized**: Precompute left and right maximums in two passes, then calculate water in one pass. This takes O(n) time.
+
+### Steps
+Let's walk through the solution step by step using the first example: `height = [0,1,0,2,1,0,1,3,2,1,2,1]`
+
+**Step 1: Understand the visualization**
+Imagine this array as a landscape:
+```
+    ■
+    ■   ■     ■
+  ■ ■ ■ ■ ■ ■ ■ ■
+■ ■ ■ ■ ■ ■ ■ ■ ■ ■
+0 1 0 2 1 0 1 3 2 1 2 1
+```
+
+**Step 2: Precompute left maximums**
+We'll create an array `left_max` where `left_max[i]` is the highest wall to the left of position `i` (including position `i` itself).
+
+```
+height:    [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]
+left_max:  [0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3]
+```
+
+How we calculate this:
+- `left_max[0] = height[0] = 0` (no walls to the left)
+- `left_max[1] = max(left_max[0], height[1]) = max(0, 1) = 1`
+- `left_max[2] = max(left_max[1], height[2]) = max(1, 0) = 1`
+- `left_max[3] = max(left_max[2], height[3]) = max(1, 2) = 2`
+- And so on...
+
+**Step 3: Precompute right maximums**
+Similarly, create `right_max` where `right_max[i]` is the highest wall to the right of position `i` (including position `i` itself).
+
+```
+height:     [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]
+right_max:  [3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2, 1]
+```
+
+How we calculate this (from right to left):
+- `right_max[11] = height[11] = 1` (no walls to the right)
+- `right_max[10] = max(right_max[11], height[10]) = max(1, 2) = 2`
+- `right_max[9] = max(right_max[10], height[9]) = max(2, 1) = 2`
+- And so on...
+
+**Step 4: Calculate trapped water at each position**
+For each position `i`, the water trapped is:
+```
+water[i] = min(left_max[i], right_max[i]) - height[i]
+```
+
+But only if this value is positive (we can't have negative water).
+
+Let's calculate for a few positions:
+- Position 0: `min(0, 3) - 0 = 0` (no water trapped)
+- Position 1: `min(1, 3) - 1 = 0` (no water trapped)
+- Position 2: `min(1, 3) - 0 = 1` (1 unit of water trapped)
+- Position 3: `min(2, 3) - 2 = 0` (no water trapped)
+- Position 4: `min(2, 3) - 1 = 1` (1 unit of water trapped)
+- Position 5: `min(2, 3) - 0 = 2` (2 units of water trapped)
+
+**Step 5: Sum up all trapped water**
+```
+water = [0, 0, 1, 0, 1, 2, 1, 0, 0, 1, 0, 0]
+total = 0 + 0 + 1 + 0 + 1 + 2 + 1 + 0 + 0 + 1 + 0 + 0 = 6
+```
+
+> **Note:** The key insight is that water can only be trapped up to the height of the lower "dam" on either side. This is why we take the minimum of the left and right maximums.
+
+**Time Complexity:** O(n) - we make three passes through the array  
+**Space Complexity:** O(n) - we store two additional arrays of size n
+
+### Solution
+
+```python
+def trap(height):
+    """
+    Calculate the amount of water that can be trapped between walls.
     
-    # Check if all counts are zero
-    for count in char_count.values():
-        if count != 0:
-            return False
+    Args:
+        height: List[int] - Array representing wall heights
+        
+    Returns:
+        int - Total amount of water trapped
+    """
+    # Handle edge cases
+    if not height or len(height) < 3:
+        return 0
     
-    return True
+    n = len(height)
+    
+    # Step 1: Precompute left maximums
+    # left_max[i] = highest wall to the left of position i (including i)
+    left_max = [0] * n
+    left_max[0] = height[0]
+    
+    for i in range(1, n):
+        left_max[i] = max(left_max[i-1], height[i])
+    
+    # Step 2: Precompute right maximums
+    # right_max[i] = highest wall to the right of position i (including i)
+    right_max = [0] * n
+    right_max[n-1] = height[n-1]
+    
+    for i in range(n-2, -1, -1):
+        right_max[i] = max(right_max[i+1], height[i])
+    
+    # Step 3: Calculate trapped water at each position
+    res = 0
+    for i in range(n):
+        # Water trapped = min(left_max, right_max) - current_height
+        # But only if positive (can't have negative water)
+        water = min(left_max[i], right_max[i]) - height[i]
+        if water > 0:
+            res += water
+    
+    return res
+```
+
+## 124. Binary Tree Maximum Path Sum [Hard]
+https://leetcode.com/problems/binary-tree-maximum-path-sum/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity**
+
+* **Input Size:** The tree has $1 \leq n \leq 3 \times 10^4$ nodes, with values in $[-1000, 1000]$.
+* **Time Complexity:** $O(n)$ - We visit each node exactly once during DFS traversal.
+* **Space Complexity:** $O(h)$ - The recursion stack depth is at most the height $h$ of the tree. In worst case (skewed tree), $h = n$.
+* **Edge Case:** A single-node tree returns the node's value. All negative values require careful handling (we use `max(0, ...)` to avoid negative contributions).
+
+**1.2 High-level approach**
+
+The goal is to find the maximum path sum in a binary tree, where a path can start and end at any nodes (not necessarily root or leaf). We use DFS to calculate the maximum path sum that can be extended upward from each node, while tracking the global maximum.
+
+![Maximum path sum visualization showing paths that can go through any node]
+
+**1.3 Brute force vs. optimized strategy**
+
+* **Brute Force:** Try all possible paths in the tree. This is exponential in complexity.
+* **Optimized (DFS with Global Tracking):** For each node, calculate the maximum path sum that can be extended upward (for parent) and the maximum path sum through the node (for global maximum). This achieves $O(n)$ time.
+
+**1.4 Decomposition**
+
+1. **DFS Traversal:** Recursively visit each node.
+2. **Calculate Contributions:** For each node, get maximum contributions from left and right subtrees (non-negative only).
+3. **Update Global Maximum:** Calculate path sum through current node and update global maximum.
+4. **Return Upward Contribution:** Return the maximum path sum that can be extended to parent.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup**
+
+Let's use the example $root = [-10,9,20,null,null,15,7]$.
+
+We initialize:
+* `res = -inf` (global maximum path sum)
+* Start DFS from root node (-10)
+
+**2.2 Start Processing**
+
+We call `dfs(root)`.
+
+**2.3 Trace Walkthrough**
+
+| Node | left_sum | right_sum | Path Through Node | Return Value | res (after) |
+|------|----------|-----------|-------------------|--------------|-------------|
+| -10 | max(0, dfs(9)) | max(0, dfs(20)) | -10 + 0 + 0 = -10 | -10 + max(0,0) = -10 | -10 |
+| 9 | 0 | 0 | 9 + 0 + 0 = 9 | 9 + 0 = 9 | 9 |
+| 20 | max(0, dfs(15)) | max(0, dfs(7)) | 20 + 15 + 7 = 42 | 20 + max(15,7) = 35 | 42 |
+| 15 | 0 | 0 | 15 + 0 + 0 = 15 | 15 + 0 = 15 | 42 |
+| 7 | 0 | 0 | 7 + 0 + 0 = 7 | 7 + 0 = 7 | 42 |
+
+**2.4 Recursive Processing**
+
+For each node:
+1. If `not node`, return 0 (base case)
+2. Recursively get `left_sum = max(0, dfs(node.left))` (non-negative only)
+3. Recursively get `right_sum = max(0, dfs(node.right))` (non-negative only)
+4. Update global: `res = max(res, node.val + left_sum + right_sum)`
+5. Return: `node.val + max(left_sum, right_sum)` (for parent)
+
+**2.5 Return Result**
+
+After processing all nodes, `res = 42`, which is the maximum path sum from the path $15 \to 20 \to 7$.
+
+> **Note:** We use `max(0, ...)` to ensure we only consider positive contributions from subtrees. If a subtree contributes negatively, we ignore it (treat as 0).
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def maxPathSum(self, root: Optional[TreeNode]) -> int:
+        res = float('-inf')
+        
+        def dfs(node):
+            nonlocal res
+            if not node:
+                return 0
+            
+            # Get max path sum from left and right subtrees
+            left_sum = max(0, dfs(node.left))
+            right_sum = max(0, dfs(node.right))
+            
+            # Update global maximum (path through current node)
+            res = max(res, node.val + left_sum + right_sum)
+            
+            # Return max path sum that can be extended upward
+            return node.val + max(left_sum, right_sum)
+        
+        dfs(root)
+        return res
 ```
 
 ## 297. Serialize and Deserialize Binary Tree [Hard]
@@ -3247,88 +3790,6 @@ class Codec:
         return root
 ```
 
-## 337. House Robber III [Medium]
-https://leetcode.com/problems/house-robber-iii/
-
-### Explanation
-
-## Explanation
-
-### Strategy (The "Why")
-
-**1.1 Constraints & Complexity:**
-- **Constraints:** The tree has at most 10^4 nodes, and each node value is between 0 and 10^4.
-- **Time Complexity:** O(n) - We visit each node exactly once, where n is the number of nodes.
-- **Space Complexity:** O(h) - The recursion stack depth is at most the height h of the tree. In the worst case (skewed tree), h = n, giving O(n) space.
-- **Edge Case:** If the tree is empty (root is None), return 0.
-
-**1.2 High-level approach:**
-The goal is to find the maximum amount of money we can rob from a binary tree without robbing two directly connected nodes. We use dynamic programming with a post-order traversal, where for each node we calculate two values: the maximum if we rob this node, and the maximum if we don't rob this node.
-
-![House Robber III tree](https://assets.leetcode.com/uploads/2021/03/10/rob1-tree.jpg)
-
-**1.3 Brute force vs. optimized strategy:**
-- **Brute Force:** Try all possible combinations of robbing/not robbing each node, checking constraints. This would be exponential time O(2^n).
-- **Optimized Strategy (DP with DFS):** For each node, calculate the maximum profit for two cases: robbing this node (can't rob children) and not robbing this node (can rob children). This takes O(n) time.
-- **Emphasize the optimization:** By storing both possibilities at each node, we avoid recalculating subproblems and reduce time complexity from exponential to linear.
-
-**1.4 Decomposition:**
-1. Perform a post-order traversal of the tree.
-2. For each node, return a tuple: (rob_this, dont_rob_this).
-3. If we rob this node, we can't rob its children, so we take children's "don't rob" values.
-4. If we don't rob this node, we can choose the maximum from each child's two options.
-5. Return the maximum of the root's two options.
-
-### Steps (The "How")
-
-**2.1 Initialization & Example Setup:**
-Let's use an example: `root = [3,2,3,null,3,null,1]`
-
-Initialize:
-- Start DFS from root node with value 3.
-
-**2.2 Start Processing:**
-We traverse the tree using post-order DFS (process children before parent).
-
-**2.3 Trace Walkthrough:**
-
-| Node | Left Child Result | Right Child Result | Rob This | Don't Rob This | Max |
-|------|-------------------|-------------------|----------|----------------|-----|
-| 1 (leaf) | (0,0) | (0,0) | 1 + 0 + 0 = 1 | 0 + 0 = 0 | 1 |
-| 3 (leaf) | (0,0) | (0,0) | 3 + 0 + 0 = 3 | 0 + 0 = 0 | 3 |
-| 2 | (0,0) | (3,0) | 2 + 0 + 0 = 2 | 0 + 3 = 3 | 3 |
-| 3 (root) | (2,3) | (1,0) | 3 + 3 + 0 = 6 | 3 + 1 = 4 | 7 |
-
-**2.4 Return Result:**
-The final result is max(rob_root, dont_rob_root) = max(6, 4) = 7.
-
-### Solution
-
-```python
-def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-class Solution:
-    def rob(self, root: Optional[TreeNode]) -> int:
-        def dfs(node):
-            if not node:
-                return (0, 0)  # (rob this node, don't rob this node)
-            
-            left = dfs(node.left)
-            right = dfs(node.right)
-            
-            # If we rob this node, we can't rob children
-            rob_this = node.val + left[1] + right[1]
-            
-            # If we don't rob this node, we can choose to rob or not rob children
-            dont_rob_this = max(left) + max(right)
-            
-            return (rob_this, dont_rob_this)
-        
-        return max(dfs(root))
-```
-
 ## 460. LFU Cache [Hard]
 https://leetcode.com/problems/lfu-cache/
 
@@ -3439,243 +3900,4 @@ def __init__(self, capacity: int):
         self.key_to_freq[key] = 1
         self.freq_to_keys[1][key] = None
         self.min_freq = 1
-```
-
-## 543. Diameter of Binary Tree [Easy]
-https://leetcode.com/problems/diameter-of-binary-tree/
-
-### Explanation
-
-## Explanation
-
-### Strategy (The "Why")
-
-**1.1 Constraints & Complexity:**
-- **Constraints:** Tree has between 1 and 10^4 nodes, and node values are between -100 and 100.
-- **Time Complexity:** O(n) - We visit each node exactly once during DFS, where n is the number of nodes.
-- **Space Complexity:** O(h) - The recursion stack depth is at most the height h of the tree. In the worst case (skewed tree), h = n, giving O(n) space.
-- **Edge Case:** If the tree has only one node, the diameter is 0 (no edges).
-
-**1.2 High-level approach:**
-The goal is to find the diameter (longest path between any two nodes) of a binary tree. The diameter may or may not pass through the root. We use DFS to calculate the depth of each subtree and track the maximum diameter found so far.
-
-![Diameter of Binary Tree](https://assets.leetcode.com/uploads/2021/03/06/diamtree.jpg)
-
-**1.3 Brute force vs. optimized strategy:**
-- **Brute Force:** For each node, find the longest path passing through it by calculating depths of left and right subtrees. This still requires visiting each node once, so it's O(n) but with redundant calculations.
-- **Optimized Strategy (DFS with Global Tracking):** Perform a single DFS pass, calculating subtree depths and updating the maximum diameter as we go. This takes O(n) time with a single traversal.
-- **Emphasize the optimization:** By tracking the maximum diameter during a single DFS pass, we avoid multiple traversals and redundant calculations.
-
-**1.4 Decomposition:**
-1. Perform DFS traversal of the tree.
-2. For each node, calculate the depth of its left and right subtrees.
-3. The diameter passing through this node is left_depth + right_depth.
-4. Update the global maximum diameter if this is larger.
-5. Return the depth of the current subtree (1 + max(left_depth, right_depth)).
-
-### Steps (The "How")
-
-**2.1 Initialization & Example Setup:**
-Let's use an example: `root = [1,2,3,4,5]`
-
-Initialize:
-- `res = 0` (global maximum diameter)
-
-**2.2 Start Processing:**
-We perform DFS starting from the root.
-
-**2.3 Trace Walkthrough:**
-
-| Node | Left Depth | Right Depth | Diameter Through Node | Max Diameter | Return Depth |
-|------|------------|-------------|----------------------|--------------|--------------|
-| 4 (leaf) | 0 | 0 | 0 | 0 | 1 |
-| 5 (leaf) | 0 | 0 | 0 | 0 | 1 |
-| 2 | 1 | 1 | 2 | 2 | 2 |
-| 3 (leaf) | 0 | 0 | 0 | 2 | 1 |
-| 1 (root) | 2 | 1 | 3 | 3 | 3 |
-
-**2.4 Return Result:**
-The maximum diameter found is 3, which is the path [4,2,1,3] or [5,2,1,3].
-
-### Solution
-
-```python
-def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-class Solution:
-    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
-        res = 0
-        
-        def dfs(node):
-            nonlocal res
-            if not node:
-                return 0
-            
-            left_depth = dfs(node.left)
-            right_depth = dfs(node.right)
-            
-            # Diameter passing through this node
-            res = max(res, left_depth + right_depth)
-            
-            # Return depth of this subtree
-            return 1 + max(left_depth, right_depth)
-        
-        dfs(root)
-        return res
-```
-
-## 647. Palindromic Substrings [Medium]
-https://leetcode.com/problems/palindromic-substrings/
-
-### Explanation
-
-## 647. Longest Subarray of 1's After Deleting One Element [Medium]
-
-https://leetcode.com/problems/longest-subarray-of-1s-after-deleting-one-element
-
-## Description
-Given a binary array nums, you should delete one element from it.
-
-Return the size of the longest non-empty subarray containing only 1's in the resulting array. Return 0 if there is no such subarray.
-
-**Examples**
-```text
-Input: nums = [1,1,0,1]
-Output: 3
-Explanation: After deleting the number in position 2, [1,1,1] contains 3 numbers with value of 1's.
-
-Input: nums = [0,1,1,1,0,1,1,0,1]
-Output: 5
-Explanation: After deleting the number in position 4, [0,1,1,1,1,1,0,1] longest subarray with value of 1's is [1,1,1,1,1].
-
-Input: nums = [1,1,1]
-Output: 2
-Explanation: You must delete one element.
-```
-**Constraints**
-```text
-- 1 <= nums.length <= 10^5
-- nums[i] is either 0 or 1.
-```
-
-## Hint
-Use a sliding window to keep at most one zero in the window.
-
-## Explanation
-We want the longest run of 1's after deleting one element. That means we can have at most one zero in our current window, since deleting it would leave only 1's.
-
-We use a sliding window to keep track of the current sequence. Every time we have more than one zero, we move the left end of the window forward until we're back to at most one zero.
-
-We do this because it lets us efficiently find the longest possible sequence without checking every possible subarray. By only moving the window when needed, we keep our solution fast and memory-efficient, especially for large arrays.
-
-### Solution
-
-```python
-def longestSubarray(nums):
-    left = 0
-    zeros = 0
-    max_len = 0
-    for right in range(len(nums)):
-        if nums[right] == 0:
-            zeros += 1
-        while zeros > 1:
-            if nums[left] == 0:
-                zeros -= 1
-            left += 1
-        max_len = max(max_len, right - left)
-    return max_len
-```
-
-## 876. Middle of the Linked List [Easy]
-https://leetcode.com/problems/middle-of-the-linked-list/
-
-### Explanation
-
-## Explanation
-
-### Strategy (The "Why")
-
-Given the head of a singly linked list, we need to return the middle node of the linked list. If there are two middle nodes, return the second one.
-
-**1.1 Constraints & Complexity:**
-
-- **Input Size:** The number of nodes can be between $1$ and $100$.
-- **Value Range:** Node values are between $1$ and $100$.
-- **Time Complexity:** $O(n)$ - We traverse the list once with two pointers.
-- **Space Complexity:** $O(1)$ - We only use a constant amount of extra space for pointers.
-- **Edge Case:** If the list has only one node, return that node. If the list has two nodes, return the second one.
-
-**1.2 High-level approach:**
-
-The goal is to find the middle node of a linked list.
-
-We use the "tortoise and hare" approach: one pointer moves one step at a time (slow), and another moves two steps at a time (fast). When the fast pointer reaches the end, the slow pointer is at the middle.
-
-**1.3 Brute force vs. optimized strategy:**
-
-- **Brute Force:** First pass to count nodes, second pass to find the middle node. This takes $O(n)$ time but requires two passes.
-- **Optimized Strategy (Two Pointers):** Use two pointers moving at different speeds. This takes $O(n)$ time in a single pass.
-- **Why it's better:** The two-pointer approach finds the middle in one pass instead of two, making it more efficient and elegant.
-
-**1.4 Decomposition:**
-
-1. Initialize two pointers (slow and fast) at the head.
-2. Move slow one step and fast two steps at a time.
-3. When fast reaches the end (null or last node), slow is at the middle.
-4. Return the slow pointer.
-
-### Steps (The "How")
-
-**2.1 Initialization & Example Setup:**
-
-Let's use the example: $head = [1,2,3,4,5]$
-
-We initialize:
-- `slow = 1`
-- `fast = 1`
-
-**2.2 Start Processing:**
-
-We begin moving the pointers.
-
-**2.3 Trace Walkthrough:**
-
-| Step | slow position | fast position | Action |
-|------|---------------|---------------|--------|
-| 0 | 1 | 1 | Start |
-| 1 | 2 | 3 | Move slow 1, fast 2 |
-| 2 | 3 | 5 | Move slow 1, fast 2 |
-| 3 | 3 | null | fast.next is null, stop |
-
-**2.4 Explanation:**
-
-- When fast reaches the end (node 5, where fast.next is null), slow is at node 3, which is the middle node.
-
-**2.5 Return Result:**
-
-We return the node with value 3, which is the middle node.
-
-> **Note:** The key insight is that when the fast pointer moves twice as fast, it covers twice the distance. When it reaches the end, the slow pointer has covered half the distance, which is exactly the middle.
-
-### Solution
-
-```python
-def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
-
-class Solution:
-    def middleNode(self, head):
-        slow = head
-        fast = head
-        
-        # Move fast pointer twice as fast as slow pointer
-        while fast and fast.next:
-            slow = slow.next
-            fast = fast.next.next
-        
-        # When fast reaches the end, slow is at the middle
-        return slow
 ```

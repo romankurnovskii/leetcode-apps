@@ -118,15 +118,19 @@ def normalize_book_sets(
         print("Error: The root of the JSON file must be an array.")
         return
 
-    # Find the "All-TODO" and "All" objects
+    # Find the "All-TODO" and "All" objects, and get premium list
     all_todo_obj = None
     all_obj = None
+    premium_set = set()
 
     for obj in data:
         if obj.get("title") == "All-TODO":
             all_todo_obj = obj
         elif obj.get("title") == "All":
             all_obj = obj
+        elif "premium" in obj:
+            # Get premium problems list
+            premium_set = set(obj.get("premium", []))
 
     changes_made = False
 
@@ -170,7 +174,7 @@ def normalize_book_sets(
             if d.is_dir() and d.name.isdigit() and not d.name.startswith("todo-")
         }
 
-        # Find problems that have both
+        # Find problems that have both (excluding premium)
         problems_with_both = sorted(
             [
                 p
@@ -179,18 +183,29 @@ def normalize_book_sets(
                 and has_both_solution_and_explanation(
                     p, solutions_path, explanations_path
                 )
+                and p not in premium_set  # Exclude premium problems
             ]
         )
 
         original_count = len(all_obj.get("problems", []))
         original_problems = set(all_obj.get("problems", []))
+        problems_with_both_set = set(problems_with_both)
 
-        if set(problems_with_both) != original_problems:
+        # Remove premium problems from original_problems for comparison
+        original_non_premium = original_problems - premium_set
+        removed_premium = sorted(original_problems & premium_set)
+
+        # Always update if there are premium problems to remove, or if sets differ
+        if removed_premium or problems_with_both_set != original_non_premium:
             changes_made = True
-            added = sorted(set(problems_with_both) - original_problems)
-            removed = sorted(original_problems - set(problems_with_both))
+            added = sorted(problems_with_both_set - original_non_premium)
+            removed = sorted(original_non_premium - problems_with_both_set)
 
             print(f"\n[All] Updating problem list:")
+            if removed_premium:
+                print(
+                    f"  Removed {len(removed_premium)} premium problems: {removed_premium[:10]}{'...' if len(removed_premium) > 10 else ''}"
+                )
             if added:
                 print(
                     f"  Added {len(added)} problems: {added[:10]}{'...' if len(added) > 10 else ''}"
@@ -284,8 +299,10 @@ def normalize_book_sets(
             print("[DRY RUN] Would write changes to file (use --write to apply)")
         else:
             try:
+                # Write JSON file (prettier will format it via pre-commit hook)
                 with open(book_sets_file, "w", encoding="utf-8") as f:
-                    json.dump(data, f, indent=2, ensure_ascii=False)
+                    json.dump(data, f, ensure_ascii=False)
+
                 print("\n" + "=" * 70)
                 print(f"✓ Successfully updated '{book_sets_file}'")
             except Exception as e:

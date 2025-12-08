@@ -1,131 +1,54 @@
-# 27. Remove Element [Easy]
-
-[https://leetcode.com/problems/remove-element/](https://leetcode.com/problems/remove-element/)
-
-## Description
-
-Given an integer array `nums` and an integer `val`, remove all occurrences of `val` in `nums` **[in-place](https://en.wikipedia.org/wiki/In-place_algorithm)**. The order of the elements may be changed. Then return *the number of elements in* `nums` *which are not equal to* `val`.
-
-Consider the number of elements in `nums` which are not equal to `val` be `k`, to get accepted, you need to do the following things:
-
-1. Change the array `nums` such that the first `k` elements of `nums` contain the elements which are not equal to `val`. The remaining elements of `nums` are not important as well as the size of `nums`.
-2. Return `k`.
-
-**Custom Judge:**
-
-The judge will test your solution with the following code:
-
-```raw
-int[] nums = [...]; // Input array
-int val = ...; // Value to remove
-int[] expectedNums = [...]; // The expected answer with correct length.
-                            // It is sorted with no values equaling val.
-
-int k = removeElement(nums, val); // Calls your implementation
-
-assert k == expectedNums.length;
-sort(nums, 0, k); // Sort the first k elements of nums
-for (int i = 0; i < actualLength; i++) {
-    assert nums[i] == expectedNums[i];
-}
-```
-
-If all assertions pass, then your solution will be **accepted**.
-
-**Example 1:**
-
-```raw
-Input: nums = [3,2,2,3], val = 3
-Output: 2, nums = [2,2,_,_]
-Explanation: Your function should return k = 2, with the first two elements of nums being 2.
-It does not matter what you leave beyond the returned k (hence they are underscores).
-```
-
-**Example 2:**
-
-```raw
-Input: nums = [0,1,2,2,3,0,4,2], val = 2
-Output: 5, nums = [0,1,4,0,3,_,_,_]
-Explanation: Your function should return k = 5, with the first five elements of nums containing 0, 0, 1, 3, and 4.
-Note that the five elements can be returned in any order.
-It does not matter what you leave beyond the returned k (hence they are underscores).
-```
-
-**Constraints:**
-
-- `0 <= nums.length <= 100`
-- `0 <= nums[i] <= 50`
-- `0 <= val <= 100`
-
 ## Explanation
 
-### Strategy
+### Strategy (The "Why")
 
-This is a **two-pointer array manipulation problem** that requires removing all occurrences of a specific value from an array in-place. The key insight is that we don't need to actually "remove" elements - we just need to move all non-target elements to the front of the array and return the count.
+**Restate the problem:** We need to remove all occurrences of a specific value from an array in-place, meaning we modify the original array without using extra space. The order of elements can be changed, and we only need to ensure the first k elements contain all non-target values.
 
-**Key observations:**
-- We need to modify the array in-place without using extra space
-- The order of elements can be changed
-- We only care about the first `k` elements after removal
-- We can use a two-pointer approach to overwrite elements efficiently
+**1.1 Constraints & Complexity:**
+- Input size: `0 <= nums.length <= 100`, `0 <= nums[i] <= 50`, `0 <= val <= 100`
+- **Time Complexity:** O(n) where n is the length of the array - we visit each element exactly once
+- **Space Complexity:** O(1) - we modify the array in-place without using extra space
+- **Edge Case:** If the array is empty or contains no elements equal to val, we return the original length
 
-**High-level approach:**
-1. **Use a slow pointer**: Points to the next position where we'll place a valid element
-2. **Use a fast pointer**: Iterates through the array to find valid elements
-3. **Copy valid elements**: When we find an element not equal to `val`, copy it to the slow pointer position
-4. **Return the count**: The slow pointer position at the end gives us the count of valid elements
+**1.2 High-level approach:**
+We use a two-pointer technique where one pointer scans through the array to find valid elements, and another pointer tracks where to place them. This allows us to "remove" elements by overwriting them with valid elements.
 
-### Steps
+![Two pointers moving through array](https://assets.leetcode.com/static_assets/others/two-pointers.png)
 
-Let's break down the solution step by step:
+**1.3 Brute force vs. optimized strategy:**
+- **Brute Force:** Create a new array, copy all non-target elements to it, then copy back. This requires O(n) extra space.
+- **Optimized Strategy:** Use two pointers to overwrite elements in-place. This requires O(1) extra space and is more efficient.
+- **Why it's better:** We avoid creating a new array, saving memory and making the solution more efficient.
 
-**Step 1: Initialize pointers**
+**1.4 Decomposition:**
+1. Initialize a slow pointer at position 0 to track where valid elements should be placed
+2. Use a fast pointer to iterate through all elements in the array
+3. For each element, check if it's not equal to the target value
+4. If valid, copy it to the slow pointer position and advance the slow pointer
+5. Return the slow pointer value as the count of valid elements
 
-- `slow`: Points to the next position where we'll place a valid element (starts at 0)
-- `fast`: Iterates through the array to find elements (starts at 0)
+### Steps (The "How")
 
-**Step 2: Iterate through the array**
+**2.1 Initialization & Example Setup:**
+Let's use the example: `nums = [3,2,2,3]`, `val = 3`
+- Initialize `slow = 0` (points to next position for valid elements)
+- Initialize `fast = 0` (scans through the array)
 
-For each element at position `fast`:
-- If `nums[fast] != val`, copy it to `nums[slow]` and increment `slow`
-- If `nums[fast] == val`, skip it (just increment `fast`)
+**2.2 Start Checking:**
+We begin iterating through the array with the fast pointer.
 
-**Step 3: Return the result**
+**2.3 Trace Walkthrough:**
 
-- The value of `slow` at the end gives us the count of elements not equal to `val`
-- The first `slow` elements of the array contain all the valid elements
+| Step | fast | nums[fast] | nums[fast] == val? | Action | nums after | slow |
+|------|------|------------|-------------------|--------|------------|------|
+| Initial | 0 | 3 | Yes | Skip, increment fast | [3,2,2,3] | 0 |
+| 1 | 1 | 2 | No | Copy to nums[0], increment both | [2,2,2,3] | 1 |
+| 2 | 2 | 2 | No | Copy to nums[1], increment both | [2,2,2,3] | 2 |
+| 3 | 3 | 3 | Yes | Skip, increment fast | [2,2,2,3] | 2 |
+| End | 4 | - | - | Loop ends | [2,2,2,3] | 2 |
 
-**Example walkthrough:**
+**2.4 Increment and Loop:**
+After each iteration, we increment the fast pointer. If we found a valid element, we also increment the slow pointer.
 
-Let's trace through the first example:
-
-```raw
-nums = [3,2,2,3], val = 3
-
-Initial state:
-slow = 0, fast = 0
-
-Step 1: nums[0] = 3 == val
-Skip 3, increment fast only
-slow = 0, fast = 1
-
-Step 2: nums[1] = 2 != val
-Copy 2 to nums[0], increment both
-nums = [2,2,2,3], slow = 1, fast = 2
-
-Step 3: nums[2] = 2 != val
-Copy 2 to nums[1], increment both
-nums = [2,2,2,3], slow = 2, fast = 3
-
-Step 4: nums[3] = 3 == val
-Skip 3, increment fast only
-slow = 2, fast = 4
-
-Result: Return slow = 2
-Final array: [2,2,_,_] (first 2 elements are valid)
-```
-
-> **Note:** The two-pointer approach is efficient because we only need one pass through the array. We don't need to actually remove elements - we just overwrite the positions where we want to keep elements.
-
-**Time Complexity:** O(n) - we visit each element exactly once  
-**Space Complexity:** O(1) - we modify the array in-place without extra space 
+**2.5 Return Result:**
+Return `slow = 2`, which represents the number of elements not equal to val. The first 2 elements `[2,2]` are the valid elements.
