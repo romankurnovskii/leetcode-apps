@@ -14,6 +14,7 @@ import json
 import os
 import argparse
 import re
+import subprocess
 from pathlib import Path
 
 
@@ -273,7 +274,7 @@ def normalize_book_sets(
         original_count = len(all_obj.get("problems", []))
         original_problems = set(all_obj.get("problems", []))
         problems_with_both_set = set(problems_with_both)
-        
+
         # Remove premium problems from original_problems for comparison
         original_non_premium = original_problems - premium_set
         removed_premium = sorted(original_problems & premium_set)
@@ -382,8 +383,21 @@ def normalize_book_sets(
             print("[DRY RUN] Would write changes to file (use --write to apply)")
         else:
             try:
+                # Write JSON file (prettier will format it)
                 with open(book_sets_file, "w", encoding="utf-8") as f:
-                    json.dump(data, f, indent=2, ensure_ascii=False)
+                    json.dump(data, f, ensure_ascii=False)
+
+                # Format with prettier
+                try:
+                    subprocess.run(
+                        ["npx", "prettier", "--write", book_sets_file],
+                        check=True,
+                        capture_output=True,
+                    )
+                except subprocess.CalledProcessError as e:
+                    print(f"Warning: Prettier formatting failed: {e}")
+                except FileNotFoundError:
+                    print("Warning: npx/prettier not found, skipping formatting")
 
                 print("\n" + "=" * 70)
                 print(f"✓ Successfully updated '{book_sets_file}'")

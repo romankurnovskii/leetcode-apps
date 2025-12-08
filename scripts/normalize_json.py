@@ -11,6 +11,7 @@ python scripts/normalize_json.py data/leetcode-problems.json
 
 import json
 import argparse
+import subprocess
 from collections import OrderedDict
 
 
@@ -105,6 +106,16 @@ def sort_json_by_numeric_keys(input_file, output_file):
 
         with open(output_file, "w", encoding="utf-8") as f:
             f.write("\n".join(lines) + "\n")
+
+        # Format with prettier
+        try:
+            subprocess.run(
+                ["npx", "prettier", "--write", output_file],
+                check=True,
+                capture_output=True,
+            )
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            pass  # Silently fail if prettier is not available
 
         print(
             f"Successfully sorted '{input_file}' and saved the result to '{output_file}'."
