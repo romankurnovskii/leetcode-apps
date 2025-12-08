@@ -14,7 +14,7 @@ import argparse
 from collections import OrderedDict
 
 
-def format_json_value(value, indent_level=0):
+def format_json_value(value, indent_level=0, print_width=150):
     """Format a JSON value with custom formatting following Prettier style."""
     indent = "  " * indent_level
     next_indent = "  " * (indent_level + 1)
@@ -25,19 +25,43 @@ def format_json_value(value, indent_level=0):
         items = []
         for k, v in sorted(value.items()):
             formatted_key = json.dumps(k, ensure_ascii=False)
-            formatted_value = format_json_value(v, indent_level + 1)
+            formatted_value = format_json_value(v, indent_level + 1, print_width)
             items.append(f"{next_indent}{formatted_key}: {formatted_value}")
         return "{\n" + ",\n".join(items) + "\n" + indent + "}"
     elif isinstance(value, list):
         if not value:
             return "[]"
-        # Check if it's a list of numbers (for problems arrays) - format one per line
+        # Check if it's a list of numbers (for problems arrays) - format multiple per line
         if value and isinstance(value[0], (int, float)):
-            items = [f"{next_indent}{json.dumps(item, ensure_ascii=False)}" for item in value]
-            return "[\n" + ",\n".join(items) + "\n" + indent + "]"
+            # Calculate available width (print_width minus indentation and brackets)
+            available_width = print_width - len(next_indent) - 2
+            lines = []
+            current_line = []
+            current_length = 0
+            
+            for i, item in enumerate(value):
+                item_str = str(item)
+                # Add comma and space length (2) if not first item on line
+                item_length = len(item_str) + (2 if current_line else 0)
+                
+                if current_length + item_length > available_width and current_line:
+                    # Start a new line
+                    lines.append(", ".join(str(x) for x in current_line))
+                    current_line = [item]
+                    current_length = len(item_str)
+                else:
+                    current_line.append(item)
+                    current_length += item_length
+            
+            if current_line:
+                lines.append(", ".join(str(x) for x in current_line))
+            
+            # Format with proper indentation
+            formatted_lines = [f"{next_indent}{line}" for line in lines]
+            return "[\n" + ",\n".join(formatted_lines) + "\n" + indent + "]"
         else:
             # Format other arrays - check if they fit on one line
-            formatted_items = [format_json_value(item, indent_level + 1) for item in value]
+            formatted_items = [format_json_value(item, indent_level + 1, print_width) for item in value]
             total_length = sum(len(str(item)) for item in formatted_items)
             if total_length < 100 and len(value) <= 5:
                 # Short arrays on one line
@@ -74,7 +98,7 @@ def sort_json_by_numeric_keys(input_file, output_file):
         items = []
         for key, value in sorted_data.items():
             formatted_key = json.dumps(key, ensure_ascii=False)
-            formatted_value = format_json_value(value, 1)
+            formatted_value = format_json_value(value, 1, print_width=150)
             items.append(f'  {formatted_key}: {formatted_value}')
         lines.append(",\n".join(items))
         lines.append("}")
