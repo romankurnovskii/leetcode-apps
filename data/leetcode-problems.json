@@ -1,11 +1,5 @@
 {
-  "1": {
-    "category": "Array & Hashing",
-    "difficulty": "Easy",
-    "id": 1,
-    "link": "https://leetcode.com/problems/two-sum/",
-    "title": "Two Sum"
-  },
+  "1": {"category": "Array & Hashing", "difficulty": "Easy", "id": 1, "link": "https://leetcode.com/problems/two-sum/", "title": "Two Sum"},
   "2": {
     "category": "Linked List",
     "difficulty": "Medium",
@@ -97,13 +91,7 @@
     "link": "https://leetcode.com/problems/longest-common-prefix/",
     "title": "Longest Common Prefix"
   },
-  "15": {
-    "category": "Two Pointers",
-    "difficulty": "Medium",
-    "id": 15,
-    "link": "https://leetcode.com/problems/3sum/",
-    "title": "3Sum"
-  },
+  "15": {"category": "Two Pointers", "difficulty": "Medium", "id": 15, "link": "https://leetcode.com/problems/3sum/", "title": "3Sum"},
   "16": {
     "category": "Two Pointers",
     "difficulty": "Medium",
@@ -118,13 +106,7 @@
     "link": "https://leetcode.com/problems/letter-combinations-of-a-phone-number/",
     "title": "Letter Combinations of a Phone Number"
   },
-  "18": {
-    "category": "Two Pointers",
-    "difficulty": "Medium",
-    "id": 18,
-    "link": "https://leetcode.com/problems/4sum/",
-    "title": "4Sum"
-  },
+  "18": {"category": "Two Pointers", "difficulty": "Medium", "id": 18, "link": "https://leetcode.com/problems/4sum/", "title": "4Sum"},
   "19": {
     "category": "Linked List",
     "difficulty": "Medium",
@@ -342,27 +324,9 @@
     "link": "https://leetcode.com/problems/group-anagrams/",
     "title": "Group Anagrams"
   },
-  "50": {
-    "category": "Math & Geometry",
-    "difficulty": "Medium",
-    "id": 50,
-    "link": "https://leetcode.com/problems/powx-n/",
-    "title": "Pow(x, n)"
-  },
-  "51": {
-    "category": "Backtracking",
-    "difficulty": "Hard",
-    "id": 51,
-    "link": "https://leetcode.com/problems/n-queens/",
-    "title": "N-Queens"
-  },
-  "52": {
-    "category": "Backtracking",
-    "difficulty": "Hard",
-    "id": 52,
-    "link": "https://leetcode.com/problems/n-queens-ii/",
-    "title": "N-Queens II"
-  },
+  "50": {"category": "Math & Geometry", "difficulty": "Medium", "id": 50, "link": "https://leetcode.com/problems/powx-n/", "title": "Pow(x, n)"},
+  "51": {"category": "Backtracking", "difficulty": "Hard", "id": 51, "link": "https://leetcode.com/problems/n-queens/", "title": "N-Queens"},
+  "52": {"category": "Backtracking", "difficulty": "Hard", "id": 52, "link": "https://leetcode.com/problems/n-queens-ii/", "title": "N-Queens II"},
   "53": {
     "category": "Dynamic Programming",
     "difficulty": "Medium",
@@ -419,13 +383,7 @@
     "link": "https://leetcode.com/problems/permutation-sequence/",
     "title": "Permutation Sequence"
   },
-  "61": {
-    "category": "Linked List",
-    "difficulty": "Medium",
-    "id": 61,
-    "link": "https://leetcode.com/problems/rotate-list/",
-    "title": "Rotate List"
-  },
+  "61": {"category": "Linked List", "difficulty": "Medium", "id": 61, "link": "https://leetcode.com/problems/rotate-list/", "title": "Rotate List"},
   "62": {
     "category": "Dynamic Programming",
     "difficulty": "Medium",
@@ -454,20 +412,8 @@
     "link": "https://leetcode.com/problems/valid-number/",
     "title": "Valid Number"
   },
-  "66": {
-    "category": "Math & Geometry",
-    "difficulty": "Easy",
-    "id": 66,
-    "link": "https://leetcode.com/problems/plus-one/",
-    "title": "Plus One"
-  },
-  "67": {
-    "category": "Bit Manipulation",
-    "difficulty": "Easy",
-    "id": 67,
-    "link": "https://leetcode.com/problems/add-binary/",
-    "title": "Add Binary"
-  },
+  "66": {"category": "Math & Geometry", "difficulty": "Easy", "id": 66, "link": "https://leetcode.com/problems/plus-one/", "title": "Plus One"},
+  "67": {"category": "Bit Manipulation", "difficulty": "Easy", "id": 67, "link": "https://leetcode.com/problems/add-binary/", "title": "Add Binary"},
   "68": {
     "category": "Array & Hashing",
     "difficulty": "Hard",
@@ -475,13 +421,7 @@
     "link": "https://leetcode.com/problems/text-justification/",
     "title": "Text Justification"
   },
-  "69": {
-    "category": "Binary Search",
-    "difficulty": "Easy",
-    "id": 69,
-    "link": "https://leetcode.com/problems/sqrtx/",
-    "title": "Sqrt(x)"
-  },
+  "69": {"category": "Binary Search", "difficulty": "Easy", "id": 69, "link": "https://leetcode.com/problems/sqrtx/", "title": "Sqrt(x)"},
   "70": {
     "category": "Dynamic Programming",
     "difficulty": "Easy",
@@ -489,13 +429,7 @@
     "link": "https://leetcode.com/problems/climbing-stairs/",
     "title": "Climbing Stairs"
   },
-  "71": {
-    "category": "Stack",
-    "difficulty": "Medium",
-    "id": 71,
-    "link": "https://leetcode.com/problems/simplify-path/",
-    "title": "Simplify Path"
-  },
+  "71": {"category": "Stack", "difficulty": "Medium", "id": 71, "link": "https://leetcode.com/problems/simplify-path/", "title": "Simplify Path"},
   "72": {
     "category": "Dynamic Programming",
     "difficulty": "Medium",
@@ -517,13 +451,7 @@
     "link": "https://leetcode.com/problems/search-a-2d-matrix/",
     "title": "Search a 2D Matrix"
   },
-  "75": {
-    "category": "Two Pointers",
-    "difficulty": "Medium",
-    "id": 75,
-    "link": "https://leetcode.com/problems/sort-colors/",
-    "title": "Sort Colors"
-  },
+  "75": {"category": "Two Pointers", "difficulty": "Medium", "id": 75, "link": "https://leetcode.com/problems/sort-colors/", "title": "Sort Colors"},
   "76": {
     "category": "Sliding Window",
     "difficulty": "Hard",
@@ -538,13 +466,7 @@
     "link": "https://leetcode.com/problems/combinations/",
     "title": "Combinations"
   },
-  "78": {
-    "category": "Backtracking",
-    "difficulty": "Medium",
-    "id": 78,
-    "link": "https://leetcode.com/problems/subsets/",
-    "title": "Subsets"
-  },
+  "78": {"category": "Backtracking", "difficulty": "Medium", "id": 78, "link": "https://leetcode.com/problems/subsets/", "title": "Subsets"},
   "79": {
     "category": "Graph Traversal",
     "difficulty": "Medium",
@@ -615,20 +537,8 @@
     "link": "https://leetcode.com/problems/merge-sorted-array/",
     "title": "Merge Sorted Array"
   },
-  "89": {
-    "category": "Backtracking",
-    "difficulty": "Medium",
-    "id": 89,
-    "link": "https://leetcode.com/problems/gray-code/",
-    "title": "Gray Code"
-  },
-  "90": {
-    "category": "Backtracking",
-    "difficulty": "Medium",
-    "id": 90,
-    "link": "https://leetcode.com/problems/subsets-ii/",
-    "title": "Subsets II"
-  },
+  "89": {"category": "Backtracking", "difficulty": "Medium", "id": 89, "link": "https://leetcode.com/problems/gray-code/", "title": "Gray Code"},
+  "90": {"category": "Backtracking", "difficulty": "Medium", "id": 90, "link": "https://leetcode.com/problems/subsets-ii/", "title": "Subsets II"},
   "91": {
     "category": "Dynamic Programming",
     "difficulty": "Medium",
@@ -692,20 +602,8 @@
     "link": "https://leetcode.com/problems/recover-binary-search-tree/",
     "title": "Recover Binary Search Tree"
   },
-  "100": {
-    "category": "Tree",
-    "difficulty": "Easy",
-    "id": 100,
-    "link": "https://leetcode.com/problems/same-tree/",
-    "title": "Same Tree"
-  },
-  "101": {
-    "category": "Tree",
-    "difficulty": "Easy",
-    "id": 101,
-    "link": "https://leetcode.com/problems/symmetric-tree/",
-    "title": "Symmetric Tree"
-  },
+  "100": {"category": "Tree", "difficulty": "Easy", "id": 100, "link": "https://leetcode.com/problems/same-tree/", "title": "Same Tree"},
+  "101": {"category": "Tree", "difficulty": "Easy", "id": 101, "link": "https://leetcode.com/problems/symmetric-tree/", "title": "Symmetric Tree"},
   "102": {
     "category": "Tree",
     "difficulty": "Medium",
@@ -776,20 +674,8 @@
     "link": "https://leetcode.com/problems/minimum-depth-of-binary-tree/",
     "title": "Minimum Depth of Binary Tree"
   },
-  "112": {
-    "category": "Tree",
-    "difficulty": "Easy",
-    "id": 112,
-    "link": "https://leetcode.com/problems/path-sum/",
-    "title": "Path Sum"
-  },
-  "113": {
-    "category": "Tree",
-    "difficulty": "Medium",
-    "id": 113,
-    "link": "https://leetcode.com/problems/path-sum-ii/",
-    "title": "Path Sum II"
-  },
+  "112": {"category": "Tree", "difficulty": "Easy", "id": 112, "link": "https://leetcode.com/problems/path-sum/", "title": "Path Sum"},
+  "113": {"category": "Tree", "difficulty": "Medium", "id": 113, "link": "https://leetcode.com/problems/path-sum-ii/", "title": "Path Sum II"},
   "114": {
     "category": "Tree",
     "difficulty": "Medium",
@@ -930,20 +816,8 @@
     "link": "https://leetcode.com/problems/clone-graph/",
     "title": "Clone Graph"
   },
-  "134": {
-    "category": "Greedy",
-    "difficulty": "Medium",
-    "id": 134,
-    "link": "https://leetcode.com/problems/gas-station/",
-    "title": "Gas Station"
-  },
-  "135": {
-    "category": "Greedy",
-    "difficulty": "Hard",
-    "id": 135,
-    "link": "https://leetcode.com/problems/candy/",
-    "title": "Candy"
-  },
+  "134": {"category": "Greedy", "difficulty": "Medium", "id": 134, "link": "https://leetcode.com/problems/gas-station/", "title": "Gas Station"},
+  "135": {"category": "Greedy", "difficulty": "Hard", "id": 135, "link": "https://leetcode.com/problems/candy/", "title": "Candy"},
   "136": {
     "category": "Bit Manipulation",
     "difficulty": "Easy",
@@ -993,13 +867,7 @@
     "link": "https://leetcode.com/problems/linked-list-cycle-ii/",
     "title": "Linked List Cycle II"
   },
-  "143": {
-    "category": "Stack",
-    "difficulty": "Medium",
-    "id": 143,
-    "link": "https://leetcode.com/problems/reorder-list/",
-    "title": "Reorder List"
-  },
+  "143": {"category": "Stack", "difficulty": "Medium", "id": 143, "link": "https://leetcode.com/problems/reorder-list/", "title": "Reorder List"},
   "144": {
     "category": "Tree",
     "difficulty": "Easy",
@@ -1014,13 +882,7 @@
     "link": "https://leetcode.com/problems/binary-tree-postorder-traversal/",
     "title": "Binary Tree Postorder Traversal"
   },
-  "146": {
-    "category": "Linked List",
-    "difficulty": "Medium",
-    "id": 146,
-    "link": "https://leetcode.com/problems/lru-cache/",
-    "title": "LRU Cache"
-  },
+  "146": {"category": "Linked List", "difficulty": "Medium", "id": 146, "link": "https://leetcode.com/problems/lru-cache/", "title": "LRU Cache"},
   "147": {
     "category": "Linked List",
     "difficulty": "Medium",
@@ -1028,13 +890,7 @@
     "link": "https://leetcode.com/problems/insertion-sort-list/",
     "title": "Insertion Sort List"
   },
-  "148": {
-    "category": "Linked List",
-    "difficulty": "Medium",
-    "id": 148,
-    "link": "https://leetcode.com/problems/sort-list/",
-    "title": "Sort List"
-  },
+  "148": {"category": "Linked List", "difficulty": "Medium", "id": 148, "link": "https://leetcode.com/problems/sort-list/", "title": "Sort List"},
   "149": {
     "category": "Math & Geometry",
     "difficulty": "Hard",
@@ -1077,13 +933,7 @@
     "link": "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array-ii/",
     "title": "Find Minimum in Rotated Sorted Array II"
   },
-  "155": {
-    "category": "Stack",
-    "difficulty": "Medium",
-    "id": 155,
-    "link": "https://leetcode.com/problems/min-stack/",
-    "title": "Min Stack"
-  },
+  "155": {"category": "Stack", "difficulty": "Medium", "id": 155, "link": "https://leetcode.com/problems/min-stack/", "title": "Min Stack"},
   "156": {
     "category": "Tree",
     "difficulty": "Medium",
@@ -1238,13 +1088,7 @@
     "link": "https://leetcode.com/problems/nth-highest-salary/",
     "title": "Nth Highest Salary"
   },
-  "178": {
-    "category": "Database",
-    "difficulty": "Medium",
-    "id": 178,
-    "link": "https://leetcode.com/problems/rank-scores/",
-    "title": "Rank Scores"
-  },
+  "178": {"category": "Database", "difficulty": "Medium", "id": 178, "link": "https://leetcode.com/problems/rank-scores/", "title": "Rank Scores"},
   "179": {
     "category": "Greedy",
     "difficulty": "Medium",
@@ -1357,13 +1201,7 @@
     "link": "https://leetcode.com/problems/transpose-file/",
     "title": "Transpose File"
   },
-  "195": {
-    "category": "Array & Hashing",
-    "difficulty": "Easy",
-    "id": 195,
-    "link": "https://leetcode.com/problems/tenth-line/",
-    "title": "Tenth Line"
-  },
+  "195": {"category": "Array & Hashing", "difficulty": "Easy", "id": 195, "link": "https://leetcode.com/problems/tenth-line/", "title": "Tenth Line"},
   "196": {
     "category": "Database",
     "difficulty": "Easy",
@@ -1798,13 +1636,7 @@
     "link": "https://leetcode.com/problems/binary-tree-paths/",
     "title": "Binary Tree Paths"
   },
-  "258": {
-    "category": "Math & Geometry",
-    "difficulty": "Easy",
-    "id": 258,
-    "link": "https://leetcode.com/problems/add-digits/",
-    "title": "Add Digits"
-  },
+  "258": {"category": "Math & Geometry", "difficulty": "Easy", "id": 258, "link": "https://leetcode.com/problems/add-digits/", "title": "Add Digits"},
   "259": {
     "category": "Binary Search",
     "difficulty": "Medium",
@@ -1910,20 +1742,8 @@
     "link": "https://leetcode.com/problems/integer-to-english-words/",
     "title": "Integer to English Words"
   },
-  "274": {
-    "category": "Array & Hashing",
-    "difficulty": "Medium",
-    "id": 274,
-    "link": "https://leetcode.com/problems/h-index/",
-    "title": "H-Index"
-  },
-  "275": {
-    "category": "Binary Search",
-    "difficulty": "Medium",
-    "id": 275,
-    "link": "https://leetcode.com/problems/h-index-ii/",
-    "title": "H-Index II"
-  },
+  "274": {"category": "Array & Hashing", "difficulty": "Medium", "id": 274, "link": "https://leetcode.com/problems/h-index/", "title": "H-Index"},
+  "275": {"category": "Binary Search", "difficulty": "Medium", "id": 275, "link": "https://leetcode.com/problems/h-index-ii/", "title": "H-Index II"},
   "276": {
     "category": "Dynamic Programming",
     "difficulty": "Medium",
@@ -1952,13 +1772,7 @@
     "link": "https://leetcode.com/problems/perfect-squares/",
     "title": "Perfect Squares"
   },
-  "280": {
-    "category": "Greedy",
-    "difficulty": "Medium",
-    "id": 280,
-    "link": "https://leetcode.com/problems/wiggle-sort/",
-    "title": "Wiggle Sort"
-  },
+  "280": {"category": "Greedy", "difficulty": "Medium", "id": 280, "link": "https://leetcode.com/problems/wiggle-sort/", "title": "Wiggle Sort"},
   "281": {
     "category": "Array & Hashing",
     "difficulty": "Medium",
@@ -1973,13 +1787,7 @@
     "link": "https://leetcode.com/problems/expression-add-operators/",
     "title": "Expression Add Operators"
   },
-  "283": {
-    "category": "Two Pointers",
-    "difficulty": "Easy",
-    "id": 283,
-    "link": "https://leetcode.com/problems/move-zeroes/",
-    "title": "Move Zeroes"
-  },
+  "283": {"category": "Two Pointers", "difficulty": "Easy", "id": 283, "link": "https://leetcode.com/problems/move-zeroes/", "title": "Move Zeroes"},
   "284": {
     "category": "Array & Hashing",
     "difficulty": "Medium",
@@ -2036,20 +1844,8 @@
     "link": "https://leetcode.com/problems/word-pattern-ii/",
     "title": "Word Pattern II"
   },
-  "292": {
-    "category": "Math & Geometry",
-    "difficulty": "Easy",
-    "id": 292,
-    "link": "https://leetcode.com/problems/nim-game/",
-    "title": "Nim Game"
-  },
-  "293": {
-    "category": "Array & Hashing",
-    "difficulty": "Easy",
-    "id": 293,
-    "link": "https://leetcode.com/problems/flip-game/",
-    "title": "Flip Game"
-  },
+  "292": {"category": "Math & Geometry", "difficulty": "Easy", "id": 292, "link": "https://leetcode.com/problems/nim-game/", "title": "Nim Game"},
+  "293": {"category": "Array & Hashing", "difficulty": "Easy", "id": 293, "link": "https://leetcode.com/problems/flip-game/", "title": "Flip Game"},
   "294": {
     "category": "Dynamic Programming",
     "difficulty": "Medium",
@@ -2302,13 +2098,7 @@
     "link": "https://leetcode.com/problems/longest-increasing-path-in-a-matrix/",
     "title": "Longest Increasing Path in a Matrix"
   },
-  "330": {
-    "category": "Greedy",
-    "difficulty": "Hard",
-    "id": 330,
-    "link": "https://leetcode.com/problems/patching-array/",
-    "title": "Patching Array"
-  },
+  "330": {"category": "Greedy", "difficulty": "Hard", "id": 330, "link": "https://leetcode.com/problems/patching-array/", "title": "Patching Array"},
   "331": {
     "category": "Tree",
     "difficulty": "Medium",
@@ -2596,13 +2386,7 @@
     "link": "https://leetcode.com/problems/sum-of-two-integers/",
     "title": "Sum of Two Integers"
   },
-  "372": {
-    "category": "Math & Geometry",
-    "difficulty": "Medium",
-    "id": 372,
-    "link": "https://leetcode.com/problems/super-pow/",
-    "title": "Super Pow"
-  },
+  "372": {"category": "Math & Geometry", "difficulty": "Medium", "id": 372, "link": "https://leetcode.com/problems/super-pow/", "title": "Super Pow"},
   "373": {
     "category": "Heap (Priority Queue)",
     "difficulty": "Medium",
@@ -2750,13 +2534,7 @@
     "link": "https://leetcode.com/problems/utf-8-validation/",
     "title": "UTF-8 Validation"
   },
-  "394": {
-    "category": "Stack",
-    "difficulty": "Medium",
-    "id": 394,
-    "link": "https://leetcode.com/problems/decode-string/",
-    "title": "Decode String"
-  },
+  "394": {"category": "Stack", "difficulty": "Medium", "id": 394, "link": "https://leetcode.com/problems/decode-string/", "title": "Decode String"},
   "395": {
     "category": "Sliding Window",
     "difficulty": "Medium",
@@ -2792,13 +2570,7 @@
     "link": "https://leetcode.com/problems/evaluate-division/",
     "title": "Evaluate Division"
   },
-  "400": {
-    "category": "Binary Search",
-    "difficulty": "Medium",
-    "id": 400,
-    "link": "https://leetcode.com/problems/nth-digit/",
-    "title": "Nth Digit"
-  },
+  "400": {"category": "Binary Search", "difficulty": "Medium", "id": 400, "link": "https://leetcode.com/problems/nth-digit/", "title": "Nth Digit"},
   "401": {
     "category": "Backtracking",
     "difficulty": "Easy",
@@ -2876,13 +2648,7 @@
     "link": "https://leetcode.com/problems/minimum-unique-word-abbreviation/",
     "title": "Minimum Unique Word Abbreviation"
   },
-  "412": {
-    "category": "Math & Geometry",
-    "difficulty": "Easy",
-    "id": 412,
-    "link": "https://leetcode.com/problems/fizz-buzz/",
-    "title": "Fizz Buzz"
-  },
+  "412": {"category": "Math & Geometry", "difficulty": "Easy", "id": 412, "link": "https://leetcode.com/problems/fizz-buzz/", "title": "Fizz Buzz"},
   "413": {
     "category": "Dynamic Programming",
     "difficulty": "Medium",
@@ -3051,13 +2817,7 @@
     "link": "https://leetcode.com/problems/find-right-interval/",
     "title": "Find Right Interval"
   },
-  "437": {
-    "category": "Tree",
-    "difficulty": "Medium",
-    "id": 437,
-    "link": "https://leetcode.com/problems/path-sum-iii/",
-    "title": "Path Sum III"
-  },
+  "437": {"category": "Tree", "difficulty": "Medium", "id": 437, "link": "https://leetcode.com/problems/path-sum-iii/", "title": "Path Sum III"},
   "438": {
     "category": "Sliding Window",
     "difficulty": "Medium",
@@ -3170,20 +2930,8 @@
     "link": "https://leetcode.com/problems/minimum-moves-to-equal-array-elements/",
     "title": "Minimum Moves to Equal Array Elements"
   },
-  "454": {
-    "category": "Array & Hashing",
-    "difficulty": "Medium",
-    "id": 454,
-    "link": "https://leetcode.com/problems/4sum-ii/",
-    "title": "4Sum II"
-  },
-  "455": {
-    "category": "Greedy",
-    "difficulty": "Easy",
-    "id": 455,
-    "link": "https://leetcode.com/problems/assign-cookies/",
-    "title": "Assign Cookies"
-  },
+  "454": {"category": "Array & Hashing", "difficulty": "Medium", "id": 454, "link": "https://leetcode.com/problems/4sum-ii/", "title": "4Sum II"},
+  "455": {"category": "Greedy", "difficulty": "Easy", "id": 455, "link": "https://leetcode.com/problems/assign-cookies/", "title": "Assign Cookies"},
   "456": {
     "category": "Binary Search",
     "difficulty": "Medium",
@@ -3212,13 +2960,7 @@
     "link": "https://leetcode.com/problems/repeated-substring-pattern/",
     "title": "Repeated Substring Pattern"
   },
-  "460": {
-    "category": "Linked List",
-    "difficulty": "Hard",
-    "id": 460,
-    "link": "https://leetcode.com/problems/lfu-cache/",
-    "title": "LFU Cache"
-  },
+  "460": {"category": "Linked List", "difficulty": "Hard", "id": 460, "link": "https://leetcode.com/problems/lfu-cache/", "title": "LFU Cache"},
   "461": {
     "category": "Bit Manipulation",
     "difficulty": "Easy",
@@ -3317,13 +3059,7 @@
     "link": "https://leetcode.com/problems/ones-and-zeroes/",
     "title": "Ones and Zeroes"
   },
-  "475": {
-    "category": "Binary Search",
-    "difficulty": "Medium",
-    "id": 475,
-    "link": "https://leetcode.com/problems/heaters/",
-    "title": "Heaters"
-  },
+  "475": {"category": "Binary Search", "difficulty": "Medium", "id": 475, "link": "https://leetcode.com/problems/heaters/", "title": "Heaters"},
   "476": {
     "category": "Bit Manipulation",
     "difficulty": "Easy",
@@ -3408,13 +3144,7 @@
     "link": "https://leetcode.com/problems/max-consecutive-ones-ii/",
     "title": "Max Consecutive Ones II"
   },
-  "488": {
-    "category": "Graph Traversal",
-    "difficulty": "Hard",
-    "id": 488,
-    "link": "https://leetcode.com/problems/zuma-game/",
-    "title": "Zuma Game"
-  },
+  "488": {"category": "Graph Traversal", "difficulty": "Hard", "id": 488, "link": "https://leetcode.com/problems/zuma-game/", "title": "Zuma Game"},
   "489": {
     "category": "Backtracking",
     "difficulty": "Hard",
@@ -3422,13 +3152,7 @@
     "link": "https://leetcode.com/problems/robot-room-cleaner/",
     "title": "Robot Room Cleaner"
   },
-  "490": {
-    "category": "Graph Traversal",
-    "difficulty": "Medium",
-    "id": 490,
-    "link": "https://leetcode.com/problems/the-maze/",
-    "title": "The Maze"
-  },
+  "490": {"category": "Graph Traversal", "difficulty": "Medium", "id": 490, "link": "https://leetcode.com/problems/the-maze/", "title": "The Maze"},
   "491": {
     "category": "Backtracking",
     "difficulty": "Medium",
@@ -3443,13 +3167,7 @@
     "link": "https://leetcode.com/problems/construct-the-rectangle/",
     "title": "Construct the Rectangle"
   },
-  "493": {
-    "category": "Tree",
-    "difficulty": "Hard",
-    "id": 493,
-    "link": "https://leetcode.com/problems/reverse-pairs/",
-    "title": "Reverse Pairs"
-  },
+  "493": {"category": "Tree", "difficulty": "Hard", "id": 493, "link": "https://leetcode.com/problems/reverse-pairs/", "title": "Reverse Pairs"},
   "494": {
     "category": "Dynamic Programming",
     "difficulty": "Medium",
@@ -3506,13 +3224,7 @@
     "link": "https://leetcode.com/problems/find-mode-in-binary-search-tree/",
     "title": "Find Mode in Binary Search Tree"
   },
-  "502": {
-    "category": "Heap (Priority Queue)",
-    "difficulty": "Hard",
-    "id": 502,
-    "link": "https://leetcode.com/problems/ipo/",
-    "title": "IPO"
-  },
+  "502": {"category": "Heap (Priority Queue)", "difficulty": "Hard", "id": 502, "link": "https://leetcode.com/problems/ipo/", "title": "IPO"},
   "503": {
     "category": "Stack",
     "difficulty": "Medium",
@@ -3520,13 +3232,7 @@
     "link": "https://leetcode.com/problems/next-greater-element-ii/",
     "title": "Next Greater Element II"
   },
-  "504": {
-    "category": "Math & Geometry",
-    "difficulty": "Easy",
-    "id": 504,
-    "link": "https://leetcode.com/problems/base-7/",
-    "title": "Base 7"
-  },
+  "504": {"category": "Math & Geometry", "difficulty": "Easy", "id": 504, "link": "https://leetcode.com/problems/base-7/", "title": "Base 7"},
   "505": {
     "category": "Graph Traversal",
     "difficulty": "Medium",
@@ -3786,13 +3492,7 @@
     "link": "https://leetcode.com/problems/reverse-string-ii/",
     "title": "Reverse String II"
   },
-  "542": {
-    "category": "Graph Traversal",
-    "difficulty": "Medium",
-    "id": 542,
-    "link": "https://leetcode.com/problems/01-matrix/",
-    "title": "01 Matrix"
-  },
+  "542": {"category": "Graph Traversal", "difficulty": "Medium", "id": 542, "link": "https://leetcode.com/problems/01-matrix/", "title": "01 Matrix"},
   "543": {
     "category": "Tree",
     "difficulty": "Easy",
@@ -4066,13 +3766,7 @@
     "link": "https://leetcode.com/problems/shortest-unsorted-continuous-subarray/",
     "title": "Shortest Unsorted Continuous Subarray"
   },
-  "582": {
-    "category": "Tree",
-    "difficulty": "Medium",
-    "id": 582,
-    "link": "https://leetcode.com/problems/kill-process/",
-    "title": "Kill Process"
-  },
+  "582": {"category": "Tree", "difficulty": "Medium", "id": 582, "link": "https://leetcode.com/problems/kill-process/", "title": "Kill Process"},
   "583": {
     "category": "Dynamic Programming",
     "difficulty": "Medium",
@@ -4129,13 +3823,7 @@
     "link": "https://leetcode.com/problems/n-ary-tree-postorder-traversal/",
     "title": "N-ary Tree Postorder Traversal"
   },
-  "591": {
-    "category": "Stack",
-    "difficulty": "Hard",
-    "id": 591,
-    "link": "https://leetcode.com/problems/tag-validator/",
-    "title": "Tag Validator"
-  },
+  "591": {"category": "Stack", "difficulty": "Hard", "id": 591, "link": "https://leetcode.com/problems/tag-validator/", "title": "Tag Validator"},
   "592": {
     "category": "Math & Geometry",
     "difficulty": "Medium",
@@ -4157,13 +3845,7 @@
     "link": "https://leetcode.com/problems/longest-harmonious-subsequence/",
     "title": "Longest Harmonious Subsequence"
   },
-  "595": {
-    "category": "Database",
-    "difficulty": "Easy",
-    "id": 595,
-    "link": "https://leetcode.com/problems/big-countries/",
-    "title": "Big Countries"
-  },
+  "595": {"category": "Database", "difficulty": "Easy", "id": 595, "link": "https://leetcode.com/problems/big-countries/", "title": "Big Countries"},
   "596": {
     "category": "Database",
     "difficulty": "Easy",
@@ -4241,20 +3923,8 @@
     "link": "https://leetcode.com/problems/construct-string-from-binary-tree/",
     "title": "Construct String from Binary Tree"
   },
-  "607": {
-    "category": "Database",
-    "difficulty": "Easy",
-    "id": 607,
-    "link": "https://leetcode.com/problems/sales-person/",
-    "title": "Sales Person"
-  },
-  "608": {
-    "category": "Database",
-    "difficulty": "Medium",
-    "id": 608,
-    "link": "https://leetcode.com/problems/tree-node/",
-    "title": "Tree Node"
-  },
+  "607": {"category": "Database", "difficulty": "Easy", "id": 607, "link": "https://leetcode.com/problems/sales-person/", "title": "Sales Person"},
+  "608": {"category": "Database", "difficulty": "Medium", "id": 608, "link": "https://leetcode.com/problems/tree-node/", "title": "Tree Node"},
   "609": {
     "category": "Array & Hashing",
     "difficulty": "Medium",
@@ -4528,20 +4198,8 @@
     "link": "https://leetcode.com/problems/palindromic-substrings/",
     "title": "Palindromic Substrings"
   },
-  "648": {
-    "category": "Trie",
-    "difficulty": "Medium",
-    "id": 648,
-    "link": "https://leetcode.com/problems/replace-words/",
-    "title": "Replace Words"
-  },
-  "649": {
-    "category": "Greedy",
-    "difficulty": "Medium",
-    "id": 649,
-    "link": "https://leetcode.com/problems/dota2-senate/",
-    "title": "Dota2 Senate"
-  },
+  "648": {"category": "Trie", "difficulty": "Medium", "id": 648, "link": "https://leetcode.com/problems/replace-words/", "title": "Replace Words"},
+  "649": {"category": "Greedy", "difficulty": "Medium", "id": 649, "link": "https://leetcode.com/problems/dota2-senate/", "title": "Dota2 Senate"},
   "650": {
     "category": "Dynamic Programming",
     "difficulty": "Medium",
@@ -4612,13 +4270,7 @@
     "link": "https://leetcode.com/problems/split-array-into-consecutive-subsequences/",
     "title": "Split Array into Consecutive Subsequences"
   },
-  "660": {
-    "category": "Math & Geometry",
-    "difficulty": "Hard",
-    "id": 660,
-    "link": "https://leetcode.com/problems/remove-9/",
-    "title": "Remove 9"
-  },
+  "660": {"category": "Math & Geometry", "difficulty": "Hard", "id": 660, "link": "https://leetcode.com/problems/remove-9/", "title": "Remove 9"},
   "661": {
     "category": "Array & Hashing",
     "difficulty": "Easy",
@@ -4654,13 +4306,7 @@
     "link": "https://leetcode.com/problems/non-decreasing-array/",
     "title": "Non-decreasing Array"
   },
-  "666": {
-    "category": "Tree",
-    "difficulty": "Medium",
-    "id": 666,
-    "link": "https://leetcode.com/problems/path-sum-iv/",
-    "title": "Path Sum IV"
-  },
+  "666": {"category": "Tree", "difficulty": "Medium", "id": 666, "link": "https://leetcode.com/problems/path-sum-iv/", "title": "Path Sum IV"},
   "667": {
     "category": "Math & Geometry",
     "difficulty": "Medium",
@@ -4682,13 +4328,7 @@
     "link": "https://leetcode.com/problems/trim-a-binary-search-tree/",
     "title": "Trim a Binary Search Tree"
   },
-  "670": {
-    "category": "Greedy",
-    "difficulty": "Medium",
-    "id": 670,
-    "link": "https://leetcode.com/problems/maximum-swap/",
-    "title": "Maximum Swap"
-  },
+  "670": {"category": "Greedy", "difficulty": "Medium", "id": 670, "link": "https://leetcode.com/problems/maximum-swap/", "title": "Maximum Swap"},
   "671": {
     "category": "Tree",
     "difficulty": "Easy",
@@ -4731,13 +4371,7 @@
     "link": "https://leetcode.com/problems/implement-magic-dictionary/",
     "title": "Implement Magic Dictionary"
   },
-  "677": {
-    "category": "Trie",
-    "difficulty": "Medium",
-    "id": 677,
-    "link": "https://leetcode.com/problems/map-sum-pairs/",
-    "title": "Map Sum Pairs"
-  },
+  "677": {"category": "Trie", "difficulty": "Medium", "id": 677, "link": "https://leetcode.com/problems/map-sum-pairs/", "title": "Map Sum Pairs"},
   "678": {
     "category": "Dynamic Programming",
     "difficulty": "Medium",
@@ -4745,13 +4379,7 @@
     "link": "https://leetcode.com/problems/valid-parenthesis-string/",
     "title": "Valid Parenthesis String"
   },
-  "679": {
-    "category": "Backtracking",
-    "difficulty": "Hard",
-    "id": 679,
-    "link": "https://leetcode.com/problems/24-game/",
-    "title": "24 Game"
-  },
+  "679": {"category": "Backtracking", "difficulty": "Hard", "id": 679, "link": "https://leetcode.com/problems/24-game/", "title": "24 Game"},
   "680": {
     "category": "Greedy",
     "difficulty": "Easy",
@@ -4766,20 +4394,8 @@
     "link": "https://leetcode.com/problems/next-closest-time/",
     "title": "Next Closest Time"
   },
-  "682": {
-    "category": "Stack",
-    "difficulty": "Easy",
-    "id": 682,
-    "link": "https://leetcode.com/problems/baseball-game/",
-    "title": "Baseball Game"
-  },
-  "683": {
-    "category": "Tree",
-    "difficulty": "Hard",
-    "id": 683,
-    "link": "https://leetcode.com/problems/k-empty-slots/",
-    "title": "K Empty Slots"
-  },
+  "682": {"category": "Stack", "difficulty": "Easy", "id": 682, "link": "https://leetcode.com/problems/baseball-game/", "title": "Baseball Game"},
+  "683": {"category": "Tree", "difficulty": "Hard", "id": 683, "link": "https://leetcode.com/problems/k-empty-slots/", "title": "K Empty Slots"},
   "684": {
     "category": "Graph Traversal",
     "difficulty": "Medium",
@@ -4885,13 +4501,7 @@
     "link": "https://leetcode.com/problems/partition-to-k-equal-sum-subsets/",
     "title": "Partition to K Equal Sum Subsets"
   },
-  "699": {
-    "category": "Tree",
-    "difficulty": "Hard",
-    "id": 699,
-    "link": "https://leetcode.com/problems/falling-squares/",
-    "title": "Falling Squares"
-  },
+  "699": {"category": "Tree", "difficulty": "Hard", "id": 699, "link": "https://leetcode.com/problems/falling-squares/", "title": "Falling Squares"},
   "700": {
     "category": "Tree",
     "difficulty": "Easy",
@@ -4997,20 +4607,8 @@
     "link": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/",
     "title": "Best Time to Buy and Sell Stock with Transaction Fee"
   },
-  "715": {
-    "category": "Tree",
-    "difficulty": "Hard",
-    "id": 715,
-    "link": "https://leetcode.com/problems/range-module/",
-    "title": "Range Module"
-  },
-  "716": {
-    "category": "Stack",
-    "difficulty": "Hard",
-    "id": 716,
-    "link": "https://leetcode.com/problems/max-stack/",
-    "title": "Max Stack"
-  },
+  "715": {"category": "Tree", "difficulty": "Hard", "id": 715, "link": "https://leetcode.com/problems/range-module/", "title": "Range Module"},
+  "716": {"category": "Stack", "difficulty": "Hard", "id": 716, "link": "https://leetcode.com/problems/max-stack/", "title": "Max Stack"},
   "717": {
     "category": "Array & Hashing",
     "difficulty": "Easy",
@@ -5074,13 +4672,7 @@
     "link": "https://leetcode.com/problems/split-linked-list-in-parts/",
     "title": "Split Linked List in Parts"
   },
-  "726": {
-    "category": "Stack",
-    "difficulty": "Hard",
-    "id": 726,
-    "link": "https://leetcode.com/problems/number-of-atoms/",
-    "title": "Number of Atoms"
-  },
+  "726": {"category": "Stack", "difficulty": "Hard", "id": 726, "link": "https://leetcode.com/problems/number-of-atoms/", "title": "Number of Atoms"},
   "727": {
     "category": "Dynamic Programming",
     "difficulty": "Hard",
@@ -5095,13 +4687,7 @@
     "link": "https://leetcode.com/problems/self-dividing-numbers/",
     "title": "Self Dividing Numbers"
   },
-  "729": {
-    "category": "Tree",
-    "difficulty": "Medium",
-    "id": 729,
-    "link": "https://leetcode.com/problems/my-calendar-i/",
-    "title": "My Calendar I"
-  },
+  "729": {"category": "Tree", "difficulty": "Medium", "id": 729, "link": "https://leetcode.com/problems/my-calendar-i/", "title": "My Calendar I"},
   "730": {
     "category": "Dynamic Programming",
     "difficulty": "Hard",
@@ -5109,27 +4695,9 @@
     "link": "https://leetcode.com/problems/count-different-palindromic-subsequences/",
     "title": "Count Different Palindromic Subsequences"
   },
-  "731": {
-    "category": "Tree",
-    "difficulty": "Medium",
-    "id": 731,
-    "link": "https://leetcode.com/problems/my-calendar-ii/",
-    "title": "My Calendar II"
-  },
-  "732": {
-    "category": "Tree",
-    "difficulty": "Hard",
-    "id": 732,
-    "link": "https://leetcode.com/problems/my-calendar-iii/",
-    "title": "My Calendar III"
-  },
-  "733": {
-    "category": "Graph Traversal",
-    "difficulty": "Easy",
-    "id": 733,
-    "link": "https://leetcode.com/problems/flood-fill/",
-    "title": "Flood Fill"
-  },
+  "731": {"category": "Tree", "difficulty": "Medium", "id": 731, "link": "https://leetcode.com/problems/my-calendar-ii/", "title": "My Calendar II"},
+  "732": {"category": "Tree", "difficulty": "Hard", "id": 732, "link": "https://leetcode.com/problems/my-calendar-iii/", "title": "My Calendar III"},
+  "733": {"category": "Graph Traversal", "difficulty": "Easy", "id": 733, "link": "https://leetcode.com/problems/flood-fill/", "title": "Flood Fill"},
   "734": {
     "category": "Array & Hashing",
     "difficulty": "Easy",
@@ -5424,13 +4992,7 @@
     "link": "https://leetcode.com/problems/global-and-local-inversions/",
     "title": "Global and Local Inversions"
   },
-  "776": {
-    "category": "Tree",
-    "difficulty": "Medium",
-    "id": 776,
-    "link": "https://leetcode.com/problems/split-bst/",
-    "title": "Split BST"
-  },
+  "776": {"category": "Tree", "difficulty": "Medium", "id": 776, "link": "https://leetcode.com/problems/split-bst/", "title": "Split BST"},
   "777": {
     "category": "Two Pointers",
     "difficulty": "Medium",
@@ -5697,13 +5259,7 @@
     "link": "https://leetcode.com/problems/binary-tree-pruning/",
     "title": "Binary Tree Pruning"
   },
-  "815": {
-    "category": "Graph Traversal",
-    "difficulty": "Hard",
-    "id": 815,
-    "link": "https://leetcode.com/problems/bus-routes/",
-    "title": "Bus Routes"
-  },
+  "815": {"category": "Graph Traversal", "difficulty": "Hard", "id": 815, "link": "https://leetcode.com/problems/bus-routes/", "title": "Bus Routes"},
   "816": {
     "category": "Backtracking",
     "difficulty": "Medium",
@@ -5718,13 +5274,7 @@
     "link": "https://leetcode.com/problems/linked-list-components/",
     "title": "Linked List Components"
   },
-  "818": {
-    "category": "Dynamic Programming",
-    "difficulty": "Hard",
-    "id": 818,
-    "link": "https://leetcode.com/problems/race-car/",
-    "title": "Race Car"
-  },
+  "818": {"category": "Dynamic Programming", "difficulty": "Hard", "id": 818, "link": "https://leetcode.com/problems/race-car/", "title": "Race Car"},
   "819": {
     "category": "Array & Hashing",
     "difficulty": "Easy",
@@ -5760,13 +5310,7 @@
     "link": "https://leetcode.com/problems/binary-trees-with-factors/",
     "title": "Binary Trees With Factors"
   },
-  "824": {
-    "category": "Array & Hashing",
-    "difficulty": "Easy",
-    "id": 824,
-    "link": "https://leetcode.com/problems/goat-latin/",
-    "title": "Goat Latin"
-  },
+  "824": {"category": "Array & Hashing", "difficulty": "Easy", "id": 824, "link": "https://leetcode.com/problems/goat-latin/", "title": "Goat Latin"},
   "825": {
     "category": "Binary Search",
     "difficulty": "Medium",
@@ -5963,13 +5507,7 @@
     "link": "https://leetcode.com/problems/peak-index-in-a-mountain-array/",
     "title": "Peak Index in a Mountain Array"
   },
-  "853": {
-    "category": "Stack",
-    "difficulty": "Medium",
-    "id": 853,
-    "link": "https://leetcode.com/problems/car-fleet/",
-    "title": "Car Fleet"
-  },
+  "853": {"category": "Stack", "difficulty": "Medium", "id": 853, "link": "https://leetcode.com/problems/car-fleet/", "title": "Car Fleet"},
   "854": {
     "category": "Graph Traversal",
     "difficulty": "Hard",
@@ -6628,13 +6166,7 @@
     "link": "https://leetcode.com/problems/most-stones-removed-with-same-row-or-column/",
     "title": "Most Stones Removed with Same Row or Column"
   },
-  "948": {
-    "category": "Greedy",
-    "difficulty": "Medium",
-    "id": 948,
-    "link": "https://leetcode.com/problems/bag-of-tokens/",
-    "title": "Bag of Tokens"
-  },
+  "948": {"category": "Greedy", "difficulty": "Medium", "id": 948, "link": "https://leetcode.com/problems/bag-of-tokens/", "title": "Bag of Tokens"},
   "949": {
     "category": "Backtracking",
     "difficulty": "Medium",
@@ -8490,13 +8022,7 @@
     "link": "https://leetcode.com/problems/intersection-of-three-sorted-arrays/",
     "title": "Intersection of Three Sorted Arrays"
   },
-  "1214": {
-    "category": "Tree",
-    "difficulty": "Medium",
-    "id": 1214,
-    "link": "https://leetcode.com/problems/two-sum-bsts/",
-    "title": "Two Sum BSTs"
-  },
+  "1214": {"category": "Tree", "difficulty": "Medium", "id": 1214, "link": "https://leetcode.com/problems/two-sum-bsts/", "title": "Two Sum BSTs"},
   "1215": {
     "category": "Graph Traversal",
     "difficulty": "Medium",
@@ -8707,13 +8233,7 @@
     "link": "https://leetcode.com/problems/design-a-leaderboard/",
     "title": "Design A Leaderboard"
   },
-  "1245": {
-    "category": "Tree",
-    "difficulty": "Medium",
-    "id": 1245,
-    "link": "https://leetcode.com/problems/tree-diameter/",
-    "title": "Tree Diameter"
-  },
+  "1245": {"category": "Tree", "difficulty": "Medium", "id": 1245, "link": "https://leetcode.com/problems/tree-diameter/", "title": "Tree Diameter"},
   "1246": {
     "category": "Dynamic Programming",
     "difficulty": "Hard",
@@ -8889,13 +8409,7 @@
     "link": "https://leetcode.com/problems/all-people-report-to-the-given-manager/",
     "title": "All People Report to the Given Manager"
   },
-  "1271": {
-    "category": "Math & Geometry",
-    "difficulty": "Easy",
-    "id": 1271,
-    "link": "https://leetcode.com/problems/hexspeak/",
-    "title": "Hexspeak"
-  },
+  "1271": {"category": "Math & Geometry", "difficulty": "Easy", "id": 1271, "link": "https://leetcode.com/problems/hexspeak/", "title": "Hexspeak"},
   "1272": {
     "category": "Array & Hashing",
     "difficulty": "Medium",
@@ -9939,13 +9453,7 @@
     "link": "https://leetcode.com/problems/build-array-where-you-can-find-the-maximum-exactly-k-comparisons/",
     "title": "Build Array Where You Can Find The Maximum Exactly K Comparisons"
   },
-  "1421": {
-    "category": "Database",
-    "difficulty": "Easy",
-    "id": 1421,
-    "link": "https://leetcode.com/problems/npv-queries/",
-    "title": "NPV Queries"
-  },
+  "1421": {"category": "Database", "difficulty": "Easy", "id": 1421, "link": "https://leetcode.com/problems/npv-queries/", "title": "NPV Queries"},
   "1422": {
     "category": "Array & Hashing",
     "difficulty": "Easy",
@@ -11255,13 +10763,7 @@
     "link": "https://leetcode.com/problems/special-array-with-x-elements-greater-than-or-equal-x/",
     "title": "Special Array With X Elements Greater Than or Equal X"
   },
-  "1609": {
-    "category": "Tree",
-    "difficulty": "Medium",
-    "id": 1609,
-    "link": "https://leetcode.com/problems/even-odd-tree/",
-    "title": "Even Odd Tree"
-  },
+  "1609": {"category": "Tree", "difficulty": "Medium", "id": 1609, "link": "https://leetcode.com/problems/even-odd-tree/", "title": "Even Odd Tree"},
   "1610": {
     "category": "Sliding Window",
     "difficulty": "Hard",
@@ -11346,13 +10848,7 @@
     "link": "https://leetcode.com/problems/number-of-sets-of-k-non-overlapping-line-segments/",
     "title": "Number of Sets of K Non-Overlapping Line Segments"
   },
-  "1622": {
-    "category": "Tree",
-    "difficulty": "Hard",
-    "id": 1622,
-    "link": "https://leetcode.com/problems/fancy-sequence/",
-    "title": "Fancy Sequence"
-  },
+  "1622": {"category": "Tree", "difficulty": "Hard", "id": 1622, "link": "https://leetcode.com/problems/fancy-sequence/", "title": "Fancy Sequence"},
   "1623": {
     "category": "Database",
     "difficulty": "Easy",
@@ -13481,13 +12977,7 @@
     "link": "https://leetcode.com/problems/nearest-exit-from-entrance-in-maze/",
     "title": "Nearest Exit from Entrance in Maze"
   },
-  "1927": {
-    "category": "Greedy",
-    "difficulty": "Medium",
-    "id": 1927,
-    "link": "https://leetcode.com/problems/sum-game/",
-    "title": "Sum Game"
-  },
+  "1927": {"category": "Greedy", "difficulty": "Medium", "id": 1927, "link": "https://leetcode.com/problems/sum-game/", "title": "Sum Game"},
   "1928": {
     "category": "Graph Traversal",
     "difficulty": "Hard",
@@ -18332,20 +17822,8 @@
     "link": "https://leetcode.com/problems/array-prototype-last/",
     "title": "Array Prototype Last"
   },
-  "2620": {
-    "category": "Array & Hashing",
-    "difficulty": "Easy",
-    "id": 2620,
-    "link": "https://leetcode.com/problems/counter/",
-    "title": "Counter"
-  },
-  "2621": {
-    "category": "Array & Hashing",
-    "difficulty": "Easy",
-    "id": 2621,
-    "link": "https://leetcode.com/problems/sleep/",
-    "title": "Sleep"
-  },
+  "2620": {"category": "Array & Hashing", "difficulty": "Easy", "id": 2620, "link": "https://leetcode.com/problems/counter/", "title": "Counter"},
+  "2621": {"category": "Array & Hashing", "difficulty": "Easy", "id": 2621, "link": "https://leetcode.com/problems/sleep/", "title": "Sleep"},
   "2622": {
     "category": "Array & Hashing",
     "difficulty": "Medium",
@@ -18353,13 +17831,7 @@
     "link": "https://leetcode.com/problems/cache-with-time-limit/",
     "title": "Cache With Time Limit"
   },
-  "2623": {
-    "category": "Array & Hashing",
-    "difficulty": "Medium",
-    "id": 2623,
-    "link": "https://leetcode.com/problems/memoize/",
-    "title": "Memoize"
-  },
+  "2623": {"category": "Array & Hashing", "difficulty": "Medium", "id": 2623, "link": "https://leetcode.com/problems/memoize/", "title": "Memoize"},
   "2624": {
     "category": "Array & Hashing",
     "difficulty": "Medium",
@@ -18381,13 +17853,7 @@
     "link": "https://leetcode.com/problems/array-reduce-transformation/",
     "title": "Array Reduce Transformation"
   },
-  "2627": {
-    "category": "Array & Hashing",
-    "difficulty": "Medium",
-    "id": 2627,
-    "link": "https://leetcode.com/problems/debounce/",
-    "title": "Debounce"
-  },
+  "2627": {"category": "Array & Hashing", "difficulty": "Medium", "id": 2627, "link": "https://leetcode.com/problems/debounce/", "title": "Debounce"},
   "2628": {
     "category": "Array & Hashing",
     "difficulty": "Medium",
@@ -18409,20 +17875,8 @@
     "link": "https://leetcode.com/problems/memoize-ii/",
     "title": "Memoize II"
   },
-  "2631": {
-    "category": "Array & Hashing",
-    "difficulty": "Medium",
-    "id": 2631,
-    "link": "https://leetcode.com/problems/group-by/",
-    "title": "Group By"
-  },
-  "2632": {
-    "category": "Array & Hashing",
-    "difficulty": "Medium",
-    "id": 2632,
-    "link": "https://leetcode.com/problems/curry/",
-    "title": "Curry"
-  },
+  "2631": {"category": "Array & Hashing", "difficulty": "Medium", "id": 2631, "link": "https://leetcode.com/problems/group-by/", "title": "Group By"},
+  "2632": {"category": "Array & Hashing", "difficulty": "Medium", "id": 2632, "link": "https://leetcode.com/problems/curry/", "title": "Curry"},
   "2633": {
     "category": "Array & Hashing",
     "difficulty": "Medium",
@@ -18724,13 +18178,7 @@
     "link": "https://leetcode.com/problems/array-of-objects-to-matrix/",
     "title": "Array of Objects to Matrix"
   },
-  "2676": {
-    "category": "Array & Hashing",
-    "difficulty": "Medium",
-    "id": 2676,
-    "link": "https://leetcode.com/problems/throttle/",
-    "title": "Throttle"
-  },
+  "2676": {"category": "Array & Hashing", "difficulty": "Medium", "id": 2676, "link": "https://leetcode.com/problems/throttle/", "title": "Throttle"},
   "2677": {
     "category": "Array & Hashing",
     "difficulty": "Easy",
@@ -19060,13 +18508,7 @@
     "link": "https://leetcode.com/problems/add-two-promises/",
     "title": "Add Two Promises"
   },
-  "2724": {
-    "category": "Array & Hashing",
-    "difficulty": "Easy",
-    "id": 2724,
-    "link": "https://leetcode.com/problems/sort-by/",
-    "title": "Sort By"
-  },
+  "2724": {"category": "Array & Hashing", "difficulty": "Easy", "id": 2724, "link": "https://leetcode.com/problems/sort-by/", "title": "Sort By"},
   "2725": {
     "category": "Array & Hashing",
     "difficulty": "Easy",
@@ -19298,13 +18740,7 @@
     "link": "https://leetcode.com/problems/generate-circular-array-values/",
     "title": "Generate Circular Array Values"
   },
-  "2758": {
-    "category": "Array & Hashing",
-    "difficulty": "Easy",
-    "id": 2758,
-    "link": "https://leetcode.com/problems/next-day/",
-    "title": "Next Day"
-  },
+  "2758": {"category": "Array & Hashing", "difficulty": "Easy", "id": 2758, "link": "https://leetcode.com/problems/next-day/", "title": "Next Day"},
   "2759": {
     "category": "Array & Hashing",
     "difficulty": "Hard",
@@ -20922,13 +20358,7 @@
     "link": "https://leetcode.com/problems/class-performance/",
     "title": "Class Performance"
   },
-  "2990": {
-    "category": "Database",
-    "difficulty": "Easy",
-    "id": 2990,
-    "link": "https://leetcode.com/problems/loan-types/",
-    "title": "Loan Types"
-  },
+  "2990": {"category": "Database", "difficulty": "Easy", "id": 2990, "link": "https://leetcode.com/problems/loan-types/", "title": "Loan Types"},
   "2991": {
     "category": "Database",
     "difficulty": "Hard",
@@ -22210,13 +21640,7 @@
     "link": "https://leetcode.com/problems/bitwise-or-of-adjacent-elements/",
     "title": "Bitwise OR of Adjacent Elements"
   },
-  "3174": {
-    "category": "Stack",
-    "difficulty": "Easy",
-    "id": 3174,
-    "link": "https://leetcode.com/problems/clear-digits/",
-    "title": "Clear Digits"
-  },
+  "3174": {"category": "Stack", "difficulty": "Easy", "id": 3174, "link": "https://leetcode.com/problems/clear-digits/", "title": "Clear Digits"},
   "3175": {
     "category": "Array & Hashing",
     "difficulty": "Medium",
@@ -22301,13 +21725,7 @@
     "link": "https://leetcode.com/problems/maximum-total-damage-with-spell-casting/",
     "title": "Maximum Total Damage With Spell Casting"
   },
-  "3187": {
-    "category": "Tree",
-    "difficulty": "Hard",
-    "id": 3187,
-    "link": "https://leetcode.com/problems/peaks-in-array/",
-    "title": "Peaks in Array"
-  },
+  "3187": {"category": "Tree", "difficulty": "Hard", "id": 3187, "link": "https://leetcode.com/problems/peaks-in-array/", "title": "Peaks in Array"},
   "3188": {
     "category": "Database",
     "difficulty": "Hard",
@@ -24192,13 +23610,7 @@
     "link": "https://leetcode.com/problems/find-special-substring-of-length-k/",
     "title": "Find Special Substring of Length K"
   },
-  "3457": {
-    "category": "Greedy",
-    "difficulty": "Medium",
-    "id": 3457,
-    "link": "https://leetcode.com/problems/eat-pizzas/",
-    "title": "Eat Pizzas!"
-  },
+  "3457": {"category": "Greedy", "difficulty": "Medium", "id": 3457, "link": "https://leetcode.com/problems/eat-pizzas/", "title": "Eat Pizzas!"},
   "3458": {
     "category": "Dynamic Programming",
     "difficulty": "Medium",
@@ -26229,14 +25641,7 @@
     "difficulty": "Medium",
     "id": 3747,
     "link": "https://leetcode.com/problems/count-beautiful-substrings-i/",
-    "tags": [
-      "hash-table",
-      "math",
-      "string",
-      "enumeration",
-      "number-theory",
-      "prefix-sum"
-    ],
+    "tags": ["hash-table", "math", "string", "enumeration", "number-theory", "prefix-sum"],
     "title": "Count Beautiful Substrings I"
   },
   "3748": {
@@ -26331,14 +25736,7 @@
     "difficulty": "Hard",
     "id": 3760,
     "link": "https://leetcode.com/problems/minimum-cost-to-convert-string-ii/",
-    "tags": [
-      "array",
-      "string",
-      "dynamic-programming",
-      "graph",
-      "trie",
-      "shortest-path"
-    ],
+    "tags": ["array", "string", "dynamic-programming", "graph", "trie", "shortest-path"],
     "title": "Minimum Cost to Convert String II"
   },
   "3761": {
