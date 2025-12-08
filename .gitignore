@@ -9,3 +9,4 @@ venv
 leetcode-problems-tmp.json
 
 scripts/__pycache__/
+descriptions/
