@@ -2,7 +2,9 @@
 
 """
 Reads a JSON file, sorts its top-level keys numerically,
-and writes the sorted data to a new JSON file.
+and writes the sorted data to a new JSON file following Prettier style.
+
+Prettier config: printWidth=150, tabWidth=2, useTabs=false, trailingComma=es5, bracketSpacing=false
 
 python scripts/normalize_json.py data/leetcode-problems.json
 """
@@ -12,9 +14,45 @@ import argparse
 from collections import OrderedDict
 
 
+def format_json_value(value, indent_level=0):
+    """Format a JSON value with custom formatting following Prettier style."""
+    indent = "  " * indent_level
+    next_indent = "  " * (indent_level + 1)
+
+    if isinstance(value, dict):
+        if not value:
+            return "{}"
+        items = []
+        for k, v in sorted(value.items()):
+            formatted_key = json.dumps(k, ensure_ascii=False)
+            formatted_value = format_json_value(v, indent_level + 1)
+            items.append(f"{next_indent}{formatted_key}: {formatted_value}")
+        return "{\n" + ",\n".join(items) + "\n" + indent + "}"
+    elif isinstance(value, list):
+        if not value:
+            return "[]"
+        # Check if it's a list of numbers (for problems arrays) - format one per line
+        if value and isinstance(value[0], (int, float)):
+            items = [f"{next_indent}{json.dumps(item, ensure_ascii=False)}" for item in value]
+            return "[\n" + ",\n".join(items) + "\n" + indent + "]"
+        else:
+            # Format other arrays - check if they fit on one line
+            formatted_items = [format_json_value(item, indent_level + 1) for item in value]
+            total_length = sum(len(str(item)) for item in formatted_items)
+            if total_length < 100 and len(value) <= 5:
+                # Short arrays on one line
+                return "[" + ", ".join(str(item).replace("\n", " ") for item in formatted_items) + "]"
+            else:
+                # Long arrays with line breaks
+                items = [f"{next_indent}{item}" for item in formatted_items]
+                return "[\n" + ",\n".join(items) + "\n" + indent + "]"
+    else:
+        return json.dumps(value, ensure_ascii=False)
+
+
 def sort_json_by_numeric_keys(input_file, output_file):
     """
-
+    Sort JSON file by numeric keys and format according to Prettier style.
 
     Args:
         input_file (str): The path to the input JSON file.
@@ -29,11 +67,20 @@ def sort_json_by_numeric_keys(input_file, output_file):
             return
 
         sorted_items = sorted(data.items(), key=lambda item: int(item[0]))
-
         sorted_data = OrderedDict(sorted_items)
 
+        # Format the JSON with custom formatting following Prettier style
+        lines = ["{"]
+        items = []
+        for key, value in sorted_data.items():
+            formatted_key = json.dumps(key, ensure_ascii=False)
+            formatted_value = format_json_value(value, 1)
+            items.append(f'  {formatted_key}: {formatted_value}')
+        lines.append(",\n".join(items))
+        lines.append("}")
+
         with open(output_file, "w", encoding="utf-8") as f:
-            json.dump(sorted_data, f, indent=2)
+            f.write("\n".join(lines) + "\n")
 
         print(
             f"Successfully sorted '{input_file}' and saved the result to '{output_file}'."

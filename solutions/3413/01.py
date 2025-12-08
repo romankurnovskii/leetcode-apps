@@ -19,12 +19,15 @@ class Solution:
         z = z_function(word)
 
         # Find the minimum time
-        for i in range(1, n):
-            # Check if word[i:] is a prefix of word
-            if z[i] == n - i:
-                # Check if length is multiple of k
-                if (n - i) % k == 0:
-                    return (n - i) // k
+        # After t seconds, we've removed t*k characters
+        # The remaining suffix (n - t*k) must match the prefix
+        for t in range(1, (n + k - 1) // k + 1):
+            removed = t * k
+            if removed >= n:
+                return t
+            # Check if suffix starting at 'removed' matches prefix
+            suffix_start = removed
+            if z[suffix_start] >= n - removed:
+                return t
 
-        # If no suffix-prefix match, return ceil(n/k)
         return (n + k - 1) // k
