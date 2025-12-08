@@ -4236,6 +4236,90 @@ def __init__(self):
 # param_4 = obj.getMin()
 ```
 
+## 156. Binary Tree Upside Down [Medium]
+https://leetcode.com/problems/binary-tree-upside-down/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**Restate the problem:** We need to flip a binary tree upside down, where the original leftmost node becomes the new root, and the original root becomes the rightmost leaf. The transformation follows a specific pattern where left children become parents and right children become left children.
+
+**1.1 Constraints & Complexity:**
+- Input size: The tree can have up to O(n) nodes where n is the number of nodes
+- **Time Complexity:** O(n) where n is the number of nodes - we visit each node exactly once
+- **Space Complexity:** O(h) where h is the height of the tree - the recursion stack depth equals the tree height
+- **Edge Case:** If the tree is empty or has no left child, return the root as-is
+
+**1.2 High-level approach:**
+We use recursion to traverse to the leftmost node, which becomes the new root. During the backtracking phase, we reassign pointers to transform the tree structure according to the upside-down pattern.
+
+![Binary tree upside down transformation](https://assets.leetcode.com/static_assets/others/binary-tree-upside-down.png)
+
+**1.3 Brute force vs. optimized strategy:**
+- **Brute Force:** Create a new tree by copying nodes and reassigning pointers iteratively. This requires O(n) extra space.
+- **Optimized Strategy:** Use recursion to transform the tree in-place by reassigning pointers during backtracking. This uses O(h) space for recursion.
+- **Why it's better:** We modify the tree in-place without creating new nodes, making it more memory efficient.
+
+**1.4 Decomposition:**
+1. Recursively traverse to the leftmost node, which will become the new root
+2. During backtracking, reassign the current node's left child's left pointer to the current node's right child
+3. Reassign the current node's left child's right pointer to the current node itself
+4. Set the current node's left and right pointers to None to break old connections
+5. Return the new root (leftmost node) from the deepest recursion
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+Let's use the example tree with nodes [1,2,3,4,5]:
+- Root: 1, left: 2, right: 3
+- Node 2: left: 4, right: 5
+- After transformation, node 4 becomes the new root
+
+**2.2 Start Processing:**
+We begin recursive traversal starting from the root, always going left first.
+
+**2.3 Trace Walkthrough:**
+
+| Node | Has Left? | Action | New Root | Transformations |
+|------|-----------|--------|----------|------------------|
+| 1 | Yes | Go left to 2 | - | - |
+| 2 | Yes | Go left to 4 | - | - |
+| 4 | No | Return 4 | 4 | - |
+| 2 | - | Backtrack | 4 | 4.left = 5, 4.right = 2, 2.left = None, 2.right = None |
+| 1 | - | Backtrack | 4 | 2.left = 3, 2.right = 1, 1.left = None, 1.right = None |
+
+**2.4 Increment and Loop:**
+The recursion naturally handles the traversal. We continue until we reach a node with no left child.
+
+**2.5 Return Result:**
+Return the new root (node 4), which is the leftmost node from the original tree. The tree is now upside down with all pointers correctly reassigned.
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+class Solution:
+    def upsideDownBinaryTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        if not root or not root.left:
+            return root
+        
+        new_root = self.upsideDownBinaryTree(root.left)
+        
+        root.left.left = root.right
+        root.left.right = root
+        root.left = None
+        root.right = None
+        
+        return new_root
+```
+
 ## 160. Intersection of Two Linked Lists [Easy]
 https://leetcode.com/problems/intersection-of-two-linked-lists/
 
@@ -4328,6 +4412,92 @@ class Solution:
             p2 = p2.next if p2 else headA
         
         return p1
+```
+
+## 170. Two Sum III - Data structure design [Easy]
+https://leetcode.com/problems/two-sum-iii-data-structure-design/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**Restate the problem:** We need to design a data structure that supports adding numbers and checking if any two numbers in the structure sum to a target value. This is similar to the classic Two Sum problem, but we need to handle dynamic additions and queries.
+
+**1.1 Constraints & Complexity:**
+- Input size: Number of add operations and find operations can be large
+- **Time Complexity:** O(1) for add, O(n) for find where n is the number of distinct numbers added
+- **Space Complexity:** O(n) where n is the number of distinct numbers stored
+- **Edge Case:** If we add the same number twice and look for 2*number, we need at least 2 occurrences. If we look for a sum that requires two different numbers, we need both to exist.
+
+**1.2 High-level approach:**
+We use a hash map to store the frequency of each number added. For the find operation, we iterate through all numbers and check if their complement (target - number) exists in the map. We handle the special case where the complement equals the number itself.
+
+![Hash map storing number frequencies](https://assets.leetcode.com/static_assets/others/two-sum-hashmap.png)
+
+**1.3 Brute force vs. optimized strategy:**
+- **Brute Force:** Store numbers in a list, and for each find, check all pairs O(n²) time.
+- **Optimized Strategy:** Use a hash map for O(1) lookups. For find, iterate through keys and check complements in O(1) time each.
+- **Why it's better:** Hash map lookups are O(1) average case, making find operations much faster than checking all pairs.
+
+**1.4 Decomposition:**
+1. Initialize a hash map to store number frequencies in the constructor
+2. For add operation, increment the count of the number in the hash map
+3. For find operation, iterate through all numbers in the hash map
+4. For each number, calculate its complement (target - number)
+5. Check if complement exists, handling the case where complement equals the number (need count >= 2)
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+Let's use the example: `add(1)`, `add(3)`, `add(5)`, `find(4)`, `find(7)`
+- Initialize `num_counts = {}` (empty hash map)
+
+**2.2 Start Adding:**
+We add numbers to the data structure.
+
+**2.3 Trace Walkthrough:**
+
+| Operation | number | num_counts after | - |
+|-----------|--------|-------------------|---|
+| add(1) | 1 | {1: 1} | - |
+| add(3) | 3 | {1: 1, 3: 1} | - |
+| add(5) | 5 | {1: 1, 3: 1, 5: 1} | - |
+| find(4) | - | {1: 1, 3: 1, 5: 1} | Check: 1→complement=3 (exists), return True |
+| find(7) | - | {1: 1, 3: 1, 5: 1} | Check: 1→complement=6 (not exists), 3→complement=4 (not exists), 5→complement=2 (not exists), return False |
+
+**Detailed find(4) check:**
+- num=1: complement = 4-1 = 3, exists in map → return True
+
+**Detailed find(7) check:**
+- num=1: complement = 7-1 = 6, not in map
+- num=3: complement = 7-3 = 4, not in map
+- num=5: complement = 7-5 = 2, not in map
+- return False
+
+**2.4 Increment and Loop:**
+For find operations, we iterate through all keys in the hash map. We stop early if we find a valid pair.
+
+**2.5 Return Result:**
+Return True if any pair sums to the target value, False otherwise. For find(4), we return True because 1 + 3 = 4. For find(7), we return False because no pair sums to 7.
+
+### Solution
+
+```python
+def __init__(self):
+        self.num_counts = defaultdict(int)
+    
+    def add(self, number: int) -> None:
+        self.num_counts[number] += 1
+    
+    def find(self, value: int) -> bool:
+        for num in self.num_counts:
+            complement = value - num
+            if complement in self.num_counts:
+                if complement != num or self.num_counts[num] > 1:
+                    return True
+        return False
 ```
 
 ## 173. Binary Search Tree Iterator [Medium]
@@ -6650,6 +6820,99 @@ class Codec:
         return root
 ```
 
+## 328. Odd Even Linked List [Medium]
+https://leetcode.com/problems/odd-even-linked-list/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+
+* **Input Size:** The linked list can have up to 10^4 nodes.
+* **Time Complexity:** O(n) - We traverse the list once, where n is the number of nodes.
+* **Space Complexity:** O(1) - We only use a constant amount of extra space for pointers.
+* **Edge Case:** If the list has 0 or 1 node, return it as-is since there's nothing to reorder.
+
+**1.2 High-level approach:**
+
+The goal is to group all nodes at odd positions together, followed by all nodes at even positions, while maintaining their relative order within each group.
+
+![Linked list showing odd nodes (1,3,5) followed by even nodes (2,4)]
+
+**1.3 Brute force vs. optimized strategy:**
+
+* **Brute Force:** Create two separate lists for odd and even nodes, then concatenate them. This requires O(n) extra space.
+* **Optimized (In-place):** Use two pointers to separate odd and even nodes in-place by rewiring the next pointers. This uses O(1) extra space.
+* **Why it's better:** The in-place approach meets the O(1) space requirement and is more memory efficient.
+
+**1.4 Decomposition:**
+
+1. Use two pointers: `odd` for odd-positioned nodes and `even` for even-positioned nodes.
+2. Keep track of the head of the even list.
+3. Rewire connections: odd.next = even.next, even.next = odd.next.next.
+4. Move both pointers forward.
+5. Connect the end of the odd list to the head of the even list.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example: head = [1,2,3,4,5]
+
+We initialize:
+* `odd = head` (points to node 1)
+* `even = head.next` (points to node 2)
+* `even_head = even` (save the head of even list)
+
+**2.2 Start Checking/Processing:**
+
+We enter a loop while `even` and `even.next` exist.
+
+**2.3 Trace Walkthrough:**
+
+| Step | odd.val | even.val | odd.next.val | even.next.val | Action |
+|------|---------|----------|--------------|---------------|--------|
+| Initial | 1 | 2 | 3 | 3 | Setup |
+| 1 | 1 | 2 | 3 | 4 | odd.next = 3, even.next = 4 |
+| 2 | 3 | 4 | 5 | 5 | odd.next = 5, even.next = None |
+| Final | 5 | 4 | 2 | - | Connect odd.next = even_head |
+
+**2.4 Increment and Loop:**
+
+After each iteration, we move `odd = odd.next` and `even = even.next` to process the next pair.
+
+**2.5 Return Result:**
+
+The final list is [1,3,5,2,4], which is returned.
+
+### Solution
+
+```python
+def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def oddEvenList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        if not head or not head.next:
+            return head
+        
+        odd = head
+        even = head.next
+        even_head = even
+        
+        while even and even.next:
+            odd.next = even.next
+            odd = odd.next
+            even.next = odd.next
+            even = even.next
+        
+        odd.next = even_head
+        return head
+```
+
 ## 337. House Robber III [Medium]
 https://leetcode.com/problems/house-robber-iii/
 
@@ -6915,6 +7178,110 @@ class Solution:
         
         n = len(grid)
         res = build(0, 0, n - 1, n - 1)
+        return res
+```
+
+## 437. Path Sum III [Medium]
+https://leetcode.com/problems/path-sum-iii/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+
+* **Input Size:** The tree can have up to 1000 nodes.
+* **Time Complexity:** O(n) - We visit each node once during DFS, where n is the number of nodes.
+* **Space Complexity:** O(h) for recursion stack where h is the height, plus O(n) in worst case for the prefix sum map.
+* **Edge Case:** If the tree is empty, return 0. If targetSum is 0 and there are nodes with value 0, we need to count paths correctly.
+
+**1.2 High-level approach:**
+
+The goal is to count all paths in a binary tree where the sum of node values equals targetSum. A path can start and end anywhere, but must go downward. We use prefix sums to efficiently count paths ending at each node.
+
+![Tree showing paths with prefix sum tracking]
+
+**1.3 Brute force vs. optimized strategy:**
+
+* **Brute Force:** For each node, explore all downward paths starting from it. This is O(n^2) in the worst case.
+* **Optimized (Prefix Sum with Hash Map):** Use a hash map to store prefix sums along the current path. For each node, check if (current_sum - targetSum) exists in the map. This is O(n) time.
+* **Why it's better:** The prefix sum approach avoids redundant calculations and reduces time complexity from O(n^2) to O(n).
+
+**1.4 Decomposition:**
+
+1. Use DFS to traverse the tree.
+2. Maintain a prefix sum map that tracks sums along the current path.
+3. At each node, add the node's value to current sum.
+4. Check if (current_sum - targetSum) exists in the map to count paths ending here.
+5. Recursively process left and right children.
+6. Backtrack by decrementing the prefix sum count before returning.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example: root = [10,5,-3,3,2,null,11,3,-2,null,1], targetSum = 8
+
+We initialize:
+* `res = 0` (count of paths)
+* `prefix_sums = {}` (map of prefix sum -> count)
+* `current_sum = 0`
+
+**2.2 Start Checking/Processing:**
+
+We call `dfs(root, 0)` to start traversal.
+
+**2.3 Trace Walkthrough:**
+
+| Node | current_sum | prefix_sums | current_sum - 8 | Paths Found |
+|------|-------------|-------------|-----------------|-------------|
+| 10 | 10 | {10:1} | 2 | 0 |
+| 5 | 15 | {10:1, 15:1} | 7 | 0 |
+| 3 | 18 | {10:1, 15:1, 18:1} | 10 | 1 (18-8=10 exists) |
+| -2 | 16 | {10:1, 15:1, 18:1, 16:1} | 8 | 1 (16-8=8, but 8 not in map, but current_sum=16, check if 16==8: no) |
+| 2 | 17 | {10:1, 15:1, 18:1, 16:1, 17:1} | 9 | 0 |
+| 1 | 18 | {10:1, 15:1, 18:2, 16:1, 17:1} | 10 | 1 (18-8=10 exists) |
+
+**2.4 Increment and Loop:**
+
+After processing each node and its children, we backtrack by decrementing the prefix sum count.
+
+**2.5 Return Result:**
+
+After processing all nodes, `res = 3` is returned (paths: 5->3, 5->2->1, -3->11).
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
+        res = 0
+        prefix_sums = {}
+        
+        def dfs(node, current_sum):
+            nonlocal res, prefix_sums
+            if not node:
+                return
+            
+            current_sum += node.val
+            if current_sum == targetSum:
+                res += 1
+            
+            res += prefix_sums.get(current_sum - targetSum, 0)
+            prefix_sums[current_sum] = prefix_sums.get(current_sum, 0) + 1
+            
+            dfs(node.left, current_sum)
+            dfs(node.right, current_sum)
+            
+            prefix_sums[current_sum] -= 1
+        
+        dfs(root, 0)
         return res
 ```
 
@@ -7384,6 +7751,113 @@ class Solution:
         return res
 ```
 
+## 617. Merge Two Binary Trees [Easy]
+https://leetcode.com/problems/merge-two-binary-trees/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+
+- **Input Size:** The number of nodes in both trees is in the range `[0, 2000]`.
+- **Value Range:** `-10^4 <= Node.val <= 10^4`.
+- **Time Complexity:** O(min(m, n)) where m and n are the number of nodes in the two trees. We visit each node at most once.
+- **Space Complexity:** O(min(m, n)) for the recursion stack in the worst case (skewed tree).
+- **Edge Case:** If one tree is null, return the other tree. If both are null, return null.
+
+**1.2 High-level approach:**
+
+The goal is to merge two binary trees by summing overlapping nodes and using non-null nodes when one tree has a node and the other doesn't. We use recursion to traverse both trees simultaneously, creating new nodes for the merged tree.
+
+![Visualization showing how two binary trees are merged node by node, with overlapping nodes summed and non-overlapping nodes preserved]
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** There isn't really a brute force approach - we must traverse both trees to merge them.
+- **Optimized Strategy:** Use recursive depth-first search to traverse both trees simultaneously, creating merged nodes as we go.
+- **Why it's better:** Recursion naturally handles the tree structure and allows us to process each node exactly once.
+
+**1.4 Decomposition:**
+
+1. If both nodes are null, return null.
+2. If one node is null, return the other node (no merging needed).
+3. If both nodes exist, create a new node with the sum of their values.
+4. Recursively merge the left subtrees.
+5. Recursively merge the right subtrees.
+6. Return the merged node.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example:
+- `root1 = [1, 3, 2, 5]` (tree structure: 1 has left=3, right=2; 3 has left=5)
+- `root2 = [2, 1, 3, null, 4, null, 7]` (tree structure: 2 has left=1, right=3; 1 has right=4; 3 has right=7)
+
+**2.2 Start Checking:**
+
+We start from the root nodes of both trees.
+
+**2.3 Trace Walkthrough:**
+
+| Step | root1 node | root2 node | Action | Merged value | Left child | Right child |
+|------|------------|------------|--------|--------------|------------|-------------|
+| 1 | 1 | 2 | Both exist | 1 + 2 = 3 | Merge(3, 1) | Merge(2, 3) |
+| 2 | 3 | 1 | Both exist | 3 + 1 = 4 | Merge(5, null) | Merge(null, 4) |
+| 3 | 5 | null | root2 is null | 5 | null | null |
+| 4 | null | 4 | root1 is null | 4 | null | null |
+| 5 | 2 | 3 | Both exist | 2 + 3 = 5 | Merge(null, null) | Merge(null, 7) |
+| 6 | null | null | Both null | null | - | - |
+| 7 | null | 7 | root1 is null | 7 | null | null |
+
+The merged tree structure:
+- Root: 3 (1 + 2)
+  - Left: 4 (3 + 1)
+    - Left: 5 (5 + null)
+    - Right: 4 (null + 4)
+  - Right: 5 (2 + 3)
+    - Left: null
+    - Right: 7 (null + 7)
+
+**2.4 Increment and Loop:**
+
+Recursion handles the traversal automatically.
+
+**2.5 Return Result:**
+
+Return the merged tree root: `[3, 4, 5, 5, 4, null, 7]`.
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def mergeTrees(self, root1: Optional[TreeNode], root2: Optional[TreeNode]) -> Optional[TreeNode]:
+        if not root1 and not root2:
+            return None
+        
+        if not root1:
+            return root2
+        
+        if not root2:
+            return root1
+        
+        # Merge values
+        merged = TreeNode(root1.val + root2.val)
+        
+        # Recursively merge left and right subtrees
+        merged.left = self.mergeTrees(root1.left, root2.left)
+        merged.right = self.mergeTrees(root1.right, root2.right)
+        
+        return merged
+```
+
 ## 637. Average of Levels in Binary Tree [Easy]
 https://leetcode.com/problems/average-of-levels-in-binary-tree/
 
@@ -7533,6 +8007,88 @@ def longestSubarray(nums):
     return max_len
 ```
 
+## 700. Search in a Binary Search Tree [Easy]
+https://leetcode.com/problems/search-in-a-binary-search-tree/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+
+* **Input Size:** The tree can have up to 5000 nodes.
+* **Time Complexity:** O(h) where h is the height of the tree. In the worst case (skewed tree), h = n, giving O(n). In a balanced tree, h = log n.
+* **Space Complexity:** O(h) for the recursion stack. In worst case O(n), in balanced tree O(log n).
+* **Edge Case:** If the tree is empty or the value doesn't exist, return None.
+
+**1.2 High-level approach:**
+
+The goal is to find a node in a BST with a given value. We use the BST property: left subtree contains smaller values, right subtree contains larger values.
+
+![BST search showing how we navigate left or right based on comparison]
+
+**1.3 Brute force vs. optimized strategy:**
+
+* **Brute Force:** Traverse the entire tree (inorder/preorder/postorder) to find the value. This takes O(n) time.
+* **Optimized (BST Property):** Use the BST property to eliminate half of the remaining nodes at each step. This takes O(h) time where h is height.
+* **Why it's better:** The BST property allows us to skip entire subtrees, making search much faster than linear traversal.
+
+**1.4 Decomposition:**
+
+1. If the current node is None, return None (value not found).
+2. If current node's value equals target, return the current node.
+3. If current node's value is greater than target, search in the left subtree.
+4. If current node's value is less than target, search in the right subtree.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example: root = [4,2,7,1,3], val = 2
+
+We start at the root node with value 4.
+
+**2.2 Start Checking/Processing:**
+
+We call `searchBST(root, 2)`.
+
+**2.3 Trace Walkthrough:**
+
+| Step | Current Node | Current Val | Comparison | Action |
+|------|--------------|-------------|------------|--------|
+| 1 | 4 | 4 | 4 > 2 | Go left to node 2 |
+| 2 | 2 | 2 | 2 == 2 | Found! Return node 2 |
+
+**2.4 Increment and Loop:**
+
+After each comparison, we recursively search the appropriate subtree.
+
+**2.5 Return Result:**
+
+We return the node with value 2, which is the root of the subtree [2,1,3].
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def searchBST(self, root: Optional[TreeNode], val: int) -> Optional[TreeNode]:
+        if not root:
+            return None
+        
+        if root.val == val:
+            return root
+        elif root.val > val:
+            return self.searchBST(root.left, val)
+        else:
+            return self.searchBST(root.right, val)
+```
+
 ## 701. Insert into a Binary Search Tree [Medium]
 https://leetcode.com/problems/insert-into-a-binary-search-tree/
 
@@ -7640,6 +8196,96 @@ class Solution:
             root.right = self.insertIntoBST(root.right, val)
         
         return root
+```
+
+## 872. Leaf-Similar Trees [Easy]
+https://leetcode.com/problems/leaf-similar-trees/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+
+* **Input Size:** Each tree can have up to 200 nodes.
+* **Time Complexity:** O(n + m) - We traverse both trees once to collect leaves, where n and m are the number of nodes in each tree.
+* **Space Complexity:** O(n + m) - We store leaf sequences for both trees, plus O(h) for recursion stack.
+* **Edge Case:** If both trees are empty, they are leaf-similar (both have empty leaf sequences).
+
+**1.2 High-level approach:**
+
+The goal is to check if two binary trees have the same leaf value sequence. We collect leaves from left to right for both trees and compare the sequences.
+
+![Tree traversal showing leaf collection from left to right]
+
+**1.3 Brute force vs. optimized strategy:**
+
+* **Brute Force:** Convert both trees to arrays using any traversal, then extract and compare leaves. This is inefficient.
+* **Optimized (DFS with Leaf Collection):** Use DFS to collect leaves in order (left to right) for both trees, then compare the sequences. This is O(n + m) time.
+* **Why it's better:** We only collect leaves, avoiding unnecessary processing of internal nodes, and compare sequences directly.
+
+**1.4 Decomposition:**
+
+1. Define a helper function to collect leaves from a tree using DFS.
+2. For each node: if it's a leaf, add its value; otherwise, recursively collect from left and right subtrees.
+3. Collect leaves from both trees.
+4. Compare the two leaf sequences.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example: root1 = [3,5,1,6,2,9,8,null,null,7,4], root2 = [3,5,1,6,7,4,2,null,null,null,null,null,null,9,8]
+
+We call `get_leaves(root1)` and `get_leaves(root2)`.
+
+**2.2 Start Checking/Processing:**
+
+We traverse each tree using DFS to collect leaves.
+
+**2.3 Trace Walkthrough:**
+
+For root1:
+* Traverse left: 6 (leaf) → [6]
+* Traverse right from 5: 7 (leaf) → [6,7]
+* Continue: 4 (leaf) → [6,7,4]
+* Continue: 9 (leaf) → [6,7,4,9]
+* Continue: 8 (leaf) → [6,7,4,9,8]
+
+For root2:
+* Traverse left: 6 (leaf) → [6]
+* Traverse right from 5: 7 (leaf) → [6,7]
+* Continue: 4 (leaf) → [6,7,4]
+* Continue: 9 (leaf) → [6,7,4,9]
+* Continue: 8 (leaf) → [6,7,4,9,8]
+
+**2.4 Increment and Loop:**
+
+After collecting all leaves from both trees, we compare the sequences.
+
+**2.5 Return Result:**
+
+Both sequences are [6,7,4,9,8], so we return `True`.
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def leafSimilar(self, root1: Optional[TreeNode], root2: Optional[TreeNode]) -> bool:
+        def get_leaves(node):
+            if not node:
+                return []
+            if not node.left and not node.right:
+                return [node.val]
+            return get_leaves(node.left) + get_leaves(node.right)
+        
+        return get_leaves(root1) == get_leaves(root2)
 ```
 
 ## 876. Middle of the Linked List [Easy]
@@ -7892,6 +8538,230 @@ def __init__(self):
         return len(self.queue)
 ```
 
+## 981. Time Based Key-Value Store [Medium]
+https://leetcode.com/problems/time-based-key-value-store/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+
+- **Input Size:** `1 <= key.length, value.length <= 100`, `1 <= timestamp <= 10^7`, at most `2 * 10^5` calls to set and get.
+- **Time Complexity:** 
+  - `set`: O(1) - append to list.
+  - `get`: O(log m) where m is the number of timestamps for the key (binary search).
+- **Space Complexity:** O(n) where n is the total number of set operations.
+- **Edge Case:** If a key doesn't exist or no timestamp <= given timestamp exists, return empty string.
+
+**1.2 High-level approach:**
+
+The goal is to design a time-based key-value store that can store multiple values for the same key at different timestamps and retrieve the value associated with the largest timestamp that is <= the given timestamp. We use a dictionary to map keys to lists of (timestamp, value) pairs, and use binary search to efficiently find the correct value.
+
+![Visualization showing how timestamps are stored and retrieved using binary search to find the largest timestamp <= target]
+
+**1.3 Brute force vs. optimized strategy:**
+
+- **Brute Force:** For `get`, iterate through all timestamps for a key to find the largest one <= target. This takes O(m) time where m is the number of timestamps.
+- **Optimized Strategy:** Since timestamps are strictly increasing, we can use binary search to find the answer in O(log m) time.
+- **Why it's better:** Binary search reduces the time complexity from O(m) to O(log m), which is crucial when there are many timestamps for a key.
+
+**1.4 Decomposition:**
+
+1. Initialize a dictionary to store key -> list of (timestamp, value) pairs.
+2. For `set`: Append (timestamp, value) to the list for the key.
+3. For `get`: Use binary search to find the largest timestamp <= target timestamp.
+4. Return the corresponding value, or empty string if not found.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's trace through the example operations:
+- `set("foo", "bar", 1)`
+- `get("foo", 1)` -> should return "bar"
+- `get("foo", 3)` -> should return "bar" (largest timestamp <= 3 is 1)
+- `set("foo", "bar2", 4)`
+- `get("foo", 4)` -> should return "bar2"
+- `get("foo", 5)` -> should return "bar2" (largest timestamp <= 5 is 4)
+
+**2.2 Start Checking:**
+
+Initialize: `store = {}`
+
+**2.3 Trace Walkthrough:**
+
+| Operation | Key | Timestamp/Value | Store state | Action |
+|-----------|-----|-----------------|-------------|--------|
+| set | "foo" | ("bar", 1) | {"foo": [(1, "bar")]} | Append to list |
+| get | "foo" | 1 | - | Binary search: find timestamp <= 1 |
+| - | - | - | - | Found (1, "bar"), return "bar" |
+| get | "foo" | 3 | - | Binary search: find timestamp <= 3 |
+| - | - | - | - | Found (1, "bar"), return "bar" |
+| set | "foo" | ("bar2", 4) | {"foo": [(1, "bar"), (4, "bar2")]} | Append to list |
+| get | "foo" | 4 | - | Binary search: find timestamp <= 4 |
+| - | - | - | - | Found (4, "bar2"), return "bar2" |
+| get | "foo" | 5 | - | Binary search: find timestamp <= 5 |
+| - | - | - | - | Found (4, "bar2"), return "bar2" |
+
+Binary search details for `get("foo", 3)`:
+- List: `[(1, "bar"), (4, "bar2")]`
+- left = 0, right = 1
+- mid = 0, values[0][0] = 1 <= 3, so res = "bar", left = 1
+- left = 1, right = 1, mid = 1, values[1][0] = 4 > 3, so right = 0
+- left = 1 > right = 0, exit loop
+- Return "bar"
+
+**2.4 Increment and Loop:**
+
+Binary search continues until left > right.
+
+**2.5 Return Result:**
+
+Return the value associated with the largest timestamp <= target, or "" if not found.
+
+### Solution
+
+```python
+def __init__(self):
+        self.store = {}  # key -> list of (timestamp, value) pairs
+
+    def set(self, key: str, value: str, timestamp: int) -> None:
+        if key not in self.store:
+            self.store[key] = []
+        self.store[key].append((timestamp, value))
+
+    def get(self, key: str, timestamp: int) -> str:
+        if key not in self.store:
+            return ""
+        
+        # Binary search for the largest timestamp <= given timestamp
+        values = self.store[key]
+        left, right = 0, len(values) - 1
+        res = ""
+        
+        while left <= right:
+            mid = (left + right) // 2
+            if values[mid][0] <= timestamp:
+                res = values[mid][1]
+                left = mid + 1
+            else:
+                right = mid - 1
+        
+        return res
+```
+
+## 1161. Maximum Level Sum of a Binary Tree [Medium]
+https://leetcode.com/problems/maximum-level-sum-of-a-binary-tree/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+
+* **Input Size:** The tree can have up to 10^4 nodes.
+* **Time Complexity:** O(n) - We visit each node once using BFS, where n is the number of nodes.
+* **Space Complexity:** O(w) where w is the maximum width of the tree. In worst case O(n).
+* **Edge Case:** If the tree is empty, return 0. If all level sums are equal, return the smallest level (1).
+
+**1.2 High-level approach:**
+
+The goal is to find the level with the maximum sum of node values. We use BFS (level-order traversal) to process nodes level by level and track the sum for each level.
+
+![BFS traversal showing level-by-level processing and sum calculation]
+
+**1.3 Brute force vs. optimized strategy:**
+
+* **Brute Force:** Use DFS to collect all nodes by level, then calculate sums. This requires extra space to store level information.
+* **Optimized (BFS):** Use BFS to process one level at a time, calculating the sum as we go. This is O(n) time and naturally processes levels in order.
+* **Why it's better:** BFS naturally processes levels sequentially, making it straightforward to track level sums without extra data structures.
+
+**1.4 Decomposition:**
+
+1. Use a queue for BFS traversal.
+2. For each level:
+   - Process all nodes at the current level.
+   - Sum their values.
+   - Track the maximum sum and corresponding level.
+3. Return the smallest level with maximum sum.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example: root = [1,7,0,7,-8,null,null]
+
+We initialize:
+* `queue = deque([root])`
+* `max_sum = -inf`
+* `res = 1`
+* `level = 1`
+
+**2.2 Start Checking/Processing:**
+
+We enter a while loop while the queue is not empty.
+
+**2.3 Trace Walkthrough:**
+
+| Level | Nodes | Level Sum | max_sum | res |
+|-------|-------|-----------|---------|-----|
+| 1 | [1] | 1 | 1 | 1 |
+| 2 | [7, 0] | 7 | 7 | 2 |
+| 3 | [7, -8] | -1 | 7 | 2 |
+
+**2.4 Increment and Loop:**
+
+After processing each level, we increment the level counter and continue to the next level.
+
+**2.5 Return Result:**
+
+After processing all levels, `res = 2` is returned (level 2 has maximum sum of 7).
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def maxLevelSum(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
+        
+        from collections import deque
+        queue = deque([root])
+        max_sum = float('-inf')
+        res = 1
+        level = 1
+        
+        while queue:
+            level_sum = 0
+            size = len(queue)
+            
+            for _ in range(size):
+                node = queue.popleft()
+                level_sum += node.val
+                
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+            
+            if level_sum > max_sum:
+                max_sum = level_sum
+                res = level
+            
+            level += 1
+        
+        return res
+```
+
 ## 1207. Unique Number of Occurrences [Easy]
 https://leetcode.com/problems/unique-number-of-occurrences/
 
@@ -8112,6 +8982,102 @@ You only need to find the maximum once, and then just compare each kid's total t
 def kidsWithCandies(candies, extraCandies):
     max_candies = max(candies)  # Find the current maximum
     return [(c + extraCandies) >= max_candies for c in candies]
+```
+
+## 1448. Count Good Nodes in Binary Tree [Medium]
+https://leetcode.com/problems/count-good-nodes-in-binary-tree/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+
+* **Input Size:** The tree can have up to 10^5 nodes.
+* **Time Complexity:** O(n) - We visit each node once using DFS, where n is the number of nodes.
+* **Space Complexity:** O(h) for the recursion stack where h is the height. In worst case O(n).
+* **Edge Case:** The root is always a good node since there are no nodes above it.
+
+**1.2 High-level approach:**
+
+The goal is to count nodes where the path from root to that node has no node with value greater than the current node. We use DFS to traverse the tree, tracking the maximum value seen so far.
+
+![Tree traversal showing how we track maximum values along paths]
+
+**1.3 Brute force vs. optimized strategy:**
+
+* **Brute Force:** For each node, check all nodes on the path from root to it. This is O(n^2) in worst case.
+* **Optimized (DFS with Max Tracking):** During DFS, pass the maximum value seen so far. If current node's value >= max, it's good. This is O(n) time.
+* **Why it's better:** We check the condition during traversal without storing paths, making it O(n) instead of O(n^2).
+
+**1.4 Decomposition:**
+
+1. Use DFS to traverse the tree.
+2. For each node, check if its value >= max_value_seen.
+3. If yes, increment the count and update max_value_seen.
+4. Recursively process left and right children with updated max_value.
+5. Return the total count.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example: root = [3,1,4,3,null,1,5]
+
+We initialize:
+* `res = 0`
+* Start DFS from root with `max_val = 3` (root value)
+
+**2.2 Start Checking/Processing:**
+
+We call `dfs(root, root.val)`.
+
+**2.3 Trace Walkthrough:**
+
+| Node | Value | max_val | Value >= max? | Action | res |
+|------|-------|---------|---------------|--------|-----|
+| 3 | 3 | 3 | Yes | Count++, max=3 | 1 |
+| 1 | 1 | 3 | No | Skip | 1 |
+| 3 | 3 | 3 | Yes | Count++, max=3 | 2 |
+| 4 | 4 | 3 | Yes | Count++, max=4 | 3 |
+| 1 | 1 | 4 | No | Skip | 3 |
+| 5 | 5 | 4 | Yes | Count++, max=5 | 4 |
+
+**2.4 Increment and Loop:**
+
+After processing each node, we recursively process its children.
+
+**2.5 Return Result:**
+
+After processing all nodes, `res = 4` is returned (nodes 3, 3, 4, and 5 are good).
+
+### Solution
+
+```python
+def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def goodNodes(self, root: TreeNode) -> int:
+        res = 0
+        
+        def dfs(node, max_val):
+            nonlocal res
+            if not node:
+                return
+            
+            if node.val >= max_val:
+                res += 1
+                max_val = node.val
+            
+            dfs(node.left, max_val)
+            dfs(node.right, max_val)
+        
+        dfs(root, root.val)
+        return res
 ```
 
 ## 1515. Best Position for a Service Centre [Hard]
@@ -8598,6 +9564,101 @@ def getXORSum(arr1, arr2):
     return result
 ```
 
+## 2095. Delete the Middle Node of a Linked List [Medium]
+https://leetcode.com/problems/delete-the-middle-node-of-a-linked-list/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+
+* **Input Size:** The linked list can have up to 10^5 nodes.
+* **Time Complexity:** O(n) - We traverse the list once to find the middle, where n is the number of nodes.
+* **Space Complexity:** O(1) - We only use a constant amount of extra space for pointers.
+* **Edge Case:** If the list has 0 or 1 node, return None (no middle node to delete).
+
+**1.2 High-level approach:**
+
+The goal is to delete the middle node of a linked list. The middle node is at index floor(n/2) using 0-based indexing. We use the two-pointer technique to find the middle node.
+
+![Two-pointer technique showing fast and slow pointers finding the middle]
+
+**1.3 Brute force vs. optimized strategy:**
+
+* **Brute Force:** Traverse the list to count nodes, then traverse again to find and delete the middle node. This requires two passes.
+* **Optimized (Two Pointers):** Use fast and slow pointers. When fast reaches the end, slow is at the middle. This is one pass.
+* **Why it's better:** The two-pointer approach finds the middle in one pass, making it more efficient.
+
+**1.4 Decomposition:**
+
+1. Handle edge cases: if list has 0 or 1 node, return None.
+2. Use two pointers: slow and fast, both starting at head.
+3. Also track prev to point to the node before slow.
+4. Move fast two steps and slow one step until fast reaches the end.
+5. Delete the middle node by setting prev.next = slow.next.
+6. Return head.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example: head = [1,3,4,7,1,2,6]
+
+We initialize:
+* `slow = head` (node 1)
+* `fast = head` (node 1)
+* `prev = None`
+
+**2.2 Start Checking/Processing:**
+
+We enter a while loop while `fast` and `fast.next` exist.
+
+**2.3 Trace Walkthrough:**
+
+| Step | slow.val | fast.val | prev.val | Action |
+|------|----------|----------|----------|--------|
+| Initial | 1 | 1 | None | Setup |
+| 1 | 3 | 4 | 1 | Move pointers |
+| 2 | 4 | 1 | 3 | Move pointers |
+| 3 | 7 | 2 | 4 | Move pointers |
+| 4 | 1 | 6 | 7 | fast.next is None, stop |
+| Final | 7 | - | 4 | Delete: prev.next = slow.next |
+
+**2.4 Increment and Loop:**
+
+After each iteration, we update prev = slow, then move slow and fast.
+
+**2.5 Return Result:**
+
+After deletion, the list is [1,3,4,1,2,6], and head is returned.
+
+### Solution
+
+```python
+def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def deleteMiddle(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        if not head or not head.next:
+            return None
+        
+        slow = head
+        fast = head
+        prev = None
+        
+        while fast and fast.next:
+            prev = slow
+            slow = slow.next
+            fast = fast.next.next
+        
+        prev.next = slow.next
+        return head
+```
+
 ## 2119. A Number After a Double Reversal [Easy]
 https://leetcode.com/problems/a-number-after-a-double-reversal/
 
@@ -8787,6 +9848,101 @@ def minOperations(nums):
     return min_operations
 ```
 
+## 2130. Maximum Twin Sum of a Linked List [Medium]
+https://leetcode.com/problems/maximum-twin-sum-of-a-linked-list/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+
+* **Input Size:** The linked list has an even number of nodes, up to 10^5.
+* **Time Complexity:** O(n) - We traverse the list to find the middle, reverse the second half, and compare pairs, where n is the number of nodes.
+* **Space Complexity:** O(1) - We only use a constant amount of extra space for pointers.
+* **Edge Case:** If the list has 2 nodes, return the sum of their values.
+
+**1.2 High-level approach:**
+
+The goal is to find the maximum sum of twin pairs. Twins are nodes at positions i and n-1-i. We split the list at the middle, reverse the second half, then compare pairs.
+
+![Linked list showing twin pairs and their sums]
+
+**1.3 Brute force vs. optimized strategy:**
+
+* **Brute Force:** Store all node values in an array, then calculate all twin sums. This uses O(n) extra space.
+* **Optimized (In-place Reversal):** Find the middle, reverse the second half in-place, then traverse both halves simultaneously to find max sum. This uses O(1) extra space.
+* **Why it's better:** The in-place approach meets the O(1) space requirement and is more memory efficient.
+
+**1.4 Decomposition:**
+
+1. Use two pointers to find the middle of the list.
+2. Reverse the second half of the list.
+3. Traverse both halves simultaneously, calculating twin sums.
+4. Track and return the maximum sum.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+Let's use the example: head = [5,4,2,1]
+
+We initialize:
+* Find middle: after two-pointer, slow points to node 2 (middle).
+
+**2.2 Start Checking/Processing:**
+
+We reverse the second half starting from slow.
+
+**2.3 Trace Walkthrough:**
+
+| Step | First Half | Second Half (reversed) | Twin Sum | Max |
+|------|------------|------------------------|----------|-----|
+| Initial | [5,4] | [2,1] → reverse → [1,2] | - | 0 |
+| 1 | 5 | 1 | 5+1=6 | 6 |
+| 2 | 4 | 2 | 4+2=6 | 6 |
+
+**2.4 Increment and Loop:**
+
+After calculating each twin sum, we move both pointers forward and update the maximum.
+
+**2.5 Return Result:**
+
+After processing all pairs, `res = 6` is returned (both pairs sum to 6).
+
+### Solution
+
+```python
+def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def pairSum(self, head: Optional[ListNode]) -> int:
+        slow = fast = head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        
+        prev = None
+        while slow:
+            next_node = slow.next
+            slow.next = prev
+            prev = slow
+            slow = next_node
+        
+        res = 0
+        first = head
+        second = prev
+        while second:
+            res = max(res, first.val + second.val)
+            first = first.next
+            second = second.next
+        
+        return res
+```
+
 ## 2215. Find the Difference of Two Arrays [Easy]
 https://leetcode.com/problems/find-the-difference-of-two-arrays/
 
@@ -8826,6 +9982,99 @@ We do this because sets make it easy and fast to find differences—checking if 
 def findDifference(nums1, nums2):
     set1, set2 = set(nums1), set(nums2)
     return [list(set1 - set2), list(set2 - set1)]
+```
+
+## 2336. Smallest Number in Infinite Set [Medium]
+https://leetcode.com/problems/smallest-number-in-infinite-set/
+
+### Explanation
+
+## Explanation
+
+### Strategy (The "Why")
+
+**1.1 Constraints & Complexity:**
+
+* **Input Size:** At most 1000 calls to popSmallest and addBack. Numbers are between 1 and 1000.
+* **Time Complexity:** O(log k) for popSmallest and addBack where k is the number of added-back numbers. O(1) for the infinite set part.
+* **Space Complexity:** O(k) where k is the number of distinct numbers that have been popped and added back.
+* **Edge Case:** If we pop all numbers 1-1000 and add some back, those added-back numbers should be returned before continuing with 1001+.
+
+**1.2 High-level approach:**
+
+The goal is to implement a set that contains all positive integers, with operations to pop the smallest and add numbers back. We use a min-heap for added-back numbers and track the next number in the infinite sequence.
+
+![Data structure showing heap for added-back numbers and counter for infinite sequence]
+
+**1.3 Brute force vs. optimized strategy:**
+
+* **Brute Force:** Store all popped numbers in a set, then for popSmallest, iterate from 1 to find the first not in the set. This is O(n) per pop.
+* **Optimized (Heap + Counter):** Use a min-heap for added-back numbers and a counter for the infinite sequence. popSmallest returns min(heap.pop(), counter++). This is O(log k) per pop.
+* **Why it's better:** The heap allows O(log k) access to the minimum added-back number, and the counter handles the infinite sequence in O(1).
+
+**1.4 Decomposition:**
+
+1. Maintain a min-heap for numbers that were popped and added back.
+2. Maintain a counter (next_num) for the infinite sequence starting from 1.
+3. Maintain a set to track which numbers are currently removed.
+4. For popSmallest: if heap is not empty, pop from heap; otherwise, return and increment counter.
+5. For addBack: if number is in removed set, add it to heap and remove from set.
+
+### Steps (The "How")
+
+**2.1 Initialization & Example Setup:**
+
+We initialize:
+* `removed = set()` (track removed numbers)
+* `added_back = []` (min-heap)
+* `next_num = 1` (next number in infinite sequence)
+
+**2.2 Start Checking/Processing:**
+
+Operations are called: addBack(2), popSmallest(), popSmallest(), popSmallest(), addBack(1), popSmallest()
+
+**2.3 Trace Walkthrough:**
+
+| Operation | added_back | next_num | removed | Return |
+|-----------|------------|----------|---------|--------|
+| addBack(2) | [] | 1 | {} | None (2 already in set) |
+| popSmallest() | [] | 1 | {1} | 1, next_num=2 |
+| popSmallest() | [] | 2 | {1,2} | 2, next_num=3 |
+| popSmallest() | [] | 3 | {1,2,3} | 3, next_num=4 |
+| addBack(1) | [1] | 4 | {2,3} | None |
+| popSmallest() | [] | 4 | {2,3,1} | 1 (from heap), next_num=4 |
+
+**2.4 Increment and Loop:**
+
+After each operation, we update the data structures accordingly.
+
+**2.5 Return Result:**
+
+The operations return [null, 1, 2, 3, null, 1] as expected.
+
+### Solution
+
+```python
+def __init__(self):
+        self.removed = set()
+        self.added_back = []
+        self.next_num = 1
+
+    def popSmallest(self) -> int:
+        if self.added_back:
+            res = heapq.heappop(self.added_back)
+            self.removed.add(res)
+            return res
+        else:
+            res = self.next_num
+            self.next_num += 1
+            self.removed.add(res)
+            return res
+
+    def addBack(self, num: int) -> None:
+        if num in self.removed:
+            self.removed.remove(num)
+            heapq.heappush(self.added_back, num)
 ```
 
 ## 2352. Equal Row and Column Pairs [Medium]
