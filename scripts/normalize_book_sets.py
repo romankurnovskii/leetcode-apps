@@ -118,39 +118,53 @@ def normalize_book_sets(
         print("Error: The root of the JSON file must be an array.")
         return
 
-    # Find the "All-TODO" and "All" objects
+    # Find the "All-TODO", "All" objects, and get premium list
     all_todo_obj = None
     all_obj = None
+    premium_set = set()
 
     for obj in data:
         if obj.get("title") == "All-TODO":
             all_todo_obj = obj
         elif obj.get("title") == "All":
             all_obj = obj
+        elif "premium" in obj:
+            # Get premium problems list
+            premium_set = set(obj.get("premium", []))
 
     changes_made = False
 
-    # Process "All-TODO": Remove problems that have both solution and explanation
+    # Process "All-TODO": Remove problems that have both solution and explanation or are premium
     if all_todo_obj:
         original_count = len(all_todo_obj.get("problems", []))
         problems = all_todo_obj.get("problems", [])
         removed = []
+        removed_premium = []
 
         new_problems = []
         for problem_num in problems:
-            if has_both_solution_and_explanation(
+            # Remove if premium
+            if problem_num in premium_set:
+                removed_premium.append(problem_num)
+            # Remove if has both solution and explanation
+            elif has_both_solution_and_explanation(
                 problem_num, solutions_path, explanations_path
             ):
                 removed.append(problem_num)
             else:
                 new_problems.append(problem_num)
 
-        if removed:
+        if removed or removed_premium:
             changes_made = True
-            print(
-                f"\n[All-TODO] Removing {len(removed)} problems with both solution and explanation:"
-            )
-            print(f"  Removed: {removed[:10]}{'...' if len(removed) > 10 else ''}")
+            print(f"\n[All-TODO] Removing problems:")
+            if removed_premium:
+                print(
+                    f"  Removed {len(removed_premium)} premium problems: {removed_premium[:10]}{'...' if len(removed_premium) > 10 else ''}"
+                )
+            if removed:
+                print(
+                    f"  Removed {len(removed)} problems with both solution and explanation: {removed[:10]}{'...' if len(removed) > 10 else ''}"
+                )
             all_todo_obj["problems"] = sorted(new_problems)
             print(f"  Updated count: {original_count} -> {len(new_problems)}")
         else:
@@ -170,7 +184,7 @@ def normalize_book_sets(
             if d.is_dir() and d.name.isdigit() and not d.name.startswith("todo-")
         }
 
-        # Find problems that have both
+        # Find problems that have both (excluding premium problems)
         problems_with_both = sorted(
             [
                 p
@@ -179,6 +193,7 @@ def normalize_book_sets(
                 and has_both_solution_and_explanation(
                     p, solutions_path, explanations_path
                 )
+                and p not in premium_set  # Exclude premium problems
             ]
         )
 
