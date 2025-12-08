@@ -10,4 +10,5 @@ class Solution:
             if num > k:
                 distinct_greater.add(num)
         
-        return len(distinct_greater)
+        res = len(distinct_greater)
+        return res
