@@ -14,7 +14,6 @@ Usage:
 """
 
 import json
-import os
 import sys
 import argparse
 from pathlib import Path
@@ -183,7 +182,6 @@ def main():
         print(f"Dry run complete. Would update {updated_count} set(s).")
     else:
         if updated_count > 0:
-            # Save updated book-sets.json (Prettier will format it via pre-commit hook)
             with open(BOOK_SETS_PATH, "w", encoding="utf-8") as f:
                 json.dump(book_sets, f, ensure_ascii=False)
             print(f"✓ Updated {updated_count} book set(s) in {BOOK_SETS_PATH}")
