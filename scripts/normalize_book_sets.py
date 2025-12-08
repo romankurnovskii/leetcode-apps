@@ -13,7 +13,90 @@ Usage:
 import json
 import os
 import argparse
+import re
 from pathlib import Path
+
+
+def compact_json_arrays(json_str: str, max_line_length: int = 150) -> str:
+    """
+    Compact number arrays in JSON string to have multiple numbers per line.
+
+    Args:
+        json_str: JSON string with arrays formatted one number per line
+        max_line_length: Maximum characters per line (default: 150)
+
+    Returns:
+        Compacted JSON string
+    """
+    lines = json_str.split("\n")
+    result = []
+    i = 0
+
+    while i < len(lines):
+        line = lines[i]
+
+        # Check if this line starts an array of numbers
+        # Pattern: some indentation, "key": [
+        array_start_match = re.match(r'^(\s*)"[^"]+": \[$', line)
+
+        if array_start_match:
+            indent = array_start_match.group(1)
+            result.append(line)
+            i += 1
+
+            # Collect all numbers from subsequent lines
+            numbers = []
+            while i < len(lines):
+                num_line = lines[i].strip()
+
+                # Check if it's a closing bracket
+                if num_line == "]" or num_line == "],":
+                    # Format numbers compactly
+                    if numbers:
+                        # Group numbers to fit within max_line_length
+                        number_indent = indent + "    "
+                        current_line = number_indent
+
+                        for idx, num in enumerate(numbers):
+                            num_str = str(num)
+                            # Add comma if not the last number
+                            if idx < len(numbers) - 1:
+                                num_str += ", "
+
+                            # Check if adding this number would exceed max length
+                            if (
+                                len(current_line + num_str) > max_line_length
+                                and current_line != number_indent
+                            ):
+                                result.append(current_line.rstrip())
+                                current_line = number_indent + num_str
+                            else:
+                                current_line += num_str
+
+                        # Add the last line
+                        if current_line.strip():
+                            result.append(current_line.rstrip())
+
+                    # Add closing bracket
+                    result.append(indent + num_line)
+                    i += 1
+                    break
+
+                # Check if it's a number (with optional comma)
+                num_match = re.match(r"^(\d+),?$", num_line)
+                if num_match:
+                    numbers.append(int(num_match.group(1)))
+                    i += 1
+                else:
+                    # Not a number array, just add the line as-is
+                    result.append(lines[i])
+                    i += 1
+                    break
+        else:
+            result.append(line)
+            i += 1
+
+    return "\n".join(result)
 
 
 def check_solution_exists(problem_number: int, solutions_dir: Path) -> bool:
@@ -118,7 +201,7 @@ def normalize_book_sets(
         print("Error: The root of the JSON file must be an array.")
         return
 
-    # Find the "All-TODO", "All" objects, and get premium list
+    # Find the "All-TODO" and "All" objects, and get premium list
     all_todo_obj = None
     all_obj = None
     premium_set = set()
@@ -134,37 +217,27 @@ def normalize_book_sets(
 
     changes_made = False
 
-    # Process "All-TODO": Remove problems that have both solution and explanation or are premium
+    # Process "All-TODO": Remove problems that have both solution and explanation
     if all_todo_obj:
         original_count = len(all_todo_obj.get("problems", []))
         problems = all_todo_obj.get("problems", [])
         removed = []
-        removed_premium = []
 
         new_problems = []
         for problem_num in problems:
-            # Remove if premium
-            if problem_num in premium_set:
-                removed_premium.append(problem_num)
-            # Remove if has both solution and explanation
-            elif has_both_solution_and_explanation(
+            if has_both_solution_and_explanation(
                 problem_num, solutions_path, explanations_path
             ):
                 removed.append(problem_num)
             else:
                 new_problems.append(problem_num)
 
-        if removed or removed_premium:
+        if removed:
             changes_made = True
-            print(f"\n[All-TODO] Removing problems:")
-            if removed_premium:
-                print(
-                    f"  Removed {len(removed_premium)} premium problems: {removed_premium[:10]}{'...' if len(removed_premium) > 10 else ''}"
-                )
-            if removed:
-                print(
-                    f"  Removed {len(removed)} problems with both solution and explanation: {removed[:10]}{'...' if len(removed) > 10 else ''}"
-                )
+            print(
+                f"\n[All-TODO] Removing {len(removed)} problems with both solution and explanation:"
+            )
+            print(f"  Removed: {removed[:10]}{'...' if len(removed) > 10 else ''}")
             all_todo_obj["problems"] = sorted(new_problems)
             print(f"  Updated count: {original_count} -> {len(new_problems)}")
         else:
@@ -184,7 +257,7 @@ def normalize_book_sets(
             if d.is_dir() and d.name.isdigit() and not d.name.startswith("todo-")
         }
 
-        # Find problems that have both (excluding premium problems)
+        # Find problems that have both (excluding premium)
         problems_with_both = sorted(
             [
                 p
@@ -199,13 +272,23 @@ def normalize_book_sets(
 
         original_count = len(all_obj.get("problems", []))
         original_problems = set(all_obj.get("problems", []))
+        problems_with_both_set = set(problems_with_both)
+        
+        # Remove premium problems from original_problems for comparison
+        original_non_premium = original_problems - premium_set
+        removed_premium = sorted(original_problems & premium_set)
 
-        if set(problems_with_both) != original_problems:
+        # Always update if there are premium problems to remove, or if sets differ
+        if removed_premium or problems_with_both_set != original_non_premium:
             changes_made = True
-            added = sorted(set(problems_with_both) - original_problems)
-            removed = sorted(original_problems - set(problems_with_both))
+            added = sorted(problems_with_both_set - original_non_premium)
+            removed = sorted(original_non_premium - problems_with_both_set)
 
             print(f"\n[All] Updating problem list:")
+            if removed_premium:
+                print(
+                    f"  Removed {len(removed_premium)} premium problems: {removed_premium[:10]}{'...' if len(removed_premium) > 10 else ''}"
+                )
             if added:
                 print(
                     f"  Added {len(added)} problems: {added[:10]}{'...' if len(added) > 10 else ''}"
@@ -301,6 +384,7 @@ def normalize_book_sets(
             try:
                 with open(book_sets_file, "w", encoding="utf-8") as f:
                     json.dump(data, f, indent=2, ensure_ascii=False)
+
                 print("\n" + "=" * 70)
                 print(f"✓ Successfully updated '{book_sets_file}'")
             except Exception as e:
