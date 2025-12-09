@@ -13,11 +13,18 @@ class Solution:
         
         res = []
         for num in nums:
-            # Find closest palindrome
+            # Use binary search to find closest palindrome
+            import bisect
+            idx = bisect.bisect_left(palindromes, num)
+            
             min_ops = float('inf')
-            for pal in palindromes:
-                ops = abs(num - pal)
-                min_ops = min(min_ops, ops)
+            # Check the palindrome at idx (if exists)
+            if idx < len(palindromes):
+                min_ops = min(min_ops, abs(num - palindromes[idx]))
+            # Check the palindrome before idx (if exists)
+            if idx > 0:
+                min_ops = min(min_ops, abs(num - palindromes[idx - 1]))
+            
             res.append(min_ops)
         
         return res
