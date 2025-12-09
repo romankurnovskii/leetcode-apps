@@ -12,16 +12,19 @@ class Solution:
         # Get all primes
         primes = [i for i in range(2, n + 1) if is_prime[i]]
         
-        # Compute consecutive prime sums starting from 2
+        if not primes:
+            return 0
+        
+        # Only check consecutive sums starting from 2 (first prime)
         res = 0
-        for start in range(len(primes)):
-            current_sum = 0
-            for end in range(start, len(primes)):
-                current_sum += primes[end]
-                if current_sum > n:
-                    break
-                # Check if sum is prime and <= n
-                if current_sum <= n and is_prime[current_sum]:
-                    res = max(res, current_sum)
+        current_sum = 0
+        # Start from index 0 (which is prime 2)
+        for i in range(len(primes)):
+            current_sum += primes[i]
+            if current_sum > n:
+                break
+            # Check if sum is prime and <= n
+            if current_sum <= n and is_prime[current_sum]:
+                res = max(res, current_sum)
         
         return res
