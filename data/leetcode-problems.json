@@ -25467,7 +25467,7 @@
     "title": "Lexicographically Smallest String After Reverse"
   },
   "3723": {
-    "category": "Greedy",
+    "category": "Math",
     "difficulty": "Medium",
     "id": 3723,
     "link": "https://leetcode.com/problems/maximize-sum-of-squares-of-digits/",
@@ -25530,7 +25530,7 @@
     "title": "Find Missing Elements"
   },
   "3732": {
-    "category": "Greedy",
+    "category": "Array",
     "difficulty": "Medium",
     "id": 3732,
     "link": "https://leetcode.com/problems/maximum-product-of-three-elements-after-one-replacement/",
@@ -25724,12 +25724,11 @@
     "title": "Convert Number Words to Digits"
   },
   "3759": {
-    "category": "Graph",
+    "category": "Array",
     "difficulty": "Medium",
     "id": 3759,
-    "link": "https://leetcode.com/problems/minimum-cost-to-convert-string-i/",
-    "tags": ["array", "string", "graph", "shortest-path"],
-    "title": "Minimum Cost to Convert String I"
+    "link": "https://leetcode.com/problems/count-elements-with-at-least-k-greater-values/",
+    "title": "Count Elements With at Least K Greater Values"
   },
   "3760": {
     "category": "Graph",
