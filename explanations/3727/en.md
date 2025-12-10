@@ -1,65 +1,61 @@
 ## Explanation
 
-### Strategy (The "Why")
+### Strategy
 
-**1.1 Constraints & Complexity:**
+**1.1 Constraints & Complexity**
 
-- **Constraints:** $1 \leq n \leq 10^5$ elements. Values are in the range $[-4 \times 10^4, 4 \times 10^4]$.
-- **Time Complexity:** $O(n \log n)$ for sorting the array.
-- **Space Complexity:** $O(n)$ for the sorted array.
-- **Edge Case:** If the array has one element, return its square.
+  * **Input Size:** The array `nums` has length `n` where `1 <= n <= 10^5`. Values range from `-4 * 10^4` to `4 * 10^4`.
+  * **Time Complexity:** O(n log n) - We sort the array of squares, which dominates the time complexity.
+  * **Space Complexity:** O(n) - We create an array of squares and sort it.
+  * **Edge Case:** For a single element, the alternating sum is just that element squared.
 
-**1.2 High-level approach:**
+**1.2 High-level approach**
 
-The goal is to maximize the alternating sum of squares: $arr[0]^2 - arr[1]^2 + arr[2]^2 - arr[3]^2 + ...$. Since squares are always positive regardless of the original sign, we want large squares at even indices (positive contribution) and small squares at odd indices (negative contribution).
+The goal is to rearrange the array to maximize the alternating sum of squares: `arr[0]^2 - arr[1]^2 + arr[2]^2 - arr[3]^2 + ...`
 
-**1.3 Brute force vs. optimized strategy:**
+Since we can rearrange freely, we want to assign the largest squared values to positions that contribute positively (even indices) and the smallest squared values to positions that contribute negatively (odd indices).
 
-- **Brute Force:** Try all possible rearrangements and calculate the score. This is $O(n!)$ time.
-- **Optimized Strategy:** Sort numbers by absolute value in descending order. Assign largest numbers to even indices and smallest to odd indices. This is $O(n \log n)$ time.
-- **Why optimized is better:** The greedy assignment maximizes positive contributions and minimizes negative contributions, giving the optimal result.
+**1.3 Brute force vs. optimized strategy**
 
-**1.4 Decomposition:**
+  * **Brute Force:** Try all possible permutations of the array and calculate the alternating sum for each, then take the maximum. This would be O(n! * n), which is infeasible for large inputs.
+  * **Optimized Strategy:** Since squares are always non-negative, we can sort the squares in descending order. Then we assign the largest squares to positive positions (even indices) and the smallest squares to negative positions (odd indices). This greedy approach is optimal and runs in O(n log n).
 
-1. Convert all numbers to absolute values (since squares are same for positive/negative).
-2. Sort in descending order.
-3. Assign numbers to positions: even indices get largest numbers, odd indices get smallest numbers.
-4. Calculate alternating sum of squares.
-5. Return the result.
+**1.4 Decomposition**
 
-### Steps (The "How")
+1. Calculate the square of each element in the array.
+2. Sort the squares in descending order.
+3. Count how many positive positions (even indices) and negative positions (odd indices) we have.
+4. Assign the largest squares to positive positions and the smallest squares to negative positions.
+5. Calculate and return the alternating sum.
 
-**2.1 Initialization & Example Setup:**
+### Steps
 
-Let's use the example: `nums = [1,2,3]`
+**2.1 Initialization & Example Setup**
 
-We convert to absolute values and sort: `[3,2,1]`
+Let's use the example `nums = [1, 2, 3]` to trace through the solution.
 
-**2.2 Start Checking:**
+First, we calculate squares: `[1, 4, 9]`.
 
-We assign numbers to positions and calculate the score.
+**2.2 Start Checking/Processing**
 
-**2.3 Trace Walkthrough:**
+We sort the squares in descending order: `[9, 4, 1]`.
 
-| Index | Assigned Value | Square | Contribution |
-|-------|----------------|--------|--------------|
-| 0 (even) | 3 | 9 | +9 |
-| 1 (odd) | 2 | 4 | -4 |
-| 2 (even) | 1 | 1 | +1 |
-| Total | | | 9 - 4 + 1 = 6 |
+**2.3 Trace Walkthrough**
 
-Wait, let me recalculate. The problem says we can rearrange, so for [1,2,3]:
-- Best arrangement: [2,1,3] gives $2^2 - 1^2 + 3^2 = 4 - 1 + 9 = 12$
+For `n = 3`, we have:
+- Positive positions (even indices): positions 0 and 2 → 2 positions
+- Negative positions (odd indices): position 1 → 1 position
 
-Actually, we want: even positions get largest, odd get smallest.
-- [3,1,2]: $3^2 - 1^2 + 2^2 = 9 - 1 + 4 = 12$ ✓
+| Sorted Squares | Position Type | Assignment | Contribution |
+|----------------|---------------|------------|--------------|
+| 9 | Positive (index 0) | 9 | +9 |
+| 4 | Positive (index 2) | 4 | +4 |
+| 1 | Negative (index 1) | 1 | -1 |
 
-**2.4 Increment and Loop:**
+**2.4 Increment and Loop**
 
-- Sort by absolute value descending: `nums_sorted = sorted([abs(x) for x in nums], reverse=True)`
-- Calculate: `for i in range(n): if i % 2 == 0: res += nums_sorted[i]^2 else: res -= nums_sorted[i]^2`
+We assign the largest squares to positive positions and smallest to negative positions. The calculation is: `sum([9, 4]) - sum([1]) = 13 - 1 = 12`.
 
-**2.5 Return Result:**
+**2.5 Return Result**
 
-For `nums = [1,2,3]`, sorted by absolute value: `[3,2,1]`. Arrangement `[3,1,2]` gives score $3^2 - 1^2 + 2^2 = 9 - 1 + 4 = 12$. We return `12`.
-
+The maximum alternating sum is `12`, which we return as the final result.

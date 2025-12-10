@@ -1,73 +1,67 @@
 ## Explanation
 
-### Strategy (The "Why")
+### Strategy
 
-**1.1 Constraints & Complexity:**
+**1.1 Constraints & Complexity**
 
-- **Constraints:** $1 \leq n \leq 1000$ where $n$ is the string length. String contains only lowercase English letters.
-- **Time Complexity:** $O(n^2)$ where $n$ is the string length. We try $2n$ operations, each involving string reversal which is $O(n)$.
-- **Space Complexity:** $O(n)$ for storing reversed strings.
-- **Edge Case:** If the string is already lexicographically smallest, return it unchanged.
+  * **Input Size:** The string `s` has length `n` where `1 <= n <= 1000`. This is a small constraint that allows for a straightforward approach.
+  * **Time Complexity:** O(n^2) - We try all possible values of `k` from 1 to `n` for both prefix and suffix reversals, and each reversal operation takes O(n) time.
+  * **Space Complexity:** O(n) - We create new string candidates for comparison, but we only keep the best one at any time.
+  * **Edge Case:** If no reversal produces a lexicographically smaller string, we return the original string.
 
-**1.2 High-level approach:**
+**1.2 High-level approach**
 
-The goal is to find the lexicographically smallest string after performing exactly one operation: either reversing the first $k$ characters or the last $k$ characters for some $k$. We try all possible operations and return the lexicographically smallest result.
+The goal is to find the lexicographically smallest string achievable by performing exactly one reversal operation (either on the first `k` characters or the last `k` characters).
 
-**1.3 Brute force vs. optimized strategy:**
+Imagine you have a string written on cards. You can flip either the leftmost `k` cards or the rightmost `k` cards exactly once, and you want the resulting arrangement to be as small as possible when read left to right.
 
-- **Brute Force:** Try all $2n$ possible operations (reverse first $k$ for $k=1$ to $n$, reverse last $k$ for $k=1$ to $n$), compare results. This is $O(n^2)$ time.
-- **Optimized Strategy:** Same as brute force - we need to check all possibilities since there's no obvious pattern to skip. This is $O(n^2)$ time.
-- **Why this approach:** The problem constraints allow $O(n^2)$ solution, and there's no obvious optimization to avoid checking all operations.
+**1.3 Brute force vs. optimized strategy**
 
-**1.4 Decomposition:**
+  * **Brute Force:** Try all possible values of `k` from 1 to `n` for prefix reversals, and all possible values of `k` from 1 to `n` for suffix reversals. For each candidate, compare it lexicographically with the current best result. This is exactly what we do, and it's efficient enough given the small constraint.
+  * **Optimized Strategy:** The brute force approach is already optimal for this problem size. We systematically check all `2n` possible operations (n prefix reversals + n suffix reversals) and keep track of the lexicographically smallest result.
 
-1. Initialize result as the original string.
-2. Try reversing first $k$ characters for $k = 1$ to $n$:
-   - Reverse `s[:k]` and concatenate with `s[k:]`
-   - Update result if this is lexicographically smaller.
-3. Try reversing last $k$ characters for $k = 1$ to $n$:
-   - Keep `s[:n-k]` and reverse `s[n-k:]`
-   - Update result if this is lexicographically smaller.
-4. Return the result.
+**1.4 Decomposition**
 
-### Steps (The "How")
+1. Initialize the result with the original string as the baseline.
+2. Try all prefix reversals: For each `k` from 1 to `n`, reverse the first `k` characters and compare the result.
+3. Try all suffix reversals: For each `k` from 1 to `n`, reverse the last `k` characters and compare the result.
+4. Update the result whenever we find a lexicographically smaller candidate.
+5. Return the smallest string found.
 
-**2.1 Initialization & Example Setup:**
+### Steps
 
-Let's use the example: `s = "dcab"`
+**2.1 Initialization & Example Setup**
 
-We initialize `res = "dcab"`.
+Let's use the example `s = "dcab"` to trace through the solution.
 
-**2.2 Start Checking:**
+We initialize `res = "dcab"` as our current best result.
 
-We try all possible reversal operations.
+**2.2 Start Checking/Processing**
 
-**2.3 Trace Walkthrough:**
+We begin by trying all possible prefix reversals (reversing the first `k` characters) for `k` from 1 to `n`.
 
-**Reverse first k characters:**
-- k=1: "d" + "cab" = "dcab" (not smaller)
-- k=2: "cd" + "ab" = "cdab" (not smaller)
-- k=3: "acd" + "b" = "acdb" (smaller! update res)
-- k=4: "bacd" (not smaller)
+**2.3 Trace Walkthrough**
 
-**Reverse last k characters:**
-- k=1: "dca" + "b" = "dcab" (not smaller)
-- k=2: "dc" + "ba" = "dcba" (not smaller)
-- k=3: "d" + "bac" = "dbac" (not smaller)
-- k=4: "bacd" (not smaller)
+| k | Prefix to Reverse | Reversed Prefix | Remaining | Candidate | Is Smaller? | Update res? |
+|---|-------------------|-----------------|-----------|-----------|-------------|--------------|
+| 1 | "d" | "d" | "cab" | "dcab" | No | No |
+| 2 | "dc" | "cd" | "ab" | "cdab" | No | No |
+| 3 | "dca" | "acd" | "b" | "acdb" | Yes | Yes → "acdb" |
+| 4 | "dcab" | "bacd" | "" | "bacd" | No | No |
 
-Best result: "acdb"
+Now we try suffix reversals (reversing the last `k` characters):
 
-**2.4 Increment and Loop:**
+| k | Suffix to Reverse | Remaining | Reversed Suffix | Candidate | Is Smaller? | Update res? |
+|---|-------------------|-----------|-----------------|-----------|-------------|--------------|
+| 1 | "b" | "dca" | "b" | "dcab" | No | No |
+| 2 | "ab" | "dc" | "ba" | "dcba" | No | No |
+| 3 | "cab" | "d" | "bac" | "dbac" | No | No |
+| 4 | "dcab" | "" | "bacd" | "bacd" | No | No |
 
-- For $k$ from 1 to $n$:
-  - `reversed_str = s[:k][::-1] + s[k:]`
-  - `if reversed_str < res: res = reversed_str`
-- For $k$ from 1 to $n$:
-  - `reversed_str = s[:n-k] + s[n-k:][::-1]`
-  - `if reversed_str < res: res = reversed_str`
+**2.4 Increment and Loop**
 
-**2.5 Return Result:**
+After checking all prefix reversals, we move to checking all suffix reversals. We continue until we've examined all `2n` possible operations.
 
-For `s = "dcab"`, the lexicographically smallest result is "acdb" (obtained by reversing the first 3 characters). We return "acdb".
+**2.5 Return Result**
 
+The lexicographically smallest string found is `"acdb"`, which we return as the final result.

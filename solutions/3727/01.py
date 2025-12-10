@@ -1,24 +1,21 @@
+from typing import List
+
 class Solution:
     def maxAlternatingSum(self, nums: List[int]) -> int:
-        # Since we're using squares, the sign of original numbers doesn't matter
-        # We want to maximize: arr[0]^2 - arr[1]^2 + arr[2]^2 - arr[3]^2 + ...
-        # This means we want large squares at even indices and small squares at odd indices
+        # Since we can rearrange, we want to maximize the alternating sum
+        # The pattern is: +a^2 - b^2 + c^2 - d^2 + ...
+        # We need to assign numbers to positive (even index) and negative (odd index) positions
+        # To maximize: put largest squares in positive positions, smallest squares in negative positions
         
-        # Sort numbers by absolute value (squares are same for positive/negative)
-        nums_sorted = sorted([abs(x) for x in nums], reverse=True)
+        n = len(nums)
+        squares = [x * x for x in nums]
+        squares.sort(reverse=True)
         
-        n = len(nums_sorted)
-        res = 0
+        # Count how many positive and negative positions we have
+        num_positive = (n + 1) // 2  # Even indices: 0, 2, 4, ...
+        num_negative = n // 2  # Odd indices: 1, 3, 5, ...
         
-        # Assign largest numbers to even indices (positive contribution)
-        # and smallest numbers to odd indices (negative contribution)
-        for i in range(n):
-            if i % 2 == 0:
-                # Even index: add square
-                res += nums_sorted[i] * nums_sorted[i]
-            else:
-                # Odd index: subtract square
-                res -= nums_sorted[i] * nums_sorted[i]
+        # Assign largest squares to positive positions, smallest to negative
+        res = sum(squares[:num_positive]) - sum(squares[num_positive:])
         
         return res
-
