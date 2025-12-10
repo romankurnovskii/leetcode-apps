@@ -29,9 +29,6 @@ We sort the array first, which allows us to efficiently determine how many eleme
 5. If the number of greater elements is at least `k`, add the count of current value to the result.
 6. Move to the next distinct value and repeat.
 
-  * **Brute Force:** For each element, count how many other elements are strictly greater by comparing with all other elements. This takes O(n^2) time.
-  * **Optimized Strategy:** Sort the array first. Then for each distinct value, use binary search to find the first element strictly greater than it. The number of greater elements is `n - upper_bound_index`. This reduces the time complexity to O(n log n).
-
 **2.1 Initialization & Example Setup:**
 
 Let's use the example `nums = [3, 1, 2]`, `k = 1` to trace through the solution.
