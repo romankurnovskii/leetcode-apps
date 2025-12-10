@@ -1,32 +1,22 @@
 class Solution:
-    def numberOfPaths(self, grid: List[List[int]], k: int) -> int:
-        MOD = 10**9 + 7
-        m, n = len(grid), len(grid[0])
-        
-        # dp[i][j][r] = number of paths to (i,j) with sum % k == r
-        # Use 2D DP with k states for remainder
-        dp = [[[0] * k for _ in range(n)] for _ in range(m)]
-        
-        # Initialize starting position
-        initial_remainder = grid[0][0] % k
-        dp[0][0][initial_remainder] = 1
-        
-        for i in range(m):
-            for j in range(n):
-                current_val = grid[i][j]
-                
-                # Update from top
-                if i > 0:
-                    for r in range(k):
-                        new_remainder = (r + current_val) % k
-                        dp[i][j][new_remainder] = (dp[i][j][new_remainder] + dp[i-1][j][r]) % MOD
-                
-                # Update from left
-                if j > 0:
-                    for r in range(k):
-                        new_remainder = (r + current_val) % k
-                        dp[i][j][new_remainder] = (dp[i][j][new_remainder] + dp[i][j-1][r]) % MOD
-        
-        # Return paths to (m-1, n-1) with remainder 0
-        return dp[m-1][n-1][0]
+    def totalWaviness(self, num1: int, num2: int) -> int:
+        def get_waviness(n):
+            s = str(n)
+            if len(s) < 3:
+                return 0
 
+            waviness = 0
+            for i in range(1, len(s) - 1):
+                # Check if digit at i is a peak or valley
+                if s[i] > s[i - 1] and s[i] > s[i + 1]:
+                    waviness += 1  # Peak
+                elif s[i] < s[i - 1] and s[i] < s[i + 1]:
+                    waviness += 1  # Valley
+
+            return waviness
+
+        res = 0
+        for num in range(num1, num2 + 1):
+            res += get_waviness(num)
+
+        return res
