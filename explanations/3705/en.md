@@ -15,7 +15,6 @@
 
 The goal is to aggregate order data by customer, calculate peak hour percentages, rating statistics, and filter customers who meet all four criteria. We use SQL aggregation functions with conditional logic to compute the required metrics.
 
-![Visualization showing customer order patterns with peak hours highlighted]
 
 **1.3 Brute force vs. optimized strategy:**
 

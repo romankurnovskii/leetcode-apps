@@ -15,7 +15,6 @@
 
 The goal is to build the answer character by character, always choosing the smallest valid character at each position. We use backtracking to explore possibilities, but prune branches that cannot lead to a valid answer.
 
-![Visualization showing backtracking tree with pruning for lexicographic ordering]
 
 **1.3 Brute force vs. optimized strategy:**
 
@@ -48,14 +47,14 @@ We call `backtrack([], cnt, False)` to start building the permutation.
 
 **2.3 Trace Walkthrough:**
 
-| Step | pos | char tried | big   | path          | Action               |
-| ---- | --- | ---------- | ----- | ------------- | -------------------- |
-| 1    | 0   | 'a'        | False | ['a']         | Skip (a < 'b')       |
-| 2    | 0   | 'b'        | False | ['b']         | Continue (b == 'b')  |
-| 3    | 1   | 'a'        | False | ['b','a']     | Skip (ba < bba)      |
-| 4    | 1   | 'b'        | False | ['b','b']     | Continue (bb == bb)  |
-| 5    | 2   | 'a'        | False | ['b','b','a'] | Skip (bba not > bba) |
-| 6    | 2   | 'c'        | True  | ['b','c']     | Found! Return "bca"  |
+| Step | pos | char tried | big   | path          | Action                    |
+| ---- | --- | ---------- | ----- | ------------- | ------------------------- |
+| 1    | 0   | 'a'        | False | -             | Skip (a < 'b')            |
+| 2    | 0   | 'b'        | False | ['b']         | Continue (b == 'b')       |
+| 3    | 1   | 'a'        | False | -             | Skip (a < 'b')            |
+| 4    | 1   | 'b'        | False | -             | Skip (count=0, no more b) |
+| 5    | 1   | 'c'        | True  | ['b','c']     | Continue (c > 'b'), big=True |
+| 6    | 2   | 'a'        | True  | ['b','c','a'] | Found! Return "bca"       |
 
 At step 6, we find that "bca" > "bba", so we return it.
 

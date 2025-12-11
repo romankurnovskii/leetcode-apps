@@ -15,7 +15,6 @@
 
 The goal is to use a stack-like structure that groups consecutive characters. When we see k closing parentheses following at least k opening parentheses, we remove them. This simulates the repeated removal process efficiently.
 
-![Visualization showing stack-based removal of k-balanced substrings]
 
 **1.3 Brute force vs. optimized strategy:**
 

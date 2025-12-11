@@ -15,7 +15,6 @@
 
 The goal is to find the longest subsequence with non-zero XOR. If the entire array has non-zero XOR, we can take all elements. Otherwise, we need to remove at least one element to make the XOR non-zero.
 
-![Visualization showing XOR operation and subsequence selection]
 
 **1.3 Brute force vs. optimized strategy:**
 

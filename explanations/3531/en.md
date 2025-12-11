@@ -15,7 +15,6 @@
 
 The goal is to efficiently check for each building whether it has neighbors in all four directions. We group buildings by their x and y coordinates, then sort each group to quickly check for the existence of buildings in each direction.
 
-![Visualization showing a covered building with neighbors in all four directions]
 
 **1.3 Brute force vs. optimized strategy:**
 

@@ -10773,7 +10773,6 @@ https://leetcode.com/problems/design-exam-scores-tracker/
 
 The goal is to maintain sorted lists of times and scores, along with prefix sums for efficient range sum queries. We use binary search to find the range of indices that fall within the query time range.
 
-![Visualization showing sorted times with prefix sums for range queries]
 
 **1.3 Brute force vs. optimized strategy:**
 

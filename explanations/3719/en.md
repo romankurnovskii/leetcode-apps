@@ -15,7 +15,6 @@
 
 The goal is to check all possible subarrays and find the longest one where distinct even numbers equal distinct odd numbers. We use sets to efficiently track distinct values as we extend subarrays.
 
-![Visualization showing subarray with balanced distinct even and odd numbers]
 
 **1.3 Brute force vs. optimized strategy:**
 

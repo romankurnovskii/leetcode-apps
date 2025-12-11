@@ -15,7 +15,6 @@
 
 The goal is to use prefix sums to efficiently find substrings where character frequencies are balanced. For a balanced substring S[i:j], the differences in prefix counts must be equal. We use hash maps to track the first occurrence of each (difference pattern, remaining count) combination.
 
-![Visualization showing prefix sum differences for balanced substrings]
 
 **1.3 Brute force vs. optimized strategy:**
 

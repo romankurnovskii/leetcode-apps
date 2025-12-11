@@ -15,7 +15,6 @@
 
 The goal is to choose which element from nums1 to append, then minimize the total adjustment cost. For the chosen element, it must match both its original position in nums2 and the last position in nums2. We find the optimal value (median) that minimizes the total adjustment for this element.
 
-![Visualization showing transformation with one element being appended and adjusted]
 
 **1.3 Brute force vs. optimized strategy:**
 
@@ -50,8 +49,8 @@ We try each possible position j to append.
 
 | Step | j   | nums1[j] | nums2[j] | last_target | current | median | adjust_cost | total | res |
 | ---- | --- | -------- | -------- | ----------- | ------- | ------ | ----------- | ----- | --- |
-| 1    | 0   | 2        | 1        | 3           | 2-1=1   | 2      |             | 2-2   | +   | 1-2 | + | 3-2 | =2 | 1+2+1=4  | 4 |
-| 2    | 1   | 8        | 7        | 3           | 2-1=1   | 7      |             | 8-7   | +   | 7-7 | + | 3-7 | =8 | 1+8+1=10 | 4 |
+| 1    | 0   | 2        | 1        | 3           | 2-1=1   | 2      | abs(2-2)+abs(1-2)+abs(3-2)=2 | 1+2+1=4  | 4 |
+| 2    | 1   | 8        | 7        | 3           | 2-1=1   | 7      | abs(8-7)+abs(7-7)+abs(3-7)=8 | 1+8+1=10 | 4 |
 
 At step 1, we find the optimal cost is 4: adjust 2 to 2 (median), then adjust to 1 at position 0 and 3 at the end.
 

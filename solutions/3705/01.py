@@ -10,8 +10,8 @@ WITH customer_stats AS (
         COUNT(*) AS total_orders,
         SUM(
             CASE 
-                WHEN HOUR(order_timestamp) BETWEEN 11 AND 13 
-                     OR HOUR(order_timestamp) BETWEEN 18 AND 20 
+                WHEN TIME(order_timestamp) BETWEEN '11:00:00' AND '14:00:00'
+                     OR TIME(order_timestamp) BETWEEN '18:00:00' AND '21:00:00'
                 THEN 1 
                 ELSE 0 
             END
@@ -26,8 +26,8 @@ WITH customer_stats AS (
         COUNT(*) >= 3
         AND SUM(
             CASE 
-                WHEN HOUR(order_timestamp) BETWEEN 11 AND 13 
-                     OR HOUR(order_timestamp) BETWEEN 18 AND 20 
+                WHEN TIME(order_timestamp) BETWEEN '11:00:00' AND '14:00:00'
+                     OR TIME(order_timestamp) BETWEEN '18:00:00' AND '21:00:00'
                 THEN 1 
                 ELSE 0 
             END

@@ -15,7 +15,6 @@
 
 The goal is to scan through the array and track the longest contiguous sequence that follows the Fibonacci property. We maintain a running length and extend it when the current element equals the sum of the previous two.
 
-![Visualization showing Fibonacci subarray with each element being the sum of previous two]
 
 **1.3 Brute force vs. optimized strategy:**
 

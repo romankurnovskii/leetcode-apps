@@ -8,14 +8,13 @@
 
 * **Input Size:** The string `s` can have up to 1000 characters, consisting of lowercase English letters.
 * **Time Complexity:** O(n^2) - We check all possible substrings by fixing start and end positions, and use a Counter to track character frequencies in O(1) per operation.
-* **Space Complexity:** O(n) - In the worst case, we store up to 26 distinct characters in the Counter.
+* **Space Complexity:** O(1) - The Counter can hold at most 26 distinct characters (lowercase English letters), regardless of string length.
 * **Edge Case:** If all characters are the same, the entire string is balanced with length n.
 
 **1.2 High-level approach:**
 
 The goal is to check all possible substrings and find the longest one where all distinct characters have equal frequency. We use a Counter to track character counts as we extend substrings.
 
-![Visualization showing balanced substring with equal character frequencies]
 
 **1.3 Brute force vs. optimized strategy:**
 
