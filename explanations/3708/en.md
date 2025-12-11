@@ -48,14 +48,14 @@ We iterate from index 2 onwards, checking if each element extends the Fibonacci 
 
 **2.3 Trace Walkthrough:**
 
-| Step | i | nums[i] | nums[i-1]+nums[i-2] | Match? | current_length | res |
-|------|---|---------|---------------------|--------|----------------|-----|
-| 1    | 2 | 1       | 1+1=2               | No     | 2              | 2   |
-| 2    | 3 | 1       | 1+1=2               | No     | 2              | 2   |
-| 3    | 4 | 2       | 1+1=2               | Yes    | 3              | 2   |
-| 4    | 5 | 3       | 2+1=3               | Yes    | 4              | 2   |
-| 5    | 6 | 5       | 3+2=5               | Yes    | 5              | 2   |
-| 6    | 7 | 1       | 5+3=8               | No     | 2              | 5   |
+| Step | i   | nums[i] | nums[i-1]+nums[i-2] | Match? | current_length | res |
+| ---- | --- | ------- | ------------------- | ------ | -------------- | --- |
+| 1    | 2   | 1       | 1+1=2               | No     | 2              | 2   |
+| 2    | 3   | 1       | 1+1=2               | No     | 2              | 2   |
+| 3    | 4   | 2       | 1+1=2               | Yes    | 3              | 2   |
+| 4    | 5   | 3       | 2+1=3               | Yes    | 4              | 2   |
+| 5    | 6   | 5       | 3+2=5               | Yes    | 5              | 2   |
+| 6    | 7   | 1       | 5+3=8               | No     | 2              | 5   |
 
 At step 5, we find the longest Fibonacci subarray [1, 1, 2, 3, 5] with length 5.
 

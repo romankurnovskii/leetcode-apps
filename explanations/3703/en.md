@@ -46,10 +46,10 @@ We process each character in the string, grouping consecutive characters.
 
 **2.3 Trace Walkthrough:**
 
-| Step | char | st before | st after | Action |
-|------|------|-----------|----------|--------|
-| 1    | '('  | []        | [['(',1]] | Add new group |
-| 2    | '('  | [['(',1]] | [['(',2]] | Increment count |
+| Step | char | st before | st after          | Action                                                |
+| ---- | ---- | --------- | ----------------- | ----------------------------------------------------- |
+| 1    | '('  | []        | [['(',1]]         | Add new group                                         |
+| 2    | '('  | [['(',1]] | [['(',2]]         | Increment count                                       |
 | 3    | ')'  | [['(',2]] | [['(',2],[')',1]] | Add new group, check: remove k=1 from '(', remove ')' |
 | 4    | ')'  | [['(',1]] | [['(',1],[')',1]] | Add new group, check: remove k=1 from '(', remove ')' |
 

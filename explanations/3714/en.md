@@ -48,14 +48,14 @@ We iterate through each prefix position i from 0 to n.
 
 **2.3 Trace Walkthrough:**
 
-| Step | i | (a,b,c) | Case | Key | Check first | res |
-|------|---|---------|------|-----|-------------|-----|
-| 1    | 0 | (0,0,0) | All  | ("abc",0,0) | i=0 stored | 0   |
-| 2    | 1 | (1,0,0) | All  | ("abc",1,1) | i=1 stored | 0   |
-| 3    | 2 | (1,1,0) | All  | ("abc",0,1) | i=2 stored | 0   |
-| 4    | 3 | (1,2,0) | All  | ("abc",-1,1) | i=3 stored | 0   |
-| 5    | 4 | (2,2,0) | All  | ("abc",0,2) | Found i=2 | 2   |
-| 6    | 4 | (2,2,0) | ab   | ("ab",0,0) | Found i=0 | 4   |
+| Step | i   | (a,b,c) | Case | Key          | Check first | res |
+| ---- | --- | ------- | ---- | ------------ | ----------- | --- |
+| 1    | 0   | (0,0,0) | All  | ("abc",0,0)  | i=0 stored  | 0   |
+| 2    | 1   | (1,0,0) | All  | ("abc",1,1)  | i=1 stored  | 0   |
+| 3    | 2   | (1,1,0) | All  | ("abc",0,1)  | i=2 stored  | 0   |
+| 4    | 3   | (1,2,0) | All  | ("abc",-1,1) | i=3 stored  | 0   |
+| 5    | 4   | (2,2,0) | All  | ("abc",0,2)  | Found i=2   | 2   |
+| 6    | 4   | (2,2,0) | ab   | ("ab",0,0)   | Found i=0   | 4   |
 
 At step 6, we find that positions 0 and 4 have the same (a-b, c) = (0, 0), meaning substring s[0:4] = "abba" is balanced for 'a' and 'b'.
 

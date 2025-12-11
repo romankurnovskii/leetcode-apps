@@ -48,14 +48,14 @@ We call `backtrack([], cnt, False)` to start building the permutation.
 
 **2.3 Trace Walkthrough:**
 
-| Step | pos | char tried | big | path | Action |
-|------|-----|------------|-----|------|--------|
-| 1    | 0   | 'a'        | False | ['a'] | Skip (a < 'b') |
-| 2    | 0   | 'b'        | False | ['b'] | Continue (b == 'b') |
-| 3    | 1   | 'a'        | False | ['b','a'] | Skip (ba < bba) |
-| 4    | 1   | 'b'        | False | ['b','b'] | Continue (bb == bb) |
+| Step | pos | char tried | big   | path          | Action               |
+| ---- | --- | ---------- | ----- | ------------- | -------------------- |
+| 1    | 0   | 'a'        | False | ['a']         | Skip (a < 'b')       |
+| 2    | 0   | 'b'        | False | ['b']         | Continue (b == 'b')  |
+| 3    | 1   | 'a'        | False | ['b','a']     | Skip (ba < bba)      |
+| 4    | 1   | 'b'        | False | ['b','b']     | Continue (bb == bb)  |
 | 5    | 2   | 'a'        | False | ['b','b','a'] | Skip (bba not > bba) |
-| 6    | 2   | 'c'        | True  | ['b','c'] | Found! Return "bca" |
+| 6    | 2   | 'c'        | True  | ['b','c']     | Found! Return "bca"  |
 
 At step 6, we find that "bca" > "bba", so we return it.
 

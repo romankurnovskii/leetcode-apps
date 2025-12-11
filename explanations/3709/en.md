@@ -52,11 +52,11 @@ We record exams and update our data structures.
 
 **2.3 Trace Walkthrough:**
 
-| Step | Operation | times | scores | prefix_sum | Result |
-|------|-----------|-------|--------|------------|--------|
-| 1    | record(1,98) | [1] | [98] | [0,98] | - |
-| 2    | totalScore(1,1) | [1] | [98] | [0,98] | 98 (prefix_sum[1]-prefix_sum[0]) |
-| 3    | record(5,99) | [1,5] | [98,99] | [0,98,197] | - |
+| Step | Operation       | times | scores  | prefix_sum | Result                            |
+| ---- | --------------- | ----- | ------- | ---------- | --------------------------------- |
+| 1    | record(1,98)    | [1]   | [98]    | [0,98]     | -                                 |
+| 2    | totalScore(1,1) | [1]   | [98]    | [0,98]     | 98 (prefix_sum[1]-prefix_sum[0])  |
+| 3    | record(5,99)    | [1,5] | [98,99] | [0,98,197] | -                                 |
 | 4    | totalScore(1,5) | [1,5] | [98,99] | [0,98,197] | 197 (prefix_sum[2]-prefix_sum[0]) |
 
 At step 4, binary search finds left=0 (first time >= 1) and right=2 (first time > 5), so we return prefix_sum[2] - prefix_sum[0] = 197.

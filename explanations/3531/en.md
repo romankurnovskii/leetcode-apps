@@ -48,13 +48,13 @@ We check each building to see if it's covered.
 
 **2.3 Trace Walkthrough:**
 
-| Step | Building | x-group | y-group | Above? | Below? | Left? | Right? | Covered? |
-|------|----------|---------|---------|--------|--------|-------|--------|----------|
-| 1    | [1,2]    | [2]     | [1,2,3] | No (min=2) | No (max=2) | No (min=1) | Yes (max=3) | No |
-| 2    | [2,2]    | [1,2,3] | [1,2,3] | Yes (min=1<2) | Yes (max=3>2) | Yes (min=1<2) | Yes (max=3>2) | Yes |
-| 3    | [3,2]    | [2]     | [1,2,3] | No (min=2) | No (max=2) | Yes (min=1<3) | No (max=3) | No |
-| 4    | [2,1]    | [1,2,3] | [2]     | No (min=1) | Yes (max=3>1) | No (min=2) | No (max=2) | No |
-| 5    | [2,3]    | [1,2,3] | [2]     | Yes (min=1<3) | No (max=3) | No (min=2) | No (max=2) | No |
+| Step | Building | x-group | y-group | Above?        | Below?        | Left?         | Right?        | Covered? |
+| ---- | -------- | ------- | ------- | ------------- | ------------- | ------------- | ------------- | -------- |
+| 1    | [1,2]    | [2]     | [1,2,3] | No (min=2)    | No (max=2)    | No (min=1)    | Yes (max=3)   | No       |
+| 2    | [2,2]    | [1,2,3] | [1,2,3] | Yes (min=1<2) | Yes (max=3>2) | Yes (min=1<2) | Yes (max=3>2) | Yes      |
+| 3    | [3,2]    | [2]     | [1,2,3] | No (min=2)    | No (max=2)    | Yes (min=1<3) | No (max=3)    | No       |
+| 4    | [2,1]    | [1,2,3] | [2]     | No (min=1)    | Yes (max=3>1) | No (min=2)    | No (max=2)    | No       |
+| 5    | [2,3]    | [1,2,3] | [2]     | Yes (min=1<3) | No (max=3)    | No (min=2)    | No (max=2)    | No       |
 
 At step 2, building [2,2] is covered because it has buildings in all four directions.
 

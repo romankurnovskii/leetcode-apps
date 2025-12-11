@@ -47,13 +47,13 @@ We iterate through each starting position i from 0 to n-1.
 
 **2.3 Trace Walkthrough:**
 
-| Step | i | j | s[j] | char_count | distinct_chars | counts | Balanced? | res |
-|------|---|---|------|------------|----------------|--------|-----------|-----|
-| 1    | 0 | 0 | 'a'  | {a:1}      | ['a']          | [1]    | Yes       | 1   |
-| 2    | 0 | 1 | 'b'  | {a:1,b:1}  | ['a','b']      | [1,1]  | Yes       | 2   |
-| 3    | 0 | 2 | 'b'  | {a:1,b:2}  | ['a','b']      | [1,2]  | No        | 2   |
-| 4    | 0 | 3 | 'a'  | {a:2,b:2}  | ['a','b']      | [2,2]  | Yes       | 4   |
-| 5    | 0 | 4 | 'c'  | {a:2,b:2,c:1} | ['a','b','c'] | [2,2,1] | No        | 4   |
+| Step | i   | j   | s[j] | char_count    | distinct_chars | counts  | Balanced? | res |
+| ---- | --- | --- | ---- | ------------- | -------------- | ------- | --------- | --- |
+| 1    | 0   | 0   | 'a'  | {a:1}         | ['a']          | [1]     | Yes       | 1   |
+| 2    | 0   | 1   | 'b'  | {a:1,b:1}     | ['a','b']      | [1,1]   | Yes       | 2   |
+| 3    | 0   | 2   | 'b'  | {a:1,b:2}     | ['a','b']      | [1,2]   | No        | 2   |
+| 4    | 0   | 3   | 'a'  | {a:2,b:2}     | ['a','b']      | [2,2]   | Yes       | 4   |
+| 5    | 0   | 4   | 'c'  | {a:2,b:2,c:1} | ['a','b','c']  | [2,2,1] | No        | 4   |
 
 At step 4, we find the longest balanced substring "abba" with length 4, where both 'a' and 'b' appear twice.
 

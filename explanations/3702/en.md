@@ -47,11 +47,11 @@ We calculate the XOR of all elements: `total_xor = 1 XOR 2 XOR 3 = 0`.
 
 **2.3 Trace Walkthrough:**
 
-| Step | Action | total_xor | Result |
-|------|--------|-----------|--------|
-| 1    | Calculate total XOR | 1 XOR 2 XOR 3 = 0 | - |
-| 2    | Check if non-zero | 0 (zero) | Try removing elements |
-| 3    | Remove nums[0]=1 | 0 XOR 1 = 1 | Found! Return 2 |
+| Step | Action              | total_xor         | Result                |
+| ---- | ------------------- | ----------------- | --------------------- |
+| 1    | Calculate total XOR | 1 XOR 2 XOR 3 = 0 | -                     |
+| 2    | Check if non-zero   | 0 (zero)          | Try removing elements |
+| 3    | Remove nums[0]=1    | 0 XOR 1 = 1       | Found! Return 2       |
 
 At step 3, we find that removing element 1 gives XOR = 1 (non-zero), so we return n-1 = 2.
 
