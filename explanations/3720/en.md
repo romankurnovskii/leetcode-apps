@@ -47,14 +47,14 @@ We call `backtrack([], cnt, False)` to start building the permutation.
 
 **2.3 Trace Walkthrough:**
 
-| Step | pos | char tried | big   | path          | Action                    |
-| ---- | --- | ---------- | ----- | ------------- | ------------------------- |
-| 1    | 0   | 'a'        | False | -             | Skip (a < 'b')            |
-| 2    | 0   | 'b'        | False | ['b']         | Continue (b == 'b')       |
-| 3    | 1   | 'a'        | False | -             | Skip (a < 'b')            |
-| 4    | 1   | 'b'        | False | -             | Skip (count=0, no more b) |
+| Step | pos | char tried | big   | path          | Action                       |
+| ---- | --- | ---------- | ----- | ------------- | ---------------------------- |
+| 1    | 0   | 'a'        | False | -             | Skip (a < 'b')               |
+| 2    | 0   | 'b'        | False | ['b']         | Continue (b == 'b')          |
+| 3    | 1   | 'a'        | False | -             | Skip (a < 'b')               |
+| 4    | 1   | 'b'        | False | -             | Skip (count=0, no more b)    |
 | 5    | 1   | 'c'        | True  | ['b','c']     | Continue (c > 'b'), big=True |
-| 6    | 2   | 'a'        | True  | ['b','c','a'] | Found! Return "bca"       |
+| 6    | 2   | 'a'        | True  | ['b','c','a'] | Found! Return "bca"          |
 
 At step 6, we find that "bca" > "bba", so we return it.
 

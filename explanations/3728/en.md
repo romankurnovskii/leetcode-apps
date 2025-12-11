@@ -47,13 +47,13 @@ We iterate through each position r from 0 to n-1, processing it as a potential r
 
 **2.3 Trace Walkthrough:**
 
-| Step | r   | capacity[r] | Add to map? | required_prefix | Check map | res |
-| ---- | --- | ----------- | ----------- | ---------------- | --------- | --- |
-| 0    | 0   | 9           | No (r < 2)  | -                | -         | 0   |
-| 1    | 1   | 3           | No (r < 2)  | -                | -         | 0   |
-| 2    | 2   | 3           | Yes (l=0)   | prefix[2]-3=12-3=9 | (3, 9)? | 0   |
-| 3    | 3   | 3           | Yes (l=1)   | prefix[3]-3=15-3=12 | (3, 12)? | 1   |
-| 4    | 4   | 9           | Yes (l=2)   | prefix[4]-9=18-9=9 | (9, 9)? | 2   |
+| Step | r   | capacity[r] | Add to map? | required_prefix     | Check map | res |
+| ---- | --- | ----------- | ----------- | ------------------- | --------- | --- |
+| 0    | 0   | 9           | No (r < 2)  | -                   | -         | 0   |
+| 1    | 1   | 3           | No (r < 2)  | -                   | -         | 0   |
+| 2    | 2   | 3           | Yes (l=0)   | prefix[2]-3=12-3=9  | (3, 9)?   | 0   |
+| 3    | 3   | 3           | Yes (l=1)   | prefix[3]-3=15-3=12 | (3, 12)?  | 1   |
+| 4    | 4   | 9           | Yes (l=2)   | prefix[4]-9=18-9=9  | (9, 9)?   | 2   |
 
 At step 3, we find that capacity[1] = 3 and prefix[2] = 12, which matches (3, 12). The subarray [1, 3] = [3, 3, 3] is stable: 3 == 3 and 3 == 3 (sum of middle elements).
 

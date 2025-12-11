@@ -46,7 +46,7 @@ We create a CTE (Common Table Expression) to calculate customer statistics.
 **2.3 Trace Walkthrough:**
 
 | Customer | total_orders | peak_hour_orders | rated_orders | avg_rating | Meets criteria? |
-|----------|--------------|------------------|--------------|------------|-----------------|
+| -------- | ------------ | ---------------- | ------------ | ---------- | --------------- |
 | 101      | 4            | 4                | 3            | 4.67       | Yes (all 4)     |
 | 102      | 3            | 2                | 2            | 3.5        | No (rating < 4) |
 | 103      | 3            | 3                | 3            | 4.67       | Yes (all 4)     |
