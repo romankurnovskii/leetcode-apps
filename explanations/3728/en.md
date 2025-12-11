@@ -2,64 +2,67 @@
 
 ### Strategy (The "Why")
 
+**Restate the problem:** We need to count subarrays where the first and last elements are equal, and both equal the sum of all elements strictly between them. The subarray must have at least 3 elements.
+
 **1.1 Constraints & Complexity:**
 
-- **Constraints:** $3 \leq n \leq 10^5$ elements. Values are in the range $[-10^9, 10^9]$.
-- **Time Complexity:** $O(n)$ where $n$ is the array length. We make a single pass through the array.
-- **Space Complexity:** $O(n)$ for the prefix sum array and hash map.
-- **Edge Case:** If no stable subarray exists, return 0.
+* **Input Size:** The array `capacity` can have up to 10^5 elements, and values can range from -10^9 to 10^9.
+* **Time Complexity:** O(n) - We iterate through the array once, building prefix sums and using a hash map for O(1) lookups.
+* **Space Complexity:** O(n) - We store prefix sums in an array of size n+1, and a hash map that can store up to n entries.
+* **Edge Case:** If no subarray satisfies the condition (e.g., all elements are different), we return 0.
 
 **1.2 High-level approach:**
 
-The goal is to count subarrays where the first and last elements are equal, and each equals the sum of elements strictly between them. Using prefix sums, the condition becomes: `capacity[l] == capacity[r]` and `capacity[l] == prefix[r] - prefix[l+1]`, which rearranges to `prefix[l+1] == prefix[r] - capacity[r]`.
+The goal is to efficiently find all subarrays [l, r] where capacity[l] == capacity[r] and capacity[l] equals the sum of elements between l and r. We use prefix sums to quickly calculate interval sums, and a hash map to count matching left endpoints for each right endpoint.
+
 
 **1.3 Brute force vs. optimized strategy:**
 
-- **Brute Force:** Check all subarrays of length $\geq 3$ and verify the condition. This is $O(n^3)$ time.
-- **Optimized Strategy:** Use prefix sums and a hash map. For each right endpoint $r$, count how many previous indices $l$ satisfy both conditions. This is $O(n)$ time.
-- **Why optimized is better:** The hash map allows us to quickly look up valid left endpoints, avoiding nested loops.
+* **Brute Force:** Check all possible subarrays by fixing start and end positions, then verify the conditions. This is O(n^2) time.
+* **Optimized (Prefix Sum + Hash Map):** For each right endpoint r, we calculate the required prefix sum for a valid left endpoint. We use a hash map to count how many previous left endpoints match both the value and prefix sum requirements. This is O(n) time.
+* **Why it's better:** By using prefix sums and hash maps, we avoid recalculating sums and can count valid pairs in O(1) time per right endpoint.
 
 **1.4 Decomposition:**
 
-1. Compute prefix sums: `prefix[i] = sum(capacity[0:i])`.
-2. Use a hash map: key is `(value, prefix_sum)`, value is count.
-3. For each right endpoint $r$:
-   - Count matches: look for `(capacity[r], prefix[r] - capacity[r])` in the map.
-   - Update map: add `(capacity[r], prefix[r])` for future matches.
-4. Return total count.
+1. Build a prefix sum array where prefix[i] represents the sum of elements from index 0 to i-1.
+2. For each right endpoint r, calculate the required prefix sum for a valid left endpoint.
+3. Before counting, add the left endpoint r-2 to our hash map (ensuring subarray length >= 3).
+4. Count how many previous left endpoints match both the value and prefix sum requirements.
+5. Return the total count of stable subarrays.
 
 ### Steps (The "How")
 
 **2.1 Initialization & Example Setup:**
 
-Let's use the example: `capacity = [9,3,3,3,9]`
+Let's use the example: `capacity = [9, 3, 3, 3, 9]`
 
-We compute prefix sums: `prefix = [0,9,12,15,18,27]`
+We initialize:
+* `prefix = [0, 9, 12, 15, 18, 27]` (prefix sums)
+* `res = 0` (result counter)
+* `count_map = {}` (hash map to track (value, prefix_sum) pairs)
 
 **2.2 Start Checking:**
 
-We process each position as a right endpoint and count valid left endpoints.
+We iterate through each position r from 0 to n-1, processing it as a potential right endpoint.
 
 **2.3 Trace Walkthrough:**
 
-| r | capacity[r] | prefix[r] | target_prefix | Check map | Count | Update map |
-|---|--------------|-----------|---------------|-----------|-------|------------|
-| 0 | 9 | 9 | 9-9=0 | {} | 0 | {(9,9): 1} |
-| 1 | 3 | 12 | 12-3=9 | {(9,9): 1} | 0 | {(9,9): 1, (3,12): 1} |
-| 2 | 3 | 15 | 15-3=12 | {(9,9): 1, (3,12): 1} | 1 | {(9,9): 1, (3,12): 1, (3,15): 1} |
-| 3 | 3 | 18 | 18-3=15 | {(9,9): 1, (3,12): 1, (3,15): 1} | 1 | {(9,9): 1, (3,12): 1, (3,15): 1, (3,18): 1} |
-| 4 | 9 | 27 | 27-9=18 | {(9,9): 1, (3,12): 1, (3,15): 1, (3,18): 1} | 0 | {(9,9): 1, (3,12): 1, (3,15): 1, (3,18): 1, (9,27): 1} |
+| Step | r   | capacity[r] | Add to map? | required_prefix     | Check map | res |
+| ---- | --- | ----------- | ----------- | ------------------- | --------- | --- |
+| 0    | 0   | 9           | No (r < 2)  | -                   | -         | 0   |
+| 1    | 1   | 3           | No (r < 2)  | -                   | -         | 0   |
+| 2    | 2   | 3           | Yes (l=0)   | prefix[2]-3=12-3=9  | (3, 9)?   | 0   |
+| 3    | 3   | 3           | Yes (l=1)   | prefix[3]-3=15-3=12 | (3, 12)?  | 1   |
+| 4    | 4   | 9           | Yes (l=2)   | prefix[4]-9=18-9=9  | (9, 9)?   | 2   |
 
-Total count: 2 (subarrays [3,3,3] and [9,3,3,3,9])
+At step 3, we find that capacity[1] = 3 and prefix[2] = 12, which matches (3, 12). The subarray [1, 3] = [3, 3, 3] is stable: 3 == 3 and 3 == 3 (sum of middle elements).
+
+At step 4, we find that capacity[0] = 9 and prefix[1] = 9, which matches (9, 9). The subarray [0, 4] = [9, 3, 3, 3, 9] is stable: 9 == 9 and 9 == 3+3+3.
 
 **2.4 Increment and Loop:**
 
-For each index $r$:
-- Calculate `target_prefix = prefix[r] - capacity[r]`
-- Look up `(capacity[r], target_prefix)` in the map and add to count
-- Update map: `map[(capacity[r], prefix[r])] += 1`
+For each r >= 2, we add index r-2 to the map with key (capacity[r-2], prefix[r-1]), then check if any previous left endpoint matches our requirements.
 
 **2.5 Return Result:**
 
-After processing all positions, we return the total count of stable subarrays. For the example, we get 2 stable subarrays.
-
+After processing all positions, we return `res = 2`, representing the two stable subarrays: [3, 3, 3] (found at step 3) and [9, 3, 3, 3, 9] (found at step 4).
