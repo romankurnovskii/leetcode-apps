@@ -12,8 +12,6 @@
 **High-level approach**
 The maximum possible bitwise OR is achieved by taking the OR of all elements. We generate all non-empty subsets and count how many have this maximum OR value.
 
-![Visualization showing subsets and their bitwise OR values]
-
 **Brute force vs. optimized strategy**
 
   * **Brute Force:** Generate all subsets using bitmasks and check their OR values - this is what we do, and it's efficient for n ≤ 16.

@@ -12,8 +12,6 @@
 **High-level approach**
 We perform a post-order DFS traversal. For each node, we calculate the sum and count of its subtree, compute the average, and check if the node's value equals this average.
 
-![Binary tree showing subtree sums and averages at each node]
-
 **Brute force vs. optimized strategy**
 
   * **Brute Force:** For each node, separately calculate subtree sum and count - but this would cause redundant calculations.

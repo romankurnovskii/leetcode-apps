@@ -12,8 +12,6 @@
 **High-level approach**
 We traverse the linked list and insert a new node between each pair of adjacent nodes. The value of the inserted node is the greatest common divisor (GCD) of the two adjacent node values.
 
-![Linked list with GCD nodes inserted between adjacent nodes]
-
 **Brute force vs. optimized strategy**
 
   * **Brute Force:** Calculate GCD for each pair using Euclidean algorithm - this is already optimal.

@@ -12,8 +12,6 @@
 **High-level approach**
 We need to validate coupons based on three conditions: code format, business line validity, and active status. Valid coupons are then sorted by business line priority and code name.
 
-![Coupon validation process showing filtering and sorting steps]
-
 **Brute force vs. optimized strategy**
 
   * **Brute Force:** Check each coupon individually and sort the entire result set at the end. This is what we're doing, and it's efficient for the given constraints.

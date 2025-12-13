@@ -12,8 +12,6 @@
 **High-level approach**
 We use a deque (double-ended queue) to maintain indices of elements in decreasing order. As we slide the window, we remove indices outside the window and indices whose values are smaller than the current element.
 
-![Sliding window with deque maintaining maximum elements]
-
 **Brute force vs. optimized strategy**
 
   * **Brute Force:** For each window position, scan all k elements to find the maximum. This is O(n*k).

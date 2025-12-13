@@ -12,8 +12,6 @@
 **High-level approach**
 We perform a reverse inorder traversal (right, root, left) of the BST. This visits nodes in descending order. As we traverse, we accumulate the sum of all values we've seen and update each node's value to be the sum of itself and all greater values.
 
-![BST with reverse inorder traversal showing cumulative sum updates]
-
 **Brute force vs. optimized strategy**
 
   * **Brute Force:** Collect all values, sort them, and update nodes - but this requires extra space.

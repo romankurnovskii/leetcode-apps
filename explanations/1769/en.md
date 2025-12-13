@@ -12,8 +12,6 @@
 **High-level approach**
 For each target position, we calculate the total number of operations needed to move all balls from their current positions to that target. Each ball requires `abs(target_position - current_position)` operations to move.
 
-![Visualization showing balls moving from their positions to a target box]
-
 **Brute force vs. optimized strategy**
 
   * **Brute Force:** For each position, iterate through all boxes and sum the distances. This is O(n²) which is acceptable for n ≤ 2000.

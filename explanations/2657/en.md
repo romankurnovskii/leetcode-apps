@@ -12,8 +12,6 @@
 **High-level approach**
 For each prefix position i, we maintain sets of elements seen so far in both arrays. The number of common elements at position i is the size of the intersection of these two sets.
 
-![Prefix arrays showing common elements at each position]
-
 **Brute force vs. optimized strategy**
 
   * **Brute Force:** For each prefix, check all elements in both arrays up to that position - this is what we do, and it's efficient.

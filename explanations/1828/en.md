@@ -12,8 +12,6 @@
 **High-level approach**
 For each query circle, we check all points to see if they're inside the circle. A point is inside if the distance from the point to the circle center is less than or equal to the radius.
 
-![Circle with points inside and outside, showing distance calculations]
-
 **Brute force vs. optimized strategy**
 
   * **Brute Force:** For each query, check all points - this is O(q * p) which is acceptable for the given constraints.

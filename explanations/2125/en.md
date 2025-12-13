@@ -12,8 +12,6 @@
 **High-level approach**
 We count security devices in each row, skip empty rows, and calculate beams between adjacent non-empty rows. The number of beams between two rows equals the product of device counts in those rows.
 
-![Bank floor plan showing laser beams between security devices in different rows]
-
 **Brute force vs. optimized strategy**
 
   * **Brute Force:** For each device pair, check if there's a clear path - this is O(m² * n²).

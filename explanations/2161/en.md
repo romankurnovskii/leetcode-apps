@@ -12,8 +12,6 @@
 **High-level approach**
 We partition the array into three groups: elements less than pivot, elements equal to pivot, and elements greater than pivot. We maintain the relative order within each group, then combine them.
 
-![Array partitioning into three groups: less, equal, greater than pivot]
-
 **Brute force vs. optimized strategy**
 
   * **Brute Force:** Sort the array - but this doesn't maintain relative order of elements within groups.

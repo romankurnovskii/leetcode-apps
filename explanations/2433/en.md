@@ -12,8 +12,6 @@
 **High-level approach**
 Given that `pref[i] = arr[0] ^ arr[1] ^ ... ^ arr[i]`, we can recover `arr[i]` using the property that `pref[i] = pref[i-1] ^ arr[i]`, which means `arr[i] = pref[i] ^ pref[i-1]`.
 
-![XOR prefix array showing how to recover original values]
-
 **Brute force vs. optimized strategy**
 
   * **Brute Force:** Try all possible values for each position - this is exponential and inefficient.

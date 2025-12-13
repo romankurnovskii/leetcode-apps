@@ -12,8 +12,6 @@
 **High-level approach**
 We traverse the linked list, summing values between consecutive zero nodes. Each sum becomes a new node in the result list, and we skip the zero nodes.
 
-![Linked list showing nodes between zeros being merged into single nodes]
-
 **Brute force vs. optimized strategy**
 
   * **Brute Force:** Create a new list by collecting values between zeros - this is what we do, and it's optimal.

@@ -1,14 +1,25 @@
-class Solution:
-    def debounce(self, fn: 'Callable', t: int) -> 'Callable':
-        timeout_id = None
+# NOTE: This problem only accepts JavaScript solutions on LeetCode.
+# Below is the JavaScript solution:
+
+"""
+/**
+ * @param {Function} fn
+ * @param {number} t
+ * @return {Function}
+ */
+var debounce = function(fn, t) {
+    let timeoutId = null;
+    
+    return function(...args) {
+        // Clear any existing timeout
+        if (timeoutId !== null) {
+            clearTimeout(timeoutId);
+        }
         
-        def debounced(*args):
-            nonlocal timeout_id
-            # Clear any existing timeout
-            if timeout_id is not None:
-                clearTimeout(timeout_id)
-            
-            # Set new timeout
-            timeout_id = setTimeout(lambda: fn(*args), t)
-        
-        return debounced
+        // Set new timeout
+        timeoutId = setTimeout(() => {
+            fn(...args);
+        }, t);
+    };
+};
+"""
