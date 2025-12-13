@@ -1,18 +1,31 @@
 from typing import List
 
-
-def validateCoupons(
-    code: List[str], businessLine: List[str], isActive: List[bool]
-) -> List[str]:
-    allowed_lines = ["electronics", "grocery", "pharmacy", "restaurant"]
-    priority = {line: i for i, line in enumerate(allowed_lines)}
-
-    def is_valid_code(s):
-        return s and all(c.isalnum() or c == "_" for c in s)
-
-    valid = []
-    for c, b, a in zip(code, businessLine, isActive):
-        if is_valid_code(c) and b in allowed_lines and a:
-            valid.append((priority[b], b, c))
-    valid.sort()  # sorts by businessLine priority, then code lex
-    return [c for _, _, c in valid]
+class Solution:
+    def validateCoupons(self, code: List[str], businessLine: List[str], isActive: List[bool]) -> List[str]:
+        # Valid business lines in priority order
+        valid_business_lines = ["electronics", "grocery", "pharmacy", "restaurant"]
+        priority = {line: i for i, line in enumerate(valid_business_lines)}
+        
+        res = []
+        
+        for i in range(len(code)):
+            # Check if coupon is active
+            if not isActive[i]:
+                continue
+            
+            # Check if code is non-empty and contains only alphanumeric and underscore
+            if not code[i] or not all(c.isalnum() or c == '_' for c in code[i]):
+                continue
+            
+            # Check if business line is valid
+            if businessLine[i] not in priority:
+                continue
+            
+            # Coupon is valid, add to result with priority info for sorting
+            res.append((priority[businessLine[i]], code[i]))
+        
+        # Sort by business line priority, then by code lexicographically
+        res.sort()
+        
+        # Return only the codes
+        return [code for _, code in res]

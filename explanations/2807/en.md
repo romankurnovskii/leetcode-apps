@@ -1,47 +1,51 @@
 ## Explanation
 
-### Strategy (The "Why")
+### Strategy
 
-**1.1 Constraints & Complexity:**
-- **Input Size:** `1 <= nodes <= 5000`, `1 <= Node.val <= 1000`.
-- **Time Complexity:** O(n) where n is the number of nodes - we visit each node once.
-- **Space Complexity:** O(1) - we only create new nodes, no additional data structures.
-- **Edge Case:** Single node list, no insertion needed.
+**Constraints & Edge Cases**
 
-**1.2 High-level approach:**
-The goal is to insert a new node between every pair of adjacent nodes, where the new node's value is the GCD of the two adjacent nodes' values. We traverse the list and insert nodes as we go.
+  * **Input Size:** The number of nodes is in the range `[1, 5000]`, and node values are between 1 and 1000.
+  * **Time Complexity:** O(n * log(max_val)) - We iterate through n-1 pairs of adjacent nodes, and calculating GCD takes O(log(max_val)) time where max_val is the maximum node value.
+  * **Space Complexity:** O(1) - We only use a constant amount of extra space (excluding the output list which is required).
+  * **Edge Case:** A list with only one node requires no insertions.
 
-**1.3 Brute force vs. optimized strategy:**
-- **Brute Force:** Same as optimized - we must visit each node once.
-- **Optimized Strategy:** Traverse the list once, calculating GCD and inserting nodes in-place.
+**High-level approach**
+We traverse the linked list and insert a new node between each pair of adjacent nodes. The value of the inserted node is the greatest common divisor (GCD) of the two adjacent node values.
 
-**1.4 Decomposition:**
-1. Implement GCD calculation using Euclidean algorithm.
-2. Traverse the linked list.
-3. For each pair of adjacent nodes, calculate their GCD.
-4. Create a new node with the GCD value.
-5. Insert it between the two nodes.
-6. Continue to the next pair.
+![Linked list with GCD nodes inserted between adjacent nodes]
 
-### Steps (The "How")
+**Brute force vs. optimized strategy**
 
-**2.1 Initialization & Example Setup:**
-Let's use `head = [18,6,10,3]`. We start at the first node.
+  * **Brute Force:** Calculate GCD for each pair using Euclidean algorithm - this is already optimal.
+  * **Optimized Strategy:** Use the Euclidean algorithm to compute GCD efficiently. The algorithm repeatedly applies the modulo operation until one number becomes zero.
 
-**2.2 Start Checking:**
-We process each adjacent pair of nodes.
+**Decomposition**
 
-**2.3 Trace Walkthrough:**
+1.  **Define GCD Function:** Implement Euclidean algorithm to find GCD of two numbers.
+2.  **Traverse List:** Move through the linked list, processing each pair of adjacent nodes.
+3.  **Calculate GCD:** For each pair, compute the GCD of their values.
+4.  **Insert Node:** Create a new node with the GCD value and insert it between the pair.
+5.  **Continue:** Move to the next pair and repeat.
 
-| Current | Next | GCD(18,6) | GCD(6,10) | GCD(10,3) | Result |
-|---------|------|-----------|-----------|-----------|--------|
-| 18 | 6 | 6 | - | - | [18,6,6,...] |
-| 6 | 10 | - | 2 | - | [18,6,6,2,10,...] |
-| 10 | 3 | - | - | 1 | [18,6,6,2,10,1,3] |
+### Steps
 
-**2.4 Increment and Loop:**
-After inserting a node, we move to the node after the inserted one and continue.
+1.  **Initialization & Example Setup:**
+    Let's say we have a linked list: `[18, 6, 10, 3]`
+    We start with `current = head` pointing to the node with value 18.
 
-**2.5 Return Result:**
-Return the modified list `[18,6,6,2,10,1,3]` with GCD nodes inserted.
+2.  **Start Processing:**
+    We check if `current` and `current.next` exist. For the first pair, we have nodes with values 18 and 6.
 
+3.  **Trace Walkthrough:**
+    
+    | Current Pair | GCD Calculation | GCD Value | Action |
+    |-------------|----------------|-----------|--------|
+    | 18, 6 | gcd(18, 6) = 6 | 6 | Insert node(6) between 18 and 6 |
+    | 6, 10 | gcd(6, 10) = 2 | 2 | Insert node(2) between 6 and 10 |
+    | 10, 3 | gcd(10, 3) = 1 | 1 | Insert node(1) between 10 and 3 |
+
+4.  **Result:**
+    After all insertions, the list becomes: `[18, 6, 6, 2, 10, 1, 3]`
+
+5.  **Return Result:**
+    Return the modified head of the linked list.
