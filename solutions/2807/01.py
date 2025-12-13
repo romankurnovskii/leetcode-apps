@@ -3,6 +3,8 @@
 #     def __init__(self, val=0, next=None):
 #         self.val = val
 #         self.next = next
+from typing import Optional
+
 class Solution:
     def insertGreatestCommonDivisors(self, head: Optional[ListNode]) -> Optional[ListNode]:
         def gcd(a, b):
@@ -11,17 +13,19 @@ class Solution:
             return a
         
         current = head
+        
         while current and current.next:
             # Calculate GCD of current and next node values
             gcd_value = gcd(current.val, current.next.val)
             
             # Create new node with GCD value
             new_node = ListNode(gcd_value)
+            
+            # Insert new node between current and current.next
             new_node.next = current.next
             current.next = new_node
             
-            # Move to the node after the inserted node
+            # Move to the node after the inserted one
             current = new_node.next
         
         return head
-
