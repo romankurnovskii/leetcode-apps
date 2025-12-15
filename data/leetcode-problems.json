@@ -25823,5 +25823,21 @@
     "id": 3772,
     "link": "https://leetcode.com/problems/maximum-subgraph-score-in-a-tree/",
     "title": "Maximum Subgraph Score in a Tree"
-  }
+  },
+  "797": {"id": 797, "category": "Graph", "title": "All Paths From Source to Target", "difficulty": "Medium", "link": "https://leetcode.com/problems/all-paths-from-source-to-target/", "tags": []},
+  "1008": {"id": 1008, "category": "Tree", "title": "Construct Binary Search Tree from Preorder Traversal", "difficulty": "Medium", "link": "https://leetcode.com/problems/construct-binary-search-tree-from-preorder-traversal/", "tags": []},
+  "1079": {"id": 1079, "category": "Backtracking", "title": "Letter Tile Possibilities", "difficulty": "Medium", "link": "https://leetcode.com/problems/letter-tile-possibilities/", "tags": []},
+  "1261": {"id": 1261, "category": "Tree", "title": "Find Elements in a Contaminated Binary Tree", "difficulty": "Medium", "link": "https://leetcode.com/problems/find-elements-in-a-contaminated-binary-tree/", "tags": []},
+  "1630": {"id": 1630, "category": "Array", "title": "Arithmetic Subarrays", "difficulty": "Medium", "link": "https://leetcode.com/problems/arithmetic-subarrays/", "tags": []},
+  "2110": {"id": 2110, "category": "Array", "title": "Number of Smooth Descent Periods of a Stock", "difficulty": "Medium", "link": "https://leetcode.com/problems/number-of-smooth-descent-periods-of-a-stock/", "tags": []},
+  "237": {"id": 237, "category": "Linked List", "title": "Delete Node in a Linked List", "difficulty": "Medium", "link": "https://leetcode.com/problems/delete-node-in-a-linked-list/", "tags": []},
+  "2482": {"id": 2482, "category": "Matrix", "title": "Difference Between Ones and Zeros in Row and Column", "difficulty": "Medium", "link": "https://leetcode.com/problems/difference-between-ones-and-zeros-in-row-and-column/", "tags": []},
+  "2785": {"id": 2785, "category": "String", "title": "Sort Vowels in a String", "difficulty": "Medium", "link": "https://leetcode.com/problems/sort-vowels-in-a-string/", "tags": []},
+  "1347": {"id": 1347, "category": "String", "title": "Minimum Number of Steps to Make Two Strings Anagram", "difficulty": "Medium", "link": "https://leetcode.com/problems/minimum-number-of-steps-to-make-two-strings-anagram/", "tags": []},
+  "2326": {"id": 2326, "category": "Matrix", "title": "Spiral Matrix IV", "difficulty": "Medium", "link": "https://leetcode.com/problems/spiral-matrix-iv/", "tags": []},
+  "1823": {"id": 1823, "category": "Math", "title": "Find the Winner of the Circular Game", "difficulty": "Medium", "link": "https://leetcode.com/problems/find-the-winner-of-the-circular-game/", "tags": []},
+  "2120": {"id": 2120, "category": "Simulation", "title": "Execution of All Suffix Instructions Staying in a Grid", "difficulty": "Medium", "link": "https://leetcode.com/problems/execution-of-all-suffix-instructions-staying-in-a-grid/", "tags": []},
+  "2221": {"id": 2221, "category": "Array", "title": "Find Triangular Sum of an Array", "difficulty": "Medium", "link": "https://leetcode.com/problems/find-triangular-sum-of-an-array/", "tags": []},
+  "1605": {"id": 1605, "category": "Matrix", "title": "Find Valid Matrix Given Row and Column Sums", "difficulty": "Medium", "link": "https://leetcode.com/problems/find-valid-matrix-given-row-and-column-sums/", "tags": []},
+  "1551": {"id": 1551, "category": "Math", "title": "Minimum Operations to Make Array Equal", "difficulty": "Medium", "link": "https://leetcode.com/problems/minimum-operations-to-make-array-equal/", "tags": []}
 }

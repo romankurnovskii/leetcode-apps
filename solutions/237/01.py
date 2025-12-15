@@ -4,14 +4,13 @@
 #         self.val = x
 #         self.next = None
 
-
 class Solution:
     def deleteNode(self, node):
         """
         :type node: ListNode
         :rtype: void Do not return anything, modify node in-place instead.
         """
-        # Copy next node's value to current node
+        # Copy value from next node
         node.val = node.next.val
-        # Skip the next node
+        # Skip next node
         node.next = node.next.next

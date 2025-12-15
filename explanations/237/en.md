@@ -2,6 +2,51 @@
 
 ### Strategy
 
+**Restate the problem**  
+Delete a given node (not tail) from a singly linked list when only that node reference is provided.
+
+**1.1 Constraints & Complexity**  
+- **Input Size:** 2 to 1000 nodes.  
+- **Time Complexity:** O(1) for the delete operation.  
+- **Space Complexity:** O(1).  
+- **Edge Case:** The given node’s next exists (guaranteed).
+
+**1.2 High-level approach**  
+Copy the next node’s value into the current node, then bypass the next node.  
+![In-place delete by copying next](https://assets.leetcode.com/static_assets/public/images/LeetCode_logo.png)
+
+**1.3 Brute force vs. optimized strategy**  
+- **Brute Force:** Traverse from head to find previous node — impossible without head.  
+- **Optimized:** Overwrite current node with next node data; O(1).
+
+**1.4 Decomposition**  
+1. Set `node.val = node.next.val`.  
+2. Link `node.next = node.next.next`.  
+3. Done.
+
+### Steps
+
+**2.1 Initialization & Example Setup**  
+List: `4 -> 5 -> 1 -> 9`, node to delete = value 5.
+
+**2.2 Start Checking**  
+Copy next (1) into current.
+
+**2.3 Trace Walkthrough**  
+| Step | node.val before | node.next.val | Action                      | List becomes        |
+|------|-----------------|---------------|-----------------------------|---------------------|
+| 1    | 5               | 1             | node.val = 1                | 4 -> 1 -> 1 -> 9    |
+| 2    | 1               | 1             | node.next = node.next.next  | 4 -> 1 -> 9         |
+
+**2.4 Increment and Loop**  
+No loop; constant steps.
+
+**2.5 Return Result**  
+Node effectively removed; list is `4 -> 1 -> 9`.
+## Explanation
+
+### Strategy
+
 **Restate the problem**
 
 We need to delete a node from a linked list, but we are only given access to the node to be deleted (not the head). We cannot access the previous node directly.

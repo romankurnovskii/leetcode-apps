@@ -1,16 +1,20 @@
+from collections import Counter
+
 class Solution:
     def numTilePossibilities(self, tiles: str) -> int:
-        from collections import Counter
-
-        def backtrack(count):
-            res = 0
+        count = Counter(tiles)
+        res = 0
+        
+        def backtrack():
+            nonlocal res
             for char in count:
                 if count[char] > 0:
-                    res += 1  # Count this sequence
+                    # Use this character
                     count[char] -= 1
-                    res += backtrack(count)  # Continue building
-                    count[char] += 1  # Backtrack
-            return res
-
-        count = Counter(tiles)
-        return backtrack(count)
+                    res += 1
+                    backtrack()
+                    # Backtrack
+                    count[char] += 1
+        
+        backtrack()
+        return res

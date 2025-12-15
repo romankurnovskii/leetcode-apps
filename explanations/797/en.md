@@ -2,6 +2,54 @@
 
 ### Strategy
 
+**Restate the problem**  
+Given a DAG adjacency list, enumerate all paths from node 0 to node n-1.
+
+**1.1 Constraints & Complexity**  
+- **Input Size:** `2 <= n <= 15`.  
+- **Time Complexity:** O(P * L), where P is number of paths and L their length (DFS visits each edge per path).  
+- **Space Complexity:** O(L) recursion stack + output.  
+- **Edge Case:** Single edge 0→1.
+
+**1.2 High-level approach**  
+DFS from 0, accumulate nodes in a path; when reaching n-1, record the path.  
+![DFS path enumeration](https://assets.leetcode.com/static_assets/public/images/LeetCode_logo.png)
+
+**1.3 Brute force vs. optimized strategy**  
+- **Brute Force:** None better is needed; DFS naturally enumerates all paths.  
+- **Optimized:** Use backtracking to avoid extra copies while exploring.
+
+**1.4 Decomposition**  
+1. Start DFS at node 0 with path `[0]`.  
+2. For each neighbor, append, recurse, then pop.  
+3. If node == n-1, push a copy of path to results.  
+4. Return all collected paths.
+
+### Steps
+
+**2.1 Initialization & Example Setup**  
+Example: `graph = [[1,2],[3],[3],[]]`, n=4.
+
+**2.2 Start Checking**  
+Begin at 0; explore neighbors 1 and 2.
+
+**2.3 Trace Walkthrough**  
+| Path stack | Next step        | Action           |
+|------------|------------------|------------------|
+| [0]        | neighbor 1       | recurse          |
+| [0,1]      | neighbor 3       | reach n-1 → save |
+| [0]        | neighbor 2       | recurse          |
+| [0,2]      | neighbor 3       | reach n-1 → save |
+
+**2.4 Increment and Loop**  
+Backtrack after each neighbor; continue until all explored.
+
+**2.5 Return Result**  
+`[[0,1,3],[0,2,3]]` for the example.
+## Explanation
+
+### Strategy
+
 **Restate the problem**
 
 We need to find all paths from node 0 to node n-1 in a directed acyclic graph (DAG). Each path is a sequence of nodes connected by edges.

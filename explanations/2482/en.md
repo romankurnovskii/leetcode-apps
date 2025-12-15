@@ -2,6 +2,54 @@
 
 ### Strategy
 
+**Restate the problem**  
+For each cell `(i,j)` in a binary matrix, compute `onesRow[i] + onesCol[j] - zerosRow[i] - zerosCol[j]`.
+
+**1.1 Constraints & Complexity**  
+- **Input Size:** `1 <= m*n <= 1e5`.  
+- **Time Complexity:** O(m*n) to count and build output.  
+- **Space Complexity:** O(m + n) for row/col counts.  
+- **Edge Case:** Single cell matrix.
+
+**1.2 High-level approach**  
+Precompute ones per row and column, derive zeros from lengths, then fill the answer.  
+![Row/column accumulation](https://assets.leetcode.com/static_assets/public/images/LeetCode_logo.png)
+
+**1.3 Brute force vs. optimized strategy**  
+- **Brute Force:** For each cell, scan its row and column — O(m*n*(m+n)).  
+- **Optimized:** Precompute counts once — O(m*n).
+
+**1.4 Decomposition**  
+1. Count `onesRow` for each row and `onesCol` for each column.  
+2. Derive `zerosRow[i] = n - onesRow[i]`, `zerosCol[j] = m - onesCol[j]`.  
+3. For each cell, compute the formula and store in `res`.  
+4. Return `res`.
+
+### Steps
+
+**2.1 Initialization & Example Setup**  
+Example: `grid = [[0,1,1],[1,0,1],[0,0,1]]`.
+
+**2.2 Start Checking**  
+Compute `onesRow = [2,2,1]`, `onesCol = [1,1,3]`.
+
+**2.3 Trace Walkthrough**  
+| Cell (i,j) | onesRow[i] | onesCol[j] | zerosRow[i] | zerosCol[j] | diff |
+|------------|------------|------------|-------------|-------------|------|
+| (0,0)      | 2          | 1          | 1           | 2           | 0    |
+| (0,1)      | 2          | 1          | 1           | 2           | 0    |
+| (0,2)      | 2          | 3          | 1           | 0           | 4    |
+| ...        | ...        | ...        | ...         | ...         | ...  |
+
+**2.4 Increment and Loop**  
+Fill every cell using the precomputed counts.
+
+**2.5 Return Result**  
+Produces `[[0,0,4],[0,0,4],[-2,-2,2]]` for the example.
+## Explanation
+
+### Strategy
+
 **Restate the problem**
 
 We are given a binary matrix and need to create a difference matrix where each cell `diff[i][j]` is calculated as: ones in row i + ones in column j - zeros in row i - zeros in column j.
