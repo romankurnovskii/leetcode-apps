@@ -10065,71 +10065,6 @@ def equalPairs(grid):
     return sum(row_counts[row] * col_counts[row] for row in row_counts)
 ```
 
-## 2627. Debounce [Medium]
-https://leetcode.com/problems/debounce/
-
-### Explanation
-
-## Explanation
-
-### Strategy (The "Why")
-
-**1.1 Constraints & Complexity:**
-- **Input Size:** `0 <= t <= 1000`, `1 <= calls.length <= 10`.
-- **Time Complexity:** O(1) per call - setTimeout/clearTimeout are O(1).
-- **Space Complexity:** O(1) - we store one timeout ID.
-- **Edge Case:** Multiple rapid calls, only the last one executes.
-
-**1.2 High-level approach:**
-The goal is to implement a debounce function that delays execution and cancels previous pending executions. We use setTimeout to delay, and clearTimeout to cancel previous timeouts.
-
-**1.3 Brute force vs. optimized strategy:**
-- **Brute Force:** Same as optimized - debounce pattern is standard.
-- **Optimized Strategy:** Store timeout ID, clear on new call, set new timeout.
-
-**1.4 Decomposition:**
-1. Maintain a timeout ID variable.
-2. When function is called, clear any existing timeout.
-3. Set a new timeout to execute the function after delay `t`.
-4. Return the debounced function.
-
-### Steps (The "How")
-
-**2.1 Initialization & Example Setup:**
-Let's use `t = 50`, calls at times 50 and 75. We want the function to execute only once at time 125.
-
-**2.2 Start Checking:**
-We track timeout IDs and clear/set them appropriately.
-
-**2.3 Trace Walkthrough:**
-
-| Time | Call | Action | Timeout ID | Execution Time |
-|------|------|--------|------------|----------------|
-| 50 | dlog(1) | Set timeout | id1 | 100 (cancelled) |
-| 75 | dlog(2) | Clear id1, set timeout | id2 | 125 |
-
-**2.4 Increment and Loop:**
-Not applicable - this handles individual calls.
-
-**2.5 Return Result:**
-Function executes at time 125 with input 2.
-
-### Solution
-
-```python
-def debounce(self, fn, t):
-        timeout_id = None
-        
-        def debounced(*args, **kwargs):
-            nonlocal timeout_id
-            if timeout_id:
-                timeout_id.cancel()
-            timeout_id = Timer(t / 1000.0, lambda: fn(*args, **kwargs))
-            timeout_id.start()
-        
-        return debounced
-```
-
 ## 2723. Add Two Promises [Easy]
 https://leetcode.com/problems/add-two-promises/
 
@@ -10197,50 +10132,53 @@ https://leetcode.com/problems/insert-greatest-common-divisors-in-linked-list/
 
 ## Explanation
 
-### Strategy (The "Why")
+### Strategy
 
-**1.1 Constraints & Complexity:**
-- **Input Size:** `1 <= nodes <= 5000`, `1 <= Node.val <= 1000`.
-- **Time Complexity:** O(n) where n is the number of nodes - we visit each node once.
-- **Space Complexity:** O(1) - we only create new nodes, no additional data structures.
-- **Edge Case:** Single node list, no insertion needed.
+**Constraints & Edge Cases**
 
-**1.2 High-level approach:**
-The goal is to insert a new node between every pair of adjacent nodes, where the new node's value is the GCD of the two adjacent nodes' values. We traverse the list and insert nodes as we go.
+  * **Input Size:** The number of nodes is in the range `[1, 5000]`, and node values are between 1 and 1000.
+  * **Time Complexity:** O(n * log(max_val)) - We iterate through n-1 pairs of adjacent nodes, and calculating GCD takes O(log(max_val)) time where max_val is the maximum node value.
+  * **Space Complexity:** O(1) - We only use a constant amount of extra space (excluding the output list which is required).
+  * **Edge Case:** A list with only one node requires no insertions.
 
-**1.3 Brute force vs. optimized strategy:**
-- **Brute Force:** Same as optimized - we must visit each node once.
-- **Optimized Strategy:** Traverse the list once, calculating GCD and inserting nodes in-place.
+**High-level approach**
+We traverse the linked list and insert a new node between each pair of adjacent nodes. The value of the inserted node is the greatest common divisor (GCD) of the two adjacent node values.
 
-**1.4 Decomposition:**
-1. Implement GCD calculation using Euclidean algorithm.
-2. Traverse the linked list.
-3. For each pair of adjacent nodes, calculate their GCD.
-4. Create a new node with the GCD value.
-5. Insert it between the two nodes.
-6. Continue to the next pair.
+**Brute force vs. optimized strategy**
 
-### Steps (The "How")
+  * **Brute Force:** Calculate GCD for each pair using Euclidean algorithm - this is already optimal.
+  * **Optimized Strategy:** Use the Euclidean algorithm to compute GCD efficiently. The algorithm repeatedly applies the modulo operation until one number becomes zero.
 
-**2.1 Initialization & Example Setup:**
-Let's use `head = [18,6,10,3]`. We start at the first node.
+**Decomposition**
 
-**2.2 Start Checking:**
-We process each adjacent pair of nodes.
+1.  **Define GCD Function:** Implement Euclidean algorithm to find GCD of two numbers.
+2.  **Traverse List:** Move through the linked list, processing each pair of adjacent nodes.
+3.  **Calculate GCD:** For each pair, compute the GCD of their values.
+4.  **Insert Node:** Create a new node with the GCD value and insert it between the pair.
+5.  **Continue:** Move to the next pair and repeat.
 
-**2.3 Trace Walkthrough:**
+### Steps
 
-| Current | Next | GCD(18,6) | GCD(6,10) | GCD(10,3) | Result |
-|---------|------|-----------|-----------|-----------|--------|
-| 18 | 6 | 6 | - | - | [18,6,6,...] |
-| 6 | 10 | - | 2 | - | [18,6,6,2,10,...] |
-| 10 | 3 | - | - | 1 | [18,6,6,2,10,1,3] |
+1.  **Initialization & Example Setup:**
+    Let's say we have a linked list: `[18, 6, 10, 3]`
+    We start with `current = head` pointing to the node with value 18.
 
-**2.4 Increment and Loop:**
-After inserting a node, we move to the node after the inserted one and continue.
+2.  **Start Processing:**
+    We check if `current` and `current.next` exist. For the first pair, we have nodes with values 18 and 6.
 
-**2.5 Return Result:**
-Return the modified list `[18,6,6,2,10,1,3]` with GCD nodes inserted.
+3.  **Trace Walkthrough:**
+    
+    | Current Pair | GCD Calculation | GCD Value | Action |
+    |-------------|----------------|-----------|--------|
+    | 18, 6 | gcd(18, 6) = 6 | 6 | Insert node(6) between 18 and 6 |
+    | 6, 10 | gcd(6, 10) = 2 | 2 | Insert node(2) between 6 and 10 |
+    | 10, 3 | gcd(10, 3) = 1 | 1 | Insert node(1) between 10 and 3 |
+
+4.  **Result:**
+    After all insertions, the list becomes: `[18, 6, 6, 2, 10, 1, 3]`
+
+5.  **Return Result:**
+    Return the modified head of the linked list.
 
 ### Solution
 
@@ -10248,6 +10186,8 @@ Return the modified list `[18,6,6,2,10,1,3]` with GCD nodes inserted.
 def __init__(self, val=0, next=None):
 #         self.val = val
 #         self.next = next
+from typing import Optional
+
 class Solution:
     def insertGreatestCommonDivisors(self, head: Optional[ListNode]) -> Optional[ListNode]:
         def gcd(a, b):
@@ -10256,16 +10196,19 @@ class Solution:
             return a
         
         current = head
+        
         while current and current.next:
             # Calculate GCD of current and next node values
             gcd_value = gcd(current.val, current.next.val)
             
             # Create new node with GCD value
             new_node = ListNode(gcd_value)
+            
+            # Insert new node between current and current.next
             new_node.next = current.next
             current.next = new_node
             
-            # Move to the node after the inserted node
+            # Move to the node after the inserted one
             current = new_node.next
         
         return head
