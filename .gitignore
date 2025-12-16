@@ -10,3 +10,5 @@ leetcode-problems-tmp.json
 
 scripts/__pycache__/
 descriptions/
+.venv/
+__pycache__/

@@ -1,22 +1,49 @@
+from functools import lru_cache
+
 class Solution:
     def totalWaviness(self, num1: int, num2: int) -> int:
-        def get_waviness(n):
-            s = str(n)
-            if len(s) < 3:
-                return 0
+        w1 = self._total_waviness_upto(num1 - 1)
+        w2 = self._total_waviness_upto(num2)
+        return w2 - w1
 
-            waviness = 0
-            for i in range(1, len(s) - 1):
-                # Check if digit at i is a peak or valley
-                if s[i] > s[i - 1] and s[i] > s[i + 1]:
-                    waviness += 1  # Peak
-                elif s[i] < s[i - 1] and s[i] < s[i + 1]:
-                    waviness += 1  # Valley
+    def _total_waviness_upto(self, num: int) -> int:
+        digits = [int(c) for c in str(num)]
+        length = len(digits)
 
-            return waviness
+        @lru_cache(None)
+        def dfs(pos, p1, p2, tight, has_started):
+            if pos == length:
+                return 0, 1  # no more waviness, exactly 1 number formed
 
-        res = 0
-        for num in range(num1, num2 + 1):
-            res += get_waviness(num)
+            max_d = digits[pos] if tight else 9
+            total_waviness = 0
+            total_count = 0
 
-        return res
+            for d in range(max_d + 1):
+                next_tight = tight and (d == digits[pos])
+                next_started = has_started or (d != 0)
+
+                # Update last two real digits
+                if not next_started:
+                    nd1, nd2 = None, None
+                elif not has_started:
+                    nd1, nd2 = d, None
+                else:
+                    nd1, nd2 = d, p1
+
+                sub_waviness, sub_count = dfs(
+                    pos + 1, nd1, nd2, next_tight, next_started
+                )
+
+                # Always add downstream waviness
+                total_waviness += sub_waviness
+                total_count += sub_count
+
+                # If we have enough digits to form a triple, check peak/valley
+                if has_started and next_started and p1 is not None and p2 is not None:
+                    if (p2 < p1 > d) or (p2 > p1 < d):
+                        total_waviness += sub_count  # this peak/valley applies to all completions
+
+            return total_waviness, total_count
+
+        return dfs(0, None, None, True, False)[0]

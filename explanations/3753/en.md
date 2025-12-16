@@ -2,65 +2,87 @@
 
 ### Strategy (The "Why")
 
-**Restate the problem:** We need to count paths from (0,0) to (m-1,n-1) in a matrix where the sum of elements on the path is divisible by k. We can only move down or right.
+**Restate the problem:** We need to find the total waviness (count of peaks and valleys) for all numbers in the range `[num1, num2]`. A peak is a digit strictly greater than both neighbors; a valley is a digit strictly less than both neighbors.
 
 **1.1 Constraints & Complexity:**
-- Input size: `1 <= m, n <= 5 * 10^4`, `1 <= m * n <= 5 * 10^4`, `1 <= k <= 50`
-- **Time Complexity:** O(m * n * k) as we maintain k states (remainders) for each cell
-- **Space Complexity:** O(m * n * k) for the DP table
-- **Edge Case:** If k = 1, all paths are valid since any sum is divisible by 1
+
+- **Input Size:** `1 <= num1 <= num2 <= 10^15` - Very large range
+- **Time Complexity:** O(log num2 * 10^5) - Digit DP with memoization
+- **Space Complexity:** O(log num2 * 10^5) - Memoization cache
+- **Edge Case:** Numbers with < 3 digits have waviness 0
 
 **1.2 High-level approach:**
-We use dynamic programming where dp[i][j][r] represents the number of paths to cell (i,j) with sum remainder r modulo k. We only care about remainders, not actual sums.
 
-![DP with modulo states visualization](https://assets.leetcode.com/static_assets/others/dp-modulo-states.png)
+We use digit dynamic programming (digit DP) to count waviness efficiently. Instead of iterating through all numbers (impossible for ranges up to 10^15), we build numbers digit by digit and track the last two digits to detect peaks/valleys. We compute waviness from 0 to num2 and subtract waviness from 0 to num1-1.
 
 **1.3 Brute force vs. optimized strategy:**
-- **Brute Force:** Try all possible paths, which is exponential.
-- **Optimized Strategy:** Use DP with modulo states. Since we only care about sum % k, we maintain k states per cell instead of tracking actual sums, making it feasible.
+
+- **Brute Force:** Iterate from num1 to num2, for each number check all middle digits for peaks/valleys. This is O((num2 - num1) * log num2) time, which is impossible for large ranges.
+- **Optimized (Digit DP):** Build numbers digit by digit, tracking last two digits. When we have enough digits (p2, p1, current), we check for peak/valley. This is O(log num2 * states) time.
+- **Why it's better:** We count waviness for all numbers in a range without explicitly constructing them, using DP states to avoid redundant calculations.
 
 **1.4 Decomposition:**
-1. Initialize DP table with k states (remainders 0 to k-1) for each cell
-2. Set starting position (0,0) with initial remainder
-3. For each cell, update from top and left cells with new remainders
-4. Return dp[m-1][n-1][0] (paths ending with remainder 0)
+
+1. Compute waviness from 0 to num1-1
+2. Compute waviness from 0 to num2
+3. Return difference (waviness in range [num1, num2])
+4. For each range, use digit DP:
+   - State: (position, last_digit, second_last_digit, tight, has_started)
+   - Track total waviness and count of numbers formed
+   - When we have 3+ digits, check for peaks/valleys
 
 ### Steps (The "How")
 
 **2.1 Initialization & Example Setup:**
-Let's use the example: `grid = [[5,2,4],[3,0,5],[0,7,2]]`, `k = 3`
-- Initialize dp[0][0][5%3=2] = 1
-- All other states start at 0
 
-**2.2 Start Processing:**
-We process cells row by row, left to right.
+Let's use the example: `num1 = 120, num2 = 130`
 
-**2.3 Trace Walkthrough:**
-Processing `grid = [[5,2,4],[3,0,5],[0,7,2]]`, `k = 3`:
+- Compute `w1 = waviness(0 to 119)`
+- Compute `w2 = waviness(0 to 130)`
+- Return `w2 - w1`
 
-| Cell (i,j) | Value | From | Old Remainder | New Remainder | dp[i][j][r] |
-|------------|-------|------|---------------|---------------|-------------|
-| (0,0) | 5 | Start | - | 2 | dp[0][0][2]=1 |
-| (0,1) | 2 | Left | 2 | (2+2)%3=1 | dp[0][1][1]=1 |
-| (0,2) | 4 | Left | 1 | (1+4)%3=2 | dp[0][2][2]=1 |
-| (1,0) | 3 | Top | 2 | (2+3)%3=2 | dp[1][0][2]=1 |
-| (1,1) | 0 | Top+Left | 2,1 | (2+0)%3=2, (1+0)%3=1 | dp[1][1][2]=1, dp[1][1][1]=1 |
-| (1,2) | 5 | Top+Left | 2,1 | (2+5)%3=1, (1+5)%3=0 | dp[1][2][1]=1, dp[1][2][0]=1 |
-| (2,0) | 0 | Top | 2 | (2+0)%3=2 | dp[2][0][2]=1 |
-| (2,1) | 7 | Top+Left | 2,1 | (2+7)%3=0, (1+7)%3=2 | dp[2][1][0]=1, dp[2][1][2]=1 |
-| (2,2) | 2 | Top+Left | 0,2 | (0+2)%3=2, (2+2)%3=1 | dp[2][2][2]=1, dp[2][2][1]=1 |
+**2.2 Digit DP Function:**
 
-Wait, let me recalculate paths to (2,2):
-- From (1,2) with remainder 0: (0+2)%3=2 → dp[2][2][2] += 1
-- From (1,2) with remainder 1: (1+2)%3=0 → dp[2][2][0] += 1  
-- From (2,1) with remainder 0: (0+2)%3=2 → dp[2][2][2] += 1
-- From (2,1) with remainder 2: (2+2)%3=1 → dp[2][2][1] += 1
+```python
+def dfs(pos, p1, p2, tight, has_started):
+    # pos: current digit position
+    # p1: last digit
+    # p2: second-to-last digit
+    # tight: whether we're still matching the prefix of num
+    # has_started: whether we've started building the number (non-zero digit)
+```
 
-So dp[2][2][0] = 1, which is our answer.
+**2.3 Base Case:**
 
-**2.4 Increment and Loop:**
-For each cell, we update all k remainder states based on incoming paths from top and left.
+```python
+if pos == length:
+    return 0, 1  # No more waviness, exactly 1 number formed
+```
 
-**2.5 Return Result:**
-After processing all cells, `dp[m-1][n-1][0] = 2`, representing 2 paths with sum divisible by 3.
+**2.4 Process Each Digit:**
 
+For each possible digit `d` from 0 to `max_d`:
+- Update `next_tight` and `next_started`
+- Update last two digits: `nd1 = d`, `nd2 = p1`
+- Recursively compute waviness for remaining digits
+
+**2.5 Check for Peak/Valley:**
+
+```python
+if has_started and next_started and p1 is not None and p2 is not None:
+    if (p2 < p1 > d) or (p2 > p1 < d):
+        total_waviness += sub_count
+```
+
+When we have three consecutive digits (p2, p1, d), we check:
+- Peak: `p2 < p1 > d` (middle digit is highest)
+- Valley: `p2 > p1 < d` (middle digit is lowest)
+
+If either condition is true, all numbers formed from this state will have this peak/valley, so we add `sub_count` to waviness.
+
+**2.6 Return Result:**
+
+After processing all digits, return the total waviness for the range.
+
+**Time Complexity:** O(log num2 * states) - Digit DP with memoization  
+**Space Complexity:** O(log num2 * states) - Memoization cache

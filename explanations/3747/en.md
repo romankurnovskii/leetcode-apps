@@ -2,57 +2,80 @@
 
 ### Strategy (The "Why")
 
-**Restate the problem:** We need to count beautiful substrings where vowels equal consonants and their product is divisible by k. A substring is beautiful if it has equal numbers of vowels and consonants, and (vowels × consonants) % k == 0.
+**Restate the problem:** For every integer from 1 to `n`, we remove all zeros from its decimal representation and count how many distinct integers we get.
 
 **1.1 Constraints & Complexity:**
-- Input size: `1 <= s.length <= 1000`, `1 <= k <= 1000`
-- **Time Complexity:** O(n²) where n is the string length, as we check all possible substrings
-- **Space Complexity:** O(1) as we only use constant extra space for counters
-- **Edge Case:** If k = 1, any substring with vowels == consonants is beautiful since any number is divisible by 1
+
+- **Input Size:** `1 <= n <= 10^15` - Very large, can't iterate through all numbers
+- **Time Complexity:** O(log n) - Process digits of n
+- **Space Complexity:** O(log n) - Store digit string and powers of 9
+- **Edge Case:** `n = 1` returns 1
 
 **1.2 High-level approach:**
-For each possible starting position, we expand the substring and maintain counts of vowels and consonants. When both counts are equal and their product is divisible by k, we found a beautiful substring.
 
-![Substring expansion visualization](https://assets.leetcode.com/static_assets/others/substring-expansion.png)
+The key insight is that after removing zeros, we only get numbers with digits 1-9 (zero-free numbers). So the problem reduces to counting how many zero-free numbers are <= n. We use digit DP (dynamic programming) to count these numbers efficiently.
 
 **1.3 Brute force vs. optimized strategy:**
-- **Brute Force:** Generate all substrings and check each one. This is what we do, O(n²).
-- **Optimized Strategy (for larger constraints):** Use prefix sums and hash maps to count in O(n) time, but for n ≤ 1000, the O(n²) approach is acceptable.
+
+- **Brute Force:** Iterate from 1 to n, remove zeros from each, add to a set, return set size. This is O(n) time, which is impossible for n up to 10^15.
+- **Optimized (Digit DP/Combinatorics):** Count zero-free numbers using digit-by-digit construction. For numbers with fewer digits than n, we have 9^d possibilities (9 choices per digit). For numbers with same length as n, we count digit by digit. This is O(log n) time.
+- **Why it's better:** We don't need to iterate through all numbers; we can count them combinatorially by considering digit positions.
 
 **1.4 Decomposition:**
-1. Iterate through all possible starting positions
-2. For each starting position, expand the substring character by character
-3. Maintain counts of vowels and consonants
-4. Check if vowels == consonants and (vowels × consonants) % k == 0
-5. Count valid beautiful substrings
+
+1. Convert n to string to process digits
+2. Precompute powers of 9 (9^1, 9^2, ..., 9^length)
+3. Count zero-free numbers with fewer digits than n
+4. Count zero-free numbers with same length as n, digit by digit
+5. If n itself is zero-free, add 1
 
 ### Steps (The "How")
 
 **2.1 Initialization & Example Setup:**
-Let's use the example: `s = "baeyh"`, `k = 2`
-- Define vowels set: `{'a', 'e', 'i', 'o', 'u'}`
-- Initialize `res = 0`
 
-**2.2 Start Checking:**
-We begin checking substrings starting from index 0.
+Let's use the example: `n = 10`
 
-**2.3 Trace Walkthrough:**
-Using the example `s = "baeyh"`, `k = 2`:
+- String representation: `"10"`, length = 2
+- Precompute `pow9 = [1, 9, 81]` (9^0, 9^1, 9^2)
 
-| Start | End | Substring | Vowels | Consonants | Equal? | Product % k | Beautiful? | res |
-|-------|-----|-----------|--------|------------|--------|-------------|-------------|-----|
-| 0 | 0 | "b" | 0 | 1 | No | - | No | 0 |
-| 0 | 1 | "ba" | 1 | 1 | Yes | 1 % 2 = 1 | No | 0 |
-| 0 | 2 | "bae" | 2 | 1 | No | - | No | 0 |
-| 0 | 3 | "baey" | 2 | 2 | Yes | 4 % 2 = 0 | Yes | 1 |
-| 0 | 4 | "baeyh" | 2 | 3 | No | - | No | 1 |
-| 1 | 1 | "a" | 1 | 0 | No | - | No | 1 |
-| 1 | 2 | "ae" | 2 | 0 | No | - | No | 1 |
-| 1 | 3 | "aey" | 2 | 1 | No | - | No | 1 |
-| 1 | 4 | "aeyh" | 2 | 2 | Yes | 4 % 2 = 0 | Yes | 2 |
+**2.2 Count Numbers with Fewer Digits:**
 
-**2.4 Increment and Loop:**
-For each valid beautiful substring found, we increment the result counter. We continue checking all possible substrings.
+```python
+for d in range(1, length):
+    res += pow9[d]
+```
+
+For `n = 10`, we count:
+- 1-digit numbers: 9 (1-9)
+- Total so far: 9
+
+**2.3 Count Numbers with Same Length:**
+
+```python
+for i, ch in enumerate(s):
+    digit = int(ch)
+    if digit == 0:
+        return res  # Can't form any more zero-free numbers
+    res += (digit - 1) * pow9[length - i - 1]
+```
+
+For `n = 10`:
+- First digit: `1`
+  - We can use digits 1-0 (but 0 is not allowed for zero-free)
+  - Actually, we can use digits 1-0, but if we use 0, the number becomes invalid
+  - Wait, let me reconsider: for first digit position, if digit is `1`, we can use `1` only (since we can't use 0)
+  - Actually, the logic is: for digit `d`, we can use digits 1 to (d-1) freely, each giving `9^(remaining)` possibilities
+  - For `n = 10`: first digit is `1`, so we can use `1` only (0 choices for digits < 1)
+  - Second digit: if we used `1` for first, second digit is `0`, which means we can't form any zero-free numbers starting with `1` and second digit < `0`
+  - So we return 9 (from step 2.2)
+
+**2.4 Handle n Itself:**
+
+If we process all digits without hitting 0, `n` itself is zero-free, so we add 1.
 
 **2.5 Return Result:**
-After processing all substrings, `res = 2`, which represents the two beautiful substrings: "baey" and "aeyh".
+
+Return the total count of distinct zero-free numbers.
+
+**Time Complexity:** O(log n) - Process each digit of n  
+**Space Complexity:** O(log n) - Store digit string and powers
