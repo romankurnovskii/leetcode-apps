@@ -1,5 +1,3 @@
-from typing import List
-
 class Solution:
     def onesMinusZeros(self, grid: List[List[int]]) -> List[List[int]]:
         m, n = len(grid), len(grid[0])
@@ -15,14 +13,11 @@ class Solution:
                     onesCol[j] += 1
         
         # Build result matrix
-        res = []
+        res = [[0] * n for _ in range(m)]
         for i in range(m):
-            row = []
+            zerosRow = n - onesRow[i]
             for j in range(n):
-                zerosRow = n - onesRow[i]
                 zerosCol = m - onesCol[j]
-                diff = onesRow[i] + onesCol[j] - zerosRow - zerosCol
-                row.append(diff)
-            res.append(row)
+                res[i][j] = onesRow[i] + onesCol[j] - zerosRow - zerosCol
         
         return res

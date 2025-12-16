@@ -2,45 +2,49 @@
 
 ### Strategy
 
-**Restate the problem**  
-Array is `[1,3,5,...,2n-1]`; in one operation, decrement one element and increment another. Find min operations to make all elements equal.
+**Constraints & Edge Cases**
 
-**1.1 Constraints & Complexity**  
-- **Input Size:** `1 <= n <= 1e4`.  
-- **Time Complexity:** O(n) to sum needed moves.  
-- **Space Complexity:** O(1).  
-- **Edge Case:** n=1 → 0 operations.
+* **Array Length:** n can be 1 to 10^4. The array is defined as `arr[i] = 2*i + 1`, so it contains odd numbers: [1, 3, 5, 7, ...].
+* **Time Complexity:** We iterate through at most n/2 elements to calculate operations. **Time Complexity: O(n)**, **Space Complexity: O(1)**.
+* **Edge Case:** If n=1, the array is already equal ([1]), so operations = 0.
 
-**1.2 High-level approach**  
-Target value is `n` (the average). Pair symmetric elements; each pair needs `(target - current_lower)` moves. Sum over first half.  
-![Balancing around the center value](https://assets.leetcode.com/static_assets/public/images/LeetCode_logo.png)
+**High-level approach**
 
-**1.3 Brute force vs. optimized strategy**  
-- **Brute Force:** Simulate operations — inefficient.  
-- **Optimized:** Direct formula using symmetry — O(n).
+The problem asks for the minimum operations to make all array elements equal. Since we can only transfer 1 from one element to another, the target value must be the average of all elements. For an array of odd numbers starting from 1, the average is n.
 
-**1.4 Decomposition**  
-1. Target = n.  
-2. For i in [0 .. n/2 - 1], current = 2*i+1.  
-3. Add `target - current` to result.  
-4. Return result.
+**Brute force vs. optimized strategy**
+
+* **Brute Force:** Simulate the operations step by step. This would be very slow.
+* **Optimized:** Calculate the target value (which is n), then for each element less than target, calculate how many operations are needed to bring it to target. Since elements are symmetric, we only need to process half the array.
+
+**Decomposition**
+
+1. **Calculate Target:** The target value is n (the average).
+2. **Count Operations:** For each element less than target, add (target - element) to the result.
+3. **Return:** Since operations are symmetric, we can stop at the middle.
 
 ### Steps
 
-**2.1 Initialization & Example Setup**  
-Example: n=3; array [1,3,5], target=3.
+1. **Initialization & Example Setup**
+   Let's use `n = 3` as our example.
+   - Array: `arr = [1, 3, 5]` (indices 0, 1, 2).
+   - Target: `target = n = 3`.
 
-**2.2 Start Checking**  
-Only i=0 in first half: current=1 → need 2 moves.
+2. **Calculate Operations**
+   - Element at index 0: `current = 2*0 + 1 = 1`, needs `3 - 1 = 2` operations.
+   - Element at index 1: `current = 2*1 + 1 = 3`, already equal to target.
+   - We can stop here since elements are symmetric.
 
-**2.3 Trace Walkthrough**  
-| i | current | target | add to res |
-|---|---------|--------|------------|
-| 0 | 1       | 3      | 2          |
+3. **Trace Walkthrough**
 
-**2.4 Increment and Loop**  
-Loop over first half (integer division).
+| Index i | current = 2*i+1 | target | Operations Needed | Running Total |
+|---------|-----------------|--------|-------------------|---------------|
+| 0       | 1               | 3      | 3 - 1 = 2         | 2             |
+| 1       | 3               | 3      | 0 (stop)          | 2             |
 
-**2.5 Return Result**  
-Return accumulated moves (2 for n=3).
+4. **Mathematical Insight**
+   For n=3: operations = (3-1) = 2.
+   For n=6: operations = (6-1) + (6-3) + (6-5) = 5 + 3 + 1 = 9.
 
+5. **Return Result**
+   Return the total operations: 2 for n=3.

@@ -2,52 +2,47 @@
 
 ### Strategy
 
-**Restate the problem**  
-Given two equal-length lowercase strings `s` and `t`, find the minimum number of character replacements in `t` to make it an anagram of `s`.
+**Constraints & Edge Cases**
 
-**1.1 Constraints & Complexity**  
-- **Input Size:** up to 5×10^4 characters.  
-- **Time Complexity:** O(n) to count frequencies.  
-- **Space Complexity:** O(1) since alphabet size is fixed (26).  
-- **Edge Case:** Already anagrams → 0 steps.
+* **String Length:** Both strings have length 1 to 5*10^4, and they have the same length. They consist of lowercase English letters only.
+* **Time Complexity:** We count frequencies in both strings (O(n)), then compare them (O(26) = O(1)). **Time Complexity: O(n)**, **Space Complexity: O(1)** for the frequency arrays (26 letters).
+* **Edge Case:** If the strings are already anagrams, return 0.
 
-**1.2 High-level approach**  
-Count letters in both strings; for each character, if `s` needs more than `t` has, that deficit contributes to the answer.  
-![Frequency gap guiding replacements](https://assets.leetcode.com/static_assets/public/images/LeetCode_logo.png)
+**High-level approach**
 
-**1.3 Brute force vs. optimized strategy**  
-- **Brute Force:** Try all replacement combinations — exponential.  
-- **Optimized:** Frequency difference — O(n), straightforward.
+The problem asks for the minimum steps to make string t an anagram of string s. In each step, we can replace any character in t. We need to count how many characters in t need to be changed to match the frequency of characters in s.
 
-**1.4 Decomposition**  
-1. Count frequencies of `s` and `t`.  
-2. For each letter, compute `max(0, count_s - count_t)` and sum.  
-3. That sum is the number of replacements needed in `t`.  
-4. Return the sum.
+**Brute force vs. optimized strategy**
+
+* **Brute Force:** Try all possible character replacements. This would be exponential.
+* **Optimized:** Count character frequencies in both strings. For each character, if s has more occurrences than t, we need to replace (count_s[char] - count_t[char]) characters in t.
+
+**Decomposition**
+
+1. **Count Frequencies:** Count occurrences of each character in s and t.
+2. **Calculate Differences:** For each character, if s has more occurrences, add the difference to the result.
+3. **Return:** The total number of replacements needed.
 
 ### Steps
 
-**2.1 Initialization & Example Setup**  
-Example: `s="leetcode"`, `t="practice"`.
+1. **Initialization & Example Setup**
+   Let's use `s = "bab"`, `t = "aba"` as our example.
+   - Count s: `count_s = {'b': 2, 'a': 1}`.
+   - Count t: `count_t = {'a': 2, 'b': 1}`.
 
-**2.2 Start Checking**  
-Build `count_s`, `count_t`.
+2. **Calculate Differences**
+   - For 'a': `count_s['a'] = 1`, `count_t['a'] = 2`. No change needed (t has enough).
+   - For 'b': `count_s['b'] = 2`, `count_t['b'] = 1`. Need `2 - 1 = 1` replacement.
 
-**2.3 Trace Walkthrough**  
-| Char | count_s | count_t | deficit (if s needs more) |
-|------|---------|---------|----------------------------|
-| e    | 3       | 1       | +2                         |
-| l    | 1       | 0       | +1                         |
-| t    | 1       | 1       | 0                          |
-| c    | 1       | 2       | 0                          |
-| o    | 1       | 0       | +1                         |
-| d    | 1       | 0       | +1                         |
-| ...  | ...     | ...     | ...                        |
-Total = 5.
+3. **Trace Walkthrough**
 
-**2.4 Increment and Loop**  
-Sum deficits over all 26 letters.
+| Character | count_s | count_t | Difference | Steps Needed |
+|-----------|---------|---------|------------|--------------|
+| 'a'       | 1       | 2       | 1 - 2 = -1 | 0 (t has enough) |
+| 'b'       | 2       | 1       | 2 - 1 = 1  | 1             |
 
-**2.5 Return Result**  
-Return the total replacements (5 in the example).
+4. **Result**
+   Total steps = 1. We need to replace one 'a' in t with 'b' to get "bba" or "abb", which are anagrams of "bab".
 
+5. **Return Result**
+   Return the total number of steps: 1.

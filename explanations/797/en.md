@@ -2,115 +2,61 @@
 
 ### Strategy
 
-**Restate the problem**  
-Given a DAG adjacency list, enumerate all paths from node 0 to node n-1.
+**Constraints & Edge Cases**
 
-**1.1 Constraints & Complexity**  
-- **Input Size:** `2 <= n <= 15`.  
-- **Time Complexity:** O(P * L), where P is number of paths and L their length (DFS visits each edge per path).  
-- **Space Complexity:** O(L) recursion stack + output.  
-- **Edge Case:** Single edge 0→1.
+* **Graph Size:** The DAG has 2-15 nodes labeled 0 to n-1. The graph is guaranteed to be acyclic and connected from node 0 to node n-1.
+* **Time Complexity:** We use DFS to explore all paths. In worst case, there can be exponential number of paths, but with n ≤ 15, this is manageable. **Time Complexity: O(2^n)** in worst case, **Space Complexity: O(n)** for recursion stack and path storage.
+* **Edge Case:** If there's only one path from 0 to n-1, we return that single path.
 
-**1.2 High-level approach**  
-DFS from 0, accumulate nodes in a path; when reaching n-1, record the path.  
-![DFS path enumeration](https://assets.leetcode.com/static_assets/public/images/LeetCode_logo.png)
+**High-level approach**
 
-**1.3 Brute force vs. optimized strategy**  
-- **Brute Force:** None better is needed; DFS naturally enumerates all paths.  
-- **Optimized:** Use backtracking to avoid extra copies while exploring.
+The problem asks us to find all paths from node 0 to node n-1 in a directed acyclic graph. We use depth-first search to explore all possible paths.
 
-**1.4 Decomposition**  
-1. Start DFS at node 0 with path `[0]`.  
-2. For each neighbor, append, recurse, then pop.  
-3. If node == n-1, push a copy of path to results.  
-4. Return all collected paths.
+**Brute force vs. optimized strategy**
 
-### Steps
+* **Brute Force:** This is essentially what we do - explore all paths. Since the graph is acyclic, we don't need to worry about cycles, making DFS straightforward.
+* **Optimized:** Use DFS with backtracking. When we reach node n-1, we save the current path. We backtrack to explore other paths.
 
-**2.1 Initialization & Example Setup**  
-Example: `graph = [[1,2],[3],[3],[]]`, n=4.
+**Decomposition**
 
-**2.2 Start Checking**  
-Begin at 0; explore neighbors 1 and 2.
-
-**2.3 Trace Walkthrough**  
-| Path stack | Next step        | Action           |
-|------------|------------------|------------------|
-| [0]        | neighbor 1       | recurse          |
-| [0,1]      | neighbor 3       | reach n-1 → save |
-| [0]        | neighbor 2       | recurse          |
-| [0,2]      | neighbor 3       | reach n-1 → save |
-
-**2.4 Increment and Loop**  
-Backtrack after each neighbor; continue until all explored.
-
-**2.5 Return Result**  
-`[[0,1,3],[0,2,3]]` for the example.
-## Explanation
-
-### Strategy
-
-**Restate the problem**
-
-We need to find all paths from node 0 to node n-1 in a directed acyclic graph (DAG). Each path is a sequence of nodes connected by edges.
-
-**1.1 Constraints & Complexity**
-
-- **Input Size:** The graph has 2 to 15 nodes.
-- **Time Complexity:** O(2^n * n) - In the worst case, there can be exponentially many paths, and each path can have up to n nodes.
-- **Space Complexity:** O(2^n * n) - We need to store all paths, and the recursion stack can go up to n levels.
-- **Edge Case:** If there are no paths from 0 to n-1, we return an empty list.
-
-**1.2 High-level approach**
-
-Use depth-first search (DFS) to explore all possible paths from the source node (0) to the target node (n-1). As we traverse, we maintain the current path and add it to results when we reach the destination.
-
-![Graph showing all paths from source to target](https://assets.leetcode.com/uploads/2020/09/28/all_1.jpg)
-
-**1.3 Brute force vs. optimized strategy**
-
-- **Brute Force:** Generate all possible paths and filter those that end at n-1. This is inefficient and doesn't leverage the DAG structure.
-- **Optimized Strategy:** Use DFS with backtracking to explore paths incrementally, only following edges that can potentially lead to the target. This naturally finds all valid paths.
-- **Why optimized is better:** DFS with backtracking efficiently explores the graph structure without redundant computations, and backtracking allows us to reuse the path list.
-
-**1.4 Decomposition**
-
-1. **Initialize Result:** Create an empty list to store all paths.
-2. **Start DFS:** Begin DFS from node 0 with an initial path containing just node 0.
-3. **Explore Neighbors:** For each neighbor of the current node, add it to the path and recursively explore.
-4. **Record Complete Paths:** When we reach node n-1, add the current path to results.
-5. **Backtrack:** After exploring a neighbor, remove it from the path to try other paths.
+1. **DFS Traversal:** Start from node 0, recursively visit all neighbors.
+2. **Path Tracking:** Maintain current path as we traverse.
+3. **Result Collection:** When we reach node n-1, add the current path to results.
+4. **Backtracking:** Remove current node from path before returning to explore other paths.
 
 ### Steps
 
-**2.1 Initialization & Example Setup**
+1. **Initialization & Example Setup**
+   Let's use `graph = [[1,2],[3],[3],[]]` as our example.
+   - Initialize `res = []` to store all paths.
+   - Start DFS from node 0 with path `[0]`.
 
-Let's use the example: `graph = [[1,2],[3],[3],[]]`
+2. **DFS Function**
+   The `dfs(node, path)` function:
+   - If `node == n - 1`, we found a path → append `path[:]` to `res`.
+   - For each neighbor in `graph[node]`:
+     - Add neighbor to path.
+     - Recursively call `dfs(neighbor, path)`.
+     - Remove neighbor from path (backtrack).
 
-- Nodes: 0, 1, 2, 3
-- Edges: 0→1, 0→2, 1→3, 2→3
-- Target: node 3
+3. **Trace Walkthrough**
 
-**2.2 Start DFS**
+Starting from node 0:
 
-Initialize `res = []` and start DFS from node 0 with `path = [0]`.
+| Step | Current Node | Path | Neighbors | Action |
+|------|--------------|------|-----------|--------|
+| 1    | 0            | [0]  | [1,2]     | Go to 1 |
+| 2    | 1            | [0,1]| [3]       | Go to 3 |
+| 3    | 3            | [0,1,3] | []    | Found path! Add [0,1,3] |
+| 4    | 1            | [0,1]| [3]       | Backtrack, return |
+| 5    | 0            | [0]  | [1,2]     | Go to 2 |
+| 6    | 2            | [0,2]| [3]       | Go to 3 |
+| 7    | 3            | [0,2,3] | []    | Found path! Add [0,2,3] |
 
-**2.3 Trace Walkthrough**
+4. **Backtracking**
+   After exploring a path, we remove the last node to try other branches:
+   - After finding [0,1,3], remove 3, then remove 1.
+   - Now we can explore path through node 2.
 
-| Current Node | Path | Neighbors | Action | Result |
-|-------------|------|-----------|--------|--------|
-| 0 | [0] | [1,2] | Explore 1 | - |
-| 1 | [0,1] | [3] | Explore 3 | - |
-| 3 | [0,1,3] | [] | Reached target! | Add [0,1,3] |
-| 1 | [0,1] | [3] | Backtrack | - |
-| 0 | [0] | [1,2] | Explore 2 | - |
-| 2 | [0,2] | [3] | Explore 3 | - |
-| 3 | [0,2,3] | [] | Reached target! | Add [0,2,3] |
-
-**2.4 Backtrack and Continue**
-
-After finding path [0,1,3], we backtrack by removing 3 and 1 from the path, returning to node 0. Then we explore the other neighbor (2) to find [0,2,3].
-
-**2.5 Return Result**
-
-After DFS completes, `res = [[0,1,3],[0,2,3]]`, which contains all paths from node 0 to node 3.
+5. **Return Result**
+   Return `res = [[0,1,3], [0,2,3]]`.

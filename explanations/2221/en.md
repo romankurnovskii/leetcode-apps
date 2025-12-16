@@ -2,52 +2,49 @@
 
 ### Strategy
 
-**Restate the problem**  
-Repeatedly replace the array with pairwise sums mod 10 until one element remains; return it.
+**Constraints & Edge Cases**
 
-**1.1 Constraints & Complexity**  
-- **Input Size:** `1 <= n <= 1000`.  
-- **Time Complexity:** O(n²) in the direct simulation (each layer shrinks by 1).  
-- **Space Complexity:** O(n) for the working array.  
-- **Edge Case:** n=1 → return the single value.
+* **Array Size:** nums has length 1-1000, with values 0-9. We repeatedly reduce the array until only one element remains.
+* **Time Complexity:** We perform n-1 iterations, and each iteration processes the current array. Total operations are roughly O(n²). **Time Complexity: O(n²)**, **Space Complexity: O(n)** for the new array.
+* **Edge Case:** If nums has only one element, return that element directly.
 
-**1.2 High-level approach**  
-Simulate the reduction: build a new array of length-1 from `(nums[i]+nums[i+1]) % 10` until length=1.  
-![Layered triangular reduction](https://assets.leetcode.com/static_assets/public/images/LeetCode_logo.png)
+**High-level approach**
 
-**1.3 Brute force vs. optimized strategy**  
-- **Brute Force:** Same as direct simulation — O(n²), acceptable for n=1000.  
-- **Optimized:** Binomial-coefficient mod 10 approach exists, but simulation suffices.
+The problem asks us to repeatedly create a new array where each element is `(nums[i] + nums[i+1]) % 10`, until only one element remains. This is similar to computing a triangular sum.
 
-**1.4 Decomposition**  
-1. While `len(nums) > 1`:  
-   - Build `newNums` of size `len(nums)-1` with `(nums[i]+nums[i+1])%10`.  
-   - Assign `nums = newNums`.  
-2. Return `nums[0]`.
+**Brute force vs. optimized strategy**
+
+* **Brute Force:** This is what we do - simulate the process step by step. There's no more efficient way for this problem.
+* **Optimized:** We can optimize space by reusing the array, but the time complexity remains the same.
+
+**Decomposition**
+
+1. **Iterate:** While array length > 1, create a new array.
+2. **Compute Pairs:** For each adjacent pair, compute `(nums[i] + nums[i+1]) % 10`.
+3. **Update:** Replace nums with the new array.
+4. **Return:** When length is 1, return that element.
 
 ### Steps
 
-**2.1 Initialization & Example Setup**  
-Example: `nums = [1,2,3,4,5]`.
+1. **Initialization & Example Setup**
+   Let's use `nums = [1,2,3,4,5]` as our example.
 
-**2.2 Start Checking**  
-Layer 1: `[3,5,7,9]` → mod 10: `[3,5,7,9]`  
-Layer 2: `[8,2,6]`  
-Layer 3: `[0,8]`  
-Layer 4: `[8]`
+2. **First Iteration**
+   - Create new array: `[(1+2)%10, (2+3)%10, (3+4)%10, (4+5)%10]`
+   - `= [3, 5, 7, 9]`
+   - Update: `nums = [3,5,7,9]`
 
-**2.3 Trace Walkthrough**  
-| Layer | Array state    |
-|-------|----------------|
-| 0     | [1,2,3,4,5]    |
-| 1     | [3,5,7,9]      |
-| 2     | [8,2,6]        |
-| 3     | [0,8]          |
-| 4     | [8]            |
+3. **Trace Walkthrough**
 
-**2.4 Increment and Loop**  
-Repeat until a single value remains.
+| Iteration | nums | New Array Calculation | Result |
+|-----------|------|----------------------|--------|
+| 0         | [1,2,3,4,5] | [(1+2)%10, (2+3)%10, (3+4)%10, (4+5)%10] | [3,5,7,9] |
+| 1         | [3,5,7,9]   | [(3+5)%10, (5+7)%10, (7+9)%10] | [8,2,6] |
+| 2         | [8,2,6]     | [(8+2)%10, (2+6)%10] | [0,8] |
+| 3         | [0,8]       | [(0+8)%10] | [8] |
 
-**2.5 Return Result**  
-Return the last value (8 in the example).
+4. **Continue Until One Element**
+   - Keep iterating until `len(nums) == 1`.
 
+5. **Return Result**
+   Return `nums[0] = 8`.

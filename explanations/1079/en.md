@@ -2,49 +2,57 @@
 
 ### Strategy
 
-**Restate the problem**  
-Count all non-empty sequences that can be formed from the multiset of tiles (letters), respecting available counts.
+**Constraints & Edge Cases**
 
-**1.1 Constraints & Complexity**  
-- **Input Size:** `1 <= len(tiles) <= 7`.  
-- **Time Complexity:** O(n! * n) in worst case (backtracking over permutations), acceptable for n <= 7.  
-- **Space Complexity:** O(n) recursion depth + O(1) counts.  
-- **Edge Case:** Single tile → exactly 1 sequence.
+* **String Length:** The tiles string has length 1-7, consisting of uppercase English letters. This small constraint allows for backtracking solutions.
+* **Time Complexity:** We generate all possible sequences using backtracking. The number of sequences depends on the character frequencies. **Time Complexity: O(2^n)** where n is the number of unique sequences, **Space Complexity: O(n)** for recursion stack and character counts.
+* **Edge Case:** If tiles has only one character, there's exactly one sequence (the character itself).
 
-**1.2 High-level approach**  
-Use backtracking with frequency counts; at each step, pick a letter with remaining count, decrement, recurse, then restore.  
-![Backtracking over letter counts](https://assets.leetcode.com/static_assets/public/images/LeetCode_logo.png)
+**High-level approach**
 
-**1.3 Brute force vs. optimized strategy**  
-- **Brute Force:** Generate all permutations with duplicates and then deduplicate — costly.  
-- **Optimized:** Use counts to avoid generating identical branches; count as we go.
+The problem asks us to count all possible non-empty sequences we can form from the given tiles. Each tile can be used at most as many times as it appears in the original string.
 
-**1.4 Decomposition**  
-1. Build frequency map of letters.  
-2. DFS: for each letter with count > 0, use it (res++), decrement, recurse, restore.  
-3. Sum all counts encountered.  
-4. Return `res`.
+**Brute force vs. optimized strategy**
+
+* **Brute Force:** Generate all possible sequences and count them. This is what we do, but we use backtracking to avoid duplicates efficiently.
+* **Optimized:** Use backtracking with character frequency counting. For each character, we can either use it (if available) or skip it. Count each valid sequence as we build it.
+
+**Decomposition**
+
+1. **Count Characters:** Create a frequency map of all characters in tiles.
+2. **Backtrack:** For each character, try using it (if available) and recursively count sequences.
+3. **Count Sequences:** Each time we add a character, we have a new sequence, so increment the count.
 
 ### Steps
 
-**2.1 Initialization & Example Setup**  
-Example: `tiles = "AAB"`; counts: A:2, B:1, `res=0`.
+1. **Initialization & Example Setup**
+   Let's use `tiles = "AAB"` as our example.
+   - Count characters: `count = {'A': 2, 'B': 1}`.
 
-**2.2 Start Checking**  
-Try each available letter, recurse with updated counts.
+2. **Backtrack Function**
+   The `backtrack(count)` function:
+   - Initialize `res = 0` to count sequences.
+   - For each character in count:
+     - If count[char] > 0, we can use it.
+     - Increment `res` by 1 (this character alone is a sequence).
+     - Decrement count[char], recursively call backtrack, then restore count[char].
 
-**2.3 Trace Walkthrough**  
-| Path    | Counts after pick | res increment | Notes        |
-|---------|-------------------|---------------|--------------|
-| A       | A:1,B:1           | +1            | recurse more |
-| AA      | A:0,B:1           | +1            | recurse      |
-| AAB     | A:0,B:0           | +1            | dead end     |
-| AB      | A:1,B:0           | +1            | recurse      |
-| ...     | ...               | ...           | ...          |
+3. **Trace Walkthrough**
 
-**2.4 Increment and Loop**  
-Each pick adds 1 to `res` (for the new sequence) before deeper recursion.
+Starting with `count = {'A': 2, 'B': 1}`:
 
-**2.5 Return Result**  
-Final `res = 8` for the example.
+| Step | Character | Count After | Sequences Found | Action |
+|------|-----------|-------------|-----------------|--------|
+| 1    | 'A'       | {'A':1,'B':1} | 1 ("A")      | Use A, recurse |
+| 2    | 'A'       | {'A':0,'B':1} | 1 ("AA")     | Use A again, recurse |
+| 3    | 'B'       | {'A':0,'B':0} | 1 ("AAB")    | Use B, recurse |
+| 4    | 'B'       | {'A':1,'B':0} | 1 ("AB")     | Backtrack, use B instead |
+| 5    | 'A'       | {'A':0,'B':0} | 1 ("ABA")    | Use A, recurse |
+| 6    | 'B'       | {'A':2,'B':0} | 1 ("B")      | Backtrack, use B first |
+| 7    | 'A'       | {'A':1,'B':0} | 1 ("BA")     | Use A, recurse |
+| 8    | 'A'       | {'A':0,'B':0} | 1 ("BAA")    | Use A again |
 
+Total: 8 sequences ("A", "AA", "AAB", "AB", "ABA", "B", "BA", "BAA")
+
+4. **Return Result**
+   Return the total count from backtrack function.

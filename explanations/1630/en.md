@@ -2,46 +2,51 @@
 
 ### Strategy
 
-**Restate the problem**  
-For each query `[l_i, r_i]`, decide if the subarray can be rearranged into an arithmetic progression.
+**Constraints & Edge Cases**
 
-**1.1 Constraints & Complexity**  
-- **Input Size:** `n, m <= 500`.  
-- **Time Complexity:** O(m * k log k), where k is subarray length (sort each subarray).  
-- **Space Complexity:** O(k) per query for the sorted copy.  
-- **Edge Case:** Subarray of length 2 is always arithmetic.
+* **Array Sizes:** nums has length 2-500, and we have 1-500 range queries. Each query specifies a subarray that can be rearranged.
+* **Time Complexity:** For each query, we extract the subarray (O(n)), sort it (O(n log n)), and check if it's arithmetic (O(n)). With m queries, total is O(m * n log n). **Time Complexity: O(m * n log n)**, **Space Complexity: O(n)** for the sorted subarray.
+* **Edge Case:** If a subarray has less than 2 elements, it's trivially arithmetic (return True).
 
-**1.2 High-level approach**  
-Extract subarray, sort it, ensure consecutive differences are equal.  
-![Sorted subarray check](https://assets.leetcode.com/static_assets/public/images/LeetCode_logo.png)
+**High-level approach**
 
-**1.3 Brute force vs. optimized strategy**  
-- **Brute Force:** Try all permutations — factorial blowup.  
-- **Optimized:** Sorting then one pass diff check — O(k log k).
+The problem asks us to check if subarrays can be rearranged to form arithmetic sequences. A sequence is arithmetic if the difference between consecutive elements is constant.
 
-**1.4 Decomposition**  
-1. For each query, copy subarray `nums[l:r+1]`.  
-2. Sort it.  
-3. Compute common diff = `sorted[1]-sorted[0]`.  
-4. Verify all consecutive diffs match; if any differ, mark false; else true.
+**Brute force vs. optimized strategy**
+
+* **Brute Force:** For each query, try all permutations of the subarray to see if any forms an arithmetic sequence. This would be O(n! * n) per query, which is exponential.
+* **Optimized:** Sort the subarray and check if the sorted version is arithmetic. If a set of numbers can form an arithmetic sequence, its sorted version will be arithmetic. This is O(n log n) per query.
+
+**Decomposition**
+
+1. **Extract Subarray:** Get the subarray from nums[l[i]] to nums[r[i]].
+2. **Sort:** Sort the subarray to check if it can be arithmetic.
+3. **Check Arithmetic:** Verify that differences between consecutive elements are constant.
 
 ### Steps
 
-**2.1 Initialization & Example Setup**  
-Example: `nums=[4,6,5,9,3,7]`, query `[0,2]` → subarray `[4,6,5]`.
+1. **Initialization & Example Setup**
+   Let's use `nums = [4,6,5,9,3,7]`, `l = [0,0,2]`, `r = [2,3,5]` as our example.
+   - Initialize `res = []` to store results.
 
-**2.2 Start Checking**  
-Sort → `[4,5,6]`, diff = 1.
+2. **Process Each Query**
+   For query i = 0: `l[0]=0`, `r[0]=2`
+   - Extract subarray: `nums[0:3] = [4,6,5]`
+   - Sort: `[4,5,6]`
+   - Check differences: `5-4=1`, `6-5=1` → constant difference → True
 
-**2.3 Trace Walkthrough**  
-| Subarray (sorted) | Step | Diff check          | OK? |
-|-------------------|------|----------------------|-----|
-| [4,5,6]           | 4→5  | 1 == diff            | ✓   |
-|                   | 5→6  | 1 == diff            | ✓   |
+3. **Trace Walkthrough**
 
-**2.4 Increment and Loop**  
-Repeat for each query independently.
+| Query | l[i] | r[i] | Subarray | Sorted | Differences | Result |
+|-------|------|------|----------|--------|-------------|--------|
+| 0     | 0    | 2    | [4,6,5]  | [4,5,6] | 1, 1        | True   |
+| 1     | 0    | 3    | [4,6,5,9]| [4,5,6,9]| 1, 1, 3     | False  |
+| 2     | 2    | 5    | [5,9,3,7]| [3,5,7,9]| 2, 2, 2     | True   |
 
-**2.5 Return Result**  
-Append boolean for each query into `res`.
+4. **Check Arithmetic Logic**
+   - If sorted array has less than 2 elements, return True.
+   - Calculate `diff = sorted[1] - sorted[0]`.
+   - For each subsequent pair, check if `sorted[i] - sorted[i-1] == diff`.
 
+5. **Return Result**
+   Append True or False to `res` for each query, then return `res`.

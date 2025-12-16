@@ -3,24 +3,19 @@
 #     def __init__(self, val=0, next=None):
 #         self.val = val
 #         self.next = next
-from typing import List, Optional
-
 class Solution:
     def spiralMatrix(self, m: int, n: int, head: Optional[ListNode]) -> List[List[int]]:
-        # Initialize matrix with -1
         res = [[-1] * n for _ in range(m)]
         
-        # Directions: right, down, left, up
         directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
         dir_idx = 0
         row, col = 0, 0
         
-        current = head
-        while current:
-            res[row][col] = current.val
-            current = current.next
+        while head:
+            res[row][col] = head.val
+            head = head.next
             
-            if not current:
+            if not head:
                 break
             
             # Try to move in current direction

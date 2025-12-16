@@ -2,50 +2,56 @@
 
 ### Strategy
 
-**Restate the problem**  
-Given grid size `n`, start position, and instructions `s`, for each suffix of `s` compute how many moves stay within the grid.
+**Constraints & Edge Cases**
 
-**1.1 Constraints & Complexity**  
-- **Input Size:** `1 <= n, m <= 500`, m = |s|.  
-- **Time Complexity:** O(m²) in the straightforward simulation (m up to 500 is fine).  
-- **Space Complexity:** O(1) extra besides output.  
-- **Edge Case:** Single instruction that immediately leaves → 0 for that suffix.
+* **Grid and Instructions:** n and m (instruction length) are 1-500. The robot starts at startPos and executes instructions.
+* **Time Complexity:** For each starting position i, we simulate execution until the robot goes out of bounds. Worst case is O(m²). **Time Complexity: O(m²)**, **Space Complexity: O(m)** for the result array.
+* **Edge Case:** If the robot would go out of bounds on the first instruction, return 0 for that position.
 
-**1.2 High-level approach**  
-For each starting index i, simulate moves from that suffix until leaving bounds.  
-![Suffix simulation on grid](https://assets.leetcode.com/static_assets/public/images/LeetCode_logo.png)
+**High-level approach**
 
-**1.3 Brute force vs. optimized strategy**  
-- **Brute Force / Direct:** Simulate each suffix independently — O(m²). Acceptable for m=500.  
-- **Optimized:** Could precompute deltas, but unnecessary here.
+The problem asks us to find, for each starting position i in the instruction string, how many instructions the robot can execute before going out of bounds. We simulate the execution for each starting position.
 
-**1.4 Decomposition**  
-1. Map instructions to direction deltas.  
-2. For each i in [0..m-1], start from `startPos`, step through `s[i:]` until out of bounds.  
-3. Count steps that remain in bounds.  
-4. Store counts in `res`.
+**Brute force vs. optimized strategy**
+
+* **Brute Force:** This is what we do - simulate execution for each starting position. There's no more efficient way without complex preprocessing.
+* **Optimized:** We could potentially use dynamic programming or prefix sums, but simulation is straightforward and efficient enough for the constraints.
+
+**Decomposition**
+
+1. **For Each Start Position:** Try starting from each index i in the instruction string.
+2. **Simulate Execution:** Execute instructions one by one, updating robot position.
+3. **Count Instructions:** Count how many instructions can be executed before going out of bounds.
+4. **Store Result:** Save the count for each starting position.
 
 ### Steps
 
-**2.1 Initialization & Example Setup**  
-Example: `n=3, start=[0,1], s="RRDDLU"`, m=6.
+1. **Initialization & Example Setup**
+   Let's use `n = 3`, `startPos = [0,1]`, `s = "RRDDLU"` as our example.
+   - Initialize `res = []`.
 
-**2.2 Start Checking**  
-For each suffix, reset position and simulate.
+2. **Process Each Starting Position**
+   For i = 0: Start at (0,1), execute from "RRDDLU"
+   - 'R': (0,1) → (0,2) ✓ (within bounds)
+   - 'R': (0,2) → (0,3) ✗ (out of bounds, col=3 >= n=3)
+   - Count = 1
 
-**2.3 Trace Walkthrough**  
-| start i | suffix   | path validity count |
-|---------|----------|---------------------|
-| 0       | RRDDLU   | 1                   |
-| 1       | RDDLU    | 5                   |
-| 2       | DDLU     | 4                   |
-| 3       | DLU      | 3                   |
-| 4       | LU       | 1                   |
-| 5       | U        | 0                   |
+3. **Trace Walkthrough**
 
-**2.4 Increment and Loop**  
-Repeat for all suffix starts.
+| Start i | Instructions | Execution | Position After | In Bounds? | Count |
+|---------|--------------|-----------|----------------|------------|-------|
+| 0       | "RRDDLU"     | R         | (0,2)          | Yes        | 1     |
+| 0       | "RRDDLU"     | R         | (0,3)          | No         | Stop  |
+| 1       | "RDDLU"      | R         | (0,2)          | Yes        | 1     |
+| 1       | "RDDLU"      | D         | (1,2)          | Yes        | 2     |
+| 1       | "RDDLU"      | D         | (2,2)          | Yes        | 3     |
+| 1       | "RDDLU"      | L         | (2,1)          | Yes        | 4     |
+| 1       | "RDDLU"      | U         | (1,1)          | Yes        | 5     |
 
-**2.5 Return Result**  
-Return the array of counts, e.g., `[1,5,4,3,1,0]`.
+4. **Simulation Logic**
+   - For each instruction: 'L'→col-1, 'R'→col+1, 'U'→row-1, 'D'→row+1
+   - Check if new position is within [0, n-1] for both row and col
+   - If out of bounds, stop and record count
 
+5. **Return Result**
+   Return `res = [1,5,4,3,1,0]` for all starting positions.

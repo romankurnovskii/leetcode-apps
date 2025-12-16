@@ -2,104 +2,48 @@
 
 ### Strategy
 
-**Restate the problem**  
-Delete a given node (not tail) from a singly linked list when only that node reference is provided.
+**Constraints & Edge Cases**
 
-**1.1 Constraints & Complexity**  
-- **Input Size:** 2 to 1000 nodes.  
-- **Time Complexity:** O(1) for the delete operation.  
-- **Space Complexity:** O(1).  
-- **Edge Case:** The given node’s next exists (guaranteed).
+* **Linked List:** The list has 2-1000 nodes with unique values. The node to delete is guaranteed to not be the tail node.
+* **Time Complexity:** We only need to copy the next node's value and update the pointer, which is O(1). **Time Complexity: O(1)**, **Space Complexity: O(1)**.
+* **Edge Case:** Since the node is guaranteed not to be the tail, we can always access `node.next`.
 
-**1.2 High-level approach**  
-Copy the next node’s value into the current node, then bypass the next node.  
-![In-place delete by copying next](https://assets.leetcode.com/static_assets/public/images/LeetCode_logo.png)
+**High-level approach**
 
-**1.3 Brute force vs. optimized strategy**  
-- **Brute Force:** Traverse from head to find previous node — impossible without head.  
-- **Optimized:** Overwrite current node with next node data; O(1).
+The problem asks us to delete a node from a linked list, but we're only given access to that node (not the head). We can't delete the node itself, but we can make it "disappear" by copying the next node's data and skipping the next node.
 
-**1.4 Decomposition**  
-1. Set `node.val = node.next.val`.  
-2. Link `node.next = node.next.next`.  
-3. Done.
+**Brute force vs. optimized strategy**
+
+* **Brute Force:** There's no brute force needed here - we simply copy the next node's value and update the pointer.
+* **Optimized:** Copy `node.next.val` to `node.val`, then set `node.next = node.next.next`. This effectively removes the current node from the list.
+
+**Decomposition**
+
+1. **Copy Value:** Copy the next node's value to the current node.
+2. **Skip Next Node:** Update the current node's next pointer to skip the next node.
 
 ### Steps
 
-**2.1 Initialization & Example Setup**  
-List: `4 -> 5 -> 1 -> 9`, node to delete = value 5.
+1. **Initialization & Example Setup**
+   Let's use `head = [4,5,1,9]`, `node = 5` (the node with value 5) as our example.
+   - The node to delete is the second node (value 5).
+   - We have: `4 -> 5 -> 1 -> 9`.
 
-**2.2 Start Checking**  
-Copy next (1) into current.
+2. **Copy Next Node's Value**
+   - `node.val = node.next.val` → `node.val = 1`.
+   - Now the list looks like: `4 -> 1 -> 1 -> 9` (temporarily has duplicate 1).
 
-**2.3 Trace Walkthrough**  
-| Step | node.val before | node.next.val | Action                      | List becomes        |
-|------|-----------------|---------------|-----------------------------|---------------------|
-| 1    | 5               | 1             | node.val = 1                | 4 -> 1 -> 1 -> 9    |
-| 2    | 1               | 1             | node.next = node.next.next  | 4 -> 1 -> 9         |
+3. **Skip Next Node**
+   - `node.next = node.next.next` → Skip the node with value 1.
+   - Now: `4 -> 1 -> 9`.
 
-**2.4 Increment and Loop**  
-No loop; constant steps.
+4. **Trace Walkthrough**
 
-**2.5 Return Result**  
-Node effectively removed; list is `4 -> 1 -> 9`.
-## Explanation
+| Step | Action | List State |
+|------|--------|------------|
+| Initial | - | 4 -> 5 -> 1 -> 9 |
+| 1 | Copy next.val to node.val | 4 -> 1 -> 1 -> 9 |
+| 2 | Skip next node | 4 -> 1 -> 9 |
 
-### Strategy
-
-**Restate the problem**
-
-We need to delete a node from a linked list, but we are only given access to the node to be deleted (not the head). We cannot access the previous node directly.
-
-**1.1 Constraints & Complexity**
-
-- **Input Size:** The linked list has 2 to 1000 nodes.
-- **Time Complexity:** O(1) - We only perform a constant number of operations.
-- **Space Complexity:** O(1) - No additional space is used.
-- **Edge Case:** The node to delete is guaranteed not to be the tail node, so we can safely access node.next.next.
-
-**1.2 High-level approach**
-
-Since we cannot access the previous node, we cannot directly unlink the current node. Instead, we copy the value from the next node into the current node, then skip the next node by linking the current node to the node after the next one.
-
-![Linked list node deletion by copying value](https://assets.leetcode.com/uploads/2020/09/01/node1.jpg)
-
-**1.3 Brute force vs. optimized strategy**
-
-- **Brute Force:** If we had access to the head, we could traverse to find the previous node and update its next pointer. This would be O(n) time.
-- **Optimized Strategy:** Copy the next node's value to the current node and skip the next node. This is O(1) time.
-- **Why optimized is better:** We achieve constant time deletion by cleverly copying data instead of restructuring the list.
-
-**1.4 Decomposition**
-
-1. **Copy Value:** Copy the value from node.next to node.
-2. **Skip Next Node:** Update node.next to point to node.next.next, effectively removing the next node from the list.
-
-### Steps
-
-**2.1 Initialization & Example Setup**
-
-Let's use the example: `head = [4,5,1,9]`, `node = 5` (the node with value 5)
-
-- The linked list: 4 → 5 → 1 → 9
-- We are given the node containing value 5 (second node)
-
-**2.2 Start Processing**
-
-We need to delete the node with value 5. Since we only have access to this node, we cannot modify the previous node (4).
-
-**2.3 Trace Walkthrough**
-
-| Step | Current Node Value | Next Node Value | Action | Result |
-|------|-------------------|-----------------|--------|--------|
-| Initial | 5 | 1 | - | 4 → 5 → 1 → 9 |
-| Copy | 5 → 1 | 1 | Copy next value | 4 → 1 → 1 → 9 |
-| Skip | 1 | 9 | Link to next.next | 4 → 1 → 9 |
-
-**2.4 Update Pointers**
-
-After copying the value, we update `node.next = node.next.next`, which removes the duplicate node from the list.
-
-**2.5 Return Result**
-
-The list becomes `[4,1,9]`, effectively deleting the original node with value 5. Note that we actually deleted the next node, but from the user's perspective, the node with value 5 is gone.
+5. **Result**
+   The node with value 5 is effectively removed. The list now contains [4,1,9].

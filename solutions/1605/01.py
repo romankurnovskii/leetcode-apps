@@ -1,5 +1,3 @@
-from typing import List
-
 class Solution:
     def restoreMatrix(self, rowSum: List[int], colSum: List[int]) -> List[List[int]]:
         m, n = len(rowSum), len(colSum)
@@ -7,7 +5,6 @@ class Solution:
         
         for i in range(m):
             for j in range(n):
-                # Place the minimum of remaining rowSum and colSum
                 val = min(rowSum[i], colSum[j])
                 res[i][j] = val
                 rowSum[i] -= val
