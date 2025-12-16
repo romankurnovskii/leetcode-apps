@@ -4,28 +4,19 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
-from typing import List, Optional
-
 class Solution:
     def bstFromPreorder(self, preorder: List[int]) -> Optional[TreeNode]:
         if not preorder:
             return None
         
         root = TreeNode(preorder[0])
-        stack = [root]
         
-        for val in preorder[1:]:
-            node = TreeNode(val)
-            
-            # If current value is less than stack top, it's a left child
-            if val < stack[-1].val:
-                stack[-1].left = node
-            else:
-                # Find the parent where this node should be right child
-                while stack and stack[-1].val < val:
-                    parent = stack.pop()
-                parent.right = node
-            
-            stack.append(node)
+        # Find the split point where values become greater than root
+        i = 1
+        while i < len(preorder) and preorder[i] < preorder[0]:
+            i += 1
+        
+        root.left = self.bstFromPreorder(preorder[1:i])
+        root.right = self.bstFromPreorder(preorder[i:])
         
         return root

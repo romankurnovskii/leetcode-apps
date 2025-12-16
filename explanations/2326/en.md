@@ -2,48 +2,58 @@
 
 ### Strategy
 
-**Restate the problem**  
-Fill an `m x n` matrix in spiral order using values from a linked list; remaining cells become -1.
+**Constraints & Edge Cases**
 
-**1.1 Constraints & Complexity**  
-- **Input Size:** `1 <= m*n <= 1e5`; list length up to `m*n`.  
-- **Time Complexity:** O(m*n) to visit each cell once.  
-- **Space Complexity:** O(1) extra (matrix output not counted).  
-- **Edge Case:** List shorter than cells → trailing -1s.
+* **Matrix Size:** m and n can be up to 10^5, but m*n ≤ 10^5. The linked list has 1 to m*n nodes.
+* **Time Complexity:** We traverse the linked list once and fill the matrix in spiral order. **Time Complexity: O(m * n)**, **Space Complexity: O(m * n)** for the result matrix.
+* **Edge Case:** If the linked list has fewer nodes than m*n, remaining cells are filled with -1.
 
-**1.2 High-level approach**  
-Track boundaries/directions for spiral traversal, place list values until exhausted, then fill -1 stays.  
-![Spiral traversal boundaries](https://assets.leetcode.com/static_assets/public/images/LeetCode_logo.png)
+**High-level approach**
 
-**1.3 Brute force vs. optimized strategy**  
-- **Brute Force:** Recompute visited checks with sets — higher overhead.  
-- **Optimized:** Direction vectors with boundary checks — O(1) per move.
+The problem asks us to fill an m x n matrix in spiral (clockwise) order starting from top-left, using values from a linked list. We use direction vectors to navigate the spiral pattern.
 
-**1.4 Decomposition**  
-1. Initialize matrix with -1.  
-2. Set direction order: right, down, left, up.  
-3. Walk cell by cell, placing list values.  
-4. When the next cell is out-of-bounds or already filled, turn clockwise.  
-5. Continue until list ends or all cells visited.
+**Brute force vs. optimized strategy**
+
+* **Brute Force:** This is essentially what we do - traverse in spiral order. There's no more efficient way.
+* **Optimized:** Use direction vectors [(0,1), (1,0), (0,-1), (-1,0)] to represent right, down, left, up. When we hit a boundary or visited cell, rotate direction.
+
+**Decomposition**
+
+1. **Initialize Matrix:** Create m x n matrix filled with -1.
+2. **Spiral Traversal:** Use direction vectors to move in spiral pattern.
+3. **Direction Change:** When hitting boundary or visited cell, rotate to next direction.
+4. **Fill Values:** Place linked list values as we traverse.
 
 ### Steps
 
-**2.1 Initialization & Example Setup**  
-Example: `m=3, n=5`, list `[3,0,2,6,8,1,7,9,4,2,5,5,0]`; start at `(0,0)`, dir=right.
+1. **Initialization & Example Setup**
+   Let's use `m = 3`, `n = 5`, `head = [3,0,2,6,8,1,7,9,4,2,5,5,0]` as our example.
+   - Initialize `res = [[-1]*5 for _ in range(3)]`.
+   - Directions: `[(0,1), (1,0), (0,-1), (-1,0)]` (right, down, left, up).
+   - Start at `(0,0)` with `dir_idx = 0` (right).
 
-**2.2 Start Checking**  
-Place value, attempt next move; if blocked, rotate direction.
+2. **Spiral Traversal**
+   - Place head.val = 3 at (0,0), move right.
+   - Continue placing values and moving in current direction.
+   - When hitting boundary or -1 (visited), change direction.
 
-**2.3 Trace Walkthrough**  
-| Step | Pos (r,c) | Dir    | Value placed | Next move valid? |
-|------|-----------|--------|--------------|------------------|
-| 1    | (0,0)     | right  | 3            | yes              |
-| ...  | ...       | ...    | ...          | ...              |
-| turn | boundary  | rotate | —            | —                |
+3. **Trace Walkthrough**
 
-**2.4 Increment and Loop**  
-Advance through list nodes; rotate as needed until list ends.
+| Step | Position | Value | Direction | Next Position | Action |
+|------|----------|-------|-----------|---------------|--------|
+| 1    | (0,0)    | 3     | Right     | (0,1)         | Place 3, move right |
+| 2    | (0,1)    | 0     | Right     | (0,2)         | Place 0, move right |
+| 3    | (0,2)    | 2     | Right     | (0,3)         | Place 2, move right |
+| 4    | (0,3)    | 6     | Right     | (0,4)         | Place 6, move right |
+| 5    | (0,4)    | 8     | Right     | (0,5) - out   | Place 8, change to down |
+| 6    | (1,4)    | 1     | Down      | (2,4)         | Place 1, move down |
+| 7    | (2,4)    | 7     | Down      | (3,4) - out   | Place 7, change to left |
+| 8    | (2,3)    | 9     | Left      | (2,2)         | Place 9, move left |
+| ...  | ...      | ...   | ...       | ...           | Continue spiral |
 
-**2.5 Return Result**  
-Matrix filled in spiral with remaining cells as -1.
+4. **Direction Change Logic**
+   - Check if next position is out of bounds or already filled (value != -1).
+   - If yes, rotate direction: `dir_idx = (dir_idx + 1) % 4`.
 
+5. **Return Result**
+   Return the filled matrix with remaining cells as -1.

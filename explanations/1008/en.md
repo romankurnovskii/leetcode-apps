@@ -2,51 +2,55 @@
 
 ### Strategy
 
-**Restate the problem**  
-Given preorder traversal of a BST, reconstruct the tree.
+**Constraints & Edge Cases**
 
-**1.1 Constraints & Complexity**  
-- **Input Size:** up to 100 nodes.  
-- **Time Complexity:** O(n) using a stack to place nodes.  
-- **Space Complexity:** O(n) for the stack/tree nodes.  
-- **Edge Case:** Single-node preorder list.
+* **Preorder Array:** The preorder traversal array has length 1-100, with unique values between 1-1000. The array is guaranteed to form a valid BST.
+* **Time Complexity:** We process each element once, and for each element we may need to find the split point. In worst case, this is O(n²), but average case is O(n log n). **Time Complexity: O(n²)** worst case, **O(n log n)** average, **Space Complexity: O(n)** for recursion stack.
+* **Edge Case:** If the array has only one element, we return a single node tree.
 
-**1.2 High-level approach**  
-Iterate preorder; use a stack of ancestors. Each value smaller than stack top goes left; otherwise pop until finding parent, then attach right.  
-![BST reconstruction from preorder](https://assets.leetcode.com/static_assets/public/images/LeetCode_logo.png)
+**High-level approach**
 
-**1.3 Brute force vs. optimized strategy**  
-- **Brute Force:** Insert each value via BST insert — still O(n²) worst case (sorted input).  
-- **Optimized:** Monotonic stack to place nodes in O(n).
+The problem asks us to construct a BST from its preorder traversal. In preorder, the root comes first, followed by all left subtree nodes, then all right subtree nodes.
 
-**1.4 Decomposition**  
-1. Create root from first value; push to stack.  
-2. For each next value:  
-   - If value < stack top, set as left child of top.  
-   - Else pop until stack empty or top > value; last popped is parent; attach as right child.  
-3. Push new node to stack.  
-4. Return root.
+**Brute force vs. optimized strategy**
+
+* **Brute Force:** For each element, insert it into the BST one by one. This would be O(n²) time.
+* **Optimized:** Use the property that in preorder, after the root, all values less than root form the left subtree, and all values greater than root form the right subtree. Recursively build left and right subtrees.
+
+**Decomposition**
+
+1. **Root Selection:** The first element in preorder is always the root.
+2. **Split Point:** Find where values transition from less than root to greater than root.
+3. **Recursive Construction:** Build left subtree from elements before split, right subtree from elements after split.
 
 ### Steps
 
-**2.1 Initialization & Example Setup**  
-Example: `[8,5,1,7,10,12]`; root = 8, stack = [8].
+1. **Initialization & Example Setup**
+   Let's use `preorder = [8,5,1,7,10,12]` as our example.
+   - If preorder is empty, return None.
 
-**2.2 Start Checking**  
-Process each value, updating stack and children.
+2. **Root Creation**
+   - Create root node with value `preorder[0] = 8`.
 
-**2.3 Trace Walkthrough**  
-| val | Stack before | Action                          | Child  |
-|-----|--------------|---------------------------------|--------|
-| 5   | [8]          | 5 < 8 → left of 8               | left   |
-| 1   | [8,5]        | 1 < 5 → left of 5               | left   |
-| 7   | [8,5,1]      | pop 1,5 (last popped=5) → right | right  |
-| 10  | [8,7]        | pop 7,8 (last popped=8) → right | right  |
-| 12  | [10]         | pop none → right of 10          | right  |
+3. **Find Split Point**
+   - Start from index 1, find the first index where `preorder[i] >= preorder[0]`.
+   - For our example: `preorder[1]=5 < 8`, `preorder[2]=1 < 8`, `preorder[3]=7 < 8`, `preorder[4]=10 >= 8`.
+   - Split point `i = 4`.
 
-**2.4 Increment and Loop**  
-Continue until all preorder values are attached.
+4. **Trace Walkthrough**
 
-**2.5 Return Result**  
-Root of the constructed BST.
+| Step | Left Subtree | Root | Right Subtree | Action |
+|------|--------------|------|----------------|--------|
+| 1    | [5,1,7]      | 8    | [10,12]        | Create root(8) |
+| 2    | [1]          | 5    | [7]            | Build left: root(5) |
+| 3    | []           | 1    | []             | Build left of 5: root(1) |
+| 4    | []           | 7    | []             | Build right of 5: root(7) |
+| 5    | []           | 10   | [12]           | Build right: root(10) |
+| 6    | []           | 12   | []             | Build right of 10: root(12) |
 
+5. **Recursive Construction**
+   - `root.left = bstFromPreorder([5,1,7])` → builds left subtree
+   - `root.right = bstFromPreorder([10,12])` → builds right subtree
+
+6. **Return Result**
+   Return the root node of the constructed BST.

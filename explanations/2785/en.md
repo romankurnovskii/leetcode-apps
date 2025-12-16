@@ -2,52 +2,55 @@
 
 ### Strategy
 
-**Restate the problem**  
-Sort all vowels in the string by ASCII order while leaving consonants in place.
+**Constraints & Edge Cases**
 
-**1.1 Constraints & Complexity**  
-- **Input Size:** `1 <= |s| <= 1e5`.  
-- **Time Complexity:** O(n log n) to sort extracted vowels; O(n) if counting-sort on 10 vowel chars.  
-- **Space Complexity:** O(n) for the output list.  
-- **Edge Case:** No vowels → string unchanged.
+* **String Length:** The string s has length 1-10^5, consisting of uppercase and lowercase English letters.
+* **Time Complexity:** We need to extract vowels (O(n)), sort them (O(k log k) where k is number of vowels), and rebuild the string (O(n)). **Time Complexity: O(n + k log k)** where k is the number of vowels, **Space Complexity: O(n)** for storing vowels and result.
+* **Edge Case:** If there are no vowels, return the original string unchanged.
 
-**1.2 High-level approach**  
-Extract vowels, sort them, then rebuild the string by replacing vowel positions with sorted vowels.  
-![Extract-sort-rebuild pipeline](https://assets.leetcode.com/static_assets/public/images/LeetCode_logo.png)
+**High-level approach**
 
-**1.3 Brute force vs. optimized strategy**  
-- **Brute Force:** Repeatedly scan to find next smallest vowel — O(n²).  
-- **Optimized:** One pass extract + one sort + one rebuild — O(n log n).
+The problem asks us to sort vowels in non-decreasing ASCII order while keeping consonants in their original positions.
 
-**1.4 Decomposition**  
-1. Collect vowels into a list.  
-2. Sort the vowel list.  
-3. Rebuild string: if char is vowel, take next from sorted list; else keep consonant.  
-4. Join result.
+**Brute force vs. optimized strategy**
+
+* **Brute Force:** For each vowel position, find the next smallest vowel to place there. This would be O(n²) time.
+* **Optimized:** Extract all vowels, sort them, then replace vowels in order. This is O(n + k log k) where k is the number of vowels.
+
+**Decomposition**
+
+1. **Identify Vowels:** Create a set of vowels (both uppercase and lowercase).
+2. **Extract and Sort:** Collect all vowels from the string and sort them by ASCII value.
+3. **Rebuild String:** Traverse the original string, replacing vowels with sorted vowels in order.
 
 ### Steps
 
-**2.1 Initialization & Example Setup**  
-Example: `s = "lEetcOde"`; vowels extracted: `['E','e','O','e']`.
+1. **Initialization & Example Setup**
+   Let's use `s = "lEetcOde"` as our example.
+   - Define vowels set: `{'a','e','i','o','u','A','E','I','O','U'}`.
+   - Initialize `vowel_list = []` and `res = []`.
 
-**2.2 Start Checking**  
-Sort vowels → `['E','O','e','e']`.
+2. **Extract Vowels**
+   - Traverse s: 'l' (consonant), 'E' (vowel), 'e' (vowel), 't' (consonant), 'c' (consonant), 'O' (vowel), 'd' (consonant), 'e' (vowel).
+   - `vowel_list = ['E', 'e', 'O', 'e']`.
+   - Sort: `['E', 'O', 'e', 'e']` (ASCII: E=69, O=79, e=101, e=101).
 
-**2.3 Trace Walkthrough**  
-| Index | Char | Is vowel? | Replacement        | Result so far |
-|-------|------|-----------|--------------------|---------------|
-| 0     | l    | No        | l                  | l             |
-| 1     | E    | Yes       | E (sorted[0])      | lE            |
-| 2     | e    | Yes       | O (sorted[1])      | lEO           |
-| 3     | t    | No        | t                  | lEOt          |
-| 4     | c    | No        | c                  | lEOtc         |
-| 5     | O    | Yes       | e (sorted[2])      | lEOtce        |
-| 6     | d    | No        | d                  | lEOtced       |
-| 7     | e    | Yes       | e (sorted[3])      | lEOtcede      |
+3. **Trace Walkthrough**
 
-**2.4 Increment and Loop**  
-Advance through string, consuming sorted vowels sequentially.
+| Index | Character | Is Vowel? | Sorted Vowel | Result So Far |
+|-------|-----------|-----------|---------------|---------------|
+| 0     | 'l'       | No        | -             | "l"           |
+| 1     | 'E'       | Yes       | 'E' (idx 0)   | "lE"          |
+| 2     | 'e'       | Yes       | 'O' (idx 1)   | "lEO"         |
+| 3     | 't'       | No        | -             | "lEOt"        |
+| 4     | 'c'       | No        | -             | "lEOtc"       |
+| 5     | 'O'       | Yes       | 'e' (idx 2)   | "lEOtce"      |
+| 6     | 'd'       | No        | -             | "lEOtced"     |
+| 7     | 'e'       | Yes       | 'e' (idx 3)   | "lEOtcede"    |
 
-**2.5 Return Result**  
-Final string: `"lEOtcede"`.
+4. **Rebuild String**
+   - Use index `vowel_idx = 0` to track position in sorted vowel list.
+   - For each character: if vowel, append `vowel_list[vowel_idx]` and increment; otherwise append original character.
 
+5. **Return Result**
+   Return `''.join(res)` = `"lEOtcede"`.

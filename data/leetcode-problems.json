@@ -25839,5 +25839,6 @@
   "2120": {"id": 2120, "category": "Simulation", "title": "Execution of All Suffix Instructions Staying in a Grid", "difficulty": "Medium", "link": "https://leetcode.com/problems/execution-of-all-suffix-instructions-staying-in-a-grid/", "tags": []},
   "2221": {"id": 2221, "category": "Array", "title": "Find Triangular Sum of an Array", "difficulty": "Medium", "link": "https://leetcode.com/problems/find-triangular-sum-of-an-array/", "tags": []},
   "1605": {"id": 1605, "category": "Matrix", "title": "Find Valid Matrix Given Row and Column Sums", "difficulty": "Medium", "link": "https://leetcode.com/problems/find-valid-matrix-given-row-and-column-sums/", "tags": []},
-  "1551": {"id": 1551, "category": "Math", "title": "Minimum Operations to Make Array Equal", "difficulty": "Medium", "link": "https://leetcode.com/problems/minimum-operations-to-make-array-equal/", "tags": []}
+  "1551": {"id": 1551, "category": "Math", "title": "Minimum Operations to Make Array Equal", "difficulty": "Medium", "link": "https://leetcode.com/problems/minimum-operations-to-make-array-equal/", "tags": []},
+  "3562": {"id": 3562, "category": "Dynamic Programming", "title": "Maximum Profit from Trading Stocks with Discounts", "difficulty": "Hard", "link": "https://leetcode.com/problems/maximum-profit-from-trading-stocks-with-discounts/", "tags": []}
 }
