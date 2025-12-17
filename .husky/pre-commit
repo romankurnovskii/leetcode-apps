@@ -1,2 +1,2 @@
 npm run format:json
-git add 'data/**/*.json'
+git add data/
