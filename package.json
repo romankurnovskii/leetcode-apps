@@ -1,5 +1,10 @@
 {
   "scripts": {
-    "format:json": "npx prettier --write 'data/**/*.json'"
+    "format:json": "prettier --write 'data/**/*.json'",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "husky": "^9.0.0",
+    "prettier": "^3.0.0"
   }
 }
