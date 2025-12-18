@@ -2,76 +2,60 @@
 
 ### Strategy (The "Why")
 
-**Restate the problem:** We need to count vowels in the first word, then reverse each following word that has the same vowel count. Leave other words unchanged.
+**Restate the problem:** We need to count the vowels in the first word, then reverse each subsequent word that has the same vowel count as the first word. Words are separated by single spaces.
 
 **1.1 Constraints & Complexity:**
 
-- **Input Size:** `1 <= s.length <= 10^5`
-- **Time Complexity:** O(n) - Single pass through string
-- **Space Complexity:** O(n) - Store words and result
-- **Edge Case:** Empty string or single word
+- **Input Size:** The string length can be up to 10^5 characters.
+- **Time Complexity:** O(n) where n is the string length - we iterate through the string once to split and process words.
+- **Space Complexity:** O(n) for storing the words array and result.
+- **Edge Case:** If there's only one word, no words need to be reversed, so we return the original string.
 
 **1.2 High-level approach:**
 
-Split the string into words. Count vowels in the first word. For each subsequent word, if its vowel count matches the first word's count, reverse it. Otherwise, keep it as-is.
+The goal is to process words sequentially: count vowels in the first word, then for each subsequent word, check if it has the same vowel count and reverse it if so.
+
+![Word processing visualization](https://assets.leetcode.com/static_assets/others/word-processing.png)
 
 **1.3 Brute force vs. optimized strategy:**
 
-- **Brute Force:** Multiple passes - one to count vowels in first word, another to process each word. This is still O(n) but less efficient.
-- **Optimized (Single Pass):** Split once, count vowels in first word, then process each word in one pass. This is O(n) time.
-- **Why it's better:** We process the string efficiently in a single logical pass, making the code clear and maintainable.
+- **Brute Force:** Process each word multiple times, counting vowels separately for comparison and reversal, which would be less efficient.
+- **Optimized Strategy:** Split the string into words once, count vowels in the first word, then iterate through remaining words, counting vowels and reversing when needed. This is O(n) time.
+- **Optimization:** By processing words in a single pass and reusing the vowel counting logic, we avoid redundant operations.
 
 **1.4 Decomposition:**
 
-1. Split string into words
-2. Count vowels in first word
-3. For each subsequent word:
-   - Count its vowels
-   - If count matches first word, reverse it
-   - Otherwise, keep as-is
-4. Join words back into string
+1. Split the string into words.
+2. Count vowels in the first word.
+3. For each subsequent word, count its vowels.
+4. If the vowel count matches the first word's count, reverse the word.
+5. Join all words back into a string.
 
 ### Steps (The "How")
 
 **2.1 Initialization & Example Setup:**
 
-Let's use the example: `s = "cat and mice"`
+Let's use the example: `s = "cat and mice"`.
 
-- Words: `["cat", "and", "mice"]`
-- Vowels: `{'a', 'e', 'i', 'o', 'u'}`
+- Words: ["cat", "and", "mice"]
+- First word: "cat" has 1 vowel ('a')
 
-**2.2 Split into Words:**
+**2.2 Start Processing:**
 
-```python
-words = s.split()  # ["cat", "and", "mice"]
-```
+We process each word after the first one, checking vowel counts and reversing when needed.
 
-**2.3 Count Vowels in First Word:**
+**2.3 Trace Walkthrough:**
 
-```python
-first_vowel_count = sum(1 for c in words[0] if c in vowels)  # "cat" has 1 vowel: 'a'
-```
+| Word | Vowel Count | Matches First? | Action | Result |
+|------|-------------|----------------|--------|--------|
+| "cat" | 1 | - | Keep as is | "cat" |
+| "and" | 1 | Yes | Reverse | "dna" |
+| "mice" | 2 | No | Keep as is | "mice" |
 
-**2.4 Process Each Subsequent Word:**
+**2.4 Increment and Loop:**
 
-```python
-for word in words[1:]:
-    vowel_count = sum(1 for c in word if c in vowels)
-    if vowel_count == first_vowel_count:
-        res.append(word[::-1])  # Reverse
-    else:
-        res.append(word)  # Keep as-is
-```
+After processing all words, we join them with spaces.
 
-For `"and"`: vowel_count = 1 (matches), so reverse → `"dna"`  
-For `"mice"`: vowel_count = 2 (doesn't match), so keep → `"mice"`
+**2.5 Return Result:**
 
-**2.5 Join and Return:**
-
-```python
-return ' '.join(res)  # "cat dna mice"
-```
-
-**Time Complexity:** O(n) - Process each character once  
-**Space Complexity:** O(n) - Store words and result
-
+The result is `"cat dna mice"`, where "and" (1 vowel) was reversed to "dna" because it matches the first word's vowel count, while "mice" (2 vowels) remained unchanged.
