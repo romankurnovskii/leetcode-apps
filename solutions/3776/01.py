@@ -7,45 +7,40 @@ class Solution:
         if total < 0:
             return -1
         
-        # Find the negative index
-        neg_idx = -1
+        # Find the index with negative balance
+        neg_idx = None
         for i in range(n):
             if balance[i] < 0:
                 neg_idx = i
                 break
         
-        # If no negative, already balanced
-        if neg_idx == -1:
+        # If no negative balance, already balanced
+        if neg_idx is None:
             return 0
         
+        # We need to transfer balance to neg_idx
+        # Greedily use nearest positive balances
         res = 0
-        # Greedily transfer from nearest positive neighbors
-        # We need to move abs(balance[neg_idx]) units to neg_idx
+        neg_amount = abs(balance[neg_idx])
         
-        needed = abs(balance[neg_idx])
-        
-        # Try both directions and take minimum
-        # Actually, we need to find the optimal way to transfer
-        
-        # Sort positive indices by distance from negative index
+        # Create list of (distance, index, amount) for positive balances
         positives = []
         for i in range(n):
             if balance[i] > 0:
-                # Calculate circular distance
-                dist1 = (i - neg_idx) % n
-                dist2 = (neg_idx - i) % n
-                dist = min(dist1, dist2)
+                # Calculate distance (circular)
+                dist = min(abs(i - neg_idx), n - abs(i - neg_idx))
                 positives.append((dist, i, balance[i]))
         
+        # Sort by distance
         positives.sort()
         
-        # Greedily use closest positives
+        # Greedily transfer from nearest positives
+        remaining = neg_amount
         for dist, idx, amount in positives:
-            if needed <= 0:
+            if remaining <= 0:
                 break
-            transfer = min(needed, amount)
+            transfer = min(remaining, amount)
             res += transfer * dist
-            needed -= transfer
+            remaining -= transfer
         
-        return res if needed <= 0 else -1
-
+        return res

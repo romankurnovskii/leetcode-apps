@@ -2,99 +2,64 @@
 
 ### Strategy (The "Why")
 
-**Restate the problem:** We have a circular array where each person can transfer 1 unit to left or right neighbor. Find minimum moves to make all balances non-negative. Return -1 if impossible.
+**Restate the problem:** We have a circular array where each person has a balance. In one move, a person can transfer exactly 1 unit to either neighbor. We need to find the minimum moves to make all balances non-negative. If impossible, return -1.
 
 **1.1 Constraints & Complexity:**
 
-- **Input Size:** `1 <= n <= 10^5`, `-10^9 <= balance[i] <= 10^9`
-- **Time Complexity:** O(n log n) - Sort positive indices by distance
-- **Space Complexity:** O(n) - Store positive indices
-- **Edge Case:** No negative balance (return 0), total sum < 0 (return -1)
+- **Input Size:** The array length n can be up to 10^5, and each balance can be between -10^9 and 10^9.
+- **Time Complexity:** O(n log n) - we need to sort positive balances by distance, which dominates the complexity.
+- **Space Complexity:** O(n) for storing positive balances with their distances.
+- **Edge Case:** If the total sum is negative, it's impossible to make all balances non-negative, so return -1.
 
 **1.2 High-level approach:**
 
-Find the negative balance index. Sort all positive indices by their circular distance from the negative index. Greedily transfer from closest positive neighbors until the negative is balanced.
+The goal is to transfer balance from positive positions to the negative position, using the nearest positive balances first to minimize the total transfer distance (and thus moves).
+
+![Circular array balance transfer visualization](https://assets.leetcode.com/static_assets/others/circular-array.png)
 
 **1.3 Brute force vs. optimized strategy:**
 
-- **Brute Force:** Try all possible transfer sequences. This is exponential.
-- **Optimized (Greedy):** Always transfer from the closest positive neighbor. This minimizes total moves. This is O(n log n) due to sorting.
-- **Why it's better:** The greedy approach is optimal because transferring from closer neighbors minimizes the total distance traveled by units.
+- **Brute Force:** Try all possible sequences of transfers, which would be exponential and too slow.
+- **Optimized Strategy:** Use a greedy approach: find the negative balance, collect all positive balances with their distances from the negative position, sort by distance, and greedily transfer from nearest to farthest. This is O(n log n) time.
+- **Optimization:** By always using the nearest available positive balance first, we minimize the total distance traveled, which directly minimizes the number of moves needed.
 
 **1.4 Decomposition:**
 
-1. Check if total sum < 0, return -1
-2. Find negative balance index
-3. If no negative, return 0
-4. Sort positive indices by circular distance from negative
-5. Greedily transfer from closest positives until negative is balanced
-6. Return total moves
+1. Check if total sum is negative - if so, return -1.
+2. Find the index with negative balance.
+3. If no negative balance exists, return 0.
+4. Collect all positive balances with their circular distances from the negative position.
+5. Sort positive balances by distance.
+6. Greedily transfer from nearest positives until the negative balance is covered.
+7. Return the total moves (sum of transfer_amount * distance).
 
 ### Steps (The "How")
 
 **2.1 Initialization & Example Setup:**
 
-Let's use the example: `balance = [5,1,-4]`
+Let's use the example: `balance = [5, 1, -4]`, `n = 3`.
 
-- Total sum: `5 + 1 - 4 = 2 >= 0` ✓
-- Negative index: `2` (value -4)
+- Total sum: 5 + 1 + (-4) = 2 (non-negative, so possible)
+- Negative balance at index 2, amount: 4
+- Positive balances: index 0 (amount 5, distance 1), index 1 (amount 1, distance 1)
 
-**2.2 Check Total Sum:**
+**2.2 Start Processing:**
 
-```python
-total = sum(balance)
-if total < 0:
-    return -1
-```
+We calculate distances and sort positive balances.
 
-**2.3 Find Negative Index:**
+**2.3 Trace Walkthrough:**
 
-```python
-for i in range(n):
-    if balance[i] < 0:
-        neg_idx = i
-        break
-```
+| Positive Index | Amount | Distance from Index 2 | Sorted Order |
+|----------------|--------|----------------------|--------------|
+| 0 | 5 | min(\|0-2\|, 3-\|0-2\|) = min(2, 1) = 1 | 1st (tie) |
+| 1 | 1 | min(\|1-2\|, 3-\|1-2\|) = min(1, 2) = 1 | 1st (tie) |
 
-**2.4 Sort Positive Indices by Distance:**
+We need 4 units total. We can take from index 0 (distance 1): transfer 4 units, cost = 4 * 1 = 4 moves.
 
-```python
-positives = []
-for i in range(n):
-    if balance[i] > 0:
-        dist1 = (i - neg_idx) % n
-        dist2 = (neg_idx - i) % n
-        dist = min(dist1, dist2)
-        positives.append((dist, i, balance[i]))
-positives.sort()
-```
+**2.4 Increment and Loop:**
 
-For `balance = [5,1,-4]`, `neg_idx = 2`:
-- Index 0: dist = min(1, 2) = 1, amount = 5
-- Index 1: dist = min(2, 1) = 1, amount = 1
-- Sorted: `[(1, 0, 5), (1, 1, 1)]`
+After transferring from all necessary positive positions, we calculate the total moves.
 
-**2.5 Greedily Transfer:**
+**2.5 Return Result:**
 
-```python
-needed = abs(balance[neg_idx])  # 4
-for dist, idx, amount in positives:
-    if needed <= 0:
-        break
-    transfer = min(needed, amount)
-    res += transfer * dist
-    needed -= transfer
-```
-
-- From index 0: transfer 4, moves = 4 * 1 = 4
-- Needed = 0, done
-
-**2.6 Return Result:**
-
-```python
-return res if needed <= 0 else -1  # 4
-```
-
-**Time Complexity:** O(n log n) - Sort positive indices  
-**Space Complexity:** O(n) - Store positive indices
-
+The result is 4, which is the minimum number of moves needed. We transfer 4 units from index 0 (distance 1) to index 2, requiring 4 moves.

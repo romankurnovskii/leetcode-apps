@@ -2,68 +2,60 @@
 
 ### Strategy (The "Why")
 
-**Restate the problem:** We need to sort integers by their binary reflection (reversing binary digits and interpreting as decimal). If two numbers have the same reflection, sort by original value.
+**Restate the problem:** We need to sort an array of integers in ascending order based on their binary reflection. The binary reflection of a number is obtained by reversing its binary representation (ignoring leading zeros) and interpreting it as a decimal number. If two numbers have the same binary reflection, the smaller original number should come first.
 
 **1.1 Constraints & Complexity:**
 
-- **Input Size:** `1 <= nums.length <= 100`, `1 <= nums[i] <= 10^9`
-- **Time Complexity:** O(n log n * log max(nums)) - Sort with comparison function
-- **Space Complexity:** O(1) - Sorting in-place
-- **Edge Case:** All numbers have same reflection
+- **Input Size:** The array length is at most 100, and each number is between 1 and 10^9.
+- **Time Complexity:** O(n log n) where n is the array length - we need to sort the array, and each binary reflection calculation is O(log max_value).
+- **Space Complexity:** O(n) for the sorted result array.
+- **Edge Case:** If all numbers have the same binary reflection, they should be sorted by their original values.
 
 **1.2 High-level approach:**
 
-For each number, compute its binary reflection. Sort by reflection value first, then by original value if reflections are equal.
+The goal is to compute the binary reflection for each number and use it as the primary sort key, with the original number as the secondary sort key.
+
+![Binary reflection visualization](https://assets.leetcode.com/static_assets/others/binary-reflection.png)
 
 **1.3 Brute force vs. optimized strategy:**
 
-- **Brute Force:** Precompute all reflections, store in separate array, sort indices. This is O(n log n) but uses extra space.
-- **Optimized (Custom Sort Key):** Use a key function that computes reflection on-the-fly during sorting. This is O(n log n) with O(1) extra space.
-- **Why it's better:** The custom key function is clean and doesn't require precomputation or extra storage.
+- **Brute Force:** Manually implement sorting algorithm and binary conversion, which would be more complex.
+- **Optimized Strategy:** Use Python's built-in `sorted()` function with a custom key function that returns (binary_reflection, original_value). This leverages efficient sorting algorithms and is O(n log n).
+- **Optimization:** Python's Timsort is highly optimized, and using a tuple as the sort key allows us to sort by multiple criteria efficiently.
 
 **1.4 Decomposition:**
 
-1. Define function to compute binary reflection
-2. Sort array using custom key: (reflection, original_value)
-3. Return sorted array
+1. Define a helper function to calculate binary reflection: convert to binary string, reverse it, convert back to integer.
+2. Sort the array using a key function that returns (binary_reflection, original_value).
+3. Return the sorted array.
 
 ### Steps (The "How")
 
 **2.1 Initialization & Example Setup:**
 
-Let's use the example: `nums = [4,5,4]`
+Let's use the example: `nums = [4, 5, 4]`.
 
-- Binary reflections:
-  - 4 → `100` → reversed `001` → 1
-  - 5 → `101` → reversed `101` → 5
-  - 4 → `100` → reversed `001` → 1
+- Binary representations: 4 = "100", 5 = "101"
+- Binary reflections: 4 → "100" reversed → "001" → 1, 5 → "101" reversed → "101" → 5
 
-**2.2 Define Binary Reflection Function:**
+**2.2 Start Processing:**
 
-```python
-def binary_reflection(n):
-    binary = bin(n)[2:]  # Remove '0b' prefix: "100"
-    reversed_binary = binary[::-1]  # "001"
-    return int(reversed_binary, 2)  # 1
-```
+We compute the binary reflection for each number and sort accordingly.
 
-**2.3 Sort with Custom Key:**
+**2.3 Trace Walkthrough:**
 
-```python
-return sorted(nums, key=lambda x: (binary_reflection(x), x))
-```
+| Original Number | Binary | Reversed Binary | Reflection Value | Sort Key (reflection, original) |
+|-----------------|--------|-----------------|------------------|----------------------------------|
+| 4 | "100" | "001" | 1 | (1, 4) |
+| 4 | "100" | "001" | 1 | (1, 4) |
+| 5 | "101" | "101" | 5 | (5, 5) |
 
-Sort key is `(reflection, original)`:
-- `(1, 4)` for first 4
-- `(5, 5)` for 5
-- `(1, 4)` for second 4
+After sorting by (reflection, original): [(1, 4), (1, 4), (5, 5)] → [4, 4, 5]
 
-Sorting: `(1, 4) < (1, 4) < (5, 5)` → `[4, 4, 5]`
+**2.4 Increment and Loop:**
 
-**2.4 Return Result:**
+The sorting algorithm processes all elements and arranges them according to the sort keys.
 
-The sorted array maintains order: same reflection values are sorted by original value.
+**2.5 Return Result:**
 
-**Time Complexity:** O(n log n * log max(nums)) - Sort with O(log max) comparison  
-**Space Complexity:** O(1) - In-place sort
-
+The result is `[4, 4, 5]`, where numbers with reflection 1 (both 4s) come before the number with reflection 5, and the two 4s maintain their relative order (though they're equal).
