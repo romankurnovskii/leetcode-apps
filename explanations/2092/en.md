@@ -17,7 +17,7 @@ The goal is to track which people know the secret by processing meetings in chro
 
 **1.3 Brute force vs. optimized strategy:**
 
-- **Brute Force:** For each time, create a graph of all meetings, run BFS/DFS to find all connected components that include person 0, then reset. This would be O(M * n) in worst case.
+- **Brute Force:** For each time, create a graph of all meetings, run BFS/DFS to find all connected components that include person 0, then reset. This would be O(M \* n) in worst case.
 - **Optimized Strategy:** Use Union-Find to efficiently connect people at the same time, then reset only those not connected to person 0. This is O(M log M) due to sorting.
 - **Optimization:** Union-Find provides nearly constant-time union and find operations, making it ideal for this dynamic connectivity problem.
 
@@ -45,11 +45,11 @@ We sort meetings by time: `[[1,2,5], [2,3,8], [1,5,10]]` (already sorted).
 
 **2.3 Trace Walkthrough:**
 
-| Time | Meeting | Action | Parent Array After Union | After Reset |
-|------|---------|--------|--------------------------|-------------|
-| 5 | [1,2,5] | Union 1 and 2 | [0, 0, 0, 3, 4, 5] | [0, 0, 0, 3, 4, 5] (all connected to 0) |
-| 8 | [2,3,8] | Union 2 and 3 | [0, 0, 0, 0, 4, 5] | [0, 0, 0, 0, 4, 5] (all connected to 0) |
-| 10 | [1,5,10] | Union 1 and 5 | [0, 0, 0, 0, 4, 0] | [0, 0, 0, 0, 4, 0] (all except 4 connected to 0) |
+| Time | Meeting  | Action        | Parent Array After Union | After Reset                                      |
+| ---- | -------- | ------------- | ------------------------ | ------------------------------------------------ |
+| 5    | [1,2,5]  | Union 1 and 2 | [0, 0, 0, 3, 4, 5]       | [0, 0, 0, 3, 4, 5] (all connected to 0)          |
+| 8    | [2,3,8]  | Union 2 and 3 | [0, 0, 0, 0, 4, 5]       | [0, 0, 0, 0, 4, 5] (all connected to 0)          |
+| 10   | [1,5,10] | Union 1 and 5 | [0, 0, 0, 0, 4, 0]       | [0, 0, 0, 0, 4, 0] (all except 4 connected to 0) |
 
 **2.4 Increment and Loop:**
 
@@ -58,4 +58,3 @@ After processing each time block, we check which people are still connected to p
 **2.5 Return Result:**
 
 The result is `[0, 1, 2, 3, 5]` - all people connected to person 0 after all meetings have been processed.
-
