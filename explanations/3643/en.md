@@ -42,9 +42,9 @@ We iterate i from 0 to k//2 - 1 (i.e., 0 to 0 for k=3).
 
 **2.3 Trace Walkthrough:**
 
-| i | top | bottom | Before Swap | After Swap |
-|---|-----|--------|-------------|------------|
-| 0 | 1 | 3 | grid[1][0:3] = [5,6,7]<br>grid[3][0:3] = [13,14,15] | grid[1][0:3] = [13,14,15]<br>grid[3][0:3] = [5,6,7] |
+| i   | top | bottom | Before Swap                                         | After Swap                                          |
+| --- | --- | ------ | --------------------------------------------------- | --------------------------------------------------- |
+| 0   | 1   | 3      | grid[1][0:3] = [5,6,7]<br>grid[3][0:3] = [13,14,15] | grid[1][0:3] = [13,14,15]<br>grid[3][0:3] = [5,6,7] |
 
 **2.4 Increment and Loop:**
 
@@ -53,4 +53,3 @@ After swapping, the grid becomes: `[[1,2,3,4],[13,14,15,8],[9,10,11,12],[5,6,7,1
 **2.5 Return Result:**
 
 The result is the grid with the submatrix flipped vertically: `[[1,2,3,4],[13,14,15,8],[9,10,11,12],[5,6,7,16]]`
-

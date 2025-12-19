@@ -43,13 +43,14 @@ We expand both pointers while maintaining strict increase/decrease.
 
 **2.3 Trace Walkthrough:**
 
-| Step | Action | l | r | lsum | rsum | nums[l] | nums[r] |
-|------|--------|---|---|------|------|---------|---------|
-| 1 | Expand left (1<3) | 0→1 | 2 | 1 | 0 | 3 | 2 |
-| 2 | Expand right (3>2) | 1 | 2→1 | 1 | 2 | 3 | 3 |
-| 3 | Pointers meet | 1 | 1 | 1 | 2 | 3 | 3 |
+| Step | Action             | l   | r   | lsum | rsum | nums[l] | nums[r] |
+| ---- | ------------------ | --- | --- | ---- | ---- | ------- | ------- |
+| 1    | Expand left (1<3)  | 0→1 | 2   | 1    | 0    | 3       | 2       |
+| 2    | Expand right (3>2) | 1   | 2→1 | 1    | 2    | 3       | 3       |
+| 3    | Pointers meet      | 1   | 1   | 1    | 2    | 3       | 3       |
 
 Since l==r, we have a single peak. Try both options:
+
 - Option 1: lsum + nums[l] = 1+3=4, rsum=2, diff=|4-2|=2
 - Option 2: lsum=1, rsum + nums[r]=2+3=5, diff=|1-5|=4
 - Minimum: 2
@@ -61,4 +62,3 @@ The algorithm handles all cases: single peak, flat peak, or invalid.
 **2.5 Return Result:**
 
 The result is 2, the minimum absolute difference.
-
