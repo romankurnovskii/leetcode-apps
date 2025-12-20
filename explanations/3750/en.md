@@ -1,47 +1,62 @@
 ## Explanation
 
-### Strategy
+### Strategy (The "Why")
 
-**Constraints & Edge Cases**
+**Restate the problem:** We need to find the minimum number of bit flips required to make an integer equal to its binary reverse. The binary reverse of a number is obtained by reversing its binary representation.
 
-  * **Binary Representation:** We are working with the bits of an integer $n$. The length of the binary string depends on the magnitude of $n$ (up to $\approx 30$ bits for standard integers).
-  * **Time Complexity:** Since the number of bits is small ($\log_2 n$), the solution will be very fast, effectively $O(\log n)$.
-  * **Edge Case:** If $n=0$ or $n$ is a single bit (e.g., 1), the reverse is identical to the original, so the answer is 0.
+**1.1 Constraints & Complexity:**
 
-**High-level approach**
-The problem asks for the minimum flips to make a number equal to its **original** binary reverse.
-Imagine the binary string as a row of lights. We compare the light at the very start (left) with the light at the very end (right).
+- **Input Size:** The integer n can be up to 2^31 - 1, which means up to approximately 31 bits in binary representation.
+- **Time Complexity:** O(log n) - we need to process each bit in the binary representation once, and the number of bits is logarithmic in n.
+- **Space Complexity:** O(log n) - we store the binary string representation, which has length proportional to log n.
+- **Edge Case:** If n = 0 or n has only one bit (e.g., 1), the reverse is identical to the original, so the answer is 0.
 
-  * If the left bit is `1` and the right bit is `0`, we have a mismatch.
-  * To make the number equal to its reverse, the left position *must* become what the right position was, and the right position *must* become what the left position was. This requires flipping **both** bits.
-  * Therefore, every mismatching symmetric pair costs exactly **2 flips**.
+**1.2 High-level approach:**
 
-**Brute force vs. optimized strategy**
+The goal is to compare symmetric bit positions in the binary representation and count how many pairs need to be flipped to make the number equal to its reverse.
 
-  * **Brute Force:** Calculate the reverse of $n$ separately, then iterate through every bit of $n$ and the reverse to count differences.
-  * **Optimized (Two Pointers):** We extract the binary string once. We place pointers at the start and end. We move them inward, counting mismatches. This is efficient and requires only one pass over the bits.
+![Binary bit comparison visualization](https://assets.leetcode.com/static_assets/others/binary-comparison.png)
 
-**Decomposition**
+**1.3 Brute force vs. optimized strategy:**
 
-1.  **Bit Extraction:** Convert the integer $n$ into its binary string format (removing the '0b' prefix).
-2.  **Two-Pointer Scan:** Initialize `left` at index 0 and `right` at the last index.
-3.  **Check Pairs:** If `s[left] != s[right]`, we found a mismatch. Add 2 to our result (1 flip for each side).
-4.  **Converge:** Move `left` forward and `right` backward until they meet.
+- **Brute Force:** Calculate the reverse of n separately, then iterate through every bit of n and the reverse to count differences. This requires creating the full reverse and comparing bit by bit.
+- **Optimized Strategy:** Use two pointers starting from both ends of the binary string, moving inward while comparing symmetric bits. This is O(log n) time and only requires one pass.
+- **Optimization:** By using two pointers, we avoid creating a separate reversed binary string and can process the comparison in a single pass, making the solution more efficient.
 
-### Steps
+**1.4 Decomposition:**
 
-1.  **Convert to Binary**
-    Turn the integer $n$ into a string of bits. For example, if $n=10$, we get the string `"1010"`.
+1. Convert the integer to its binary string representation (removing the '0b' prefix).
+2. Initialize two pointers at the start and end of the binary string.
+3. Compare bits at symmetric positions (left and right pointers).
+4. If bits differ, we need to flip both bits (add 2 to the result).
+5. Move pointers inward until they meet.
+6. Return the total number of flips needed.
 
-2.  **Initialize Pointers**
-    Set a variable `res` to 0. Set `l` to the start of the string and `r` to the end.
+### Steps (The "How")
 
-3.  **Iterate and Compare**
-    While `l` is less than `r`:
+**2.1 Initialization & Example Setup:**
 
-      * Check if the bit at `l` is different from the bit at `r`.
-      * **Why?** If the bits are different (e.g., `1` and `0`), then to swap their values effectively (so the number equals its reverse), both positions must be flipped.
-      * If they differ, add **2** to `res`.
+Let's use the example: `n = 10`
 
-4.  **Close the Window**
-    Increment `l` and decrement `r` to check the next pair of bits. Continue until the pointers meet in the middle.
+- Binary representation: `bin(10) = "0b1010"`, so `s = "1010"`
+- Left pointer `l = 0`, right pointer `r = 3`
+- Result `res = 0`
+
+**2.2 Start Checking:**
+
+We begin comparing bits from both ends of the binary string.
+
+**2.3 Trace Walkthrough:**
+
+| Step | l   | r   | s[l] | s[r] | Match? | Action                | res |
+| ---- | --- | --- | ---- | ---- | ------ | --------------------- | --- |
+| 1    | 0   | 3   | '1'  | '0'  | No     | Flip both bits, add 2 | 2   |
+| 2    | 1   | 2   | '0'  | '1'  | No     | Flip both bits, add 2 | 4   |
+
+**2.4 Increment and Loop:**
+
+After each comparison, we increment `l` and decrement `r` to move toward the center. We continue until `l >= r`.
+
+**2.5 Return Result:**
+
+The result is 4, which means we need to flip 4 bits (2 pairs) to make the number equal to its binary reverse.
