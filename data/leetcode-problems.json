@@ -26444,5 +26444,40 @@
     "title": "Minimum Distance Excluding One Maximum Weighted Edge",
     "difficulty": "Medium",
     "link": "https://leetcode.com/problems/minimum-distance-excluding-one-maximum-weighted-edge/"
+  },
+  "3779": {
+    "id": 3779,
+    "category": "Array & Hashing",
+    "title": "Minimum Number of Operations to Have Distinct Elements",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/minimum-number-of-operations-to-have-distinct-elements/"
+  },
+  "3780": {
+    "id": 3780,
+    "category": "Array & Hashing",
+    "title": "Maximum Sum of Three Numbers Divisible by Three",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/maximum-sum-of-three-numbers-divisible-by-three/"
+  },
+  "3781": {
+    "id": 3781,
+    "category": "Greedy",
+    "title": "Maximum Score After Binary Swaps",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/maximum-score-after-binary-swaps/"
+  },
+  "3783": {
+    "id": 3783,
+    "category": "Math & Geometry",
+    "title": "Mirror Distance of an Integer",
+    "difficulty": "Easy",
+    "link": "https://leetcode.com/problems/mirror-distance-of-an-integer/"
+  },
+  "3784": {
+    "id": 3784,
+    "category": "Greedy",
+    "title": "Minimum Deletion Cost to Make All Characters Equal",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/minimum-deletion-cost-to-make-all-characters-equal/"
   }
 }
