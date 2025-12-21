@@ -8,4 +8,3 @@ class Solution:
             shift += 1
         # Shift back to get the common prefix
         return left << shift
-

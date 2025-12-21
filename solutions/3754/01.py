@@ -17,4 +17,3 @@ class Solution:
 
         res = x * digit_sum
         return res
-

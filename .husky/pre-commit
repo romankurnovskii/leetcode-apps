@@ -1,1 +1,2 @@
 npm run format:json
+npm run format:python

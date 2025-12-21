@@ -4,6 +4,5 @@ class Solution:
         # Distance from 'a' in circular alphabet: (ord('a') + 26 - ord(c)) % 26
         res = 0
         for c in s:
-            res = max(res, (ord('a') + 26 - ord(c)) % 26)
+            res = max(res, (ord("a") + 26 - ord(c)) % 26)
         return res
-

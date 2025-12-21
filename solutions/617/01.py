@@ -5,22 +5,23 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def mergeTrees(self, root1: Optional[TreeNode], root2: Optional[TreeNode]) -> Optional[TreeNode]:
+    def mergeTrees(
+        self, root1: Optional[TreeNode], root2: Optional[TreeNode]
+    ) -> Optional[TreeNode]:
         if not root1 and not root2:
             return None
-        
+
         if not root1:
             return root2
-        
+
         if not root2:
             return root1
-        
+
         # Merge values
         merged = TreeNode(root1.val + root2.val)
-        
+
         # Recursively merge left and right subtrees
         merged.left = self.mergeTrees(root1.left, root2.left)
         merged.right = self.mergeTrees(root1.right, root2.right)
-        
-        return merged
 
+        return merged

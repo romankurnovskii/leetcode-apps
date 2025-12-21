@@ -1,5 +1,6 @@
 from typing import List
 
+
 class Solution:
     def alternatingSum(self, nums: List[int]) -> int:
         result = 0
@@ -11,4 +12,3 @@ class Solution:
                 # Odd index: subtract
                 result -= num
         return result
-

@@ -8,4 +8,3 @@ class Solution:
                 # Choose the minimum operations (always 1)
                 res += min(remainder, 3 - remainder)
         return res
-

@@ -7,4 +7,3 @@ class Solution:
                 mask &= val
         # If mask unchanged (no mismatches), return 0
         return 0 if mask == (1 << 30) - 1 else mask
-

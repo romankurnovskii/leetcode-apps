@@ -1,10 +1,11 @@
 from typing import List
 
+
 class Solution:
     def increasingTriplet(self, nums: List[int]) -> bool:
-        first = float('inf')
-        second = float('inf')
-        
+        first = float("inf")
+        second = float("inf")
+
         for num in nums:
             if num <= first:
                 first = num
@@ -13,5 +14,5 @@ class Solution:
             else:
                 # Found a number greater than both first and second
                 return True
-        
+
         return False

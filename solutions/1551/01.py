@@ -2,7 +2,7 @@ class Solution:
     def minOperations(self, n: int) -> int:
         # Target value is the average
         target = n
-        
+
         # Calculate operations needed
         res = 0
         for i in range(n):
@@ -11,5 +11,5 @@ class Solution:
                 res += target - current
             else:
                 break
-        
+
         return res

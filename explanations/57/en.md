@@ -1,97 +1,61 @@
-You are given an array of non-overlapping intervals `intervals` where `intervals[i] = [start_i, end_i]` represent the start and the end of the `i^th` interval and `intervals` is sorted in ascending order by `start_i`. You are also given an interval `newInterval = [start, end]` that represents the start and end of another interval.
-
-Insert `newInterval` into `intervals` such that `intervals` is still sorted in ascending order by `start_i` and `intervals` still does not have any overlapping intervals (merge overlapping intervals if necessary).
-
-Return `intervals` *after the insertion*.
-
-**Note** that you don't need to modify `intervals` in-place. You can make a new array and return it.
-
-**Example 1:**
-
-```sh
-Input: intervals = [[1,3],[6,9]], newInterval = [2,5]
-Output: [[1,5],[6,9]]
-```
-
-**Example 2:**
-
-```sh
-Input: intervals = [[1,2],[3,5],[6,7],[8,10],[12,16]], newInterval = [4,8]
-Output: [[1,2],[3,10],[12,16]]
-Explanation: Because the new interval [4,8] overlaps with [3,5],[6,7],[8,10].
-```
-
-**Constraints:**
-
-- `0 <= intervals.length <= 10^4`
-- `intervals[i].length == 2`
-- `0 <= start_i <= end_i <= 10^5`
-- `intervals` is sorted by `start_i` in **ascending** order.
-- `newInterval.length == 2`
-- `0 <= start <= end <= 10^5`
-
 ## Explanation
 
-### Strategy
+### Strategy (The "Why")
 
-This is an **array manipulation problem** that requires inserting a new interval into a sorted list of non-overlapping intervals. The key insight is to process intervals in three phases: before overlap, during overlap, and after overlap.
+**Restate the problem:** We are given a sorted array of non-overlapping intervals and a new interval. We need to insert the new interval into the array such that the result remains sorted and all overlapping intervals are merged.
 
-**Key observations:**
-- Intervals are already sorted by start time
-- We need to find where the new interval fits
-- We may need to merge multiple overlapping intervals
-- Process intervals in three phases based on overlap with new interval
+**1.1 Constraints & Complexity:**
 
-**High-level approach:**
-1. **Add intervals before overlap**: Add all intervals that end before new interval starts
-2. **Merge overlapping intervals**: Find all intervals that overlap with new interval
-3. **Add merged interval**: Add the final merged interval
-4. **Add remaining intervals**: Add all intervals that start after new interval ends
+- **Input Size:** Up to 10^4 intervals, each with start and end values up to 10^5.
+- **Time Complexity:** O(n) where n is the number of intervals. We traverse the array once, processing each interval at most once.
+- **Space Complexity:** O(n) to store the result array.
+- **Edge Case:** If the intervals array is empty, we return an array containing only the new interval.
 
-### Steps
+**1.2 High-level approach:**
 
-Let's break down the solution step by step:
+The goal is to process intervals in three phases: add intervals that come before the new interval, merge all intervals that overlap with the new interval, and add the remaining intervals that come after.
 
-**Step 1: Initialize result list**
-- Create empty result list: `result = []`
+**1.3 Brute force vs. optimized strategy:**
 
-**Step 2: Add intervals before overlap**
-- Add all intervals where `interval[1] < newInterval[0]`
+- **Brute Force:** Insert the new interval, sort the entire array, then merge overlapping intervals. This would be O(n log n) time due to sorting.
+- **Optimized Strategy:** Since intervals are already sorted, we can process them in a single pass: add intervals before overlap, merge overlapping ones, then add remaining intervals. This is O(n) time.
+- **Optimization:** By leveraging the fact that intervals are already sorted, we avoid the need for sorting and can process everything in one pass, making the solution more efficient.
 
-**Step 3: Merge overlapping intervals**
-- Find all intervals that overlap with new interval
-- Update new interval boundaries: `start = min(start, interval[0])`, `end = max(end, interval[1])`
+**1.4 Decomposition:**
 
-**Step 4: Add merged interval**
-- Add the final merged interval to result
+1. Add all intervals that end before the new interval starts (no overlap).
+2. Merge all intervals that overlap with the new interval by updating the start and end boundaries.
+3. Add the merged interval to the result.
+4. Add all remaining intervals that start after the merged interval ends.
 
-**Step 5: Add remaining intervals**
-- Add all intervals where `interval[0] > newInterval[1]`
+### Steps (The "How")
 
-**Example walkthrough:**
-Let's trace through the second example:
+**2.1 Initialization & Example Setup:**
 
-```sh
-intervals = [[1,2],[3,5],[6,7],[8,10],[12,16]], newInterval = [4,8]
+Let's use the example: `intervals = [[1,2],[3,5],[6,7],[8,10],[12,16]]`, `newInterval = [4,8]`
 
-Step 1: Add intervals before overlap
-result = [[1,2]] (3,5 overlaps, so stop)
+- Result array: `res = []`
+- Index `i = 0`
+- New interval boundaries: `start = 4`, `end = 8`
 
-Step 2: Merge overlapping intervals
-Overlap with [3,5]: newInterval = [min(4,3), max(8,5)] = [3,8]
-Overlap with [6,7]: newInterval = [min(3,6), max(8,7)] = [3,8]
-Overlap with [8,10]: newInterval = [min(3,8), max(8,10)] = [3,10]
+**2.2 Start Processing:**
 
-Step 3: Add merged interval
-result = [[1,2],[3,10]]
+We begin processing intervals from left to right, checking each interval's relationship with the new interval.
 
-Step 4: Add remaining intervals
-result = [[1,2],[3,10],[12,16]]
+**2.3 Trace Walkthrough:**
 
-Result: [[1,2],[3,10],[12,16]]
-```
+| Step | i | Interval | Condition | Action | res | start, end |
+| ---- | - | -------- | --------- | ------ | --- | ---------- |
+| 1    | 0 | [1,2] | 2 < 4 (ends before) | Add to res | `[[1,2]]` | 4, 8 |
+| 2    | 1 | [3,5] | 3 <= 8 (overlaps) | Merge: start=min(4,3)=3, end=max(8,5)=8 | `[[1,2]]` | 3, 8 |
+| 3    | 2 | [6,7] | 6 <= 8 (overlaps) | Merge: start=min(3,6)=3, end=max(8,7)=8 | `[[1,2]]` | 3, 8 |
+| 4    | 3 | [8,10] | 8 <= 8 (overlaps) | Merge: start=min(3,8)=3, end=max(8,10)=10 | `[[1,2]]` | 3, 10 |
+| 5    | 4 | [12,16] | 12 > 10 (starts after) | Add merged [3,10], then add [12,16] | `[[1,2],[3,10],[12,16]]` | - |
 
-> **Note:** The key insight is to process intervals in three phases. This approach is efficient because we only need to traverse the array once, and we can determine which phase each interval belongs to by comparing its boundaries with the new interval.
+**2.4 Increment and Loop:**
 
-**Time Complexity:** O(n) - we visit each interval at most once  
-**Space Complexity:** O(n) - to store the result 
+After processing each interval, we increment the index `i` and continue until all intervals are processed.
+
+**2.5 Return Result:**
+
+The result is `[[1,2],[3,10],[12,16]]`, where the new interval [4,8] has been merged with overlapping intervals [3,5], [6,7], and [8,10] to form [3,10].

@@ -3,18 +3,18 @@ class Solution:
         # Sieve of Eratosthenes
         is_prime = [True] * (n + 1)
         is_prime[0] = is_prime[1] = False
-        
-        for i in range(2, int(n ** 0.5) + 1):
+
+        for i in range(2, int(n**0.5) + 1):
             if is_prime[i]:
                 for j in range(i * i, n + 1, i):
                     is_prime[j] = False
-        
+
         # Get all primes
         primes = [i for i in range(2, n + 1) if is_prime[i]]
-        
+
         if not primes:
             return 0
-        
+
         # Only check consecutive sums starting from 2 (first prime)
         res = 0
         current_sum = 0
@@ -26,5 +26,5 @@ class Solution:
             # Check if sum is prime and <= n
             if current_sum <= n and is_prime[current_sum]:
                 res = max(res, current_sum)
-        
+
         return res

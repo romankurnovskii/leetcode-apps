@@ -5,6 +5,5 @@ class Solution:
             # Extract the i-th bit from n
             bit = (n >> i) & 1
             # Place it at position (31 - i) in the result
-            res |= (bit << (31 - i))
+            res |= bit << (31 - i)
         return res
-

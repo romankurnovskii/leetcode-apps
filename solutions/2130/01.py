@@ -9,14 +9,14 @@ class Solution:
         while fast and fast.next:
             slow = slow.next
             fast = fast.next.next
-        
+
         prev = None
         while slow:
             next_node = slow.next
             slow.next = prev
             prev = slow
             slow = next_node
-        
+
         res = 0
         first = head
         second = prev
@@ -24,6 +24,5 @@ class Solution:
             res = max(res, first.val + second.val)
             first = first.next
             second = second.next
-        
-        return res
 
+        return res

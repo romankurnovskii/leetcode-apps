@@ -7,4 +7,3 @@ class Solution:
             else:  # "--X" or "X--"
                 res -= 1
         return res
-

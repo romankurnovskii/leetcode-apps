@@ -41,4 +41,3 @@ class Solution:
         res.sort()
 
         return res
-

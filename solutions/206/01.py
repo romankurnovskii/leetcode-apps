@@ -4,11 +4,12 @@
 #         self.val = val
 #         self.next = next
 
+
 class Solution:
     def reverseList(self, head):
         prev = None
         current = head
-        
+
         while current:
             # Store next node
             next_node = current.next
@@ -17,5 +18,5 @@ class Solution:
             # Move pointers forward
             prev = current
             current = next_node
-        
+
         return prev

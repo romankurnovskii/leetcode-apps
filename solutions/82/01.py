@@ -8,10 +8,10 @@ class Solution:
         # Create a dummy node to handle edge cases
         dummy = ListNode(0)
         dummy.next = head
-        
+
         prev = dummy
         curr = head
-        
+
         while curr and curr.next:
             # If we find duplicates
             if curr.val == curr.next.val:
@@ -25,6 +25,5 @@ class Solution:
                 # No duplicates, move both pointers
                 prev = curr
                 curr = curr.next
-        
-        return dummy.next
 
+        return dummy.next

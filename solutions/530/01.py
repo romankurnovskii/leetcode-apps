@@ -10,12 +10,11 @@ class Solution:
             if not node:
                 return []
             return inorder(node.left) + [node.val] + inorder(node.right)
-        
+
         values = inorder(root)
-        res = float('inf')
-        
+        res = float("inf")
+
         for i in range(len(values) - 1):
             res = min(res, values[i + 1] - values[i])
-        
-        return res
 
+        return res

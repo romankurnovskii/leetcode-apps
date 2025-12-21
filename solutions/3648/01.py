@@ -4,4 +4,3 @@ class Solution:
         x = (n + size - 1) // size  # ceil(n / size)
         y = (m + size - 1) // size  # ceil(m / size)
         return x * y
-

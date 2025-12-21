@@ -11,7 +11,7 @@ class Solution:
         while current:
             values.append(current.val)
             current = current.next
-        
+
         # Check if array is palindrome
         left, right = 0, len(values) - 1
         while left < right:
@@ -19,6 +19,5 @@ class Solution:
                 return False
             left += 1
             right -= 1
-        
-        return True
 
+        return True

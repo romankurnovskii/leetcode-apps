@@ -4,12 +4,13 @@
 #         self.val = x
 #         self.next = None
 
+
 class Solution:
     def detectCycle(self, head):
         # Floyd's cycle detection algorithm
         slow = head
         fast = head
-        
+
         # Find meeting point
         while fast and fast.next:
             slow = slow.next
@@ -21,5 +22,5 @@ class Solution:
                     slow = slow.next
                     fast = fast.next
                 return slow
-        
+
         return None
