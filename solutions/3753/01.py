@@ -1,5 +1,6 @@
 from functools import lru_cache
 
+
 class Solution:
     def totalWaviness(self, num1: int, num2: int) -> int:
         w1 = self._total_waviness_upto(num1 - 1)
@@ -42,7 +43,9 @@ class Solution:
                 # If we have enough digits to form a triple, check peak/valley
                 if has_started and next_started and p1 is not None and p2 is not None:
                     if (p2 < p1 > d) or (p2 > p1 < d):
-                        total_waviness += sub_count  # this peak/valley applies to all completions
+                        total_waviness += (
+                            sub_count  # this peak/valley applies to all completions
+                        )
 
             return total_waviness, total_count
 

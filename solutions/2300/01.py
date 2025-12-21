@@ -1,9 +1,11 @@
 class Solution:
-    def successfulPairs(self, spells: List[int], potions: List[int], success: int) -> List[int]:
+    def successfulPairs(
+        self, spells: List[int], potions: List[int], success: int
+    ) -> List[int]:
         potions.sort()
         res = []
         n = len(potions)
-        
+
         for spell in spells:
             target = (success + spell - 1) // spell
             left, right = 0, n
@@ -14,6 +16,5 @@ class Solution:
                 else:
                     right = mid
             res.append(n - left)
-        
-        return res
 
+        return res

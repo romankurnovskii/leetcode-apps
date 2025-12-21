@@ -1,6 +1,7 @@
 {
   "scripts": {
     "format:json": "prettier --write 'data/**/*.json'",
+    "format:python": "black scripts/ solutions/",
     "prepare": "husky"
   },
   "devDependencies": {

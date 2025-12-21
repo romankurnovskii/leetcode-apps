@@ -1,5 +1,6 @@
 from typing import List
 
+
 class Solution:
     def plusOne(self, digits: List[int]) -> List[int]:
         # Start from the rightmost digit
@@ -10,6 +11,6 @@ class Solution:
                 return digits
             # Otherwise, set to 0 and continue (carry over)
             digits[i] = 0
-        
+
         # If we reach here, all digits were 9, need to add 1 at the beginning
         return [1] + digits

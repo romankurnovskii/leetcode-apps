@@ -6,4 +6,3 @@ class Solution:
         # Therefore: x = num + 2 * t
         res = num + 2 * t
         return res
-

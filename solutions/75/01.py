@@ -1,12 +1,13 @@
 from typing import List
 
+
 class Solution:
     def sortColors(self, nums: List[int]) -> None:
         # Dutch National Flag algorithm
         left = 0  # Points to the end of 0s
         right = len(nums) - 1  # Points to the start of 2s
         i = 0  # Current pointer
-        
+
         while i <= right:
             if nums[i] == 0:
                 # Swap with left pointer
@@ -21,4 +22,3 @@ class Solution:
             else:
                 # nums[i] == 1, just move forward
                 i += 1
-

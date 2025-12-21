@@ -3,6 +3,7 @@ class TrieNode:
         self.children = {}
         self.is_end = False
 
+
 class Trie:
     def __init__(self):
         self.root = TrieNode()
@@ -30,4 +31,3 @@ class Trie:
                 return False
             node = node.children[char]
         return True
-

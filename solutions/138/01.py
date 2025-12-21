@@ -7,19 +7,20 @@ class Node:
         self.random = random
 """
 
+
 class Solution:
-    def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
+    def copyRandomList(self, head: "Optional[Node]") -> "Optional[Node]":
         if not head:
             return None
-        
+
         # First pass: create new nodes and map old to new
         node_map = {}
         curr = head
-        
+
         while curr:
             node_map[curr] = Node(curr.val)
             curr = curr.next
-        
+
         # Second pass: set next and random pointers
         curr = head
         while curr:
@@ -28,6 +29,5 @@ class Solution:
             if curr.random:
                 node_map[curr].random = node_map[curr.random]
             curr = curr.next
-        
-        return node_map[head]
 
+        return node_map[head]

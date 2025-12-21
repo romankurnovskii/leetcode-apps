@@ -5,11 +5,12 @@
 #         self.left = left
 #         self.right = right
 
+
 class Solution:
     def deleteNode(self, root, key: int):
         if not root:
             return None
-        
+
         if key < root.val:
             root.left = self.deleteNode(root.left, key)
         elif key > root.val:
@@ -28,11 +29,10 @@ class Solution:
                 root.val = min_node.val
                 # Delete the min node from right subtree
                 root.right = self.deleteNode(root.right, min_node.val)
-        
+
         return root
-    
+
     def findMin(self, node):
         while node.left:
             node = node.left
         return node
-

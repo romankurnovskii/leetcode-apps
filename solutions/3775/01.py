@@ -1,25 +1,24 @@
 class Solution:
     def reverseWords(self, s: str) -> str:
-        def count_vowels(word):
-            vowels = {'a', 'e', 'i', 'o', 'u'}
-            return sum(1 for char in word if char in vowels)
-        
         words = s.split()
+
         if not words:
-            return s
-        
-        # Count vowels in first word
-        first_vowel_count = count_vowels(words[0])
-        
+            return ""
+
+        # Count vowels in the first word
+        first_word_vowels = sum(1 for c in words[0] if c in "aeiou")
+
         # Process remaining words
         res = [words[0]]
-        for i in range(1, len(words)):
-            word = words[i]
-            vowel_count = count_vowels(word)
-            if vowel_count == first_vowel_count:
-                # Reverse the word
+
+        for word in words[1:]:
+            # Count vowels in current word
+            vowel_count = sum(1 for c in word if c in "aeiou")
+
+            # If vowel count matches first word, reverse it
+            if vowel_count == first_word_vowels:
                 res.append(word[::-1])
             else:
                 res.append(word)
-        
-        return ' '.join(res)
+
+        return " ".join(res)

@@ -11,10 +11,10 @@ async function addTwoPromises(promise1, promise2) {
 # For Python, we can simulate this with asyncio
 import asyncio
 
+
 class Solution:
     async def addTwoPromises(self, promise1, promise2):
         val1 = await promise1
         val2 = await promise2
         res = val1 + val2
         return res
-

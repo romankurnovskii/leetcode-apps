@@ -10,13 +10,13 @@ class Solution:
                     divisors.append(n // i)
             i += 1
         divisors.sort()
-        
+
         res = None
-        min_diff = float('inf')
-        
+        min_diff = float("inf")
+
         def dfs(start, picked, prod, path):
             nonlocal res, min_diff
-            
+
             if picked == k:
                 if prod == n:
                     diff = max(path) - min(path)
@@ -24,10 +24,10 @@ class Solution:
                         min_diff = diff
                         res = path[:]
                 return
-            
+
             if prod > n:
                 return
-            
+
             for i in range(start, len(divisors)):
                 divisor = divisors[i]
                 if prod * divisor > n:
@@ -35,7 +35,6 @@ class Solution:
                 path.append(divisor)
                 dfs(i, picked + 1, prod * divisor, path)
                 path.pop()
-        
+
         dfs(0, 0, 1, [])
         return res
-

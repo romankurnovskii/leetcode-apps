@@ -1,9 +1,9 @@
 def concatHex36(n: int) -> str:
     n2 = n * n
     n3 = n * n * n
-    hex_part = format(n2, 'X')
-    base36_chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    base36_part = ''
+    hex_part = format(n2, "X")
+    base36_chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    base36_part = ""
     num = n3
     while num > 0:
         # Find the remainder when num is divided by 36,

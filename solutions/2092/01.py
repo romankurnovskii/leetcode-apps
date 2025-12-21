@@ -1,5 +1,7 @@
 class Solution:
-    def findAllPeople(self, n: int, meetings: List[List[int]], firstPerson: int) -> List[int]:
+    def findAllPeople(
+        self, n: int, meetings: List[List[int]], firstPerson: int
+    ) -> List[int]:
         parent = list(range(n))
 
         def find(x):
@@ -38,4 +40,3 @@ class Solution:
 
         # Return all people connected to person 0
         return [i for i in range(n) if find(i) == find(0)]
-

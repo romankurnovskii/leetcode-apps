@@ -1,6 +1,6 @@
 def removeZeros(n: int) -> int:
-    res = ''
+    res = ""
     for c in str(n):
-        if c != '0':
+        if c != "0":
             res += c
     return int(res)

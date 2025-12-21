@@ -28,7 +28,7 @@ class Solution:
             start = res[-1][-1] - 1
             for i in range(start, start + n):
                 res.append([(i + diff) % n, i % n])
-            
+
         if n % 2 == 0:
             # Find pairs that are n/2 apart
             start = res[-1][0] - 1

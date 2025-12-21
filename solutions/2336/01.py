@@ -1,5 +1,6 @@
 import heapq
 
+
 class SmallestInfiniteSet:
 
     def __init__(self):
@@ -22,4 +23,3 @@ class SmallestInfiniteSet:
         if num in self.removed:
             self.removed.remove(num)
             heapq.heappush(self.added_back, num)
-

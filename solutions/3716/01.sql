@@ -18,6 +18,7 @@ SELECT
     days_as_subscriber
 FROM query_cte q
 WHERE event_date = max_event_date 
+    AND event_type <> 'cancel'
     AND EXISTS (
         SELECT 1 
         FROM query_cte q1 
@@ -26,6 +27,5 @@ WHERE event_date = max_event_date
     )
     AND days_as_subscriber > 59 
     AND monthly_amount / CAST(max_historical_amount AS FLOAT) <= 0.5 
-    AND event_type <> 'cancel'
 ORDER BY days_as_subscriber DESC, user_id;
 

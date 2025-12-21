@@ -1,9 +1,10 @@
 from typing import List
 
+
 class Solution:
     def longestSubarray(self, nums: List[int]) -> int:
         n = len(nums)
-        
+
         # pref[i] = length of longest non-decreasing subarray ending at index i
         pref = [1] * n
         for i in range(1, n):
@@ -11,7 +12,7 @@ class Solution:
                 pref[i] = pref[i - 1] + 1
             else:
                 pref[i] = 1
-        
+
         # suff[i] = length of longest non-decreasing subarray starting at index i
         suff = [1] * n
         for i in range(n - 2, -1, -1):
@@ -19,10 +20,10 @@ class Solution:
                 suff[i] = suff[i + 1] + 1
             else:
                 suff[i] = 1
-        
+
         # Initial maximum: longest without replacement
         result = max(max(pref), max(suff))
-        
+
         # Try replacing each element
         for i in range(n):
             if i > 0 and i < n - 1:
@@ -46,6 +47,5 @@ class Solution:
                 # Replace last element: can extend prefix ending at i-1
                 if i > 0:
                     result = max(result, pref[i - 1] + 1)
-        
-        return result
 
+        return result

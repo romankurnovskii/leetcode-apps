@@ -9,14 +9,13 @@ class Solution:
         # Both are None
         if not p and not q:
             return True
-        
+
         # One is None, the other is not
         if not p or not q:
             return False
-        
+
         # Both exist, check values and recursively check children
         if p.val != q.val:
             return False
-        
-        return self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right)
 
+        return self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right)

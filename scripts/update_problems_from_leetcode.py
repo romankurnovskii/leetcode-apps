@@ -102,10 +102,7 @@ def map_tags_to_category(tags: List[Dict[str, str]]) -> str:
     elif any("greedy" in t for t in all_tags):
         return "Greedy"
     elif any(
-        "math" in t
-        or "geometry" in t
-        or "number-theory" in t
-        or "combinatorics" in t
+        "math" in t or "geometry" in t or "number-theory" in t or "combinatorics" in t
         for t in all_tags
     ):
         return "Math & Geometry"
@@ -324,4 +321,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

@@ -6,11 +6,10 @@ class Solution:
             # Count soldiers (1s) in the row
             strength = sum(row)
             strengths.append((strength, i))
-        
+
         # Sort by strength, then by index
         strengths.sort()
-        
+
         # Return first k indices
         res = [idx for _, idx in strengths[:k]]
         return res
-

@@ -11,4 +11,3 @@ class Solution:
             else:
                 res.append(str(i))
         return res
-

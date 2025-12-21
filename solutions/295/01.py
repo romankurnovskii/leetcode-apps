@@ -1,5 +1,6 @@
 import heapq
 
+
 class MedianFinder:
     def __init__(self):
         # max_heap for smaller half, min_heap for larger half
@@ -11,7 +12,7 @@ class MedianFinder:
             heapq.heappush(self.max_heap, -num)
         else:
             heapq.heappush(self.min_heap, num)
-        
+
         # Balance heaps
         if len(self.max_heap) > len(self.min_heap) + 1:
             heapq.heappush(self.min_heap, -heapq.heappop(self.max_heap))
@@ -25,4 +26,3 @@ class MedianFinder:
             return float(-self.max_heap[0])
         else:
             return float(self.min_heap[0])
-

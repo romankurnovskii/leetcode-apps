@@ -12,6 +12,5 @@ class Solution:
             if not node.left and not node.right:
                 return [node.val]
             return get_leaves(node.left) + get_leaves(node.right)
-        
-        return get_leaves(root1) == get_leaves(root2)
 
+        return get_leaves(root1) == get_leaves(root2)

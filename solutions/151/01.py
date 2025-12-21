@@ -3,4 +3,4 @@ class Solution:
         # Split by spaces and filter out empty strings
         words = s.split()
         # Reverse the list and join with spaces
-        return ' '.join(reversed(words))
+        return " ".join(reversed(words))

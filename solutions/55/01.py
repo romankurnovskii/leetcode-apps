@@ -1,5 +1,6 @@
 from typing import List
 
+
 def canJump(nums: List[int]) -> bool:
     max_reach = 0
 

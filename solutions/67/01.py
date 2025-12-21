@@ -1,4 +1,4 @@
-def addBinary( a: str, b: str) -> str:
+def addBinary(a: str, b: str) -> str:
     result = ""
     carry = 0
     i, j = len(a) - 1, len(b) - 1

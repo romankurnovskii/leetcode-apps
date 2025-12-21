@@ -5,4 +5,3 @@ class Solution:
         max_val = max(nums)
         min_val = min(nums)
         return (max_val - min_val) * k
-

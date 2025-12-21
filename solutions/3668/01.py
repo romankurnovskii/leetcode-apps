@@ -3,11 +3,10 @@ class Solution:
         # Create a set for O(1) lookup
         friend_set = set(friends)
         res = []
-        
+
         # Iterate through order and collect friends in their finishing order
         for num in order:
             if num in friend_set:
                 res.append(num)
-        
-        return res
 
+        return res
