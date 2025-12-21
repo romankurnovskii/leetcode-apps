@@ -1,10 +1,11 @@
 # SQL solution wrapped in Python for frontend display
 import pandas as pd
 
+
 def find_churn_risk_customers(subscription_events: pd.DataFrame) -> pd.DataFrame:
     """
     Find customers at risk of churning.
-    
+
     A customer is at churn risk if they:
     1. Currently have an active subscription (last event is not cancel)
     2. Have performed at least one downgrade
@@ -32,18 +33,19 @@ def find_churn_risk_customers(subscription_events: pd.DataFrame) -> pd.DataFrame
         days_as_subscriber
     FROM query_cte q
     WHERE event_date = max_event_date 
-        AND monthly_amount > 0  -- Active subscription (not cancelled)
+        AND event_type <> 'cancel'
         AND EXISTS (
             SELECT 1 
             FROM query_cte q1 
             WHERE q.user_id = q1.user_id 
                 AND q1.event_type = 'downgrade'
         )
-        AND days_as_subscriber >= 60 
-        AND monthly_amount / CAST(max_historical_amount AS FLOAT) < 0.5 
+        AND days_as_subscriber > 59 
+        AND monthly_amount / CAST(max_historical_amount AS FLOAT) <= 0.5 
     ORDER BY days_as_subscriber DESC, user_id
     """
-    # Note: This is a SQL solution. In actual LeetCode environment, 
+    # Note: This is a SQL solution. In actual LeetCode environment,
     # this would be executed as raw SQL, not via pandas
-    return pd.read_sql(query, con=None)  # Placeholder - actual execution depends on LeetCode environment
-
+    return pd.read_sql(
+        query, con=None
+    )  # Placeholder - actual execution depends on LeetCode environment

@@ -18,14 +18,14 @@ SELECT
     days_as_subscriber
 FROM query_cte q
 WHERE event_date = max_event_date 
-    AND monthly_amount > 0  -- Active subscription (not cancelled)
+    AND event_type <> 'cancel'
     AND EXISTS (
         SELECT 1 
         FROM query_cte q1 
         WHERE q.user_id = q1.user_id 
             AND q1.event_type = 'downgrade'
     )
-    AND days_as_subscriber >= 60 
-    AND monthly_amount / CAST(max_historical_amount AS FLOAT) < 0.5 
+    AND days_as_subscriber > 59 
+    AND monthly_amount / CAST(max_historical_amount AS FLOAT) <= 0.5 
 ORDER BY days_as_subscriber DESC, user_id;
 
