@@ -1,4 +1,3 @@
-# SQL solution wrapped in Python for frontend display
 import pandas as pd
 
 
@@ -12,40 +11,35 @@ def find_churn_risk_customers(subscription_events: pd.DataFrame) -> pd.DataFrame
     3. Current plan revenue < 50% of historical maximum
     4. Have been a subscriber for at least 60 days
     """
-    query = """
-    WITH query_cte AS (
-        SELECT 
-            user_id, 
-            event_date, 
-            MAX(event_date) OVER(PARTITION BY user_id) max_event_date, 
-            event_type, 
-            plan_name current_plan, 
-            monthly_amount,
-            MAX(monthly_amount) OVER(PARTITION BY user_id) max_historical_amount,
-            DATEDIFF(MAX(event_date) OVER(PARTITION BY user_id), MIN(event_date) OVER(PARTITION BY user_id)) days_as_subscriber
-        FROM subscription_events
-    )
-    SELECT 
-        user_id, 
-        current_plan, 
-        monthly_amount current_monthly_amount, 
-        max_historical_amount, 
-        days_as_subscriber
-    FROM query_cte q
-    WHERE event_date = max_event_date 
-        AND event_type <> 'cancel'
-        AND EXISTS (
-            SELECT 1 
-            FROM query_cte q1 
-            WHERE q.user_id = q1.user_id 
-                AND q1.event_type = 'downgrade'
+    subscription_events.event_date = pd.to_datetime(subscription_events.event_date)
+
+    df = (
+        subscription_events.groupby("user_id")
+        .agg(
+            latest_event=("event_type", "last"),  # Constraint 1
+            has_downgrade=(
+                "event_type",
+                lambda x: "downgrade" in x.values,
+            ),  # Constraint 2
+            current_monthly_amount=("monthly_amount", "last"),  # Constraint 3
+            max_historical_amount=("monthly_amount", "max"),
+            days_as_subscriber=(
+                "event_date",
+                lambda x: (x.max() - x.min()).days,
+            ),  # Constraint 4
+            current_plan=("plan_name", "last"),
         )
-        AND days_as_subscriber > 59 
-        AND monthly_amount / CAST(max_historical_amount AS FLOAT) <= 0.5 
-    ORDER BY days_as_subscriber DESC, user_id
-    """
-    # Note: This is a SQL solution. In actual LeetCode environment,
-    # this would be executed as raw SQL, not via pandas
-    return pd.read_sql(
-        query, con=None
-    )  # Placeholder - actual execution depends on LeetCode environment
+        .reset_index()
+    )
+
+    df = df[df.latest_event != "cancel"][  # Constraint 1
+        df.has_downgrade == True
+    ][  # Constraint 2
+        df.current_monthly_amount / df.max_historical_amount <= 0.5
+    ][  # Constraint 3
+        df.days_as_subscriber >= 60
+    ]  # Constraint 4
+
+    return df.sort_values(
+        ["days_as_subscriber", "user_id"], ascending=[False, True]
+    ).iloc[:, [0, 6, 3, 4, 5]]
