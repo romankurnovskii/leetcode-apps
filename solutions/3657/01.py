@@ -43,4 +43,3 @@ def find_loyal_customers(customer_transactions: pd.DataFrame) -> pd.DataFrame:
     ]  # Constraint 3
 
     return result[["customer_id"]].sort_values("customer_id").reset_index(drop=True)
-

@@ -54,19 +54,20 @@ def find_books_with_polarized_opinions(
     ]  # Polarization score >= 0.6
 
     # Select and order columns
-    result = result[
-        [
-            "book_id",
-            "title",
-            "author",
-            "genre",
-            "pages",
-            "rating_spread",
-            "polarization_score",
+    result = (
+        result[
+            [
+                "book_id",
+                "title",
+                "author",
+                "genre",
+                "pages",
+                "rating_spread",
+                "polarization_score",
+            ]
         ]
-    ].sort_values(
-        ["polarization_score", "title"], ascending=[False, False]
-    ).reset_index(drop=True)
+        .sort_values(["polarization_score", "title"], ascending=[False, False])
+        .reset_index(drop=True)
+    )
 
     return result
-
