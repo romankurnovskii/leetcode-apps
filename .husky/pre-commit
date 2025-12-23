@@ -1,2 +1,5 @@
 npm run format:json
 npm run format:python
+
+# Stage the formatted files so they're included in the same commit
+git add -u

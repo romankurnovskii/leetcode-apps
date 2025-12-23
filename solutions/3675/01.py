@@ -1,8 +1,12 @@
 class Solution:
     def minOperations(self, s: str) -> int:
-        # Find the character that takes the longest to become 'a'
-        # Distance from 'a' in circular alphabet: (ord('a') + 26 - ord(c)) % 26
-        res = 0
+        """
+        Minimum operations to make all characters 'a'.
+        One operation shifts all occurrences of a chosen character forward by 1 (circular).
+        The minimum ops equals the maximum distance any char needs to reach 'a'.
+        """
+        max_dist = 0
         for c in s:
-            res = max(res, (ord("a") + 26 - ord(c)) % 26)
-        return res
+            dist = (26 - (ord(c) - ord("a"))) % 26  # distance to 'a'
+            max_dist = max(max_dist, dist)
+        return max_dist

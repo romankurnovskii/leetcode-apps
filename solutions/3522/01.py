@@ -1,15 +1,17 @@
 class Solution:
-    def resultsArray(self, nums: List[int], k: int) -> List[int]:
-        n = len(nums)
-        res = []
+    def calculateScore(self, instructions: List[str], values: List[int]) -> int:
+        n = len(instructions)
+        visited = [False] * n
+        score = 0
+        i = 0
 
-        for i in range(n - k + 1):
-            subarray = nums[i : i + k]
-            # Check if all elements are consecutive and sorted
-            expected = list(range(subarray[0], subarray[0] + k))
-            if subarray == expected:
-                res.append(max(subarray))
+        while 0 <= i < n and not visited[i]:
+            visited[i] = True
+
+            if instructions[i] == "jump":
+                i += values[i]
             else:
-                res.append(-1)
+                score += values[i]
+                i += 1
 
-        return res
+        return score

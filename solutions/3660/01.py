@@ -1,10 +1,13 @@
 class Solution:
     def maxValue(self, nums: List[int]) -> List[int]:
+        """
+        For each index, find the maximum value reachable via jumps:
+        - Forward only to strictly smaller
+        - Backward only to strictly larger
+        This partitions the array into components where min suffix to the right
+        is >= max prefix to the left. Each component's max is answer for indices inside.
+        """
         n = len(nums)
-        res = [0] * n
-
-        # Find connected components using prefix max and suffix min
-        # A "cut" happens where all values to the left are <= all values to the right
         prefix_max = [0] * n
         suffix_min = [0] * n
 
@@ -16,32 +19,19 @@ class Solution:
         for i in range(n - 2, -1, -1):
             suffix_min[i] = min(suffix_min[i + 1], nums[i])
 
-        # Find all cuts (positions where we can't jump across)
-        cuts = []
+        res = [0] * n
+        start = 0
         for i in range(n - 1):
             if prefix_max[i] <= suffix_min[i + 1]:
-                cuts.append(i)
+                # component [start, i]
+                comp_max = max(nums[start : i + 1])
+                for idx in range(start, i + 1):
+                    res[idx] = comp_max
+                start = i + 1
 
-        # For each position, find which component it belongs to
-        # and the maximum value in that component
-        component_max = {}
-
-        start = 0
-        for cut in cuts:
-            # Component from start to cut (inclusive)
-            max_val = max(nums[start : cut + 1])
-            for i in range(start, cut + 1):
-                component_max[i] = max_val
-            start = cut + 1
-
-        # Last component
-        if start < n:
-            max_val = max(nums[start:])
-            for i in range(start, n):
-                component_max[i] = max_val
-
-        # Build result
-        for i in range(n):
-            res[i] = component_max[i]
+        # last component
+        comp_max = max(nums[start:])
+        for idx in range(start, n):
+            res[idx] = comp_max
 
         return res
