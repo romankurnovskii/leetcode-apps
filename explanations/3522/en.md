@@ -2,63 +2,68 @@
 
 ### Strategy (The "Why")
 
-The problem asks us to find the "power" of all subarrays of size $k$. The power is the maximum element if all elements are consecutive and sorted in ascending order, otherwise $-1$.
+**Restate the problem:** We need to simulate executing a sequence of instructions. Each instruction is either "add" (add a value to score and move to next) or "jump" (move to a different index without changing score). The process stops when we go out of bounds or try to revisit an instruction we've already executed.
 
 **1.1 Constraints & Complexity:**
 
-- **Input Constraints:** $1 \leq n \leq 500$, $1 \leq \text{nums}[i] \leq 10^5$, $1 \leq k \leq n$.
-- **Time Complexity:** $O(n \times k)$ - We check $n-k+1$ subarrays, and each check takes $O(k)$ time.
-- **Space Complexity:** $O(1)$ - We only use constant extra space (excluding output array).
-- **Edge Case:** If $k=1$, each subarray has power equal to its single element.
+- **Input Size:** Up to 100,000 instructions, each value can be between -100,000 and 100,000.
+- **Time Complexity:** O(n) where n is the number of instructions. Each instruction is visited at most once, and we stop when we revisit or go out of bounds.
+- **Space Complexity:** O(n) - we use a boolean array of size n to track visited instructions.
+- **Edge Case:** If the first instruction is "jump" with value 0, we immediately revisit index 0 and stop with score 0.
 
 **1.2 High-level approach:**
 
-The goal is to check each subarray of size $k$ to see if it contains consecutive integers in ascending order. If so, return the maximum (which is the last element); otherwise return $-1$.
+The goal is to simulate the execution step by step, tracking which instructions have been visited to detect cycles, and accumulating the score only when executing "add" instructions.
 
-![Subarray Power](https://assets.leetcode.com/static_assets/others/subarray-power.png)
+![Instruction simulation visualization](https://assets.leetcode.com/static_assets/others/instruction-simulation.png)
 
 **1.3 Brute force vs. optimized strategy:**
 
-- **Brute Force:** For each subarray, check if it's consecutive and sorted by comparing adjacent elements. This takes $O(n \times k)$ time.
-- **Optimized (Range Check):** For each subarray starting at index $i$, check if it equals `range(nums[i], nums[i] + k)`. This also takes $O(n \times k)$ but is cleaner.
-- **Emphasize the optimization:** While complexity is the same, using Python's `range` comparison makes the code more readable and less error-prone.
+- **Brute Force:** Recursively simulate with memoization, which could be more complex to implement.
+- **Optimized Strategy:** Use iterative simulation with a visited array to track executed instructions. This is straightforward and efficient.
+- **Optimization:** The visited array allows us to detect cycles in O(1) time, and the iterative approach is simpler than recursion.
 
 **1.4 Decomposition:**
 
-1. **Iterate Subarrays:** For each starting position $i$ from $0$ to $n-k$, extract subarray of size $k$.
-2. **Check Consecutive:** Verify if subarray equals `list(range(subarray[0], subarray[0] + k))`.
-3. **Calculate Power:** If consecutive, append maximum (last element); otherwise append $-1$.
-4. **Return Result:** Return the result array.
+1. Initialize a visited array to track which instructions have been executed.
+2. Start at index 0 with score 0.
+3. While the current index is valid and not visited:
+   - Mark the current index as visited.
+   - If instruction is "add": add the value to score and move to next index (i+1).
+   - If instruction is "jump": move to index (i + values[i]) without changing score.
+4. Stop when index is out of bounds or already visited.
+5. Return the final score.
 
 ### Steps (The "How")
 
 **2.1 Initialization & Example Setup:**
 
-Let's trace through an example: `nums = [1,2,3,4,3,2,5]`, `k = 3`.
+Let's use the example: `instructions = ["jump","add","add","jump","add","jump"]`, `values = [2,1,3,1,-2,-3]`
 
-Initialize: `res = []`, `n = 7`
+- Number of instructions: `n = 6`
+- Visited array: `visited = [False, False, False, False, False, False]`
+- Current index: `i = 0`
+- Score: `score = 0`
 
-**2.2 Start Processing:**
+**2.2 Start Checking:**
 
-Check subarray starting at index $0$: `[1,2,3]`.
+We begin executing instructions starting from index 0.
 
 **2.3 Trace Walkthrough:**
 
-| i | Subarray | Expected | Match? | Power |
-|---|----------|----------|--------|-------|
-| 0 | [1,2,3] | [1,2,3] | Yes | 3 |
-| 1 | [2,3,4] | [2,3,4] | Yes | 4 |
-| 2 | [3,4,3] | [3,4,5] | No | -1 |
-| 3 | [4,3,2] | [4,5,6] | No | -1 |
-| 4 | [3,2,5] | [3,4,5] | No | -1 |
+| Step | i   | visited[i] | instruction | value | Action                    | New i | score |
+| ---- | --- | ----------- | ----------- | ----- | ------------------------- | ----- | ----- |
+| 1    | 0   | False       | "jump"      | 2     | Mark visited, jump to 2  | 2     | 0     |
+| 2    | 2   | False       | "add"       | 3     | Mark visited, add 3, i+1  | 3     | 3     |
+| 3    | 3   | False       | "jump"      | 1     | Mark visited, jump to 4   | 4     | 3     |
+| 4    | 4   | False       | "add"       | -2    | Mark visited, add -2, i+1| 5     | 1     |
+| 5    | 5   | False       | "jump"      | -3    | Mark visited, jump to 2   | 2     | 1     |
+| 6    | 2   | True        | -           | -     | Already visited, STOP     | -     | 1     |
 
-**2.4 Complete Processing:**
+**2.4 Increment and Loop:**
 
-All $5$ subarrays processed: $2$ are consecutive (power = max), $3$ are not (power = -1).
+After each instruction, we update the index based on the instruction type and continue until we hit a visited index or go out of bounds.
 
 **2.5 Return Result:**
 
-The function returns `[3,4,-1,-1,-1]`.
-
-> **Note:** A subarray is consecutive if it forms a sequence like `[a, a+1, a+2, ..., a+k-1]` where $a$ is the first element.
-
+The result is 1, which is the final score after executing the instructions until we tried to revisit index 2.
