@@ -31,9 +31,7 @@ def find_golden_hour_customers(restaurant_orders: pd.DataFrame) -> pd.DataFrame:
     )
 
     # Calculate percentages
-    df["peak_hour_percentage"] = (
-        df["peak_hour_orders"] * 100.0 / df["total_orders"]
-    )
+    df["peak_hour_percentage"] = df["peak_hour_orders"] * 100.0 / df["total_orders"]
     df["rated_percentage"] = df["rated_orders"] * 100.0 / df["total_orders"]
 
     # Apply all criteria
