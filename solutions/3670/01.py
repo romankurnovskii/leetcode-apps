@@ -1,37 +1,28 @@
 class Solution:
-    def validSequence(self, word1: str, word2: str) -> List[int]:
-        n = len(word1)
-        m = len(word2)
+    def maxProduct(self, nums: List[int]) -> int:
+        """
+        Maximum product of two numbers with disjoint set bits.
+        Bitmask DP: best[mask] = largest number whose bits are subset of mask.
+        """
+        MAX_BITS = 20  # nums[i] <= 1e6
+        FULL = (1 << MAX_BITS) - 1
 
-        # dp[i] = longest suffix of word2 that exists as subsequence
-        # starting from index i in word1
-        dp = [0] * (n + 1)
+        best = [0] * (1 << MAX_BITS)
+        for x in nums:
+            mask = x
+            best[mask] = max(best[mask], x)
 
-        # Build dp from right to left
-        for i in range(n - 1, -1, -1):
-            dp[i] = dp[i + 1]
-            # Check if we can extend the subsequence
-            if dp[i] < m and word1[i] == word2[m - 1 - dp[i]]:
-                dp[i] += 1
+        # Subset DP: propagate maxima to supermasks
+        for b in range(MAX_BITS):
+            for mask in range(1 << MAX_BITS):
+                if mask & (1 << b):
+                    best[mask] = max(best[mask], best[mask ^ (1 << b)])
 
-        # If no valid sequence exists
-        if dp[0] < m:
-            return []
+        ans = 0
+        for x in nums:
+            mask = x
+            comp = FULL ^ mask  # masks disjoint with mask
+            partner = best[comp]
+            ans = max(ans, x * partner)
 
-        # Greedily build the lexicographically smallest sequence
-        res = []
-        pos = 0  # position in word1
-        target_pos = 0  # position in word2
-
-        while target_pos < m:
-            # Find the leftmost character that can form a valid sequence
-            for i in range(pos, n):
-                if word1[i] == word2[target_pos]:
-                    # Check if we can complete the sequence from i+1
-                    if dp[i + 1] >= m - target_pos - 1:
-                        res.append(i)
-                        pos = i + 1
-                        target_pos += 1
-                        break
-
-        return res
+        return ans
