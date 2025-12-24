@@ -1,4 +1,4 @@
-import React, {useState, useMemo, useEffect, useRef} from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 
 // SVG Icon Components
 const PlayIcon = (props) => (
@@ -164,9 +164,9 @@ const FancyStringVisualizer = () => {
     gap: isDesktop ? 32 : 16,
     border: "1px solid #e5e5e5",
   };
-  const leftCol = {flex: 1, minWidth: 220, marginBottom: isDesktop ? 0 : 16};
-  const rightCol = {flex: 2, minWidth: 0};
-  const label = {fontSize: 14, fontWeight: 500, marginBottom: 4};
+  const leftCol = { flex: 1, minWidth: 220, marginBottom: isDesktop ? 0 : 16 };
+  const rightCol = { flex: 2, minWidth: 0 };
+  const label = { fontSize: 14, fontWeight: 500, marginBottom: 4 };
   const inputBox = {
     width: "100%",
     fontSize: 16,
@@ -182,8 +182,8 @@ const FancyStringVisualizer = () => {
     gap: 8,
     margin: "12px 0 4px 0",
   };
-  const slider = {width: "100%", margin: "8px 0"};
-  const stepDisplay = {fontSize: 13, color: "#555", margin: "0 0 4px 0"};
+  const slider = { width: "100%", margin: "8px 0" };
+  const stepDisplay = { fontSize: 13, color: "#555", margin: "0 0 4px 0" };
   const vizArea = {
     background: "#f7f7f8",
     borderRadius: 8,
@@ -196,7 +196,7 @@ const FancyStringVisualizer = () => {
     alignItems: "center",
     justifyContent: "center",
   };
-  const strRow = {display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 8};
+  const strRow = { display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 8 };
   const charBox = (active, skipped) => ({
     minWidth: 32,
     minHeight: 38,
@@ -212,7 +212,7 @@ const FancyStringVisualizer = () => {
     transition: "all 0.2s",
     boxShadow: active ? "0 1px 4px #007aff22" : "none",
   });
-  const resRow = {display: "flex", gap: 6, flexWrap: "wrap", marginTop: 8};
+  const resRow = { display: "flex", gap: 6, flexWrap: "wrap", marginTop: 8 };
   const msgBox = {
     background: "#f7f7f8",
     border: "1px solid #e5e5e5",
@@ -223,7 +223,7 @@ const FancyStringVisualizer = () => {
     color: "#333",
     minHeight: 32,
   };
-  const msgTitle = {fontSize: 12, fontWeight: 600, color: "#888", marginBottom: 2};
+  const msgTitle = { fontSize: 12, fontWeight: 600, color: "#888", marginBottom: 2 };
 
   return (
     <div style={card}>
@@ -240,20 +240,20 @@ const FancyStringVisualizer = () => {
           aria-label="Input string"
         />
         <div style={controls}>
-          <button onClick={handlePrev} disabled={currentStep === 0} style={{background: "none", border: "none", padding: 2, cursor: "pointer"}}>
+          <button onClick={handlePrev} disabled={currentStep === 0} style={{ background: "none", border: "none", padding: 2, cursor: "pointer" }}>
             <PrevIcon />
           </button>
-          <button onClick={handlePlayPause} style={{background: "none", border: "none", padding: 2, cursor: "pointer"}}>
+          <button onClick={handlePlayPause} style={{ background: "none", border: "none", padding: 2, cursor: "pointer" }}>
             {isPlaying ? <PauseIcon /> : <PlayIcon />}
           </button>
           <button
             onClick={handleNext}
             disabled={currentStep === visualizationSteps.length - 1}
-            style={{background: "none", border: "none", padding: 2, cursor: "pointer"}}
+            style={{ background: "none", border: "none", padding: 2, cursor: "pointer" }}
           >
             <NextIcon />
           </button>
-          <button onClick={handleReset} style={{background: "none", border: "none", padding: 2, cursor: "pointer"}}>
+          <button onClick={handleReset} style={{ background: "none", border: "none", padding: 2, cursor: "pointer" }}>
             <ResetIcon />
           </button>
         </div>
@@ -273,7 +273,7 @@ const FancyStringVisualizer = () => {
       {/* Right Column: Visualization */}
       <div style={rightCol}>
         <div style={vizArea}>
-          <div style={{...strRow, marginBottom: 2}}>
+          <div style={{ ...strRow, marginBottom: 2 }}>
             {chars.map((c, idx) => (
               <div
                 key={idx}
@@ -284,7 +284,7 @@ const FancyStringVisualizer = () => {
               </div>
             ))}
           </div>
-          <div style={{fontSize: 13, color: "#888", marginBottom: 2}}>Result so far:</div>
+          <div style={{ fontSize: 13, color: "#888", marginBottom: 2 }}>Result so far:</div>
           <div style={resRow}>
             {resChars.map((c, idx) => (
               <div key={idx} style={charBox(false, false)} aria-label={`Result char ${c} at position ${idx}`}>

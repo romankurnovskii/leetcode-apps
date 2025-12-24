@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useMemo, useCallback, useRef} from "react";
+import React, { useState, useEffect, useMemo, useCallback, useRef } from "react";
 
 const TwoSumVisualizer = () => {
   const [nums, setNums] = useState([2, 7, 11, 15]);
@@ -17,7 +17,7 @@ const TwoSumVisualizer = () => {
       const steps = [];
       const map = new Map();
 
-      steps.push({type: "initial", nums: [...nums], target, message: "Initialize the array and target."});
+      steps.push({ type: "initial", nums: [...nums], target, message: "Initialize the array and target." });
 
       for (let i = 0; i < nums.length; i++) {
         const complement = target - nums[i];
@@ -32,15 +32,15 @@ const TwoSumVisualizer = () => {
 
         if (map.has(complement)) {
           const j = map.get(complement);
-          steps.push({type: "found", index1: j, index2: i, value1: nums[j], value2: nums[i], message: `Found the pair at indices ${j} and ${i}.`});
+          steps.push({ type: "found", index1: j, index2: i, value1: nums[j], value2: nums[i], message: `Found the pair at indices ${j} and ${i}.` });
           return steps;
         }
 
         map.set(nums[i], i);
-        steps.push({type: "add_to_map", index: i, value: nums[i], map: new Map(map), message: `Adding nums[${i}] = ${nums[i]} to the map.`});
+        steps.push({ type: "add_to_map", index: i, value: nums[i], map: new Map(map), message: `Adding nums[${i}] = ${nums[i]} to the map.` });
       }
 
-      steps.push({type: "not_found", message: "No solution found."});
+      steps.push({ type: "not_found", message: "No solution found." });
       return steps;
     };
   }, []);
@@ -99,31 +99,31 @@ const TwoSumVisualizer = () => {
   };
 
   const PlayIcon = () => (
-    <svg viewBox="0 0 24 24" style={{height: "1.2rem", width: "1.2rem"}}>
+    <svg viewBox="0 0 24 24" style={{ height: "1.2rem", width: "1.2rem" }}>
       <path fill="currentColor" d="M6 4l12 8L6 20V4z" />
     </svg>
   );
 
   const PauseIcon = () => (
-    <svg viewBox="0 0 24 24" style={{height: "1.2rem", width: "1.2rem"}}>
+    <svg viewBox="0 0 24 24" style={{ height: "1.2rem", width: "1.2rem" }}>
       <path fill="currentColor" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
     </svg>
   );
 
   const BackIcon = () => (
-    <svg viewBox="0 0 24 24" style={{height: "1.2rem", width: "1.2rem"}}>
+    <svg viewBox="0 0 24 24" style={{ height: "1.2rem", width: "1.2rem" }}>
       <path fill="currentColor" d="M11.67 3.87L9.9 2.1 0 12l9.9 9.9 1.77-1.77L3.54 12z" />
     </svg>
   );
 
   const ForwardIcon = () => (
-    <svg viewBox="0 0 24 24" style={{height: "1.2rem", width: "1.2rem"}}>
+    <svg viewBox="0 0 24 24" style={{ height: "1.2rem", width: "1.2rem" }}>
       <path fill="currentColor" d="M12.33 3.87L14.1 2.1 24 12l-9.9 9.9-1.77-1.77L20.46 12z" />
     </svg>
   );
 
   const ResetIcon = () => (
-    <svg viewBox="0 0 24 24" style={{height: "1.2rem", width: "1.2rem"}}>
+    <svg viewBox="0 0 24 24" style={{ height: "1.2rem", width: "1.2rem" }}>
       <path
         fill="currentColor"
         d="M13 3c-4.97 0-9 4.03-9 9H3l4 5 4-5H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06L9.29 16.29C10.86 17.86 12.85 18.67 15 18.67c4.97 0 9-4.03 9-9s-4.03-9-9-9z"
@@ -143,38 +143,38 @@ const TwoSumVisualizer = () => {
         margin: "1rem",
       }}
     >
-      <div style={{display: isDesktop ? "flex" : "block", justifyContent: "space-between"}}>
-        <div style={{width: isDesktop ? "40%" : "100%", padding: "0.5rem"}}>
-          <div style={{marginBottom: "0.5rem"}}>
-            <label htmlFor="nums" style={{display: "block", fontSize: "0.875rem", marginBottom: "0.25rem"}}>
+      <div style={{ display: isDesktop ? "flex" : "block", justifyContent: "space-between" }}>
+        <div style={{ width: isDesktop ? "40%" : "100%", padding: "0.5rem" }}>
+          <div style={{ marginBottom: "0.5rem" }}>
+            <label htmlFor="nums" style={{ display: "block", fontSize: "0.875rem", marginBottom: "0.25rem" }}>
               Nums:
             </label>
             <input
               type="text"
               id="nums"
-              style={{width: "100%", padding: "0.5rem", borderRadius: "4px", border: "1px solid #e5e5e5"}}
+              style={{ width: "100%", padding: "0.5rem", borderRadius: "4px", border: "1px solid #e5e5e5" }}
               value={JSON.stringify(nums)}
               onChange={(e) => setNums(JSON.parse(e.target.value))}
             />
           </div>
-          <div style={{marginBottom: "0.5rem"}}>
-            <label htmlFor="target" style={{display: "block", fontSize: "0.875rem", marginBottom: "0.25rem"}}>
+          <div style={{ marginBottom: "0.5rem" }}>
+            <label htmlFor="target" style={{ display: "block", fontSize: "0.875rem", marginBottom: "0.25rem" }}>
               Target:
             </label>
             <input
               type="number"
               id="target"
-              style={{width: "100%", padding: "0.5rem", borderRadius: "4px", border: "1px solid #e5e5e5"}}
+              style={{ width: "100%", padding: "0.5rem", borderRadius: "4px", border: "1px solid #e5e5e5" }}
               value={target}
               onChange={(e) => setTarget(parseInt(e.target.value))}
             />
           </div>
 
-          <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem"}}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
             <button
               onMouseEnter={() => setHover(true)}
               onMouseLeave={() => setHover(false)}
-              style={{backgroundColor: "transparent", border: "none", cursor: "pointer", padding: "0.25rem", borderRadius: "4px"}}
+              style={{ backgroundColor: "transparent", border: "none", cursor: "pointer", padding: "0.25rem", borderRadius: "4px" }}
               onClick={handlePrevious}
               disabled={currentStep === 0}
             >
@@ -183,7 +183,7 @@ const TwoSumVisualizer = () => {
             <button
               onMouseEnter={() => setHover(true)}
               onMouseLeave={() => setHover(false)}
-              style={{backgroundColor: "transparent", border: "none", cursor: "pointer", padding: "0.25rem", borderRadius: "4px"}}
+              style={{ backgroundColor: "transparent", border: "none", cursor: "pointer", padding: "0.25rem", borderRadius: "4px" }}
               onClick={handlePlayPause}
             >
               {isPlaying ? <PauseIcon /> : <PlayIcon />}
@@ -191,7 +191,7 @@ const TwoSumVisualizer = () => {
             <button
               onMouseEnter={() => setHover(true)}
               onMouseLeave={() => setHover(false)}
-              style={{backgroundColor: "transparent", border: "none", cursor: "pointer", padding: "0.25rem", borderRadius: "4px"}}
+              style={{ backgroundColor: "transparent", border: "none", cursor: "pointer", padding: "0.25rem", borderRadius: "4px" }}
               onClick={handleNext}
               disabled={currentStep === visualizationSteps.length - 1}
             >
@@ -200,32 +200,39 @@ const TwoSumVisualizer = () => {
             <button
               onMouseEnter={() => setHover(true)}
               onMouseLeave={() => setHover(false)}
-              style={{backgroundColor: "transparent", border: "none", cursor: "pointer", padding: "0.25rem", borderRadius: "4px"}}
+              style={{ backgroundColor: "transparent", border: "none", cursor: "pointer", padding: "0.25rem", borderRadius: "4px" }}
               onClick={handleReset}
             >
               <ResetIcon />
             </button>
           </div>
-          <div style={{display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.5rem"}}>
-            <label htmlFor="animationSpeed" style={{fontSize: "0.75rem"}}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.5rem" }}>
+            <label htmlFor="animationSpeed" style={{ fontSize: "0.75rem" }}>
               Animation Speed:
             </label>
             <input
               type="number"
               id="animationSpeed"
-              style={{width: "60px", padding: "0.25rem", borderRadius: "4px", border: "1px solid #e5e5e5", fontSize: "0.75rem"}}
+              style={{ width: "60px", padding: "0.25rem", borderRadius: "4px", border: "1px solid #e5e5e5", fontSize: "0.75rem" }}
               value={speed}
               onChange={(e) => setSpeed(parseInt(e.target.value))}
             />
           </div>
-          <div style={{display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.5rem"}}>
-            <span style={{fontSize: "0.75rem"}}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.5rem" }}>
+            <span style={{ fontSize: "0.75rem" }}>
               Step {currentStep + 1} of {totalSteps}
             </span>
           </div>
-          <input type="range" min="0" max={visualizationSteps.length - 1} value={currentStep} onChange={handleSliderChange} style={{width: "100%"}} />
+          <input
+            type="range"
+            min="0"
+            max={visualizationSteps.length - 1}
+            value={currentStep}
+            onChange={handleSliderChange}
+            style={{ width: "100%" }}
+          />
         </div>
-        <div style={{width: isDesktop ? "60%" : "100%", padding: "0.5rem", borderLeft: isDesktop ? "1px solid #e5e5e5" : "none"}}>
+        <div style={{ width: isDesktop ? "60%" : "100%", padding: "0.5rem", borderLeft: isDesktop ? "1px solid #e5e5e5" : "none" }}>
           <div
             style={{
               marginBottom: "0.5rem",

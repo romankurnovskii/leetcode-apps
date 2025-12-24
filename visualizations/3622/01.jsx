@@ -1,4 +1,4 @@
-import React, {useState, useMemo, useEffect, useCallback} from "react";
+import React, { useState, useMemo, useEffect, useCallback } from "react";
 
 // --- SVG Icon Components ---
 // Using React.memo to prevent unnecessary re-renders of static icons
@@ -62,7 +62,7 @@ const LeetCode3622Visualizer = () => {
       digit_product,
       original_n,
       digit: null,
-      highlight: {n: true},
+      highlight: { n: true },
     });
 
     if (temp_n > 0) {
@@ -73,7 +73,7 @@ const LeetCode3622Visualizer = () => {
         digit_product,
         original_n,
         digit: null,
-        highlight: {n: true},
+        highlight: { n: true },
       });
     }
 
@@ -89,7 +89,7 @@ const LeetCode3622Visualizer = () => {
         digit_product,
         original_n,
         digit,
-        highlight: {n: true, digit: true},
+        highlight: { n: true, digit: true },
       });
 
       const new_sum = digit_sum + digit;
@@ -100,7 +100,7 @@ const LeetCode3622Visualizer = () => {
         digit_product,
         original_n,
         digit,
-        highlight: {digit: true, sum: true},
+        highlight: { digit: true, sum: true },
       });
       digit_sum = new_sum;
 
@@ -112,7 +112,7 @@ const LeetCode3622Visualizer = () => {
         digit_product: new_product,
         original_n,
         digit,
-        highlight: {digit: true, product: true},
+        highlight: { digit: true, product: true },
       });
       digit_product = new_product;
 
@@ -124,7 +124,7 @@ const LeetCode3622Visualizer = () => {
         digit_product,
         original_n,
         digit: null,
-        highlight: {n: true},
+        highlight: { n: true },
       });
       processing_n = next_n;
     }
@@ -147,7 +147,7 @@ const LeetCode3622Visualizer = () => {
       digit_product,
       original_n,
       total_divisor,
-      highlight: {sum: true, product: true, total: true},
+      highlight: { sum: true, product: true, total: true },
     });
 
     const remainder = original_n % total_divisor;
@@ -161,7 +161,7 @@ const LeetCode3622Visualizer = () => {
       total_divisor,
       remainder,
       result,
-      highlight: {original: true, total: true, final: true},
+      highlight: { original: true, total: true, final: true },
     });
 
     steps.push({
@@ -173,7 +173,7 @@ const LeetCode3622Visualizer = () => {
       total_divisor,
       remainder,
       result,
-      highlight: {final: true},
+      highlight: { final: true },
     });
 
     return steps;
@@ -453,7 +453,7 @@ const LeetCode3622Visualizer = () => {
             <button
               style={getButtonStyle("prev")}
               onClick={handlePrev}
-              onMouseEnter={() => setButtonHover({prev: true})}
+              onMouseEnter={() => setButtonHover({ prev: true })}
               onMouseLeave={() => setButtonHover({})}
               title="Previous Step"
             >
@@ -462,7 +462,7 @@ const LeetCode3622Visualizer = () => {
             <button
               style={getButtonStyle("play")}
               onClick={handlePlayPause}
-              onMouseEnter={() => setButtonHover({play: true})}
+              onMouseEnter={() => setButtonHover({ play: true })}
               onMouseLeave={() => setButtonHover({})}
               title={isPlaying ? "Pause" : "Play"}
             >
@@ -471,7 +471,7 @@ const LeetCode3622Visualizer = () => {
             <button
               style={getButtonStyle("next")}
               onClick={handleNext}
-              onMouseEnter={() => setButtonHover({next: true})}
+              onMouseEnter={() => setButtonHover({ next: true })}
               onMouseLeave={() => setButtonHover({})}
               title="Next Step"
             >
@@ -480,7 +480,7 @@ const LeetCode3622Visualizer = () => {
             <button
               style={getButtonStyle("reset")}
               onClick={handleReset}
-              onMouseEnter={() => setButtonHover({reset: true})}
+              onMouseEnter={() => setButtonHover({ reset: true })}
               onMouseLeave={() => setButtonHover({})}
               title="Reset"
             >
@@ -496,14 +496,14 @@ const LeetCode3622Visualizer = () => {
         <div style={styles.vizArea}>
           {/* Top row for calculation */}
           <div style={styles.dataRow}>
-            <div style={{...styles.dataBox, ...(currentVizState.highlight?.n && styles.highlighted)}}>
+            <div style={{ ...styles.dataBox, ...(currentVizState.highlight?.n && styles.highlighted) }}>
               <div style={styles.dataLabel}>Temp n</div>
               <div style={styles.dataValue}>{currentVizState.temp_n}</div>
             </div>
             {currentVizState.digit !== null && (
               <>
                 <span style={styles.arrow}>→</span>
-                <div style={{...styles.dataBox, ...(currentVizState.highlight?.digit && styles.highlighted)}}>
+                <div style={{ ...styles.dataBox, ...(currentVizState.highlight?.digit && styles.highlighted) }}>
                   <div style={styles.dataLabel}>Digit</div>
                   <div style={styles.dataValue}>{currentVizState.digit}</div>
                 </div>
@@ -513,11 +513,11 @@ const LeetCode3622Visualizer = () => {
 
           {/* Bottom row for aggregates */}
           <div style={styles.dataRow}>
-            <div style={{...styles.dataBox, ...(currentVizState.highlight?.sum && styles.highlighted)}}>
+            <div style={{ ...styles.dataBox, ...(currentVizState.highlight?.sum && styles.highlighted) }}>
               <div style={styles.dataLabel}>Digit Sum</div>
               <div style={styles.dataValue}>{currentVizState.digit_sum}</div>
             </div>
-            <div style={{...styles.dataBox, ...(currentVizState.highlight?.product && styles.highlighted)}}>
+            <div style={{ ...styles.dataBox, ...(currentVizState.highlight?.product && styles.highlighted) }}>
               <div style={styles.dataLabel}>Digit Product</div>
               <div style={styles.dataValue}>{currentVizState.digit_product}</div>
             </div>
@@ -525,18 +525,18 @@ const LeetCode3622Visualizer = () => {
 
           {/* Final Calculation */}
           {currentVizState.total_divisor !== undefined && (
-            <div style={{...styles.dataRow, marginTop: "1rem"}}>
-              <div style={{...styles.dataBox, ...(currentVizState.highlight?.original && styles.highlighted)}}>
+            <div style={{ ...styles.dataRow, marginTop: "1rem" }}>
+              <div style={{ ...styles.dataBox, ...(currentVizState.highlight?.original && styles.highlighted) }}>
                 <div style={styles.dataLabel}>Original n</div>
                 <div style={styles.dataValue}>{currentVizState.original_n}</div>
               </div>
               <span style={styles.arrow}>%</span>
-              <div style={{...styles.dataBox, ...(currentVizState.highlight?.total && styles.highlighted)}}>
+              <div style={{ ...styles.dataBox, ...(currentVizState.highlight?.total && styles.highlighted) }}>
                 <div style={styles.dataLabel}>Total Divisor</div>
                 <div style={styles.dataValue}>{currentVizState.total_divisor}</div>
               </div>
               <span style={styles.arrow}>=</span>
-              <div style={{...styles.dataBox, ...(currentVizState.highlight?.final && styles.highlighted)}}>
+              <div style={{ ...styles.dataBox, ...(currentVizState.highlight?.final && styles.highlighted) }}>
                 <div style={styles.dataLabel}>Remainder</div>
                 <div style={styles.dataValue}>{currentVizState.remainder}</div>
               </div>
@@ -548,7 +548,7 @@ const LeetCode3622Visualizer = () => {
               style={{
                 ...styles.finalResultBox,
                 ...(currentVizState.result ? styles.finalTrue : styles.finalFalse),
-                ...(currentVizState.highlight?.final && {transform: "scale(1.05)"}),
+                ...(currentVizState.highlight?.final && { transform: "scale(1.05)" }),
               }}
             >
               Result: {String(currentVizState.result)}

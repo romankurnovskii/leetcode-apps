@@ -1,28 +1,28 @@
-import React, {useState, useMemo, useEffect} from "react";
+import React, { useState, useMemo, useEffect } from "react";
 
 // SVG Icon Components
-const PrevIcon = ({color = "#007aff"}) => (
+const PrevIcon = ({ color = "#007aff" }) => (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
     <path d="M13 15l-5-5 5-5" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
-const NextIcon = ({color = "#007aff"}) => (
+const NextIcon = ({ color = "#007aff" }) => (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
     <path d="M7 5l5 5-5 5" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
-const PlayIcon = ({color = "#007aff"}) => (
+const PlayIcon = ({ color = "#007aff" }) => (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
     <path d="M7 5v10l8-5-8-5z" fill={color} />
   </svg>
 );
-const PauseIcon = ({color = "#007aff"}) => (
+const PauseIcon = ({ color = "#007aff" }) => (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
     <rect x="6" y="5" width="2.5" height="10" rx="1" fill={color} />
     <rect x="11.5" y="5" width="2.5" height="10" rx="1" fill={color} />
   </svg>
 );
-const ResetIcon = ({color = "#007aff"}) => (
+const ResetIcon = ({ color = "#007aff" }) => (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
     <path d="M4 10a6 6 0 1 1 2 4.47" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     <path d="M4 14v-4h4" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -331,7 +331,7 @@ const MergeStringsAlternatelyVisualizer = () => {
         </div>
         <div>
           <div style={labelStyle}>Speed: {speed.toFixed(2)}s/step</div>
-          <input style={{width: "100%"}} type="range" min={0.3} max={2.5} step={0.01} value={speed} onChange={handleSpeed} />
+          <input style={{ width: "100%" }} type="range" min={0.3} max={2.5} step={0.01} value={speed} onChange={handleSpeed} />
         </div>
         <div style={controlsRowStyle}>
           <button
@@ -353,7 +353,7 @@ const MergeStringsAlternatelyVisualizer = () => {
             <PrevIcon color={hoverBtn === "prev" ? "#0051a8" : "#007aff"} />
           </button>
           <button
-            style={{background: "none", border: "none", padding: 2, cursor: "pointer", borderRadius: 6, outline: "none"}}
+            style={{ background: "none", border: "none", padding: 2, cursor: "pointer", borderRadius: 6, outline: "none" }}
             onClick={handlePlayPause}
             onMouseEnter={() => setHoverBtn("play")}
             onMouseLeave={() => setHoverBtn("")}
@@ -384,7 +384,7 @@ const MergeStringsAlternatelyVisualizer = () => {
             <NextIcon color={hoverBtn === "next" ? "#0051a8" : "#007aff"} />
           </button>
           <button
-            style={{background: "none", border: "none", padding: 2, cursor: "pointer", borderRadius: 6, outline: "none"}}
+            style={{ background: "none", border: "none", padding: 2, cursor: "pointer", borderRadius: 6, outline: "none" }}
             onClick={handleReset}
             onMouseEnter={() => setHoverBtn("reset")}
             onMouseLeave={() => setHoverBtn("")}
@@ -394,22 +394,22 @@ const MergeStringsAlternatelyVisualizer = () => {
           </button>
         </div>
         <input style={sliderStyle} type="range" min={0} max={maxStep} value={currentStep} onChange={handleSlider} />
-        <div style={{fontSize: "0.75rem", color: "#888", textAlign: "center"}}>
+        <div style={{ fontSize: "0.75rem", color: "#888", textAlign: "center" }}>
           Step {currentStep + 1} / {steps.length}
         </div>
       </div>
       {/* Right Column: Visualization and Action */}
       <div style={rightColStyle(isDesktop)}>
         <div style={visAreaStyle}>
-          <div style={{fontSize: "0.85rem", fontWeight: 500, marginBottom: 2}}>word1</div>
+          <div style={{ fontSize: "0.85rem", fontWeight: 500, marginBottom: 2 }}>word1</div>
           {renderArray(step.word1, activeWord1, fadedWord1)}
-          <div style={{fontSize: "0.85rem", fontWeight: 500, margin: "0.25rem 0 2px 0"}}>word2</div>
+          <div style={{ fontSize: "0.85rem", fontWeight: 500, margin: "0.25rem 0 2px 0" }}>word2</div>
           {renderArray(step.word2, activeWord2, fadedWord2)}
-          <div style={{fontSize: "0.85rem", fontWeight: 500, margin: "0.25rem 0 2px 0"}}>merged</div>
+          <div style={{ fontSize: "0.85rem", fontWeight: 500, margin: "0.25rem 0 2px 0" }}>merged</div>
           {renderMerged(step.merged)}
         </div>
         <div style={actionBoxStyle}>
-          <span style={{fontWeight: 600, marginRight: 6}}>Current Action:</span> {step.message}
+          <span style={{ fontWeight: 600, marginRight: 6 }}>Current Action:</span> {step.message}
         </div>
       </div>
     </div>

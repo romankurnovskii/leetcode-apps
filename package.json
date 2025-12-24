@@ -1,8 +1,10 @@
 {
   "scripts": {
+    "prepare": "husky",
+    "format": "npm run format:js && npm run format:json && npm run format:py",
+    "format:js": "prettier --write \"**/*.{ts,tsx,js,jsx}\"",
     "format:json": "prettier --write 'data/**/*.json'",
-    "format:python": "black scripts/ solutions/",
-    "prepare": "husky"
+    "format:py": "black scripts/ solutions/"
   },
   "devDependencies": {
     "husky": "^9.0.0",

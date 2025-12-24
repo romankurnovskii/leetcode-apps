@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useMemo} from "react";
+import React, { useState, useEffect, useMemo } from "react";
 
 // --- Helper Components & Functions ---
 
@@ -97,7 +97,7 @@ export default function KidsWithCandiesVisualizer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [speed, setSpeed] = useState(1000);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
-  const [hover, setHover] = useState({prev: false, play: false, next: false, reset: false});
+  const [hover, setHover] = useState({ prev: false, play: false, next: false, reset: false });
 
   // --- Algorithm & Visualization Logic ---
 
@@ -107,7 +107,7 @@ export default function KidsWithCandiesVisualizer() {
       const results = [];
 
       // Step 0: Initial state
-      steps.push({type: "initial", candies: [...candiesList], extraCandies: extra, results: [], message: "Start with the list of kids' candies."});
+      steps.push({ type: "initial", candies: [...candiesList], extraCandies: extra, results: [], message: "Start with the list of kids' candies." });
 
       // Step 1: Find the maximum number of candies.
       let maxCandies = 0;
@@ -154,9 +154,9 @@ export default function KidsWithCandiesVisualizer() {
       }
 
       // Step 3: Final results
-      steps.push({type: "final", candies: [...candiesList], results: [...results], message: "The process is complete. Here is the final result."});
+      steps.push({ type: "final", candies: [...candiesList], results: [...results], message: "The process is complete. Here is the final result." });
 
-      return {steps};
+      return { steps };
     };
   }, []);
 
@@ -169,7 +169,7 @@ export default function KidsWithCandiesVisualizer() {
   }, []);
 
   useEffect(() => {
-    const {steps} = generateVisualization(candies, extraCandies);
+    const { steps } = generateVisualization(candies, extraCandies);
     setVisualizationSteps(steps);
     setCurrentStep(0);
     setIsPlaying(false);
@@ -196,7 +196,7 @@ export default function KidsWithCandiesVisualizer() {
     setIsPlaying(false);
     setCurrentStep(Number(e.target.value));
   };
-  const handleHover = (key, isHovering) => setHover((prev) => ({...prev, [key]: isHovering}));
+  const handleHover = (key, isHovering) => setHover((prev) => ({ ...prev, [key]: isHovering }));
   const handleCandiesChange = (e) => {
     const list = e.target.value
       .split(",")
@@ -207,11 +207,11 @@ export default function KidsWithCandiesVisualizer() {
 
   // --- Styles ---
   const styles = {
-    card: {width: "100%", maxWidth: "56rem", backgroundColor: "white", borderRadius: "0.5rem", border: "1px solid #e5e5e5", padding: "1rem"},
-    mainGrid: {display: "flex", flexDirection: "column", gap: "1rem"},
-    controlsPanel: {flex: 1},
-    inputsContainer: {display: "flex", flexDirection: "column", gap: "0.75rem"},
-    label: {fontSize: "0.875rem", fontWeight: "500", color: "#333"},
+    card: { width: "100%", maxWidth: "56rem", backgroundColor: "white", borderRadius: "0.5rem", border: "1px solid #e5e5e5", padding: "1rem" },
+    mainGrid: { display: "flex", flexDirection: "column", gap: "1rem" },
+    controlsPanel: { flex: 1 },
+    inputsContainer: { display: "flex", flexDirection: "column", gap: "0.75rem" },
+    label: { fontSize: "0.875rem", fontWeight: "500", color: "#333" },
     input: {
       display: "block",
       width: "100%",
@@ -222,9 +222,9 @@ export default function KidsWithCandiesVisualizer() {
       fontFamily: "monospace",
       backgroundColor: "#fafafa",
     },
-    controlsBox: {backgroundColor: "#f7f7f8", padding: "0.75rem", borderRadius: "0.5rem", marginTop: "1rem"},
-    controlsHeader: {fontSize: "1rem", fontWeight: "600", color: "#333", marginBottom: "0.75rem", textAlign: "center"},
-    buttonGroup: {display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem", marginBottom: "0.75rem"},
+    controlsBox: { backgroundColor: "#f7f7f8", padding: "0.75rem", borderRadius: "0.5rem", marginTop: "1rem" },
+    controlsHeader: { fontSize: "1rem", fontWeight: "600", color: "#333", marginBottom: "0.75rem", textAlign: "center" },
+    buttonGroup: { display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem", marginBottom: "0.75rem" },
     button: {
       padding: "0.4rem",
       borderRadius: "9999px",
@@ -235,7 +235,7 @@ export default function KidsWithCandiesVisualizer() {
       display: "flex",
       alignItems: "center",
     },
-    buttonHover: {backgroundColor: "#dcdce0"},
+    buttonHover: { backgroundColor: "#dcdce0" },
     playButton: {
       padding: "0.6rem",
       borderRadius: "9999px",
@@ -246,12 +246,12 @@ export default function KidsWithCandiesVisualizer() {
       display: "flex",
       alignItems: "center",
     },
-    playButtonHover: {backgroundColor: "#005ecb"},
-    disabledButton: {opacity: 0.5, cursor: "not-allowed"},
-    sliderLabel: {display: "block", fontSize: "0.875rem", fontWeight: "500", color: "#333", marginBottom: "0.25rem"},
-    slider: {width: "100%", height: "0.5rem", backgroundColor: "#e9e9ea", borderRadius: "0.5rem", appearance: "none", cursor: "pointer"},
-    sliderSteps: {textAlign: "center", fontSize: "0.875rem", color: "#666", marginTop: "0.25rem"},
-    vizPanel: {display: "flex", flexDirection: "column", gap: "1rem", flex: 2},
+    playButtonHover: { backgroundColor: "#005ecb" },
+    disabledButton: { opacity: 0.5, cursor: "not-allowed" },
+    sliderLabel: { display: "block", fontSize: "0.875rem", fontWeight: "500", color: "#333", marginBottom: "0.25rem" },
+    slider: { width: "100%", height: "0.5rem", backgroundColor: "#e9e9ea", borderRadius: "0.5rem", appearance: "none", cursor: "pointer" },
+    sliderSteps: { textAlign: "center", fontSize: "0.875rem", color: "#666", marginTop: "0.25rem" },
+    vizPanel: { display: "flex", flexDirection: "column", gap: "1rem", flex: 2 },
     vizBox: {
       backgroundColor: "#f7f7f8",
       padding: "1rem",
@@ -268,8 +268,8 @@ export default function KidsWithCandiesVisualizer() {
       padding: "0.25rem",
       borderRadius: "0 0.375rem 0.375rem 0",
     },
-    messageTitle: {fontWeight: "600", fontSize: "0.75rem"},
-    kidContainer: {display: "flex", gap: "0.75rem", flexWrap: "wrap", justifyContent: "center"},
+    messageTitle: { fontWeight: "600", fontSize: "0.75rem" },
+    kidContainer: { display: "flex", gap: "0.75rem", flexWrap: "wrap", justifyContent: "center" },
     kid: {
       display: "flex",
       flexDirection: "column",
@@ -280,32 +280,32 @@ export default function KidsWithCandiesVisualizer() {
       border: "2px solid transparent",
       transition: "all 0.3s",
     },
-    kidCandies: {fontSize: "1.25rem", fontWeight: "bold"},
-    kidLabel: {fontSize: "0.8rem", color: "#555"},
-    resultBox: {padding: "0.5rem", borderRadius: "0.375rem", fontFamily: "monospace", fontSize: "1rem"},
-    greenText: {color: "#28a745", fontWeight: "bold"},
-    redText: {color: "#dc3545", fontWeight: "bold"},
+    kidCandies: { fontSize: "1.25rem", fontWeight: "bold" },
+    kidLabel: { fontSize: "0.8rem", color: "#555" },
+    resultBox: { padding: "0.5rem", borderRadius: "0.375rem", fontFamily: "monospace", fontSize: "1rem" },
+    greenText: { color: "#28a745", fontWeight: "bold" },
+    redText: { color: "#dc3545", fontWeight: "bold" },
   };
 
   // --- Render Logic ---
   const currentFrame = visualizationSteps[currentStep] || {};
 
   const renderFrame = () => {
-    const {type, candies: frameCandies, maxCandies, currentIndex, newTotal, canBeGreatest, results} = currentFrame;
+    const { type, candies: frameCandies, maxCandies, currentIndex, newTotal, canBeGreatest, results } = currentFrame;
 
     const getKidStyle = (index) => {
-      let style = {...styles.kid};
+      let style = { ...styles.kid };
       if (type === "find_max" && frameCandies[index] === maxCandies) {
-        style = {...style, borderColor: "#ffcc00", backgroundColor: "#fffbe6"};
+        style = { ...style, borderColor: "#ffcc00", backgroundColor: "#fffbe6" };
       }
       if ((type === "check_kid" || type === "update_result") && index === currentIndex) {
-        style = {...style, borderColor: "#007aff", backgroundColor: "#f0f7ff", transform: "scale(1.1)"};
+        style = { ...style, borderColor: "#007aff", backgroundColor: "#f0f7ff", transform: "scale(1.1)" };
       }
       return style;
     };
 
     return (
-      <div style={{width: "100%", display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem"}}>
+      <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem" }}>
         <div style={styles.kidContainer}>
           {frameCandies &&
             frameCandies.map((candyCount, i) => (
@@ -317,15 +317,15 @@ export default function KidsWithCandiesVisualizer() {
         </div>
 
         {type === "find_max" && (
-          <div style={{textAlign: "center", fontSize: "1.125rem"}}>
-            Max Candies: <span style={{...styles.kidCandies, color: "#ff9500"}}>{maxCandies}</span>
+          <div style={{ textAlign: "center", fontSize: "1.125rem" }}>
+            Max Candies: <span style={{ ...styles.kidCandies, color: "#ff9500" }}>{maxCandies}</span>
           </div>
         )}
 
         {(type === "check_kid" || type === "update_result") && (
-          <div style={{textAlign: "center", fontSize: "1.125rem"}}>
+          <div style={{ textAlign: "center", fontSize: "1.125rem" }}>
             {newTotal}{" "}
-            <span style={{color: canBeGreatest ? styles.greenText.color : styles.redText.color, fontWeight: "bold"}}>
+            <span style={{ color: canBeGreatest ? styles.greenText.color : styles.redText.color, fontWeight: "bold" }}>
               {canBeGreatest ? "≥" : "<"}
             </span>{" "}
             {maxCandies}
@@ -333,8 +333,8 @@ export default function KidsWithCandiesVisualizer() {
         )}
 
         {results && results.length > 0 && (
-          <div style={{textAlign: "center", display: "flex", gap: "0.5rem", flexWrap: "wrap", justifyContent: "center"}}>
-            <span style={{alignSelf: "center", fontSize: "0.875rem", color: "#555"}}>Results:</span>
+          <div style={{ textAlign: "center", display: "flex", gap: "0.5rem", flexWrap: "wrap", justifyContent: "center" }}>
+            <span style={{ alignSelf: "center", fontSize: "0.875rem", color: "#555" }}>Results:</span>
             {results.map((res, i) => (
               <span
                 key={i}
@@ -354,15 +354,15 @@ export default function KidsWithCandiesVisualizer() {
   };
 
   // --- Component JSX ---
-  const prevButtonStyle = {...styles.button, ...(hover.prev && styles.buttonHover), ...(currentStep === 0 && styles.disabledButton)};
+  const prevButtonStyle = { ...styles.button, ...(hover.prev && styles.buttonHover), ...(currentStep === 0 && styles.disabledButton) };
   const nextButtonStyle = {
     ...styles.button,
     ...(hover.next && styles.buttonHover),
     ...(currentStep >= visualizationSteps.length - 1 && styles.disabledButton),
   };
-  const playButtonStyle = {...styles.playButton, ...(hover.play && styles.playButtonHover)};
-  const resetButtonStyle = {...styles.button, ...(hover.reset && styles.buttonHover)};
-  const mainGridStyle = {...styles.mainGrid, ...(isDesktop && {flexDirection: "row"})};
+  const playButtonStyle = { ...styles.playButton, ...(hover.play && styles.playButtonHover) };
+  const resetButtonStyle = { ...styles.button, ...(hover.reset && styles.buttonHover) };
+  const mainGridStyle = { ...styles.mainGrid, ...(isDesktop && { flexDirection: "row" }) };
 
   return (
     <div style={styles.card}>
@@ -450,7 +450,7 @@ export default function KidsWithCandiesVisualizer() {
           <div style={styles.vizBox}>{renderFrame()}</div>
           <div style={styles.messageBox}>
             <h3 style={styles.messageTitle}>Current Action</h3>
-            <p style={{margin: 1}}>{(currentFrame && currentFrame.message) || " "}</p>
+            <p style={{ margin: 1 }}>{(currentFrame && currentFrame.message) || " "}</p>
           </div>
         </div>
       </div>

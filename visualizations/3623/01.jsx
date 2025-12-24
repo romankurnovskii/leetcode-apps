@@ -1,13 +1,13 @@
-import React, {useState, useMemo, useEffect, useRef} from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 
 // SVG Icon Components
-const PlayIcon = ({color}) => (
+const PlayIcon = ({ color }) => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M8 5V19L19 12L8 5Z" fill={color} />
   </svg>
 );
 
-const PauseIcon = ({color}) => (
+const PauseIcon = ({ color }) => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M6 19H10V5H6V19ZM14 5V19H18V5H14Z" fill={color} />
   </svg>
@@ -132,7 +132,7 @@ const CountTrapezoidsIVisualizer = () => {
           message: `With ${c} points, we can form C(${c}, 2) = ${numPairs} horizontal segments.`,
           y_groups,
           pairs: [...pairs],
-          calculation: {text: `C(${c}, 2) = ${numPairs}`, target: "pairs"},
+          calculation: { text: `C(${c}, 2) = ${numPairs}`, target: "pairs" },
           highlightedY: y,
           stage: "calculating_pairs",
         });
@@ -163,7 +163,7 @@ const CountTrapezoidsIVisualizer = () => {
       message: "Calculate total_sum = sum of all values in the pairs list.",
       y_groups,
       pairs,
-      calculation: {text: `Total Sum = ${pairs.join(" + ") || 0} = ${total_sum}`, target: "total_sum"},
+      calculation: { text: `Total Sum = ${pairs.join(" + ") || 0} = ${total_sum}`, target: "total_sum" },
       highlightedY: null,
       total_sum,
       stage: "final_calculation",
@@ -174,7 +174,7 @@ const CountTrapezoidsIVisualizer = () => {
       message: "Calculate sum_of_squares = sum of the square of each value.",
       y_groups,
       pairs,
-      calculation: {text: `Sum of Squares = ${pairs.map((p) => `${p}²`).join(" + ") || 0} = ${sum_of_squares}`, target: "sum_of_squares"},
+      calculation: { text: `Sum of Squares = ${pairs.map((p) => `${p}²`).join(" + ") || 0} = ${sum_of_squares}`, target: "sum_of_squares" },
       total_sum,
       sum_of_squares,
       stage: "final_calculation",
@@ -187,7 +187,7 @@ const CountTrapezoidsIVisualizer = () => {
       message: "Apply the formula: (total_sum² - sum_of_squares) / 2.",
       y_groups,
       pairs,
-      calculation: {text: `Result = (${total_sum}² - ${sum_of_squares}) / 2 = ${finalResult}`, target: "result"},
+      calculation: { text: `Result = (${total_sum}² - ${sum_of_squares}) / 2 = ${finalResult}`, target: "result" },
       total_sum,
       sum_of_squares,
       result: finalResult,
@@ -276,7 +276,7 @@ const CountTrapezoidsIVisualizer = () => {
   };
 
   const currentStepData = visualizationSteps[currentStep] || {};
-  const {message, pointsToGroup, y_groups, pairs, calculation, highlightedY, highlightedPoint, total_sum, sum_of_squares, result, stage, isFinal} =
+  const { message, pointsToGroup, y_groups, pairs, calculation, highlightedY, highlightedPoint, total_sum, sum_of_squares, result, stage, isFinal } =
     currentStepData;
 
   // Styling
@@ -310,8 +310,8 @@ const CountTrapezoidsIVisualizer = () => {
       flexDirection: "column",
       gap: "1rem",
     },
-    inputSection: {display: "flex", flexDirection: "column", gap: "0.5rem"},
-    label: {fontWeight: "600", color: "#333", fontSize: "0.9rem"},
+    inputSection: { display: "flex", flexDirection: "column", gap: "0.5rem" },
+    label: { fontWeight: "600", color: "#333", fontSize: "0.9rem" },
     textarea: {
       minHeight: "80px",
       padding: "0.5rem",
@@ -321,7 +321,7 @@ const CountTrapezoidsIVisualizer = () => {
       fontSize: "0.9rem",
       resize: "vertical",
     },
-    error: {color: "#e53e3e", fontSize: "0.8rem"},
+    error: { color: "#e53e3e", fontSize: "0.8rem" },
     controls: {
       display: "flex",
       flexDirection: "column",
@@ -330,7 +330,7 @@ const CountTrapezoidsIVisualizer = () => {
       borderRadius: "8px",
       border: "1px solid #e5e5e5",
     },
-    buttonGroup: {display: "flex", justifyContent: "space-between", alignItems: "center"},
+    buttonGroup: { display: "flex", justifyContent: "space-between", alignItems: "center" },
     button: (isHovered) => ({
       background: isHovered ? "#e9e9eb" : "transparent",
       border: "none",
@@ -355,8 +355,8 @@ const CountTrapezoidsIVisualizer = () => {
       alignItems: "center",
       justifyContent: "center",
     }),
-    sliderContainer: {display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.8rem"},
-    slider: {width: "100%"},
+    sliderContainer: { display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.8rem" },
+    slider: { width: "100%" },
     stepCounter: {
       textAlign: "center",
       fontSize: "0.8rem",
@@ -427,9 +427,9 @@ const CountTrapezoidsIVisualizer = () => {
       borderRadius: "6px",
       backgroundColor: isHighlighted ? "#f0f4ff" : "#fcfcfd",
     }),
-    dataTitle: {fontSize: "0.75rem", fontWeight: "600", color: "#666", marginBottom: "0.5rem", textTransform: "uppercase"},
-    pairsList: {display: "flex", gap: "0.3rem", flexWrap: "wrap"},
-    pairItem: {padding: "0.2rem 0.4rem", backgroundColor: "#e9e9eb", borderRadius: "4px", fontSize: "0.8rem"},
+    dataTitle: { fontSize: "0.75rem", fontWeight: "600", color: "#666", marginBottom: "0.5rem", textTransform: "uppercase" },
+    pairsList: { display: "flex", gap: "0.3rem", flexWrap: "wrap" },
+    pairItem: { padding: "0.2rem 0.4rem", backgroundColor: "#e9e9eb", borderRadius: "4px", fontSize: "0.8rem" },
     calculationText: {
       fontFamily: "monospace",
       fontSize: "0.9rem",
@@ -537,7 +537,7 @@ const CountTrapezoidsIVisualizer = () => {
               </div>
             )}
 
-            <div style={{...styles.dataTitle, marginTop: stage === "grouping" ? "1rem" : "0"}}>Y-Groups</div>
+            <div style={{ ...styles.dataTitle, marginTop: stage === "grouping" ? "1rem" : "0" }}>Y-Groups</div>
             <div>
               {y_groups &&
                 sortedYGroups.map((y) => (
@@ -566,7 +566,7 @@ const CountTrapezoidsIVisualizer = () => {
                 </div>
                 {calculation?.target === "pairs" && <p style={styles.calculationText}>{calculation.text}</p>}
               </div>
-              <div style={{flex: 2, display: "flex", flexDirection: "column", gap: "0.5rem"}}>
+              <div style={{ flex: 2, display: "flex", flexDirection: "column", gap: "0.5rem" }}>
                 <div
                   style={styles.dataBox(
                     calculation?.target === "total_sum" || calculation?.target === "sum_of_squares" || calculation?.target === "result"
@@ -575,7 +575,7 @@ const CountTrapezoidsIVisualizer = () => {
                   <div style={styles.dataTitle}>Formula</div>
                   <div>total_sum: {total_sum ?? "..."}</div>
                   <div>sum_of_squares: {sum_of_squares ?? "..."}</div>
-                  <div style={{fontWeight: "bold"}}>Result: {isFinal ? <span style={{color: "#28a745"}}>{result}</span> : result ?? "..."}</div>
+                  <div style={{ fontWeight: "bold" }}>Result: {isFinal ? <span style={{ color: "#28a745" }}>{result}</span> : (result ?? "...")}</div>
                   {(calculation?.target === "total_sum" || calculation?.target === "sum_of_squares" || calculation?.target === "result") && (
                     <p style={styles.calculationText}>{calculation.text}</p>
                   )}

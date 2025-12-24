@@ -1,28 +1,28 @@
-import React, {useState, useMemo, useEffect, useRef} from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 
 // SVG ICONS
-const PlayIcon = ({color = "#007aff"}) => (
+const PlayIcon = ({ color = "#007aff" }) => (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
     <path d="M6 4L15 10L6 16V4Z" fill={color} />
   </svg>
 );
-const PauseIcon = ({color = "#007aff"}) => (
+const PauseIcon = ({ color = "#007aff" }) => (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
     <rect x="5" y="4" width="3" height="12" rx="1" fill={color} />
     <rect x="12" y="4" width="3" height="12" rx="1" fill={color} />
   </svg>
 );
-const PrevIcon = ({color = "#007aff"}) => (
+const PrevIcon = ({ color = "#007aff" }) => (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
     <path d="M13 16L7 10L13 4" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
-const NextIcon = ({color = "#007aff"}) => (
+const NextIcon = ({ color = "#007aff" }) => (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
     <path d="M7 4L13 10L7 16" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
-const ResetIcon = ({color = "#007aff"}) => (
+const ResetIcon = ({ color = "#007aff" }) => (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
     <path
       d="M10 4V1L5 6l5 5V7c2.76 0 5 2.24 5 5 0 2.76-2.24 5-5 5s-5-2.24-5-5"
@@ -119,7 +119,7 @@ const Problem3603Visualizer = () => {
   const step = visualizationSteps[currentStep] || {};
 
   return (
-    <div style={{background: "#fff", minHeight: 0, padding: 0, margin: 0}}>
+    <div style={{ background: "#fff", minHeight: 0, padding: 0, margin: 0 }}>
       <div
         style={{
           maxWidth: 900,
@@ -134,30 +134,30 @@ const Problem3603Visualizer = () => {
         }}
       >
         {/* Left Column: Inputs & Controls */}
-        <div style={{flex: 1, minWidth: 220, maxWidth: 320, display: "flex", flexDirection: "column", gap: "1.5rem"}}>
+        <div style={{ flex: 1, minWidth: 220, maxWidth: 320, display: "flex", flexDirection: "column", gap: "1.5rem" }}>
           <div>
-            <div style={{fontSize: "0.9rem", fontWeight: 600, marginBottom: 4}}>Grid Size</div>
-            <div style={{display: "flex", gap: 8}}>
-              <label style={{fontSize: "0.85rem"}}>
+            <div style={{ fontSize: "0.9rem", fontWeight: 600, marginBottom: 4 }}>Grid Size</div>
+            <div style={{ display: "flex", gap: 8 }}>
+              <label style={{ fontSize: "0.85rem" }}>
                 m: <input type="number" min={1} max={10} value={m} onChange={(e) => setM(Number(e.target.value))} style={inputStyle} />
               </label>
-              <label style={{fontSize: "0.85rem"}}>
+              <label style={{ fontSize: "0.85rem" }}>
                 n: <input type="number" min={1} max={10} value={n} onChange={(e) => setN(Number(e.target.value))} style={inputStyle} />
               </label>
             </div>
           </div>
           <div>
-            <div style={{fontSize: "0.9rem", fontWeight: 600, marginBottom: 4}}>waitCost (comma/space/line separated)</div>
+            <div style={{ fontSize: "0.9rem", fontWeight: 600, marginBottom: 4 }}>waitCost (comma/space/line separated)</div>
             <textarea
               rows={isDesktop ? 4 : 2}
               value={waitCostInput}
               onChange={(e) => setWaitCostInput(e.target.value)}
-              style={{...inputStyle, width: "100%", fontFamily: "monospace", fontSize: "0.95rem", resize: "vertical"}}
+              style={{ ...inputStyle, width: "100%", fontFamily: "monospace", fontSize: "0.95rem", resize: "vertical" }}
             />
           </div>
           <div>
-            <div style={{fontSize: "0.9rem", fontWeight: 600, marginBottom: 4}}>Controls</div>
-            <div style={{display: "flex", gap: 8, alignItems: "center"}}>
+            <div style={{ fontSize: "0.9rem", fontWeight: 600, marginBottom: 4 }}>Controls</div>
+            <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
               <button style={buttonStyle} onClick={handlePrev} disabled={currentStep === 0}>
                 <PrevIcon />
               </button>
@@ -177,7 +177,7 @@ const Problem3603Visualizer = () => {
               max={visualizationSteps.length - 1}
               value={currentStep}
               onChange={(e) => goToStep(Number(e.target.value))}
-              style={{width: "100%", marginTop: 8}}
+              style={{ width: "100%", marginTop: 8 }}
             />
           </div>
           {/* Time/Space Complexity Block */}
@@ -191,21 +191,21 @@ const Problem3603Visualizer = () => {
               marginTop: 8,
             }}
           >
-            <div style={{fontWeight: 600, fontSize: "0.8rem", marginBottom: 2}}>Complexity Simulation</div>
-            <div style={{display: "flex", gap: 12, alignItems: "center"}}>
+            <div style={{ fontWeight: 600, fontSize: "0.8rem", marginBottom: 2 }}>Complexity Simulation</div>
+            <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
               <span>
                 Time: <b>O(mn)</b>
               </span>
               <span>
                 Space: <b>O(mn)</b>
               </span>
-              <span style={{color: "#007aff", fontWeight: 600}}>t = {tCount}</span>
+              <span style={{ color: "#007aff", fontWeight: 600 }}>t = {tCount}</span>
             </div>
           </div>
         </div>
         {/* Right Column: Visualization & Message */}
-        <div style={{flex: 2, minWidth: 0, display: "flex", flexDirection: "column", gap: "1rem"}}>
-          <div style={{fontWeight: 700, fontSize: "1.1rem", marginBottom: 2}}>Minimum Cost Path with Alternating Directions II</div>
+        <div style={{ flex: 2, minWidth: 0, display: "flex", flexDirection: "column", gap: "1rem" }}>
+          <div style={{ fontWeight: 700, fontSize: "1.1rem", marginBottom: 2 }}>Minimum Cost Path with Alternating Directions II</div>
           <GridVisualization {...step} m={m} n={n} waitCost={waitCost} />
           <div
             style={{
@@ -219,7 +219,7 @@ const Problem3603Visualizer = () => {
               alignItems: "center",
             }}
           >
-            <span style={{fontWeight: 600, fontSize: "0.8rem", color: "#888", marginRight: 8}}>Current Action:</span>
+            <span style={{ fontWeight: 600, fontSize: "0.8rem", color: "#888", marginRight: 8 }}>Current Action:</span>
             <span>{step.message}</span>
           </div>
         </div>
@@ -257,7 +257,7 @@ const buttonStyle = {
 function generateVisualization(m, n, waitCost) {
   // DP: cost[i][j][parity] (0=wait, 1=move)
   const steps = [];
-  const cost = Array.from({length: m}, () => Array.from({length: n}, () => [Infinity, Infinity]));
+  const cost = Array.from({ length: m }, () => Array.from({ length: n }, () => [Infinity, Infinity]));
   cost[0][0][1] = 1; // Start at (0,0), move step, cost=1
   steps.push({
     type: "init",
@@ -269,7 +269,7 @@ function generateVisualization(m, n, waitCost) {
     action: "init",
   });
   const queue = [[0, 0, 1]]; // i, j, parity
-  const prev = Array.from({length: m}, () => Array.from({length: n}, () => [null, null]));
+  const prev = Array.from({ length: m }, () => Array.from({ length: n }, () => [null, null]));
   let stepCount = 1;
   while (queue.length) {
     const [i, j, parity] = queue.shift();
@@ -358,15 +358,15 @@ function reconstructPath(prev, i, j, parity) {
 }
 
 // Grid Visualization
-function GridVisualization({cost = [], pos = [0, 0], parity = 1, path = [], m, n, waitCost = [], minCost, action}) {
+function GridVisualization({ cost = [], pos = [0, 0], parity = 1, path = [], m, n, waitCost = [], minCost, action }) {
   // Render grid
   return (
-    <div style={{display: "inline-block", background: "#f7f7f8", border: "1px solid #e5e5e5", borderRadius: 8, padding: "0.5rem", minWidth: 120}}>
-      <table style={{borderCollapse: "collapse", margin: "0 auto"}}>
+    <div style={{ display: "inline-block", background: "#f7f7f8", border: "1px solid #e5e5e5", borderRadius: 8, padding: "0.5rem", minWidth: 120 }}>
+      <table style={{ borderCollapse: "collapse", margin: "0 auto" }}>
         <tbody>
-          {Array.from({length: m}).map((_, i) => (
+          {Array.from({ length: m }).map((_, i) => (
             <tr key={i}>
-              {Array.from({length: n}).map((_, j) => {
+              {Array.from({ length: n }).map((_, j) => {
                 const isCurrent = pos[0] === i && pos[1] === j;
                 const isPath = path.some(([pi, pj]) => pi === i && pj === j);
                 return (
@@ -385,11 +385,11 @@ function GridVisualization({cost = [], pos = [0, 0], parity = 1, path = [], m, n
                       transition: "background 0.2s",
                     }}
                   >
-                    <div style={{fontSize: "0.85rem", color: "#333"}}>
+                    <div style={{ fontSize: "0.85rem", color: "#333" }}>
                       <b>{(i + 1) * (j + 1)}</b>
                     </div>
-                    <div style={{fontSize: "0.7rem", color: "#888"}}>wait: {waitCost[i]?.[j]}</div>
-                    {isCurrent && <div style={{position: "absolute", top: 2, right: 4, fontSize: 11, color: "#007aff", fontWeight: 700}}>●</div>}
+                    <div style={{ fontSize: "0.7rem", color: "#888" }}>wait: {waitCost[i]?.[j]}</div>
+                    {isCurrent && <div style={{ position: "absolute", top: 2, right: 4, fontSize: 11, color: "#007aff", fontWeight: 700 }}>●</div>}
                   </td>
                 );
               })}
@@ -397,7 +397,7 @@ function GridVisualization({cost = [], pos = [0, 0], parity = 1, path = [], m, n
           ))}
         </tbody>
       </table>
-      {typeof minCost === "number" && <div style={{marginTop: 8, fontSize: "0.95rem", fontWeight: 600, color: "#007aff"}}>Min Cost: {minCost}</div>}
+      {typeof minCost === "number" && <div style={{ marginTop: 8, fontSize: "0.95rem", fontWeight: 600, color: "#007aff" }}>Min Cost: {minCost}</div>}
     </div>
   );
 }

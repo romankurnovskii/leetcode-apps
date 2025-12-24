@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useMemo} from "react";
+import React, { useState, useEffect, useMemo } from "react";
 
 // --- SVG Icon Components ---
 const PlayIcon = () => (
@@ -91,7 +91,7 @@ export default function MaximumNumberOfConsecutiveValuesYouCanMakeVisualizer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [speed, setSpeed] = useState(1000);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
-  const [hover, setHover] = useState({prev: false, play: false, next: false, reset: false});
+  const [hover, setHover] = useState({ prev: false, play: false, next: false, reset: false });
 
   // --- Visualization Logic ---
   const generateVisualization = useMemo(() => {
@@ -150,7 +150,7 @@ export default function MaximumNumberOfConsecutiveValuesYouCanMakeVisualizer() {
         i: i < sorted.length ? i : null,
         message: `Done. The maximum number of consecutive values you can make is ${res}.`,
       });
-      return {steps};
+      return { steps };
     };
   }, []);
 
@@ -162,7 +162,7 @@ export default function MaximumNumberOfConsecutiveValuesYouCanMakeVisualizer() {
   }, []);
 
   useEffect(() => {
-    const {steps} = generateVisualization(coins);
+    const { steps } = generateVisualization(coins);
     setVisualizationSteps(steps);
     setCurrentStep(0);
     setIsPlaying(false);
@@ -189,7 +189,7 @@ export default function MaximumNumberOfConsecutiveValuesYouCanMakeVisualizer() {
     setIsPlaying(false);
     setCurrentStep(Number(e.target.value));
   };
-  const handleHover = (key, isHovering) => setHover((prev) => ({...prev, [key]: isHovering}));
+  const handleHover = (key, isHovering) => setHover((prev) => ({ ...prev, [key]: isHovering }));
   const handleInputChange = (e) => {
     setInputString(e.target.value);
     const arr = e.target.value
@@ -220,8 +220,8 @@ export default function MaximumNumberOfConsecutiveValuesYouCanMakeVisualizer() {
     flexDirection: isDesktop ? "row" : "column",
     padding: isDesktop ? "1.5rem 2rem" : "1rem 0.5rem",
   };
-  const leftCol = {flex: 1, minWidth: 220, marginRight: isDesktop ? 32 : 0, marginBottom: isDesktop ? 0 : 24};
-  const rightCol = {flex: 2, minWidth: 0, display: "flex", flexDirection: "column", alignItems: "center"};
+  const leftCol = { flex: 1, minWidth: 220, marginRight: isDesktop ? 32 : 0, marginBottom: isDesktop ? 0 : 24 };
+  const rightCol = { flex: 2, minWidth: 0, display: "flex", flexDirection: "column", alignItems: "center" };
   const inputStyle = {
     width: "100%",
     padding: "0.5rem",
@@ -230,8 +230,8 @@ export default function MaximumNumberOfConsecutiveValuesYouCanMakeVisualizer() {
     fontSize: 16,
     marginBottom: 12,
   };
-  const controlsRow = {display: "flex", alignItems: "center", gap: 8, margin: "0.5rem 0"};
-  const sliderStyle = {width: "100%", margin: "0.5rem 0"};
+  const controlsRow = { display: "flex", alignItems: "center", gap: 8, margin: "0.5rem 0" };
+  const sliderStyle = { width: "100%", margin: "0.5rem 0" };
   const vizArea = {
     background: palette.background,
     border: `1px solid ${palette.border}`,
@@ -244,7 +244,7 @@ export default function MaximumNumberOfConsecutiveValuesYouCanMakeVisualizer() {
     flexDirection: "column",
     alignItems: "center",
   };
-  const coinsRow = {display: "flex", gap: 8, margin: "0.5rem 0"};
+  const coinsRow = { display: "flex", gap: 8, margin: "0.5rem 0" };
   const coinStyle = (active, processed) => ({
     padding: "0.5rem 0.9rem",
     borderRadius: 6,
@@ -282,12 +282,12 @@ export default function MaximumNumberOfConsecutiveValuesYouCanMakeVisualizer() {
   // --- Visualization Frame Renderer ---
   const renderFrame = () => {
     const step = visualizationSteps[currentStep] || {};
-    const {sorted = [], res, i, coin, newRes, type} = step;
+    const { sorted = [], res, i, coin, newRes, type } = step;
     // Mark processed coins
     const processed = i == null ? [] : Array(i).fill(true);
     return (
       <div style={vizArea}>
-        <div style={{fontSize: 15, marginBottom: 6}}>Sorted Coins:</div>
+        <div style={{ fontSize: 15, marginBottom: 6 }}>Sorted Coins:</div>
         <div style={coinsRow}>
           {sorted.map((val, idx) => (
             <div key={idx} style={coinStyle(idx === i, processed[idx])}>
@@ -295,10 +295,10 @@ export default function MaximumNumberOfConsecutiveValuesYouCanMakeVisualizer() {
             </div>
           ))}
         </div>
-        <div style={{margin: "0.5rem 0 0.25rem 0"}}>
+        <div style={{ margin: "0.5rem 0 0.25rem 0" }}>
           <span style={resBox}>res = {res}</span>
           {type === "add_coin" && newRes !== undefined && (
-            <span style={{marginLeft: 12, color: palette.primary, fontWeight: 500}}>
+            <span style={{ marginLeft: 12, color: palette.primary, fontWeight: 500 }}>
               → res + coin = {res - coin} + {coin} = {newRes}
             </span>
           )}
@@ -309,12 +309,12 @@ export default function MaximumNumberOfConsecutiveValuesYouCanMakeVisualizer() {
 
   // --- Main Render ---
   return (
-    <div style={{background: "#fff", padding: 0}}>
-      <div style={{...cardStyle, boxShadow: "0 2px 12px 0 #0002"}}>
+    <div style={{ background: "#fff", padding: 0 }}>
+      <div style={{ ...cardStyle, boxShadow: "0 2px 12px 0 #0002" }}>
         {/* Left Column: Inputs & Controls */}
         <div style={leftCol}>
-          <div style={{fontWeight: 600, fontSize: 18, marginBottom: 8}}>Maximum Number of Consecutive Values You Can Make</div>
-          <div style={{fontSize: 14, marginBottom: 4}}>Coins (comma-separated):</div>
+          <div style={{ fontWeight: 600, fontSize: 18, marginBottom: 8 }}>Maximum Number of Consecutive Values You Can Make</div>
+          <div style={{ fontSize: 14, marginBottom: 4 }}>Coins (comma-separated):</div>
           <input type="text" value={inputString} onChange={handleInputChange} style={inputStyle} spellCheck={false} autoComplete="off" />
           <div style={controlsRow}>
             <button
@@ -385,7 +385,7 @@ export default function MaximumNumberOfConsecutiveValuesYouCanMakeVisualizer() {
             </button>
           </div>
           <input type="range" min={0} max={visualizationSteps.length - 1} value={currentStep} onChange={handleSliderChange} style={sliderStyle} />
-          <div style={{fontSize: 12, color: "#888", textAlign: "center"}}>
+          <div style={{ fontSize: 12, color: "#888", textAlign: "center" }}>
             Step {currentStep + 1} / {visualizationSteps.length}
           </div>
         </div>
@@ -393,8 +393,8 @@ export default function MaximumNumberOfConsecutiveValuesYouCanMakeVisualizer() {
         <div style={rightCol}>
           {renderFrame()}
           <div style={actionBox}>
-            <div style={{fontWeight: 600, fontSize: 12, marginBottom: 2}}>Current Action</div>
-            <div style={{fontSize: 13, margin: 0}}>{visualizationSteps[currentStep]?.message}</div>
+            <div style={{ fontWeight: 600, fontSize: 12, marginBottom: 2 }}>Current Action</div>
+            <div style={{ fontSize: 13, margin: 0 }}>{visualizationSteps[currentStep]?.message}</div>
           </div>
         </div>
       </div>

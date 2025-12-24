@@ -1,28 +1,28 @@
-import React, {useState, useMemo, useEffect} from "react";
+import React, { useState, useMemo, useEffect } from "react";
 
 // SVG Icon Components
-const PrevIcon = ({color = "#007aff"}) => (
+const PrevIcon = ({ color = "#007aff" }) => (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
     <path d="M13 15l-5-5 5-5" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
-const NextIcon = ({color = "#007aff"}) => (
+const NextIcon = ({ color = "#007aff" }) => (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
     <path d="M7 5l5 5-5 5" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
-const PlayIcon = ({color = "#007aff"}) => (
+const PlayIcon = ({ color = "#007aff" }) => (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
     <path d="M7 5v10l8-5-8-5z" fill={color} />
   </svg>
 );
-const PauseIcon = ({color = "#007aff"}) => (
+const PauseIcon = ({ color = "#007aff" }) => (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
     <rect x="6" y="5" width="2.5" height="10" rx="1" fill={color} />
     <rect x="11.5" y="5" width="2.5" height="10" rx="1" fill={color} />
   </svg>
 );
-const ResetIcon = ({color = "#007aff"}) => (
+const ResetIcon = ({ color = "#007aff" }) => (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
     <path d="M4 10a6 6 0 1 1 2 4.47" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     <path d="M4 14v-4h4" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -185,7 +185,7 @@ function generateVisualization(numsStr, k) {
     type: "initial",
     nums: [...nums],
     k,
-    count: {...count},
+    count: { ...count },
     used: [...used],
     pairs: [...pairs],
     opCount,
@@ -202,7 +202,7 @@ function generateVisualization(numsStr, k) {
         type: "pair",
         nums: [...nums],
         k,
-        count: {...count},
+        count: { ...count },
         used: used.map((u, idx) => (idx === i || (nums[idx] === y && !u) ? true : u)),
         pairs: [...pairs, [y, x]],
         opCount: opCount + 1,
@@ -223,7 +223,7 @@ function generateVisualization(numsStr, k) {
         type: "add",
         nums: [...nums],
         k,
-        count: {...count, [x]: (count[x] || 0) + 1},
+        count: { ...count, [x]: (count[x] || 0) + 1 },
         used: [...used],
         pairs: [...pairs],
         opCount,
@@ -238,7 +238,7 @@ function generateVisualization(numsStr, k) {
     type: "final",
     nums: [...nums],
     k,
-    count: {...count},
+    count: { ...count },
     used: [...used],
     pairs: [...pairs],
     opCount,
@@ -327,28 +327,28 @@ const MaxNumberOfKSumPairsVisualizer = () => {
     </div>
   );
   const renderPairs = (pairs) => (
-    <div style={{margin: "0.25rem 0", width: "100%"}}>
-      <div style={{fontSize: "0.85rem", fontWeight: 500, marginBottom: 2}}>Pairs found:</div>
+    <div style={{ margin: "0.25rem 0", width: "100%" }}>
+      <div style={{ fontSize: "0.85rem", fontWeight: 500, marginBottom: 2 }}>Pairs found:</div>
       {pairs.length === 0 ? (
-        <div style={{fontSize: "0.85rem", color: "#888"}}>None yet</div>
+        <div style={{ fontSize: "0.85rem", color: "#888" }}>None yet</div>
       ) : (
         pairs.map((p, i) => (
           <div key={i} style={pairRowStyle}>
             <span style={numBoxStyle(false, true, false)}>{p[0]}</span>
-            <span style={{fontSize: "1.2rem", color: "#888"}}>+</span>
+            <span style={{ fontSize: "1.2rem", color: "#888" }}>+</span>
             <span style={numBoxStyle(false, true, false)}>{p[1]}</span>
-            <span style={{fontSize: "1.1rem", color: "#00b894", fontWeight: 600}}>= {step.k}</span>
+            <span style={{ fontSize: "1.1rem", color: "#00b894", fontWeight: 600 }}>= {step.k}</span>
           </div>
         ))
       )}
     </div>
   );
   const renderHashMap = (count) => (
-    <div style={{margin: "0.25rem 0", width: "100%"}}>
-      <div style={{fontSize: "0.85rem", fontWeight: 500, marginBottom: 2}}>Hash Map (number: count):</div>
+    <div style={{ margin: "0.25rem 0", width: "100%" }}>
+      <div style={{ fontSize: "0.85rem", fontWeight: 500, marginBottom: 2 }}>Hash Map (number: count):</div>
       <div style={arrayRowStyle}>
         {Object.keys(count).length === 0 ? (
-          <span style={{color: "#888", fontSize: "0.85rem"}}>Empty</span>
+          <span style={{ color: "#888", fontSize: "0.85rem" }}>Empty</span>
         ) : (
           Object.entries(count).map(([num, cnt], i) => (
             <span key={i} style={hashMapBoxStyle}>
@@ -375,7 +375,7 @@ const MaxNumberOfKSumPairsVisualizer = () => {
           </div>
           <div>
             <div style={labelStyle}>Speed: {speed.toFixed(2)}s/step</div>
-            <input style={{width: "100%"}} type="range" min={0.3} max={2.5} step={0.01} value={speed} onChange={handleSpeed} />
+            <input style={{ width: "100%" }} type="range" min={0.3} max={2.5} step={0.01} value={speed} onChange={handleSpeed} />
           </div>
           <div style={controlsRowStyle}>
             <button
@@ -397,7 +397,7 @@ const MaxNumberOfKSumPairsVisualizer = () => {
               <PrevIcon color={hoverBtn === "prev" ? "#0051a8" : "#007aff"} />
             </button>
             <button
-              style={{background: "none", border: "none", padding: 2, cursor: "pointer", borderRadius: 6, outline: "none"}}
+              style={{ background: "none", border: "none", padding: 2, cursor: "pointer", borderRadius: 6, outline: "none" }}
               onClick={handlePlayPause}
               onMouseEnter={() => setHoverBtn("play")}
               onMouseLeave={() => setHoverBtn("")}
@@ -428,7 +428,7 @@ const MaxNumberOfKSumPairsVisualizer = () => {
               <NextIcon color={hoverBtn === "next" ? "#0051a8" : "#007aff"} />
             </button>
             <button
-              style={{background: "none", border: "none", padding: 2, cursor: "pointer", borderRadius: 6, outline: "none"}}
+              style={{ background: "none", border: "none", padding: 2, cursor: "pointer", borderRadius: 6, outline: "none" }}
               onClick={handleReset}
               onMouseEnter={() => setHoverBtn("reset")}
               onMouseLeave={() => setHoverBtn("")}
@@ -438,23 +438,23 @@ const MaxNumberOfKSumPairsVisualizer = () => {
             </button>
           </div>
           <input style={sliderStyle} type="range" min={0} max={maxStep} value={currentStep} onChange={handleSlider} />
-          <div style={{fontSize: "0.75rem", color: "#888", textAlign: "center"}}>
+          <div style={{ fontSize: "0.75rem", color: "#888", textAlign: "center" }}>
             Step {currentStep + 1} / {steps.length}
           </div>
         </div>
         {/* Right Column: Visualization and Action */}
         <div style={rightColStyle(isDesktop)}>
           <div style={visAreaStyle}>
-            <div style={{fontSize: "0.85rem", fontWeight: 500, marginBottom: 2}}>nums</div>
+            <div style={{ fontSize: "0.85rem", fontWeight: 500, marginBottom: 2 }}>nums</div>
             {renderNums(nums, step.used, step.idx, step.pairIdx)}
             {renderPairs(step.pairs)}
             {renderHashMap(step.count)}
-            <div style={{fontSize: "0.85rem", fontWeight: 500, margin: "0.25rem 0 2px 0"}}>
-              Total operations: <span style={{color: "#007aff", fontWeight: 700}}>{step.opCount}</span>
+            <div style={{ fontSize: "0.85rem", fontWeight: 500, margin: "0.25rem 0 2px 0" }}>
+              Total operations: <span style={{ color: "#007aff", fontWeight: 700 }}>{step.opCount}</span>
             </div>
           </div>
           <div style={actionBoxStyle}>
-            <span style={{fontWeight: 600, marginRight: 6}}>Current Action:</span> {step.message}
+            <span style={{ fontWeight: 600, marginRight: 6 }}>Current Action:</span> {step.message}
           </div>
         </div>
       </div>

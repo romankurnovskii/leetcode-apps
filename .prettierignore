@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+venv/
+.venv/
+
+# Build outputs
+.expo/
+dist/
+build/
+
+# Native directories
+app/ios/
+app/android/
+ios/
+android/
+
+# Generated files
+*.generated.*
+*.min.js
+*.min.css
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
