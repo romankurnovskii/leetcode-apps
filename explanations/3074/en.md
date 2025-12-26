@@ -47,9 +47,9 @@ We begin selecting boxes starting with the largest capacity.
 **2.3 Trace Walkthrough:**
 
 | Box Capacity | Remaining Apples Before | Remaining Apples After | Boxes Used |
-|--------------|------------------------|------------------------|------------|
-| 5 | 6 | 6 - 5 = 1 | 1 |
-| 4 | 1 | 1 - 4 = -3 (≤ 0) | 2 |
+| ------------ | ----------------------- | ---------------------- | ---------- |
+| 5            | 6                       | 6 - 5 = 1              | 1          |
+| 4            | 1                       | 1 - 4 = -3 (≤ 0)       | 2          |
 
 **2.4 Increment and Loop:**
 
@@ -58,4 +58,3 @@ After selecting the box with capacity 5, we have 1 apple remaining. We then sele
 **2.5 Return Result:**
 
 We used 2 boxes (capacities 5 and 4) to pack all 6 apples. The result is `res = 2`.
-
