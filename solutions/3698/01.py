@@ -1,37 +1,34 @@
 class Solution:
-    def splitArray(self, nums: List[int]) -> int:
-        """
-        Find the minimum absolute difference between sums of a strictly
-        increasing left subarray and a strictly decreasing right subarray.
-        Return -1 if no valid split exists.
-        """
-        n = len(nums)
+    def countPairsOfConnectableServers(
+        self, edges: List[List[int]], signalSpeed: int
+    ) -> List[int]:
+        n = len(edges) + 1
+        # Build adjacency list
+        graph = [[] for _ in range(n)]
+        for a, b, w in edges:
+            graph[a].append((b, w))
+            graph[b].append((a, w))
 
-        # inc[i] = True if nums[0..i] is strictly increasing
-        inc = [False] * n
-        inc[0] = True
-        for i in range(1, n):
-            inc[i] = inc[i - 1] and nums[i - 1] < nums[i]
+        res = [0] * n
 
-        # dec[i] = True if nums[i..n-1] is strictly decreasing
-        dec = [False] * n
-        dec[n - 1] = True
-        for i in range(n - 2, -1, -1):
-            dec[i] = dec[i + 1] and nums[i] > nums[i + 1]
+        # For each node as root, count pairs
+        for root in range(n):
 
-        # prefix sums for O(1) range sum
-        pref = [0] * (n + 1)
-        for i in range(n):
-            pref[i + 1] = pref[i] + nums[i]
+            def dfs(node, parent, dist):
+                # Count if current distance is divisible by signalSpeed (and not root)
+                cnt = 1 if dist > 0 and dist % signalSpeed == 0 else 0
+                pairs = 0
 
-        ans = float("inf")
-        valid = False
-        # split after i (left: 0..i, right: i+1..n-1)
-        for i in range(n - 1):
-            if inc[i] and dec[i + 1]:
-                left_sum = pref[i + 1]
-                right_sum = pref[n] - pref[i + 1]
-                ans = min(ans, abs(left_sum - right_sum))
-                valid = True
+                for neighbor, weight in graph[node]:
+                    if neighbor != parent:
+                        subtree_cnt = dfs(neighbor, node, dist + weight)
+                        # Count pairs: current count * subtree count
+                        pairs += cnt * subtree_cnt
+                        cnt += subtree_cnt
 
-        return ans if valid else -1
+                # If at root, return pairs; otherwise return count
+                return pairs if node == root else cnt
+
+            res[root] = dfs(root, root, 0)
+
+        return res

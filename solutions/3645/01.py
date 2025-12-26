@@ -1,27 +1,26 @@
 class Solution:
-    def maxTotal(self, value: List[int], limit: List[int]) -> int:
-        from collections import defaultdict
-        import heapq
+    def countPyramids(self, grid: List[List[int]]) -> int:
+        from functools import lru_cache
+        from itertools import product
 
-        # Group items by their limit values
-        groups = defaultdict(list)
-        for i, (v, l) in enumerate(zip(value, limit)):
-            groups[l].append(v)
-
+        m, n = len(grid), len(grid[0])
         res = 0
-        active_count = 0
 
-        # Process groups in order of limit (smallest first)
-        for limit_val in sorted(groups.keys()):
-            # Use min-heap to keep top min(limit_val, len(group)) values
-            heap = []
-            for v in groups[limit_val]:
-                heapq.heappush(heap, v)
-                if len(heap) > limit_val:
-                    heapq.heappop(heap)
+        @lru_cache(None)
+        def dp(i, j, dr):
+            # dr = 1 for downward pyramid, dr = -1 for upward pyramid
+            if (
+                grid[i][j] == 1
+                and 0 <= i + dr < m
+                and j > 0
+                and j + 1 < n
+                and grid[i + dr][j] == 1
+            ):
+                return min(dp(i + dr, j - 1, dr), dp(i + dr, j + 1, dr)) + 1
+            return grid[i][j]
 
-            # Sum all values in heap and add to result
-            res += sum(heap)
-            active_count += len(heap)
+        for i, j in product(range(m), range(n)):
+            res += max(0, dp(i, j, 1) - 1)  # Downward pyramids
+            res += max(0, dp(i, j, -1) - 1)  # Upward pyramids
 
         return res

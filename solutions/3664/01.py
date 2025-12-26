@@ -1,35 +1,29 @@
 class Solution:
-    def maxFrequencyScore(self, nums: List[int], k: int) -> int:
-        nums.sort()
-        n = len(nums)
-        prefix = [0] * (n + 1)
+    def kthCharacter(self, k: int) -> str:
+        # Start with 'a' at position 1
+        # Each operation doubles the string length
+        # We trace back to find which character in the original string contributed to position k
 
-        # Build prefix sum
-        for i in range(n):
-            prefix[i + 1] = prefix[i] + nums[i]
+        # Count how many transformations (+1 operations) we need
+        transformations = 0
 
-        res = 1
+        # Trace back from k to position 1
+        pos = k
+        while pos > 1:
+            # Find the largest power of 2 <= pos
+            power = 1
+            while power * 2 <= pos:
+                power *= 2
 
-        # For each possible target value (each element in sorted array)
-        for i in range(n):
-            target = nums[i]
+            if pos == power:
+                # pos is exactly a power of 2, it's in the new half
+                pos = pos - power
+            else:
+                # pos is in the appended half
+                pos = pos - power
+                transformations += 1
 
-            # Binary search for the longest subarray ending at i
-            # where we can make all elements equal to target
-            left, right = 0, i + 1
-
-            while left < right:
-                mid = (left + right) // 2
-                start = i - mid + 1
-
-                # Cost to make elements from start to i equal to target
-                # Sum of (target - nums[j]) for j from start to i
-                cost = target * mid - (prefix[i + 1] - prefix[start])
-
-                if cost <= k:
-                    res = max(res, mid)
-                    left = mid + 1
-                else:
-                    right = mid
-
-        return res
+        # Start with 'a' (ASCII 97) and apply transformations
+        # Each transformation adds 1 to the character
+        result_char = ord("a") + transformations
+        return chr(result_char)
