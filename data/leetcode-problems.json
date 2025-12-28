@@ -26479,5 +26479,26 @@
     "title": "Minimum Deletion Cost to Make All Characters Equal",
     "difficulty": "Medium",
     "link": "https://leetcode.com/problems/minimum-deletion-cost-to-make-all-characters-equal/"
+  },
+  "3788": {
+    "id": 3788,
+    "category": "Array & Hashing",
+    "title": "Maximum Score of a Split",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/maximum-score-of-a-split/"
+  },
+  "3789": {
+    "id": 3789,
+    "category": "Greedy",
+    "title": "Minimum Cost to Acquire Required Items",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/minimum-cost-to-acquire-required-items/"
+  },
+  "3790": {
+    "id": 3790,
+    "category": "Math & Geometry",
+    "title": "Smallest All-Ones Multiple",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/smallest-all-ones-multiple/"
   }
 }
