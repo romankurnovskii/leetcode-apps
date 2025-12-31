@@ -1,28 +1,34 @@
-def maxVowels(s: str, k: int) -> int:
-    vowels = {"a", "e", "i", "o", "u"}
-    current_vowel_count = 0
+from typing import List
 
-    # 1. Calculate the vowel count for the initial window (first k characters)
-    for i in range(k):
-        if s[i] in vowels:
-            current_vowel_count += 1
 
-    max_vowel_count = current_vowel_count
+class Solution:
+    def connectTwoGroups(self, cost: List[List[int]]) -> int:
+        size1, size2 = len(cost), len(cost[0])
 
-    # 2. Slide the window across the rest of the string
-    # The right pointer 'i' starts from k up to len(s) - 1
-    for i in range(k, len(s)):
-        # Remove the contribution of the character leaving the window
-        # The character leaving is at index (i - k)
-        if s[i - k] in vowels:
-            current_vowel_count -= 1
+        # Precompute minimum cost to connect each point in group2
+        min_cost2 = [min(cost[i][j] for i in range(size1)) for j in range(size2)]
 
-        # Add the contribution of the new character entering the window
-        # The new character entering is at index (i)
-        if s[i] in vowels:
-            current_vowel_count += 1
+        from functools import lru_cache
 
-        max_vowel_count = max(max_vowel_count, current_vowel_count)
+        @lru_cache(None)
+        def dp(i, mask):
+            # i: current index in group1
+            # mask: bitmask of connected points in group2
 
-    res = max_vowel_count
-    return res
+            if i == size1:
+                # Connect remaining unconnected points in group2
+                res = 0
+                for j in range(size2):
+                    if not (mask & (1 << j)):
+                        res += min_cost2[j]
+                return res
+
+            res = float("inf")
+            # Try connecting point i to each point in group2
+            for j in range(size2):
+                res = min(res, cost[i][j] + dp(i + 1, mask | (1 << j)))
+
+            return res
+
+        res = dp(0, 0)
+        return res
