@@ -26500,5 +26500,245 @@
     "title": "Smallest All-Ones Multiple",
     "difficulty": "Medium",
     "link": "https://leetcode.com/problems/smallest-all-ones-multiple/"
+  },
+  "1970": {
+    "id": 1970,
+    "category": "Graph Traversal",
+    "title": "Last Day Where You Can Still Cross",
+    "difficulty": "Hard",
+    "link": "https://leetcode.com/problems/last-day-where-you-can-still-cross/",
+    "tags": []
+  },
+  "1432": {
+    "id": 1432,
+    "category": "Array & Hashing",
+    "title": "Max Difference You Can Get From Changing an Integer",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/max-difference-you-can-get-from-changing-an-integer/",
+    "tags": []
+  },
+  "1433": {
+    "id": 1433,
+    "category": "Array & Hashing",
+    "title": "Check If a String Can Break Another String",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/check-if-a-string-can-break-another-string/",
+    "tags": []
+  },
+  "1434": {
+    "id": 1434,
+    "category": "Dynamic Programming",
+    "title": "Number of Ways to Wear Different Hats to Each Other",
+    "difficulty": "Hard",
+    "link": "https://leetcode.com/problems/number-of-ways-to-wear-different-hats-to-each-other/",
+    "tags": []
+  },
+  "1436": {
+    "id": 1436,
+    "category": "Array & Hashing",
+    "title": "Destination City",
+    "difficulty": "Easy",
+    "link": "https://leetcode.com/problems/destination-city/",
+    "tags": []
+  },
+  "1437": {
+    "id": 1437,
+    "category": "Array & Hashing",
+    "title": "Check If All 1's Are at Least Length K Places Away",
+    "difficulty": "Easy",
+    "link": "https://leetcode.com/problems/check-if-all-1s-are-at-least-length-k-places-away/",
+    "tags": []
+  },
+  "1438": {
+    "id": 1438,
+    "category": "Sliding Window",
+    "title": "Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/longest-continuous-subarray-with-absolute-diff-less-than-or-equal-to-limit/",
+    "tags": []
+  },
+  "1439": {
+    "id": 1439,
+    "category": "Heap (Priority Queue)",
+    "title": "Find the Kth Smallest Sum of a Matrix With Sorted Rows",
+    "difficulty": "Hard",
+    "link": "https://leetcode.com/problems/find-the-kth-smallest-sum-of-a-matrix-with-sorted-rows/",
+    "tags": []
+  },
+  "1441": {
+    "id": 1441,
+    "category": "Stack",
+    "title": "Build an Array With Stack Operations",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/build-an-array-with-stack-operations/",
+    "tags": []
+  },
+  "1435": {
+    "id": 1435,
+    "category": "Database",
+    "title": "Create a Session Bar Chart",
+    "difficulty": "Easy",
+    "link": "https://leetcode.com/problems/create-a-session-bar-chart/",
+    "tags": []
+  },
+  "1440": {
+    "id": 1440,
+    "category": "Database",
+    "title": "Evaluate Boolean Expression",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/evaluate-boolean-expression/",
+    "tags": []
+  },
+  "1442": {
+    "id": 1442,
+    "category": "Array & Hashing",
+    "title": "Count Triplets That Can Form Two Arrays of Equal XOR",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/count-triplets-that-can-form-two-arrays-of-equal-xor/",
+    "tags": []
+  },
+  "1443": {
+    "id": 1443,
+    "category": "Tree",
+    "title": "Minimum Time to Collect All Apples in a Tree",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/minimum-time-to-collect-all-apples-in-a-tree/",
+    "tags": []
+  },
+  "1444": {
+    "id": 1444,
+    "category": "Dynamic Programming",
+    "title": "Number of Ways of Cutting a Pizza",
+    "difficulty": "Hard",
+    "link": "https://leetcode.com/problems/number-of-ways-of-cutting-a-pizza/",
+    "tags": []
+  },
+  "1445": {
+    "id": 1445,
+    "category": "Tree",
+    "title": "Maximum Product of Splitted Binary Tree",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/maximum-product-of-splitted-binary-tree/",
+    "tags": []
+  },
+  "1446": {
+    "id": 1446,
+    "category": "Dynamic Programming",
+    "title": "Palindrome Partitioning III",
+    "difficulty": "Hard",
+    "link": "https://leetcode.com/problems/palindrome-partitioning-iii/",
+    "tags": []
+  },
+  "1447": {
+    "id": 1447,
+    "category": "Array & Hashing",
+    "title": "Reconstruct a 2-Row Binary Matrix",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/reconstruct-a-2-row-binary-matrix/",
+    "tags": []
+  },
+  "1448": {
+    "id": 1448,
+    "category": "Graph Traversal",
+    "title": "Number of Closed Islands",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/number-of-closed-islands/",
+    "tags": []
+  },
+  "1449": {
+    "id": 1449,
+    "category": "Backtracking",
+    "title": "Maximum Score Words Formed by Letters",
+    "difficulty": "Hard",
+    "link": "https://leetcode.com/problems/maximum-score-words-formed-by-letters/",
+    "tags": []
+  },
+  "1450": {
+    "id": 1450,
+    "category": "Heap (Priority Queue)",
+    "title": "Maximum Number of Events That Can Be Attended",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/maximum-number-of-events-that-can-be-attended/",
+    "tags": []
+  },
+  "1451": {
+    "id": 1451,
+    "category": "Graph Traversal",
+    "title": "Critical Connections in a Network",
+    "difficulty": "Hard",
+    "link": "https://leetcode.com/problems/critical-connections-in-a-network/",
+    "tags": []
+  },
+  "1452": {
+    "id": 1452,
+    "category": "Graph Traversal",
+    "title": "Sort Items by Groups Respecting Dependencies",
+    "difficulty": "Hard",
+    "link": "https://leetcode.com/problems/sort-items-by-groups-respecting-dependencies/",
+    "tags": []
+  },
+  "1453": {
+    "id": 1453,
+    "category": "Graph Traversal",
+    "title": "Minimum Cost to Make at Least One Valid Path in a Grid",
+    "difficulty": "Hard",
+    "link": "https://leetcode.com/problems/minimum-cost-to-make-at-least-one-valid-path-in-a-grid/",
+    "tags": []
+  },
+  "1454": {
+    "id": 1454,
+    "category": "Graph Traversal",
+    "title": "Find the City With the Smallest Number of Neighbors at a Threshold Distance",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/find-the-city-with-the-smallest-number-of-neighbors-at-a-threshold-distance/",
+    "tags": []
+  },
+  "1455": {
+    "id": 1455,
+    "category": "Dynamic Programming",
+    "title": "Minimum Falling Path Sum II",
+    "difficulty": "Hard",
+    "link": "https://leetcode.com/problems/minimum-falling-path-sum-ii/",
+    "tags": []
+  },
+  "1456": {
+    "id": 1456,
+    "category": "Dynamic Programming",
+    "title": "Minimum Cost to Connect Two Groups of Points",
+    "difficulty": "Hard",
+    "link": "https://leetcode.com/problems/minimum-cost-to-connect-two-groups-of-points/",
+    "tags": []
+  },
+  "1457": {
+    "id": 1457,
+    "category": "Sliding Window",
+    "title": "Find Two Non-overlapping Sub-arrays Each With Target Sum",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/find-two-non-overlapping-sub-arrays-each-with-target-sum/",
+    "tags": []
+  },
+  "1458": {
+    "id": 1458,
+    "category": "Binary Search",
+    "title": "Minimum Number of Days to Make m Bouquets",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/minimum-number-of-days-to-make-m-bouquets/",
+    "tags": []
+  },
+  "1459": {
+    "id": 1459,
+    "category": "Array & Hashing",
+    "title": "Count Number of Teams",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/count-number-of-teams/",
+    "tags": []
+  },
+  "1460": {
+    "id": 1460,
+    "category": "Array & Hashing",
+    "title": "Design Underground System",
+    "difficulty": "Medium",
+    "link": "https://leetcode.com/problems/design-underground-system/",
+    "tags": []
   }
 }
