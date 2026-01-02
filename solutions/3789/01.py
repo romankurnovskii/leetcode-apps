@@ -1,25 +1,29 @@
+from typing import List
+
+
 class Solution:
-    def minimumCost(
-        self, cost1: int, cost2: int, costBoth: int, need1: int, need2: int
-    ) -> int:
-        # Edge case: no items needed
-        if need1 == 0 and need2 == 0:
-            return 0
+    def minCost(self, items: List[List[int]], required: List[int]) -> int:
+        from functools import lru_cache
 
-        # Strategy 1: Buy all individual items
-        res = need1 * cost1 + need2 * cost2
+        n = len(required)
 
-        # Strategy 2: Buy min(need1, need2) "both" items for overlap,
-        # then buy individual items for the remaining needs
-        overlap = min(need1, need2)
-        res = min(
-            res,
-            overlap * costBoth + (need1 - overlap) * cost1 + (need2 - overlap) * cost2,
-        )
+        @lru_cache(None)
+        def dp(mask):
+            if mask == 0:
+                return 0
 
-        # Strategy 3: Buy max(need1, need2) "both" items
-        # This over-satisfies one requirement but might be cheaper
-        max_need = max(need1, need2)
-        res = min(res, max_need * costBoth)
+            res = float("inf")
+            for item, cost in items:
+                new_mask = mask
+                for i in range(n):
+                    if item[i] > 0:
+                        new_mask &= ~(1 << i)
 
-        return res
+                if new_mask != mask:
+                    res = min(res, cost + dp(new_mask))
+
+            return res
+
+        initial_mask = (1 << n) - 1
+        res = dp(initial_mask)
+        return res if res != float("inf") else -1
