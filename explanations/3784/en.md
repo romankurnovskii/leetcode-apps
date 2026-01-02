@@ -2,70 +2,63 @@
 
 ### Strategy (The "Why")
 
-**Restate the problem:** We are given a string `s` and an integer array `cost` of the same length, where `cost[i]` is the cost to delete the i-th character. We can delete any number of characters such that the resulting string is non-empty and consists of equal characters. We need to find the minimum total deletion cost.
+**Restate the problem:** Given a string and a cost array, we need to find the minimum cost to delete characters so that all remaining characters are the same.
 
 **1.1 Constraints & Complexity:**
 
-- **Input Size:** Up to 10^5 characters in the string.
-- **Time Complexity:** O(n) where n is the length of the string - we iterate through the string once to sum costs for each character.
-- **Space Complexity:** O(1) if we use a dictionary with at most 26 keys (for lowercase letters), effectively O(1).
-- **Edge Case:** If all characters are already equal, we don't need to delete anything, so the cost is 0.
+- **Input Size:** The string length can be up to 10^5.
+- **Time Complexity:** O(n) - we iterate through the string once to find consecutive segments, where n is the string length.
+- **Space Complexity:** O(1) - we only need variables to track the current segment.
+- **Edge Case:** If all characters are already the same, return 0. If each character is unique, we need to keep only one (the cheapest).
 
 **1.2 High-level approach:**
 
-The goal is to find which character has the maximum total deletion cost (meaning it's most expensive to delete), then keep that character and delete all others. This minimizes the total cost because we avoid deleting the most expensive character.
+The goal is to group consecutive identical characters, and for each group, keep the character with the highest cost (delete the rest to minimize total deletion cost).
+
+![Character deletion visualization](https://assets.leetcode.com/static_assets/others/char-deletion.png)
 
 **1.3 Brute force vs. optimized strategy:**
 
-- **Brute Force:** Try keeping each possible character, calculate the cost of deleting all others, and find the minimum. This is O(n) for each character, so O(26n) = O(n) which is already efficient.
-- **Optimized Strategy:** Sum costs for each character, find the character with maximum total cost, then return total cost minus that maximum. This is O(n) time.
-- **Optimization:** By finding the character with maximum deletion cost and keeping it, we minimize the total cost we need to pay. The answer is simply total cost minus the maximum character cost.
+- **Brute Force:** Try all possible ways to delete characters. This is exponential.
+- **Optimized Strategy:** For each group of consecutive identical characters, keep the one with maximum cost and delete the rest. This is O(n) time.
+- **Optimization:** By processing consecutive segments and keeping only the maximum cost character in each segment, we minimize deletion cost efficiently.
 
 **1.4 Decomposition:**
 
-1. Sum up the deletion costs for each character in the string.
-2. Find the character with the maximum total deletion cost.
-3. Keep that character and delete all others.
-4. Return the total cost minus the maximum character cost (this is the cost of deleting all other characters).
+1. Iterate through the string to find consecutive segments of identical characters.
+2. For each segment:
+   - Collect all costs for characters in that segment.
+   - Sort the costs.
+   - Keep the maximum cost character, delete the rest (sum of all except maximum).
+3. Sum the deletion costs from all segments.
+4. Return the total.
 
 ### Steps (The "How")
 
 **2.1 Initialization & Example Setup:**
 
-Let's use the example: `s = "aabaac"`, `cost = [1, 2, 3, 4, 1, 10]`
+Let's use the example: `s = "abaac"`, `cost = [1,2,3,4,5]`
 
-- Character cost mapping:
-  - 'a': 1 + 2 + 4 + 1 = 8
-  - 'b': 3
-  - 'c': 10
-- Total cost: 1 + 2 + 3 + 4 + 1 + 10 = 21
+- Segments: `['a'], ['b'], ['a','a'], ['c']`
+- Result variable: `res = 0`
 
-**2.2 Start Processing:**
+**2.2 Start Checking:**
 
-We iterate through the string and sum costs for each character.
+We process each consecutive segment.
 
 **2.3 Trace Walkthrough:**
 
-| Step | Character | Cost | Running Total for Character | Total Cost |
-| ---- | --------- | ---- | --------------------------- | ---------- |
-| 1    | 'a' | 1 | a: 1 | 1 |
-| 2    | 'a' | 2 | a: 3 | 3 |
-| 3    | 'b' | 3 | b: 3 | 6 |
-| 4    | 'a' | 4 | a: 7 | 10 |
-| 5    | 'a' | 1 | a: 8 | 11 |
-| 6    | 'c' | 10 | c: 10 | 21 |
-
-After processing:
-- 'a' total cost: 8
-- 'b' total cost: 3
-- 'c' total cost: 10 (maximum)
-- Keep 'c', delete others: 21 - 10 = 11
+| Step | Segment | Costs | Keep max | Delete cost | res |
+| ---- | ------- | ----- | -------- | ----------- | --- |
+| 1    | 'a' | [1] | 1 | 0 | 0 |
+| 2    | 'b' | [2] | 2 | 0 | 0 |
+| 3    | 'aa' | [3,4] | 4 | 3 | 3 |
+| 4    | 'c' | [5] | 5 | 0 | 3 |
 
 **2.4 Increment and Loop:**
 
-We continue processing each character until we've processed the entire string.
+After processing each segment, we add deletion costs to the total.
 
 **2.5 Return Result:**
 
-The result is 11, which is the minimum cost to delete all characters except 'c' (the character with maximum deletion cost).
-
+The result is `3`, which is the minimum cost to delete characters so all remaining are the same (keeping one 'a' with cost 4, deleting the other with cost 3).

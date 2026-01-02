@@ -2,67 +2,61 @@
 
 ### Strategy (The "Why")
 
-**Restate the problem:** We are given an integer array. In one operation, we remove the first three elements (or all remaining if fewer than three). We repeat until the array is empty or contains no duplicate values. We need to find the minimum number of operations required.
+**Restate the problem:** Given an array of integers, we need to find the minimum number of operations to make all elements distinct. Each operation can remove one occurrence of a number.
 
 **1.1 Constraints & Complexity:**
 
-- **Input Size:** Up to 10^5 elements in the array.
-- **Time Complexity:** O(n) where n is the length of the array - we process from right to left once.
-- **Space Complexity:** O(n) to store the set of seen elements.
-- **Edge Case:** If all elements are already distinct, we return 0 without any operations.
+- **Input Size:** The array can have up to 10^5 elements.
+- **Time Complexity:** O(n) - we iterate through the array once to count frequencies, where n is the array length.
+- **Space Complexity:** O(n) - we need to store frequency counts for each unique number.
+- **Edge Case:** If an element appears only once, we cannot make it distinct by removing it (would need to return -1). If all elements are already distinct, return 0.
 
 **1.2 High-level approach:**
 
-The goal is to process the array from right to left, tracking which elements we've seen. If we encounter a duplicate while going right to left, we know we need to remove elements from the left. The number of operations needed is calculated based on how many elements remain.
+The goal is to count how many duplicate elements need to be removed. For each number that appears more than once, we need to remove all but one occurrence.
+
+![Array distinctness visualization](https://assets.leetcode.com/static_assets/others/array-distinct.png)
 
 **1.3 Brute force vs. optimized strategy:**
 
-- **Brute Force:** Simulate the operations step by step, removing first 3 elements each time and checking for duplicates. This could be O(n^2) in worst case.
-- **Optimized Strategy:** Process from right to left, use a set to track seen elements. When we find a duplicate, calculate operations needed: (remaining elements + 2) // 3. This is O(n) time.
-- **Optimization:** By processing from right to left, we can determine the answer without actually performing the removals, making the solution much more efficient.
+- **Brute Force:** Try all possible removal combinations. This is exponential and impractical.
+- **Optimized Strategy:** Count frequencies and for each number with frequency > 1, calculate how many operations needed to reduce it to 1. This is O(n) time.
+- **Optimization:** By grouping by frequency and calculating operations needed per group, we solve in linear time.
 
 **1.4 Decomposition:**
 
-1. Process the array from right to left.
-2. Use a set to track elements we've seen.
-3. For each element from right to left:
-   - If it's already in the set, we found a duplicate.
-   - Calculate operations needed: (remaining elements + 2) // 3.
-   - Return the calculated operations.
-4. If no duplicates found, return 0.
+1. Count the frequency of each number in the array.
+2. For each frequency count:
+   - If frequency is 1, we cannot remove it (return -1 if any number has frequency 1).
+   - If frequency > 1, calculate operations needed: (freq + 2) // 3 operations.
+3. Sum all operations needed.
+4. Return the total.
 
 ### Steps (The "How")
 
 **2.1 Initialization & Example Setup:**
 
-Let's use the example: `nums = [3, 8, 3, 6, 5, 8]`
+Let's use the example: `nums = [1, 2, 2, 3, 3, 3]`
 
-- Start from right: `8` (last element)
-- Seen set: `{8}`
-- Process right to left
+- Frequency counts: `{1: 1, 2: 2, 3: 3}`
+- Result variable: `res = 0`
 
-**2.2 Start Processing:**
+**2.2 Start Checking:**
 
-We begin processing from the rightmost element, adding each to the seen set.
+We iterate through frequency counts and calculate operations.
 
 **2.3 Trace Walkthrough:**
 
-| Step | Element | In Seen? | Action | Seen Set | Remaining Elements |
-| ---- | ------- | -------- | ------ | -------- | ------------------ |
-| 1    | 8 (rightmost) | No | Add to seen | `{8}` | 5 |
-| 2    | 5 | No | Add to seen | `{8, 5}` | 4 |
-| 3    | 6 | No | Add to seen | `{8, 5, 6}` | 3 |
-| 4    | 3 | No | Add to seen | `{8, 5, 6, 3}` | 2 |
-| 5    | 8 | Yes | Found duplicate! | `{8, 5, 6, 3}` | 2 |
-| 6    | Calculate | - | `(2 + 2) // 3 = 1` | - | - |
-
-When we find duplicate 8 at position 1 (0-indexed), we have 2 elements remaining (indices 0 and 1). Operations needed: (2 + 2) // 3 = 1.
+| Step | Number | Frequency | Operations | res |
+| ---- | ------ | --------- | ---------- | --- |
+| 1    | 1      | 1         | Check: freq == 1? | Return -1 if any |
+| 2    | 2      | 2         | (2+2)//3 = 1 | 1 |
+| 3    | 3      | 3         | (3+2)//3 = 1 | 2 |
 
 **2.4 Increment and Loop:**
 
-We continue processing from right to left until we find a duplicate or finish processing all elements.
+After processing each frequency, we add the operations to the total.
 
 **2.5 Return Result:**
 
-The result is 1, meaning we need 1 operation to remove the first 3 elements, leaving `[6, 5, 8]` which are all distinct.
-
+The result is `2` (or -1 if any number has frequency 1), which represents the minimum operations to make all elements distinct.
