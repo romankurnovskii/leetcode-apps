@@ -1,19 +1,21 @@
+from typing import List
+
+
 class Solution:
-    def maximumScore(self, nums: List[int], s: str) -> int:
-        import heapq
-
-        # Use max heap (negate values for Python's min heap)
-        heap = []
+    def maxScore(self, s: str) -> int:
+        n = len(s)
+        total_ones = s.count("1")
         res = 0
+        left_zeros = 0
+        left_ones = 0
 
-        for i in range(len(nums)):
-            # Add current number to heap (negate for max heap)
-            heapq.heappush(heap, -nums[i])
+        for i in range(n - 1):
+            if s[i] == "0":
+                left_zeros += 1
+            else:
+                left_ones += 1
 
-            # If s[i] == '1', we must select a number
-            if s[i] == "1":
-                # Get the maximum value from heap
-                max_val = -heapq.heappop(heap)
-                res += max_val
+            right_ones = total_ones - left_ones
+            res = max(res, left_zeros + right_ones)
 
         return res

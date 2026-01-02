@@ -1,15 +1,22 @@
+from typing import List
+
+
 class Solution:
     def minCost(self, s: str, cost: List[int]) -> int:
-        from collections import defaultdict
+        res = 0
+        i = 0
+        n = len(s)
 
-        # Sum up costs for each character
-        char_to_cost = defaultdict(int)
-        for ch, co in zip(s, cost):
-            char_to_cost[ch] += co
+        while i < n:
+            j = i
+            while j < n and s[j] == s[i]:
+                j += 1
 
-        # Find the character with maximum total cost
-        max_cost = max(char_to_cost.values())
+            if j - i > 1:
+                segment_costs = cost[i:j]
+                segment_costs.sort()
+                res += sum(segment_costs[:-1])
 
-        # Keep the character with max cost, delete all others
-        # Answer is total cost minus the max cost
-        return sum(cost) - max_cost
+            i = j
+
+        return res

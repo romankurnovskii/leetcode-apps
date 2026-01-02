@@ -1,30 +1,36 @@
+from typing import List
+
+
 class Solution:
-    def maximumSum(self, nums: List[int]) -> int:
-        # Group numbers by remainder when divided by 3
-        rem = [[], [], []]
+    def maxSum(self, nums: List[int]) -> int:
+        mod0 = []
+        mod1 = []
+        mod2 = []
+
         for num in nums:
-            rem[num % 3].append(num)
+            if num % 3 == 0:
+                mod0.append(num)
+            elif num % 3 == 1:
+                mod1.append(num)
+            else:
+                mod2.append(num)
 
-        # Sort each group in descending order
-        for i in range(3):
-            rem[i].sort(reverse=True)
+        mod0.sort(reverse=True)
+        mod1.sort(reverse=True)
+        mod2.sort(reverse=True)
 
-        res = 0
+        res = -1
 
-        # Case 1: Three numbers with remainder 0
-        if len(rem[0]) >= 3:
-            res = max(res, sum(rem[0][:3]))
+        if len(mod0) >= 3:
+            res = max(res, mod0[0] + mod0[1] + mod0[2])
 
-        # Case 2: One from each remainder (0, 1, 2)
-        if rem[0] and rem[1] and rem[2]:
-            res = max(res, rem[0][0] + rem[1][0] + rem[2][0])
+        if len(mod1) >= 3:
+            res = max(res, mod1[0] + mod1[1] + mod1[2])
 
-        # Case 3: Three numbers with remainder 1
-        if len(rem[1]) >= 3:
-            res = max(res, sum(rem[1][:3]))
+        if len(mod2) >= 3:
+            res = max(res, mod2[0] + mod2[1] + mod2[2])
 
-        # Case 4: Three numbers with remainder 2
-        if len(rem[2]) >= 3:
-            res = max(res, sum(rem[2][:3]))
+        if len(mod0) >= 1 and len(mod1) >= 1 and len(mod2) >= 1:
+            res = max(res, mod0[0] + mod1[0] + mod2[0])
 
         return res

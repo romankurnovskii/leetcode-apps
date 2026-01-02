@@ -2,61 +2,62 @@
 
 ### Strategy (The "Why")
 
-**Restate the problem:** We are given an integer n. We need to calculate its mirror distance, which is the absolute difference between the number and its reverse (the number formed by reversing its digits).
+**Restate the problem:** Given an integer, we need to calculate the sum of absolute differences between corresponding digits from the left and right ends (mirror distance).
 
 **1.1 Constraints & Complexity:**
 
-- **Input Size:** The integer n can be up to 10^9, which means up to 10 digits.
-- **Time Complexity:** O(log n) - we convert the number to a string (which takes O(log n) time for the number of digits), reverse it, and convert back.
-- **Space Complexity:** O(log n) - we store the string representation which has length proportional to log n.
-- **Edge Case:** If n is a single digit or a palindrome (like 7 or 121), the mirror distance is 0.
+- **Input Size:** The integer can be up to 10^9.
+- **Time Complexity:** O(log n) - we need to process each digit pair, where the number of digits is O(log n).
+- **Space Complexity:** O(log n) - we need to convert the number to a string to access digits.
+- **Edge Case:** If the number has only one digit, return 0. If the number has an odd number of digits, the middle digit is not paired.
 
 **1.2 High-level approach:**
 
-The goal is to reverse the digits of the number and calculate the absolute difference between the original and reversed numbers.
+The goal is to pair digits from both ends (first with last, second with second-to-last, etc.) and sum the absolute differences.
+
+![Mirror distance visualization](https://assets.leetcode.com/static_assets/others/mirror-distance.png)
 
 **1.3 Brute force vs. optimized strategy:**
 
-- **Brute Force:** Extract digits one by one using modulo and division, build the reverse number digit by digit, then calculate the difference. This is O(log n) time and O(1) space.
-- **Optimized Strategy:** Convert to string, reverse the string, convert back to integer, then calculate absolute difference. This is also O(log n) time but more readable.
-- **Optimization:** Using string reversal is simpler and more intuitive, making the code easier to understand and maintain.
+- **Brute Force:** This problem is straightforward - we just need to pair digits and calculate differences. The approach is already optimal.
+- **Optimized Strategy:** Convert to string, iterate through half the digits, and pair with corresponding digits from the end. This is O(log n) time.
+- **Optimization:** By processing only half the digits and using string indexing, we solve efficiently.
 
 **1.4 Decomposition:**
 
-1. Convert the integer to a string representation.
-2. Reverse the string.
-3. Convert the reversed string back to an integer.
-4. Calculate and return the absolute difference between the original and reversed numbers.
+1. Convert the integer to a string to access individual digits.
+2. For each position from 0 to n/2 - 1:
+   - Get the digit at position i.
+   - Get the digit at position n-1-i (mirror position).
+   - Calculate absolute difference.
+   - Add to result.
+3. Return the total sum.
 
 ### Steps (The "How")
 
 **2.1 Initialization & Example Setup:**
 
-Let's use the example: `n = 25`
+Let's use the example: `num = 1234`
 
-- Original number: `25`
-- String representation: `"25"`
-- Reversed string: `"52"`
-- Reversed number: `52`
+- String: `"1234"`
+- Length: `4`
+- Result variable: `res = 0`
 
-**2.2 Start Processing:**
+**2.2 Start Checking:**
 
-We convert the number to a string and reverse it.
+We pair digits from both ends.
 
 **2.3 Trace Walkthrough:**
 
-| Step | Operation | Value | Description |
-| ---- | --------- | ----- | ----------- |
-| 1    | Convert to string | `"25"` | Convert integer 25 to string |
-| 2    | Reverse string | `"52"` | Reverse the string characters |
-| 3    | Convert to int | `52` | Convert reversed string back to integer |
-| 4    | Calculate difference | `abs(25 - 52) = 27` | Calculate absolute difference |
+| Step | i | Left digit | Right digit | Difference | res |
+| ---- | - | ---------- | ----------- | ---------- | --- |
+| 1    | 0 | '1' (1) | '4' (4) | |1-4| = 3 | 3 |
+| 2    | 1 | '2' (2) | '3' (3) | |2-3| = 1 | 4 |
 
 **2.4 Increment and Loop:**
 
-This is a single-pass operation with no loop needed.
+After processing each pair, we move to the next pair.
 
 **2.5 Return Result:**
 
-The result is 27, which is the absolute difference between 25 and its reverse 52.
-
+The result is `4`, which is the sum of absolute differences: |1-4| + |2-3| = 3 + 1 = 4.
